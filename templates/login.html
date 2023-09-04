@@ -1,5 +1,6 @@
-<!DOCTYPE html>
+{% load static %}
 
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -20,8 +21,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/vendors.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="{% static 'css/vendors.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
   <title>Educrat</title>
 </head>
@@ -49,7 +50,7 @@
 
               <div class="header__logo ">
                 <a data-barba href="index.html">
-                  <img src="img/general/logo.svg" alt="logo">
+                  <img src="{% static 'img/general/logo.svg' %}" alt="logo">
                 </a>
               </div>
 
@@ -718,11 +719,11 @@
       <section class="form-page js-mouse-move-container">
         <div class="form-page__img bg-dark-1">
           <div class="form-page-composition">
-            <div class="-bg"><img data-move="30" class="js-mouse-move" src="img/login/bg.png" alt="bg"></div>
-            <div class="-el-1"><img data-move="20" class="js-mouse-move" src="img/home-9/hero/bg.png" alt="image"></div>
-            <div class="-el-2"><img data-move="40" class="js-mouse-move" src="img/home-9/hero/1.png" alt="icon"></div>
-            <div class="-el-3"><img data-move="40" class="js-mouse-move" src="img/home-9/hero/2.png" alt="icon"></div>
-            <div class="-el-4"><img data-move="40" class="js-mouse-move" src="img/home-9/hero/3.png" alt="icon"></div>
+            <div class="-bg"><img data-move="30" class="js-mouse-move" src="{% static 'img/login/bg.png' %}" alt="bg"></div>
+            <div class="-el-1"><img data-move="20" class="js-mouse-move" src="{% static 'img/home-9/hero/bg.png' %}" alt="image"></div>
+            <div class="-el-2"><img data-move="40" class="js-mouse-move" src="{% static 'img/home-9/hero/1.png' %}" alt="icon"></div>
+            <div class="-el-3"><img data-move="40" class="js-mouse-move" src="{% static 'img/home-9/hero/2.png' %}" alt="icon"></div>
+            <div class="-el-4"><img data-move="40" class="js-mouse-move" src="{% static 'img/home-9/hero/3.png' %}" alt="icon"></div>
           </div>
         </div>
 
@@ -769,8 +770,8 @@
 
   <!-- JavaScript -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-  <script src="js/vendors.js"></script>
-  <script src="js/main.js"></script>
+  <script src="{% static 'js/vendors.js' %}"></script>
+  <script src="{% static 'js/main.js' %}"></script>
 </body>
 
 </html>

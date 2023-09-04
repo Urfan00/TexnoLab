@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +21,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/vendors.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="{% static 'css/vendors.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
   <title>Educrat</title>
 </head>
@@ -46,7 +48,7 @@
 
               <div class="header__logo ">
                 <a data-barba href="index.html">
-                  <img src="img/general/logo.svg" alt="logo">
+                  <img src="{% static '' %}img/general/logo.svg" alt="logo">
                 </a>
               </div>
 
@@ -859,7 +861,7 @@
                           <input type="text" class="col-12 text-18 lh-12 text-dark-1 fw-500" placeholder="What do you want to learn?">
 
                           <button class="d-flex items-center justify-center size-40 rounded-full bg-purple-3" data-el-toggle=".js-search-toggle">
-                            <img src="img/menus/close.svg" alt="icon">
+                            <img src="{% static '' %}img/menus/close.svg" alt="icon">
                           </button>
                         </div>
 
@@ -899,7 +901,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/1.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/1.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -914,7 +916,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -922,7 +924,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/2.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/2.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -937,7 +939,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -1000,21 +1002,21 @@
 
                 <div class="d-flex items-center">
                   <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
-                    <img src="img/contact-1/1.svg" alt="icon">
+                    <img src="{% static '' %}img/contact-1/1.svg" alt="icon">
                   </div>
                   <div class="ml-20">328 Queensberry Street, North<br> Melbourne VIC 3051, Australia.</div>
                 </div>
 
                 <div class="d-flex items-center">
                   <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
-                    <img src="img/contact-1/2.svg" alt="icon">
+                    <img src="{% static '' %}img/contact-1/2.svg" alt="icon">
                   </div>
                   <div class="ml-20">+(1) 123 456 7890</div>
                 </div>
 
                 <div class="d-flex items-center">
                   <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
-                    <img src="img/contact-1/3.svg" alt="icon">
+                    <img src="{% static '' %}img/contact-1/3.svg" alt="icon">
                   </div>
                   <div class="ml-20">hi@educrat.com</div>
                 </div>
@@ -1158,7 +1160,7 @@
             <div class="row y-gap-20 justify-between items-center">
               <div class="col-auto">
                 <div class="footer-header__logo">
-                  <img src="img/footer/footer-logo.svg" alt="logo">
+                  <img src="{% static '' %}img/footer/footer-logo.svg" alt="logo">
                 </div>
               </div>
               <div class="col-auto">
@@ -1280,8 +1282,8 @@
 
   <!-- JavaScript -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-  <script src="js/vendors.js"></script>
-  <script src="js/main.js"></script>
+  <script src="{% static '' %}js/vendors.js"></script>
+  <script src="{% static '' %}js/main.js"></script>
 </body>
 
 </html>

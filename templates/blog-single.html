@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +21,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/vendors.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="{% static 'css/vendors.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
   <title>Educrat</title>
 </head>
@@ -46,7 +48,7 @@
 
               <div class="header__logo ">
                 <a data-barba href="index.html">
-                  <img src="img/general/logo.svg" alt="logo">
+                  <img src="{% static '' %}img/general/logo.svg" alt="logo">
                 </a>
               </div>
 
@@ -859,7 +861,7 @@
                           <input type="text" class="col-12 text-18 lh-12 text-dark-1 fw-500" placeholder="What do you want to learn?">
 
                           <button class="d-flex items-center justify-center size-40 rounded-full bg-purple-3" data-el-toggle=".js-search-toggle">
-                            <img src="img/menus/close.svg" alt="icon">
+                            <img src="{% static '' %}img/menus/close.svg" alt="icon">
                           </button>
                         </div>
 
@@ -899,7 +901,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/1.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/1.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -914,7 +916,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -922,7 +924,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/2.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/2.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -937,7 +939,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -1039,7 +1041,7 @@
 
       <section class="layout-pt-md">
         <div class="container">
-          <div class="ratio ratio-16:9 rounded-8 bg-image js-lazy" data-bg="img/blog/blog-single/images.png"></div>
+          <div class="ratio ratio-16:9 rounded-8 bg-image js-lazy" data-bg="{% static 'img/blog/blog-single/images.png' %}"></div>
         </div>
       </section>
 
@@ -1079,10 +1081,10 @@
 
                   <div class="row y-gap-30 pt-30">
                     <div class="col-sm-6">
-                      <img src="img/blog/blog-single/1.png" alt="image" class="w-1/1 initial-img rounded-8">
+                      <img src="{% static '' %}img/blog/blog-single/1.png" alt="image" class="w-1/1 initial-img rounded-8">
                     </div>
                     <div class="col-sm-6">
-                      <img src="img/blog/blog-single/2.png" alt="image" class="w-1/1 initial-img rounded-8">
+                      <img src="{% static '' %}img/blog/blog-single/2.png" alt="image" class="w-1/1 initial-img rounded-8">
                     </div>
                   </div>
 
@@ -1142,7 +1144,7 @@
               <div class="col-xl-8 col-lg-9 col-md-11">
                 <div class="d-flex border-bottom-light border-top-light py-30">
                   <div class="">
-                    <div class="bg-image size-70 rounded-full js-lazy" data-bg="img/blog/blog-single/author.png"></div>
+                    <div class="bg-image size-70 rounded-full js-lazy" data-bg="{% static 'img/blog/blog-single/author.png' %}"></div>
                   </div>
 
                   <div class="ml-30 md:ml-20">
@@ -1240,7 +1242,7 @@
                       <li class="comments__item">
                         <div class="comments__item-inner md:direction-column">
                           <div class="comments__img mr-20">
-                            <div class="bg-image rounded-full js-lazy" data-bg="img/avatars/1.png"></div>
+                            <div class="bg-image rounded-full js-lazy" data-bg="{% static 'img/avatars/1.png' %}"></div>
                           </div>
 
                           <div class="comments__body md:mt-15">
@@ -1270,7 +1272,7 @@
                       <li class="comments__item">
                         <div class="comments__item-inner md:direction-column">
                           <div class="comments__img mr-20">
-                            <div class="bg-image rounded-full js-lazy" data-bg="img/avatars/1.png"></div>
+                            <div class="bg-image rounded-full js-lazy" data-bg="{% static 'img/avatars/1.png' %}"></div>
                           </div>
 
                           <div class="comments__body md:mt-15">
@@ -1359,7 +1361,7 @@
             <div class="col-lg-3 col-md-6">
               <div data-anim-child="slide-up delay-2" class="blogCard -type-1">
                 <div class="blogCard__image">
-                  <img src="img/home-3/blog/1.png" alt="image">
+                  <img src="{% static '' %}img/home-3/blog/1.png" alt="image">
                 </div>
                 <div class="blogCard__content mt-20">
                   <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
@@ -1372,7 +1374,7 @@
             <div class="col-lg-3 col-md-6">
               <div data-anim-child="slide-up delay-3" class="blogCard -type-1">
                 <div class="blogCard__image">
-                  <img src="img/home-3/blog/2.png" alt="image">
+                  <img src="{% static '' %}img/home-3/blog/2.png" alt="image">
                 </div>
                 <div class="blogCard__content mt-20">
                   <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
@@ -1385,7 +1387,7 @@
             <div class="col-lg-3 col-md-6">
               <div data-anim-child="slide-up delay-4" class="blogCard -type-1">
                 <div class="blogCard__image">
-                  <img src="img/home-3/blog/3.png" alt="image">
+                  <img src="{% static '' %}img/home-3/blog/3.png" alt="image">
                 </div>
                 <div class="blogCard__content mt-20">
                   <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
@@ -1398,7 +1400,7 @@
             <div class="col-lg-3 col-md-6">
               <div data-anim-child="slide-up delay-5" class="blogCard -type-1">
                 <div class="blogCard__image">
-                  <img src="img/home-3/blog/4.png" alt="image">
+                  <img src="{% static '' %}img/home-3/blog/4.png" alt="image">
                 </div>
                 <div class="blogCard__content mt-20">
                   <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
@@ -1419,7 +1421,7 @@
             <div class="row y-gap-20 justify-between items-center">
               <div class="col-auto">
                 <div class="footer-header__logo">
-                  <img src="img/footer/footer-logo.svg" alt="logo">
+                  <img src="{% static '' %}img/footer/footer-logo.svg" alt="logo">
                 </div>
               </div>
               <div class="col-auto">
@@ -1541,8 +1543,8 @@
 
   <!-- JavaScript -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-  <script src="js/vendors.js"></script>
-  <script src="js/main.js"></script>
+  <script src="{% static '' %}js/vendors.js"></script>
+  <script src="{% static '' %}js/main.js"></script>
 </body>
 
 </html>

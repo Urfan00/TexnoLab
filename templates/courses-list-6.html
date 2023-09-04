@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +21,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/vendors.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="{% static 'css/vendors.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
   <title>Educrat</title>
 </head>
@@ -46,7 +48,7 @@
 
               <div class="header__logo ">
                 <a data-barba href="index.html">
-                  <img src="img/general/logo.svg" alt="logo">
+                  <img src="{% static '' %}img/general/logo.svg" alt="logo">
                 </a>
               </div>
 
@@ -859,7 +861,7 @@
                           <input type="text" class="col-12 text-18 lh-12 text-dark-1 fw-500" placeholder="What do you want to learn?">
 
                           <button class="d-flex items-center justify-center size-40 rounded-full bg-purple-3" data-el-toggle=".js-search-toggle">
-                            <img src="img/menus/close.svg" alt="icon">
+                            <img src="{% static '' %}img/menus/close.svg" alt="icon">
                           </button>
                         </div>
 
@@ -899,7 +901,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/1.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/1.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -914,7 +916,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -922,7 +924,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/2.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/2.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -937,7 +939,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -1081,7 +1083,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/1.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/1.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1108,21 +1110,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1131,7 +1133,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1152,7 +1154,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/2.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/2.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1191,21 +1193,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1214,7 +1216,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1235,7 +1237,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/3.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/3.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1262,21 +1264,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1285,7 +1287,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1306,7 +1308,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/4.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/4.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1333,21 +1335,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1356,7 +1358,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1377,7 +1379,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/5.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/5.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1404,21 +1406,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1427,7 +1429,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1448,7 +1450,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/6.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/6.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1475,21 +1477,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1498,7 +1500,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1519,7 +1521,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/7.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/7.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1546,21 +1548,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1569,7 +1571,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1590,7 +1592,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/8.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/8.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1617,21 +1619,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1640,7 +1642,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1679,7 +1681,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/1.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/1.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1706,21 +1708,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1729,7 +1731,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1750,7 +1752,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/2.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/2.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1789,21 +1791,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1812,7 +1814,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1833,7 +1835,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/3.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/3.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1860,21 +1862,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1883,7 +1885,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1904,7 +1906,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/4.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/4.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -1931,21 +1933,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -1954,7 +1956,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -1975,7 +1977,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/5.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/5.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2002,21 +2004,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2025,7 +2027,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2046,7 +2048,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/6.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/6.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2073,21 +2075,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2096,7 +2098,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2117,7 +2119,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/7.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/7.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2144,21 +2146,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2167,7 +2169,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2188,7 +2190,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/8.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/8.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2215,21 +2217,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2238,7 +2240,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2277,7 +2279,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/1.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/1.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2304,21 +2306,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2327,7 +2329,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2348,7 +2350,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/2.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/2.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2387,21 +2389,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2410,7 +2412,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2431,7 +2433,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/3.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/3.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2458,21 +2460,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2481,7 +2483,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2502,7 +2504,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/4.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/4.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2529,21 +2531,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2552,7 +2554,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2573,7 +2575,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/5.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/5.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2600,21 +2602,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2623,7 +2625,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2644,7 +2646,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/6.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/6.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2671,21 +2673,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2694,7 +2696,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2715,7 +2717,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/7.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/7.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2742,21 +2744,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2765,7 +2767,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2786,7 +2788,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/8.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/8.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2813,21 +2815,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2836,7 +2838,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2875,7 +2877,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/1.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/1.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2902,21 +2904,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -2925,7 +2927,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -2946,7 +2948,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/2.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/2.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -2985,21 +2987,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -3008,7 +3010,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -3029,7 +3031,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/3.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/3.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -3056,21 +3058,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -3079,7 +3081,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -3100,7 +3102,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/4.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/4.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -3127,21 +3129,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -3150,7 +3152,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -3171,7 +3173,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/5.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/5.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -3198,21 +3200,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -3221,7 +3223,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -3242,7 +3244,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/6.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/6.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -3269,21 +3271,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -3292,7 +3294,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -3313,7 +3315,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/7.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/7.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -3340,21 +3342,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -3363,7 +3365,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -3384,7 +3386,7 @@
                         <a href="courses-single-1.html" class="coursesCard -type-1 ">
                           <div class="relative">
                             <div class="coursesCard__image overflow-hidden rounded-8">
-                              <img class="w-1/1" src="img/coursesCards/8.png" alt="image">
+                              <img class="w-1/1" src="{% static '' %}img/coursesCards/8.png" alt="image">
                               <div class="coursesCard__image_overlay rounded-8"></div>
                             </div>
                             <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
@@ -3411,21 +3413,21 @@
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/1.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">6 lesson</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/2.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">3h 56m</div>
                               </div>
 
                               <div class="d-flex items-center">
                                 <div class="mr-8">
-                                  <img src="img/coursesCards/icons/3.svg" alt="icon">
+                                  <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                                 </div>
                                 <div class="text-14 lh-1">Beginner</div>
                               </div>
@@ -3434,7 +3436,7 @@
 
                             <div class="coursesCard-footer">
                               <div class="coursesCard-footer__author">
-                                <img src="img/general/avatar-1.png" alt="image">
+                                <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                                 <div>Ali Tufan</div>
                               </div>
 
@@ -3500,7 +3502,7 @@
               <div class="swiper-slide">
                 <div data-anim-child="slide-left delay-2" class="teamCard -type-1 -teamCard-hover">
                   <div class="teamCard__image size-180 mx-auto">
-                    <img class="fit-cover size-180 rounded-full" src="img/team/1.png" alt="image">
+                    <img class="fit-cover size-180 rounded-full" src="{% static '' %}img/team/1.png" alt="image">
                     <div class="teamCard__socials rounded-full">
                       <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
                         <a href="#"><i class="icon-facebook text-white"></i></a>
@@ -3523,12 +3525,12 @@
                     <div class="d-flex x-gap-15 justify-center pt-10">
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/1.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/1.svg" alt="icon">
                         <div class="text-13 lh-12">692 Students</div>
                       </div>
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/2.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/2.svg" alt="icon">
                         <div class="text-13 lh-12">15 Course</div>
                       </div>
 
@@ -3540,7 +3542,7 @@
               <div class="swiper-slide">
                 <div data-anim-child="slide-left delay-3" class="teamCard -type-1 -teamCard-hover">
                   <div class="teamCard__image size-180 mx-auto">
-                    <img class="fit-cover size-180 rounded-full" src="img/team/2.png" alt="image">
+                    <img class="fit-cover size-180 rounded-full" src="{% static '' %}img/team/2.png" alt="image">
                     <div class="teamCard__socials rounded-full">
                       <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
                         <a href="#"><i class="icon-facebook text-white"></i></a>
@@ -3563,12 +3565,12 @@
                     <div class="d-flex x-gap-15 justify-center pt-10">
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/1.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/1.svg" alt="icon">
                         <div class="text-13 lh-12">692 Students</div>
                       </div>
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/2.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/2.svg" alt="icon">
                         <div class="text-13 lh-12">15 Course</div>
                       </div>
 
@@ -3580,7 +3582,7 @@
               <div class="swiper-slide">
                 <div data-anim-child="slide-left delay-4" class="teamCard -type-1 -teamCard-hover">
                   <div class="teamCard__image size-180 mx-auto">
-                    <img class="fit-cover size-180 rounded-full" src="img/team/3.png" alt="image">
+                    <img class="fit-cover size-180 rounded-full" src="{% static '' %}img/team/3.png" alt="image">
                     <div class="teamCard__socials rounded-full">
                       <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
                         <a href="#"><i class="icon-facebook text-white"></i></a>
@@ -3603,12 +3605,12 @@
                     <div class="d-flex x-gap-15 justify-center pt-10">
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/1.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/1.svg" alt="icon">
                         <div class="text-13 lh-12">692 Students</div>
                       </div>
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/2.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/2.svg" alt="icon">
                         <div class="text-13 lh-12">15 Course</div>
                       </div>
 
@@ -3620,7 +3622,7 @@
               <div class="swiper-slide">
                 <div data-anim-child="slide-left delay-5" class="teamCard -type-1 -teamCard-hover">
                   <div class="teamCard__image size-180 mx-auto">
-                    <img class="fit-cover size-180 rounded-full" src="img/team/4.png" alt="image">
+                    <img class="fit-cover size-180 rounded-full" src="{% static '' %}img/team/4.png" alt="image">
                     <div class="teamCard__socials rounded-full">
                       <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
                         <a href="#"><i class="icon-facebook text-white"></i></a>
@@ -3643,12 +3645,12 @@
                     <div class="d-flex x-gap-15 justify-center pt-10">
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/1.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/1.svg" alt="icon">
                         <div class="text-13 lh-12">692 Students</div>
                       </div>
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/2.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/2.svg" alt="icon">
                         <div class="text-13 lh-12">15 Course</div>
                       </div>
 
@@ -3660,7 +3662,7 @@
               <div class="swiper-slide">
                 <div data-anim-child="slide-left delay-6" class="teamCard -type-1 -teamCard-hover">
                   <div class="teamCard__image size-180 mx-auto">
-                    <img class="fit-cover size-180 rounded-full" src="img/team/5.png" alt="image">
+                    <img class="fit-cover size-180 rounded-full" src="{% static '' %}img/team/5.png" alt="image">
                     <div class="teamCard__socials rounded-full">
                       <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
                         <a href="#"><i class="icon-facebook text-white"></i></a>
@@ -3683,12 +3685,12 @@
                     <div class="d-flex x-gap-15 justify-center pt-10">
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/1.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/1.svg" alt="icon">
                         <div class="text-13 lh-12">692 Students</div>
                       </div>
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/2.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/2.svg" alt="icon">
                         <div class="text-13 lh-12">15 Course</div>
                       </div>
 
@@ -3700,7 +3702,7 @@
               <div class="swiper-slide">
                 <div data-anim-child="slide-left delay-7" class="teamCard -type-1 -teamCard-hover">
                   <div class="teamCard__image size-180 mx-auto">
-                    <img class="fit-cover size-180 rounded-full" src="img/team/6.png" alt="image">
+                    <img class="fit-cover size-180 rounded-full" src="{% static '' %}img/team/6.png" alt="image">
                     <div class="teamCard__socials rounded-full">
                       <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
                         <a href="#"><i class="icon-facebook text-white"></i></a>
@@ -3723,12 +3725,12 @@
                     <div class="d-flex x-gap-15 justify-center pt-10">
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/1.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/1.svg" alt="icon">
                         <div class="text-13 lh-12">692 Students</div>
                       </div>
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/2.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/2.svg" alt="icon">
                         <div class="text-13 lh-12">15 Course</div>
                       </div>
 
@@ -3740,7 +3742,7 @@
               <div class="swiper-slide">
                 <div data-anim-child="slide-left delay-8" class="teamCard -type-1 -teamCard-hover">
                   <div class="teamCard__image size-180 mx-auto">
-                    <img class="fit-cover size-180 rounded-full" src="img/team/7.png" alt="image">
+                    <img class="fit-cover size-180 rounded-full" src="{% static '' %}img/team/7.png" alt="image">
                     <div class="teamCard__socials rounded-full">
                       <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
                         <a href="#"><i class="icon-facebook text-white"></i></a>
@@ -3763,12 +3765,12 @@
                     <div class="d-flex x-gap-15 justify-center pt-10">
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/1.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/1.svg" alt="icon">
                         <div class="text-13 lh-12">692 Students</div>
                       </div>
 
                       <div class="d-flex items-center">
-                        <img class="mr-8" src="img/team/icons/2.svg" alt="icon">
+                        <img class="mr-8" src="{% static '' %}img/team/icons/2.svg" alt="icon">
                         <div class="text-13 lh-12">15 Course</div>
                       </div>
 
@@ -4972,7 +4974,7 @@
                   <a href="courses-single-1.html" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
                     <div class="col-xl-4">
                       <div class="coursesCard__image rounded-8 relative">
-                        <img class="w-1/1 rounded-8" src="img/coursesCards/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/coursesCards/1.png" alt="image">
                         <div class="coursesCard__image_overlay rounded-8"></div>
                       </div>
                     </div>
@@ -4996,28 +4998,28 @@
                       <div class="row x-gap-10 y-gap-10 items-center pt-10">
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img src="img/general/avatar-1.png" alt="image">
+                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                             <div class="ml-10">Ali Tufan</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/1.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                             <div class="text-14 lh-1">6 lesson</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/2.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                             <div class="text-14 lh-1">3h 56m</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/3.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                             <div class="text-14 lh-1">Beginner</div>
                           </div>
                         </div>
@@ -5040,7 +5042,7 @@
                   <a href="courses-single-1.html" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
                     <div class="col-xl-4">
                       <div class="coursesCard__image rounded-8 relative">
-                        <img class="w-1/1 rounded-8" src="img/coursesCards/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/coursesCards/2.png" alt="image">
                         <div class="coursesCard__image_overlay rounded-8"></div>
                       </div>
                     </div>
@@ -5064,28 +5066,28 @@
                       <div class="row x-gap-10 y-gap-10 items-center pt-10">
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img src="img/general/avatar-1.png" alt="image">
+                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                             <div class="ml-10">Ali Tufan</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/1.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                             <div class="text-14 lh-1">6 lesson</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/2.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                             <div class="text-14 lh-1">3h 56m</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/3.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                             <div class="text-14 lh-1">Beginner</div>
                           </div>
                         </div>
@@ -5108,7 +5110,7 @@
                   <a href="courses-single-1.html" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
                     <div class="col-xl-4">
                       <div class="coursesCard__image rounded-8 relative">
-                        <img class="w-1/1 rounded-8" src="img/coursesCards/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/coursesCards/3.png" alt="image">
                         <div class="coursesCard__image_overlay rounded-8"></div>
                       </div>
                     </div>
@@ -5132,28 +5134,28 @@
                       <div class="row x-gap-10 y-gap-10 items-center pt-10">
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img src="img/general/avatar-1.png" alt="image">
+                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                             <div class="ml-10">Ali Tufan</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/1.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                             <div class="text-14 lh-1">6 lesson</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/2.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                             <div class="text-14 lh-1">3h 56m</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/3.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                             <div class="text-14 lh-1">Beginner</div>
                           </div>
                         </div>
@@ -5176,7 +5178,7 @@
                   <a href="courses-single-1.html" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
                     <div class="col-xl-4">
                       <div class="coursesCard__image rounded-8 relative">
-                        <img class="w-1/1 rounded-8" src="img/coursesCards/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/coursesCards/4.png" alt="image">
                         <div class="coursesCard__image_overlay rounded-8"></div>
                       </div>
                     </div>
@@ -5200,28 +5202,28 @@
                       <div class="row x-gap-10 y-gap-10 items-center pt-10">
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img src="img/general/avatar-1.png" alt="image">
+                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                             <div class="ml-10">Ali Tufan</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/1.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                             <div class="text-14 lh-1">6 lesson</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/2.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                             <div class="text-14 lh-1">3h 56m</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/3.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                             <div class="text-14 lh-1">Beginner</div>
                           </div>
                         </div>
@@ -5244,7 +5246,7 @@
                   <a href="courses-single-1.html" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
                     <div class="col-xl-4">
                       <div class="coursesCard__image rounded-8 relative">
-                        <img class="w-1/1 rounded-8" src="img/coursesCards/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/coursesCards/5.png" alt="image">
                         <div class="coursesCard__image_overlay rounded-8"></div>
                       </div>
                     </div>
@@ -5268,28 +5270,28 @@
                       <div class="row x-gap-10 y-gap-10 items-center pt-10">
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img src="img/general/avatar-1.png" alt="image">
+                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                             <div class="ml-10">Ali Tufan</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/1.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                             <div class="text-14 lh-1">6 lesson</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/2.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                             <div class="text-14 lh-1">3h 56m</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/3.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                             <div class="text-14 lh-1">Beginner</div>
                           </div>
                         </div>
@@ -5312,7 +5314,7 @@
                   <a href="courses-single-1.html" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
                     <div class="col-xl-4">
                       <div class="coursesCard__image rounded-8 relative">
-                        <img class="w-1/1 rounded-8" src="img/coursesCards/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/coursesCards/6.png" alt="image">
                         <div class="coursesCard__image_overlay rounded-8"></div>
                       </div>
                     </div>
@@ -5336,28 +5338,28 @@
                       <div class="row x-gap-10 y-gap-10 items-center pt-10">
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img src="img/general/avatar-1.png" alt="image">
+                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                             <div class="ml-10">Ali Tufan</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/1.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                             <div class="text-14 lh-1">6 lesson</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/2.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                             <div class="text-14 lh-1">3h 56m</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/3.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                             <div class="text-14 lh-1">Beginner</div>
                           </div>
                         </div>
@@ -5380,7 +5382,7 @@
                   <a href="courses-single-1.html" class="coursesCard -type-1 row y-gap-20 flex-row items-center">
                     <div class="col-xl-4">
                       <div class="coursesCard__image rounded-8 relative">
-                        <img class="w-1/1 rounded-8" src="img/coursesCards/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/coursesCards/7.png" alt="image">
                         <div class="coursesCard__image_overlay rounded-8"></div>
                       </div>
                     </div>
@@ -5404,28 +5406,28 @@
                       <div class="row x-gap-10 y-gap-10 items-center pt-10">
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img src="img/general/avatar-1.png" alt="image">
+                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
                             <div class="ml-10">Ali Tufan</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/1.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
                             <div class="text-14 lh-1">6 lesson</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/2.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
                             <div class="text-14 lh-1">3h 56m</div>
                           </div>
                         </div>
 
                         <div class="col-auto">
                           <div class="d-flex items-center">
-                            <img class="mr-8" src="img/coursesCards/icons/3.svg" alt="icon">
+                            <img class="mr-8" src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
                             <div class="text-14 lh-1">Beginner</div>
                           </div>
                         </div>
@@ -5478,7 +5480,7 @@
             <div class="row y-gap-20 justify-between items-center">
               <div class="col-auto">
                 <div class="footer-header__logo">
-                  <img src="img/footer/footer-logo.svg" alt="logo">
+                  <img src="{% static '' %}img/footer/footer-logo.svg" alt="logo">
                 </div>
               </div>
               <div class="col-auto">
@@ -5600,8 +5602,8 @@
 
   <!-- JavaScript -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-  <script src="js/vendors.js"></script>
-  <script src="js/main.js"></script>
+  <script src="{% static '' %}js/vendors.js"></script>
+  <script src="{% static '' %}js/main.js"></script>
 </body>
 
 </html>

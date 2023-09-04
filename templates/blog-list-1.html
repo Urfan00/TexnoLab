@@ -1,3 +1,5 @@
+{% load static %}
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -19,8 +21,8 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
 
   <!-- Stylesheets -->
-  <link rel="stylesheet" href="css/vendors.css">
-  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="{% static 'css/vendors.css' %}">
+  <link rel="stylesheet" href="{% static 'css/main.css' %}">
 
   <title>Educrat</title>
 </head>
@@ -46,7 +48,7 @@
 
               <div class="header__logo ">
                 <a data-barba href="index.html">
-                  <img src="img/general/logo.svg" alt="logo">
+                  <img src="{% static '' %}img/general/logo.svg" alt="logo">
                 </a>
               </div>
 
@@ -859,7 +861,7 @@
                           <input type="text" class="col-12 text-18 lh-12 text-dark-1 fw-500" placeholder="What do you want to learn?">
 
                           <button class="d-flex items-center justify-center size-40 rounded-full bg-purple-3" data-el-toggle=".js-search-toggle">
-                            <img src="img/menus/close.svg" alt="icon">
+                            <img src="{% static '' %}img/menus/close.svg" alt="icon">
                           </button>
                         </div>
 
@@ -899,7 +901,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/1.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/1.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -914,7 +916,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -922,7 +924,7 @@
                           <div class="col">
                             <div class="row x-gap-10 y-gap-10">
                               <div class="col-auto">
-                                <img src="img/menus/cart/2.png" alt="image">
+                                <img src="{% static '' %}img/menus/cart/2.png" alt="image">
                               </div>
 
                               <div class="col">
@@ -937,7 +939,7 @@
                           </div>
 
                           <div class="col-auto">
-                            <button><img src="img/menus/close.svg" alt="icon"></button>
+                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
                           </div>
                         </div>
 
@@ -1085,7 +1087,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1098,7 +1100,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1111,7 +1113,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1124,7 +1126,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1137,7 +1139,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1150,7 +1152,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1163,7 +1165,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1176,7 +1178,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1189,7 +1191,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1230,7 +1232,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1243,7 +1245,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1256,7 +1258,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1269,7 +1271,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1282,7 +1284,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1295,7 +1297,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1308,7 +1310,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1321,7 +1323,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1334,7 +1336,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1375,7 +1377,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1388,7 +1390,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1401,7 +1403,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1414,7 +1416,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1427,7 +1429,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1440,7 +1442,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1453,7 +1455,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1466,7 +1468,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1479,7 +1481,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1520,7 +1522,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1533,7 +1535,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1546,7 +1548,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1559,7 +1561,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1572,7 +1574,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1585,7 +1587,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1598,7 +1600,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1611,7 +1613,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1624,7 +1626,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1665,7 +1667,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1678,7 +1680,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1691,7 +1693,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1704,7 +1706,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1717,7 +1719,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1730,7 +1732,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1743,7 +1745,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1756,7 +1758,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1769,7 +1771,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1810,7 +1812,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1823,7 +1825,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1836,7 +1838,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1849,7 +1851,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1862,7 +1864,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1875,7 +1877,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1888,7 +1890,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1901,7 +1903,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1914,7 +1916,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1955,7 +1957,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1968,7 +1970,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1981,7 +1983,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -1994,7 +1996,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2007,7 +2009,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2020,7 +2022,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2033,7 +2035,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2046,7 +2048,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2059,7 +2061,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2100,7 +2102,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/1.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/1.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2113,7 +2115,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/2.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/2.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2126,7 +2128,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/3.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/3.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2139,7 +2141,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/4.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/4.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2152,7 +2154,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/5.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/5.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2165,7 +2167,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/6.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/6.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2178,7 +2180,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/7.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/7.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2191,7 +2193,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/8.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/8.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2204,7 +2206,7 @@
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                     <a href="blog-single.html" class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" src="img/blog-list/9.png" alt="image">
+                        <img class="w-1/1 rounded-8" src="{% static '' %}img/blog-list/9.png" alt="image">
                       </div>
                       <div class="blogCard__content mt-20">
                         <div class="blogCard__category">EDUCATION</div>
@@ -2250,7 +2252,7 @@
             <div class="row y-gap-20 justify-between items-center">
               <div class="col-auto">
                 <div class="footer-header__logo">
-                  <img src="img/footer/footer-logo.svg" alt="logo">
+                  <img src="{% static '' %}img/footer/footer-logo.svg" alt="logo">
                 </div>
               </div>
               <div class="col-auto">
@@ -2372,8 +2374,8 @@
 
   <!-- JavaScript -->
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-  <script src="js/vendors.js"></script>
-  <script src="js/main.js"></script>
+  <script src="{% static '' %}js/vendors.js"></script>
+  <script src="{% static '' %}js/main.js"></script>
 </body>
 
 </html>
