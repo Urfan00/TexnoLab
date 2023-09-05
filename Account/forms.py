@@ -16,7 +16,7 @@ class LoginForm(AuthenticationForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder' : 'Enter your username'
+                'placeholder' : 'ID Code'
             }
         )
     )

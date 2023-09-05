@@ -11,5 +11,5 @@ urlpatterns = [
     path('contact/', contact),
     path('course_list/', course_list),
     path('course_detail/', course_detail),
-    path('index/', index),
+    path('', index, name='index'),
 ]
