@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import ContactUs, Course, CourseCategory, CourseFeedback, CourseProgram, CourseStudent, Gallery
+from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStudent, Gallery, RequestUs
 
 
 
@@ -21,7 +21,7 @@ class CourseFeedbackAdmin(admin.ModelAdmin):
     search_fields = ['student', 'course__title']
 
 
-class ContactUsAdmin(admin.ModelAdmin):
+class RequestUsAdmin(admin.ModelAdmin):
     list_display = ['id', 'fullname', 'phone_number', 'course', 'created_at', 'updated_at']
     list_display_links = ['id', 'fullname']
     search_fields = ['fullname', 'phone_number', 'course__title']
@@ -48,7 +48,7 @@ class CourseStudentAdmin(admin.ModelAdmin):
 admin.site.register(CourseCategory, CourseCategoryAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(CourseFeedback, CourseFeedbackAdmin)
-admin.site.register(ContactUs, ContactUsAdmin)
+admin.site.register(RequestUs, RequestUsAdmin)
 admin.site.register(Gallery, GalleryAdmin)
 admin.site.register(CourseProgram, CourseProgramAdmin)
 admin.site.register(CourseStudent, CourseStudentAdmin)

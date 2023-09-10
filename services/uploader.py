@@ -25,3 +25,7 @@ class Uploader:
     @staticmethod
     def partners_image(instance, filename):
         return f"Partners_image/{instance.title}/{filename}"
+
+    @staticmethod
+    def about_us(instance, filename):
+        return f"About_US/{instance.title}/{filename}"

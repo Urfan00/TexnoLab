@@ -52,7 +52,7 @@ class CourseFeedback(DateMixin):
         verbose_name_plural = 'Course Feedback'
 
 
-class ContactUs(DateMixin):
+class RequestUs(DateMixin):
     fullname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=50)
     admin_comment = models.TextField(null=True, blank=True)
@@ -62,8 +62,8 @@ class ContactUs(DateMixin):
         return self.fullname
 
     class Meta:
-        verbose_name = 'Contact Us'
-        verbose_name_plural = 'Contact Us'
+        verbose_name = 'Request Us'
+        verbose_name_plural = 'Request Us'
 
 
 class Gallery(DateMixin):
