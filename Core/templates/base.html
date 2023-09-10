@@ -227,7 +227,30 @@
 
               <div class="menu js-navList">
                 <ul class="menu__nav text-white -is-active">
-                  <li class="menu-item-has-children">
+
+                  {% for main in main_menus %}
+                    <li class="menu-item-has-children">
+                      <a data-barba href="#">{{ main.menu }} <i class="icon-chevron-right text-13 ml-10"></i></a>
+                      {% if main.parent_menu.all %}
+
+                        <ul class="subnav">
+                          <li class="menu__backButton js-nav-list-back">
+                            <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ main.menu }}</a>
+                          </li>
+                          {% for sub in main.parent_menu.all %}
+                            <li><a href="{{ sub.get_absolute_url }}">{{ sub.menu }}</a></li>
+                          {% endfor %}
+                        </ul>
+
+                      {% endif %}
+                    </li>
+
+
+                  {% endfor %}
+
+
+
+                  {% comment %} <li class="menu-item-has-children">
                     <a data-barba href="#">
                       Home <i class="icon-chevron-right text-13 ml-10"></i>
                     </a>
@@ -801,7 +824,7 @@
 
                   <li>
                     <a data-barba href="contact-1.html">Contact</a>
-                  </li>
+                  </li> {% endcomment %}
                 </ul>
               </div>
 

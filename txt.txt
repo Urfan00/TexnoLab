@@ -8,7 +8,7 @@ Rza
 Urfan
 1. contact duzelt & elave FAQ yazildi (hazir)
 2. error (hazir +-)
-3. navbar cixar
+3. navbar cixar (hazir ama url duz islemir)
 4. course list // filteri search ele
 5. course list / categorylari cixar
 6. course statistika / baxis sayi & comment sayi
