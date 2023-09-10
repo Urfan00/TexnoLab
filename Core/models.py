@@ -77,3 +77,15 @@ class ContactInfo(DateMixin):
     class Meta:
         verbose_name = 'Contact Info'
         verbose_name_plural = 'Contact Info'
+
+
+class FAQ(DateMixin):
+    question = models.CharField(max_length=255)
+    answer = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.question
+
+    class Meta:
+        verbose_name = 'F.A.Q'
+        verbose_name_plural = 'F.A.Q'

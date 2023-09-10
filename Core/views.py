@@ -1,16 +1,15 @@
 from django.shortcuts import render
+from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
-
 from Account.models import Account
-from .models import AboutUs
+from .forms import ContactFormModel
+from .models import FAQ, AboutUs, ContactInfo
+from django.contrib import messages
 
 
 
 def error(request):
     return render(request, '404.html')
-
-def contact(request):
-    return render(request, 'contact-1.html')
 
 def course_list(request):
     return render(request, 'courses-list-5.html')
@@ -33,3 +32,17 @@ class AboutView(ListView):
         return context
 
 
+class ContactUsView(CreateView):
+    template_name = 'contact-1.html'
+    form_class = ContactFormModel
+    success_url = reverse_lazy('contact')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["info"] = ContactInfo.objects.first()
+        context['faqs'] = FAQ.objects.all()
+        return context
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Your comment has been sent successfully!')
+        return super().form_valid(form)

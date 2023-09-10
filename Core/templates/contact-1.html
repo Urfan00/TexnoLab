@@ -12,8 +12,8 @@
         <div data-anim-wrap class="container">
           <div class="row y-gap-50 justify-between">
             <div class="col-lg-4">
-              <h3 class="text-24 fw-500">Keep In Touch With Us.</h3>
-              <p class="mt-25">Neque convallis a cras semper auctor. Libero id faucibus nisl tincidunt egetnvallis.</p>
+              <h3 class="text-24 fw-500">{{ info.title }}</h3>
+              <p class="mt-25">{{ info.content }}</p>
 
               <div class="y-gap-30 pt-60 lg:pt-40">
 
@@ -21,21 +21,21 @@
                   <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
                     <img src="{% static '' %}img/contact-1/1.svg" alt="icon">
                   </div>
-                  <div class="ml-20">328 Queensberry Street, North<br> Melbourne VIC 3051, Australia.</div>
+                  <div class="ml-20">{{ info.location }}</div>
                 </div>
 
                 <div class="d-flex items-center">
                   <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
                     <img src="{% static '' %}img/contact-1/2.svg" alt="icon">
                   </div>
-                  <div class="ml-20">+(1) 123 456 7890</div>
+                  <div class="ml-20">{{ info.phone_number }}</div>
                 </div>
 
                 <div class="d-flex items-center">
                   <div class="d-flex justify-center items-center size-60 rounded-full bg-light-7">
                     <img src="{% static '' %}img/contact-1/3.svg" alt="icon">
                   </div>
-                  <div class="ml-20">hi@educrat.com</div>
+                  <div class="ml-20">{{ info.email }}</div>
                 </div>
 
               </div>
@@ -45,18 +45,34 @@
               <h3 class="text-24 fw-500">Send a Message.</h3>
               <p class="mt-25">Neque convallis a cras semper auctor. Libero id faucibus nisl<br> tincidunt egetnvallis.</p>
 
-              <form class="contact-form row y-gap-30 pt-60 lg:pt-40" action="#">
+              {% include 'messages.html' %}
+
+              <form method="post" class="contact-form row y-gap-30 pt-60 lg:pt-40" action="#">
+
+                {% csrf_token %}
+
+                {% if form.errors %}
+                  <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div id="form_errors">
+                      {% for key, value in form.errors.items %}
+                        <strong>{{ key }} {{ value }}</strong>
+                      {% endfor %}
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                {% endif %}
+
                 <div class="col-md-6">
-                  <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Name</label>
-                  <input type="text" name="title" placeholder="Name...">
+                  <label for='id_c_fullname' class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.fullname.label }}</label>
+                  {{ form.fullname }}
                 </div>
                 <div class="col-md-6">
-                  <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Email Address</label>
-                  <input type="text" name="title" placeholder="Email...">
+                  <label for='id_email' class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.email.label }}</label>
+                  {{ form.email }}
                 </div>
                 <div class="col-12">
-                  <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Message...</label>
-                  <textarea name="comment" placeholder="Message" rows="8"></textarea>
+                  <label for='id_message' class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.message.label }}</label>
+                  {{ form.message }}
                 </div>
                 <div class="col-12">
                   <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
@@ -85,85 +101,23 @@
 
               <div class="accordion -block text-left pt-60 lg:pt-40 js-accordion">
 
-                <div class="accordion__item">
-                  <div class="accordion__button">
-                    <div class="accordion__icon">
-                      <div class="icon" data-feather="plus"></div>
-                      <div class="icon" data-feather="minus"></div>
+                {% for faq in faqs %}
+                  <div class="accordion__item">
+                    <div class="accordion__button">
+                      <div class="accordion__icon">
+                        <div class="icon" data-feather="plus"></div>
+                        <div class="icon" data-feather="minus"></div>
+                      </div>
+                      <span class="text-17 fw-500 text-dark-1">{{ faq.question }}</span>
                     </div>
-                    <span class="text-17 fw-500 text-dark-1">Do you offer discounts for students?</span>
-                  </div>
 
-                  <div class="accordion__content">
-                    <div class="accordion__content__inner">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
+                    <div class="accordion__content">
+                      <div class="accordion__content__inner">
+                        <p>{{ faq.answer }}</p>
+                      </div>
                     </div>
                   </div>
-                </div>
-
-                <div class="accordion__item">
-                  <div class="accordion__button">
-                    <div class="accordion__icon">
-                      <div class="icon" data-feather="plus"></div>
-                      <div class="icon" data-feather="minus"></div>
-                    </div>
-                    <span class="text-17 fw-500 text-dark-1">Do you offer special pricing for big teams?</span>
-                  </div>
-
-                  <div class="accordion__content">
-                    <div class="accordion__content__inner">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="accordion__item">
-                  <div class="accordion__button">
-                    <div class="accordion__icon">
-                      <div class="icon" data-feather="plus"></div>
-                      <div class="icon" data-feather="minus"></div>
-                    </div>
-                    <span class="text-17 fw-500 text-dark-1">What is the past experience of your teachers?</span>
-                  </div>
-
-                  <div class="accordion__content">
-                    <div class="accordion__content__inner">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="accordion__item">
-                  <div class="accordion__button">
-                    <div class="accordion__icon">
-                      <div class="icon" data-feather="plus"></div>
-                      <div class="icon" data-feather="minus"></div>
-                    </div>
-                    <span class="text-17 fw-500 text-dark-1">What is the course refund policy?</span>
-                  </div>
-
-                  <div class="accordion__content">
-                    <div class="accordion__content__inner">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="accordion__item">
-                  <div class="accordion__button">
-                    <div class="accordion__icon">
-                      <div class="icon" data-feather="plus"></div>
-                      <div class="icon" data-feather="minus"></div>
-                    </div>
-                    <span class="text-17 fw-500 text-dark-1">Do you offer discounts for non-profits?</span>
-                  </div>
-
-                  <div class="accordion__content">
-                    <div class="accordion__content__inner">
-                      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco.</p>
-                    </div>
-                  </div>
-                </div>
+                {% endfor %}
 
               </div>
             </div>

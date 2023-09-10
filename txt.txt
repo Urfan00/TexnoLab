@@ -6,7 +6,7 @@ Rza
 
 
 Urfan
-1. contact duzelt
+1. contact duzelt & elave FAQ yazildi (hazir)
 2. error
 3. navbar cixar
 4. course list // filteri search ele
