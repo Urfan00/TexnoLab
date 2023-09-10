@@ -9,7 +9,7 @@ Urfan
 1. contact duzelt & elave FAQ yazildi (hazir)
 2. error (hazir +-)
 3. navbar cixar (hazir ama url duz islemir)
-4. course list // filteri search ele
-5. course list / categorylari cixar
-6. course statistika / baxis sayi & comment sayi
+4. course list // filteri search ele (hazir ama filter qalib search birde)
+5. course list / categorylari cixar (hazir)
+6. course statistika / baxis sayi & comment ve sayi
 7. comment delete ola bilsin // silinende statistikadanda silinsin

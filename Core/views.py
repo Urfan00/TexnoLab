@@ -11,12 +11,6 @@ from django.contrib import messages
 def handler_not_found(request, exception):
     return render(request, '404.html')
 
-def course_list(request):
-    return render(request, 'courses-list-5.html')
-
-def course_detail(request):
-    return render(request, 'courses-single-5.html')
-
 def index(request):
     return render(request, 'home-3.html')
 

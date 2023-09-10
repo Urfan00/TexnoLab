@@ -74,20 +74,24 @@
 
                         <div class="dropdown js-dropdown js-category-active">
                           <div class="dropdown__button d-flex items-center text-14 rounded-8 px-20 py-10 text-14 lh-12" data-el-toggle=".js-category-toggle" data-el-toggle-active=".js-category-active">
-                            <span class="js-dropdown-title">Most Popular</span>
+                            <span class="js-dropdown-title">Category</span>
                             <i class="icon text-9 ml-40 icon-chevron-down"></i>
                           </div>
 
                           <div class="toggle-element -dropdown -dark-bg-dark-2 -dark-border-white-10 js-click-dropdown js-category-toggle">
                             <div class="text-14 y-gap-15 js-dropdown-list">
 
-                              <div><a href="#" class="d-block js-dropdown-link">Animation</a></div>
+                              {% for ctg in course_category %}
+                                <div><a href="#" class="d-block js-dropdown-link">{{ ctg.name }}</a></div>
+                              {% endfor %}
+
+                              {% comment %} <div><a href="#" class="d-block js-dropdown-link">Animation</a></div>
 
                               <div><a href="#" class="d-block js-dropdown-link">Design</a></div>
 
                               <div><a href="#" class="d-block js-dropdown-link">Illustration</a></div>
 
-                              <div><a href="#" class="d-block js-dropdown-link">Business</a></div>
+                              <div><a href="#" class="d-block js-dropdown-link">Business</a></div> {% endcomment %}
 
                             </div>
                           </div>
@@ -596,7 +600,36 @@
 
           <div class="row y-gap-30">
 
-            <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
+            {% for course in courses %}
+              <div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
+
+                <a href="{% url 'course' course.slug %}" class="coursesCard -type-1 rounded-8 bg-white shadow-3">
+                  <div class="relative">
+                    <div class="coursesCard__image overflow-hidden rounded-top-8">
+                      <img class="w-1/1" src="{{ course.main_photo.url }}" alt="image">
+                      <div class="coursesCard__image_overlay rounded-top-8"></div>
+                    </div>
+                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
+
+                    </div>
+                  </div>
+
+                  <div class="h-100 pt-20 pb-15 px-30">
+
+                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">{{ course.title }}</div>
+
+                    <div class="d-flex x-gap-10 items-center pt-10">
+
+                      {{ course.description|safe|truncatewords:4 }}
+
+                    </div>
+                  </div>
+                </a>
+
+              </div>
+            {% endfor %}
+
+            {% comment %}<div data-anim-child="slide-up delay-1" class="col-lg-4 col-md-6">
 
               <a href="courses-single-1.html" class="coursesCard -type-1 rounded-8 bg-white shadow-3">
                 <div class="relative">
@@ -1227,7 +1260,7 @@
                 </div>
               </a>
 
-            </div>
+            </div> {% endcomment %}
 
           </div>
 
