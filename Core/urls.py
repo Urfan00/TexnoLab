@@ -1,5 +1,5 @@
 from django.urls import path
-from .views import AboutView, ContactUsView, index
+from .views import AboutView, ContactUsView, IndexView
 
 
 
@@ -8,7 +8,7 @@ urlpatterns = [
     path('contact/', ContactUsView.as_view(), name='contact'),
 
     path('about/', AboutView.as_view(), name='about'),
-    path('', index, name='index'),
+    path('', IndexView.as_view(), name='index'),
 ]
 
 handler404 = "Core.views.handler_not_found"

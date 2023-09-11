@@ -180,71 +180,33 @@
                             </h2>
 
                             <ul class="comments__list mt-30">
-                              <li class="comments__item">
-                                <div class="comments__item-inner md:direction-column">
-                                  <div class="comments__img mr-20">
-                                    <div class="bg-image rounded-full js-lazy" data-bg="img/avatars/1.png"></div>
-                                  </div>
 
-                                  <div class="comments__body md:mt-15">
-                                    <div class="comments__header">
-                                      <h4 class="text-17 fw-500 lh-15">
-                                        Ali Tufan
-                                        <span class="text-13 text-light-1 fw-400">3 Days ago</span>
-                                      </h4>
+                              {% for review in reviews %}
 
-                                      <div class="stars"></div>
+                                <li class="comments__item">
+                                  <div class="comments__item-inner md:direction-column">
+                                    <div class="comments__img mr-20">
+                                      <div class="bg-image rounded-full js-lazy" data-bg="{{ review.course.main_photo.url }}"></div>
                                     </div>
 
-                                    <h5 class="text-15 fw-500 mt-15">The best LMS Design</h5>
-                                    <div class="comments__text mt-10">
-                                      <p>This course is a very applicable. Professor Ng explains precisely each algorithm and even tries to give an intuition for mathematical and statistic concepts behind each algorithm. Thank you very much.</p>
-                                    </div>
+                                    <div class="comments__body md:mt-15">
+                                      <div class="comments__header">
+                                        <h4 class="text-17 fw-500 lh-15">
+                                          {{ review.student.first_name }} {{ review.student.last_name }}
+                                          <span class="text-13 text-light-1 fw-400">{{ review.created_at }}</span>
+                                        </h4>
+                                      </div>
 
-                                    <div class="comments__helpful mt-20">
-                                      <span class="text-13 text-purple-1">Was this review helpful?</span>
-                                      <button class="button text-13 -sm -purple-1 text-white">Yes</button>
-                                      <button class="button text-13 -sm -light-7 text-purple-1">No</button>
+                                      <div class="comments__text mt-10">
+                                        <p>{{ review.message }}</p>
+                                      </div>
                                     </div>
                                   </div>
-                                </div>
-                              </li>
+                                </li>
 
-                              <li class="comments__item">
-                                <div class="comments__item-inner md:direction-column">
-                                  <div class="comments__img mr-20">
-                                    <div class="bg-image rounded-full js-lazy" data-bg="img/avatars/1.png"></div>
-                                  </div>
+                              {% endfor %}
 
-                                  <div class="comments__body md:mt-15">
-                                    <div class="comments__header">
-                                      <h4 class="text-17 fw-500 lh-15">
-                                        Ali Tufan
-                                        <span class="text-13 text-light-1 fw-400">3 Days ago</span>
-                                      </h4>
 
-                                      <div class="stars"></div>
-                                    </div>
-
-                                    <h5 class="text-15 fw-500 mt-15">The best LMS Design</h5>
-                                    <div class="comments__text mt-10">
-                                      <p>This course is a very applicable. Professor Ng explains precisely each algorithm and even tries to give an intuition for mathematical and statistic concepts behind each algorithm. Thank you very much.</p>
-                                    </div>
-
-                                    <div class="comments__helpful mt-20">
-                                      <span class="text-13 text-purple-1">Was this review helpful?</span>
-                                      <button class="button text-13 -sm -purple-1 text-white">Yes</button>
-                                      <button class="button text-13 -sm -light-7 text-purple-1">No</button>
-                                    </div>
-                                  </div>
-                                </div>
-                              </li>
-
-                              <li class="comments__item">
-                                <div class="d-flex justify-center">
-                                  <button class="text-purple-1 lh-12 underline fw-500">View All Reviews</button>
-                                </div>
-                              </li>
                             </ul>
                           </div>
                         </div>
@@ -254,25 +216,24 @@
                             Write a Review
                           </h3>
 
-                          <div class="mt-30">
-                            <h4 class="text-16 fw-500">What is it like to Course?</h4>
-                            <div class="d-flex x-gap-10 pt-10">
-                              <div class="icon-star text-14 text-yellow-1"></div>
-                              <div class="icon-star text-14 text-yellow-1"></div>
-                              <div class="icon-star text-14 text-yellow-1"></div>
-                              <div class="icon-star text-14 text-yellow-1"></div>
-                              <div class="icon-star text-14 text-yellow-1"></div>
-                            </div>
-                          </div>
+                          <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" action="#">
 
-                          <form class="contact-form respondForm__form row y-gap-30 pt-30" action="#">
+                            {% csrf_token %}
+
+                            {% if form.errors %}
+                              <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div id="form_errors">
+                                  {% for key, value in form.errors.items %}
+                                    <strong>{{ key }}-{{ value }}</strong>
+                                  {% endfor %}
+                                </div>
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              </div>
+                            {% endif %}
+
                             <div class="col-12">
-                              <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Review Title</label>
-                              <input type="text" name="title" placeholder="Great Courses">
-                            </div>
-                            <div class="col-12">
-                              <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Review Content</label>
-                              <textarea name="comment" placeholder="Message" rows="8"></textarea>
+                              <label for="id_message" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.message.label }}</label>
+                              {{ form.message }}
                             </div>
                             <div class="col-12">
                               <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
@@ -280,6 +241,7 @@
                               </button>
                             </div>
                           </form>
+
                         </div>
                       </div>
                     </div>
@@ -323,11 +285,7 @@
                           <img class="w-1/1" src="{{ r_course.main_photo.url }}" alt="image">
                           <div class="coursesCard__image_overlay rounded-8"></div>
                         </div>
-                        {% comment %} <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div> {% endcomment %}
                       </div>
-
                       <div class="h-100 pt-15">
                         <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">{{ r_course.title }}</div>
                         {{ r_course.description|safe|truncatewords:4 }}

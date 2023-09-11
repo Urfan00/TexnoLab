@@ -104,3 +104,15 @@ class CourseStudent(DateMixin):
     class Meta:
         verbose_name = 'Course Student'
         verbose_name_plural = 'Course Students'
+
+
+class CourseStatistic(DateMixin):
+    course = models.ForeignKey(Course, on_delete= models.CASCADE, related_name='course_static')
+    read_count = models.PositiveIntegerField(default=0)
+    review_count = models.PositiveIntegerField(default=0)
+
+    def __str__(self):
+        return f'{self.course.title} - statistic'
+
+    verbose_name = 'Course Statistic'
+    verbose_name_plural = 'Course Statistic'

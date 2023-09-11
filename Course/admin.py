@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStudent, Gallery, RequestUs
+from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, Gallery, RequestUs
 
 
 
@@ -45,6 +45,14 @@ class CourseStudentAdmin(admin.ModelAdmin):
     list_filter = ['is_active']
 
 
+
+class CourseStatisticAdmin(admin.ModelAdmin):
+    list_display = ['id', 'course', 'read_count', 'review_count', 'created_at', 'updated_at']
+    list_display_links = ['id', 'course']
+    search_fields = ['course__title']
+
+
+admin.site.register(CourseStatistic, CourseStatisticAdmin)
 admin.site.register(CourseCategory, CourseCategoryAdmin)
 admin.site.register(Course, CourseAdmin)
 admin.site.register(CourseFeedback, CourseFeedbackAdmin)

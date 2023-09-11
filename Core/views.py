@@ -2,17 +2,28 @@ from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
+from Course.models import Course, CourseStatistic
 from .forms import ContactFormModel
-from .models import FAQ, AboutUs, ContactInfo
+from .models import FAQ, AboutUs, ContactInfo, Partner
 from django.contrib import messages
+from Blog.models import Blog
 
 
 
 def handler_not_found(request, exception):
     return render(request, '404.html')
 
-def index(request):
-    return render(request, 'home-3.html')
+class IndexView(ListView):
+    model = Blog
+    template_name = 'home-3.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["partners"] = Partner.objects.all()
+        context['blogs'] = Blog.objects.order_by('-date').all()[:4]
+        context['courses'] = Course.objects.order_by('-start_date').all()[:8]
+        context['top_course'] = CourseStatistic.objects.order_by('-read_count').all()[:10]
+        return context
 
 
 class AboutView(ListView):

@@ -1238,7 +1238,48 @@
             <div class="overflow-hidden pt-60 lg:pt-50 js-section-slider" data-gap="30" data-loop data-pagination data-nav-prev="js-courses-prev" data-nav-next="js-courses-next" data-slider-cols="xl-4 lg-3 md-2 sm-2">
               <div class="swiper-wrapper">
 
-                <div class="swiper-slide">
+                {% for t_course in top_course %}
+                  <div class="swiper-slide">
+                    <div data-anim-child="slide-up delay-2">
+
+                      <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
+                        <div class="relative">
+                          <div class="coursesCard__image overflow-hidden rounded-8">
+                            <img class="w-1/1" src="{{ t_course.course.main_photo.url }}" alt="image">
+                            <div class="coursesCard__image_overlay rounded-8"></div>
+                          </div>
+                          <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
+
+                            <div>
+                              <div class="px-15 rounded-200 bg-purple-1">
+                                <span class="text-11 lh-1 uppercase fw-500 text-white">Popular</span>
+                              </div>
+                            </div>
+
+                            <div>
+                              <div class="px-15 rounded-200 bg-green-1">
+                                <span class="text-11 lh-1 uppercase fw-500 text-dark-1">Best sellers</span>
+                              </div>
+                            </div>
+
+                          </div>
+                        </div>
+
+                        <div class="h-100 px-10 pt-10">
+
+
+                          <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">{{ t_course.course.title }}</div>
+                          {{ t_course.course.description|safe|truncatewords:4 }}
+
+
+                        </div>
+                      </a>
+
+                    </div>
+                  </div>
+                {% endfor %}
+
+                {% comment %} <div class="swiper-slide">
                   <div data-anim-child="slide-up delay-1">
 
                     <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
@@ -1816,7 +1857,7 @@
                     </a>
 
                   </div>
-                </div>
+                </div> {% endcomment %}
 
               </div>
             </div>
@@ -2278,37 +2319,36 @@
 
             </div>
 
-            <div class="col-lg-auto">
-              <div class="d-inline-block">
-
-                <div class="dropdown js-dropdown js-category-active">
-                  <div class="dropdown__button d-flex items-center text-14 rounded-8 px-15 py-10 text-dark-1" data-el-toggle=".js-category-toggle" data-el-toggle-active=".js-category-active">
-                    <span class="js-dropdown-title">Popular Most Viwed</span>
-                    <i class="icon text-9 ml-40 icon-chevron-down"></i>
-                  </div>
-
-                  <div class="toggle-element -dropdown -dark-bg-dark-2 -dark-border-white-10 js-click-dropdown js-category-toggle">
-                    <div class="text-14 y-gap-15 js-dropdown-list">
-
-                      <div><a href="#" class="d-block js-dropdown-link">Great</a></div>
-
-                      <div><a href="#" class="d-block js-dropdown-link">Good</a></div>
-
-                      <div><a href="#" class="d-block js-dropdown-link">Medium</a></div>
-
-                      <div><a href="#" class="d-block js-dropdown-link">Low</a></div>
-
-                    </div>
-                  </div>
-                </div>
-
-              </div>
-            </div>
-          </div>
-
           <div class="row y-gap-30 justify-center pt-50">
 
-            <div class="col-lg-3 col-md-6">
+            {% for course in courses %}
+              <div class="col-lg-3 col-md-6">
+                <div data-anim-child="slide-up delay-1">
+
+                  <a href="{% url 'course' course.slug %}" class="coursesCard -type-1 border-light rounded-8">
+                    <div class="relative">
+                      <div class="coursesCard__image overflow-hidden rounded-top-8">
+                        <img class="w-1/1" src="{{ course.main_photo.url }}" alt="image">
+                        <div class="coursesCard__image_overlay rounded-top-8"></div>
+                      </div>
+                      <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
+
+                      </div>
+                    </div>
+
+                    <div class="h-100 pt-15 pb-10 px-20">
+
+                      <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">{{ course.title }}</div>
+                      {{ course.description|safe|truncatewords:4 }}
+
+                    </div>
+                  </a>
+
+                </div>
+              </div>
+            {% endfor %}
+
+            {% comment %} <div class="col-lg-3 col-md-6">
               <div data-anim-child="slide-up delay-1">
 
                 <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
@@ -2886,7 +2926,7 @@
                 </a>
 
               </div>
-            </div>
+            </div> {% endcomment %}
 
           </div>
 
@@ -2987,7 +3027,18 @@
             <div class="overflow-hidden js-section-slider" data-gap="30" data-loop data-pagination data-slider-cols="xl-6 lg-4 md-3 sm-2">
               <div class="swiper-wrapper">
 
-                <div class="swiper-slide h-100">
+                {% for partner in partners %}
+                  <div class="swiper-slide h-100">
+                    <div data-anim-child="slide-left delay-1" class="infoCard -type-1">
+                      <div class="infoCard__image">
+                        <img src="{{ partner.img.url }}" alt="image">
+                      </div>
+                      <h5 class="infoCard__title text-17 lh-15 mt-10">{{ partner.title }}</h5>
+                    </div>
+                  </div>
+                {% endfor %}
+
+                {% comment %} <div class="swiper-slide h-100">
                   <div data-anim-child="slide-left delay-1" class="infoCard -type-1">
                     <div class="infoCard__image">
                       <img src="{% static '' %}img/home-3/learn/1.png" alt="image">
@@ -3039,7 +3090,7 @@
                     </div>
                     <h5 class="infoCard__title text-17 lh-15 mt-10">Vue Js</h5>
                   </div>
-                </div>
+                </div> {% endcomment %}
 
               </div>
 
@@ -3064,7 +3115,7 @@
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">Blog</h2>
+                <h2 class="sectionTitle__title ">Xəbər</h2>
 
                 <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
 
@@ -3084,7 +3135,22 @@
 
           <div class="row y-gap-30 pt-60">
 
-            <div class="col-lg-3 col-md-6">
+            {% for blog in blogs %}
+              <div class="col-lg-3 col-md-6">
+                <div data-anim-child="slide-left delay-2" class="blogCard -type-1">
+                  <div class="blogCard__image">
+                    <img src="{{ blog.photo.url }}" alt="image">
+                  </div>
+                  <div class="blogCard__content mt-20">
+                    <a href="blog-single.html" class="blogCard__category">{{ blog.title }}</a>
+                    <h4 class="blogCard__title text-17 lh-15 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
+                    <div class="blogCard__date text-14 mt-5">{{ blog.date|date:"F j, Y" }}</div>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+
+            {% comment %} <div class="col-lg-3 col-md-6">
               <div data-anim-child="slide-left delay-2" class="blogCard -type-1">
                 <div class="blogCard__image">
                   <img src="{% static '' %}img/home-3/blog/1.png" alt="image">
@@ -3134,7 +3200,7 @@
                   <div class="blogCard__date text-14 mt-5">December 16, 2022</div>
                 </div>
               </div>
-            </div>
+            </div> {% endcomment %}
 
 
           </div>
