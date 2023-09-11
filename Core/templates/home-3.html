@@ -244,7 +244,32 @@
 
                     <div class="menu js-navList">
                       <ul class="menu__nav text-dark-1 -is-active">
-                        <li class="menu-item-has-children">
+
+
+                        {% for main in main_menus %}
+                          <li class="menu-item-has-children">
+                            <a data-barba href="#">{{ main.menu }} <i class="icon-chevron-right text-13 ml-10"></i></a>
+
+                            {% if main.parent_menu.all %}
+
+                            <ul class="subnav">
+                              <li class="menu__backButton js-nav-list-back">
+                                <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ main.menu }}</a>
+                              </li>
+
+                              {% for sub in main.parent_menu.all %}
+                                <li><a href="{{ sub.get_absolute_url }}">{{ sub.menu }}</a></li>
+                              {% endfor %}
+
+                            </ul>
+
+                            {% endif %}
+                          </li>
+                        {% endfor %}
+
+
+
+                        {% comment %} <li class="menu-item-has-children">
                           <a data-barba href="#">
                             Home <i class="icon-chevron-right text-13 ml-10"></i>
                           </a>
@@ -818,7 +843,7 @@
 
                         <li>
                           <a data-barba href="contact-1.html">Contact</a>
-                        </li>
+                        </li> {% endcomment %}
                       </ul>
                     </div>
 
@@ -998,19 +1023,37 @@
                   Create Your <span class="text-purple-1">Free Account</span>
                 </h4>
 
-                <form action="#">
+                <form method="post" action="#">
+                  {% csrf_token %}
+
+                  {% if form.errors %}
+                    <div class="alert alert-danger alert-dismissible" role="alert">
+                      <div id="form_errors">
+                        {% for key, value in form.errors.items %}
+                          <strong>{{ value }}{{ key }}</strong>
+                        {% endfor %}
+                      </div>
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                  {% endif %}
+
                   <div class="masthead-form__group">
-                    <label>Email Address</label>
-                    <input type="text" placeholder="Your Email">
+                    <label for="id_fullname" >{{ form.fullname.label }}</label>
+                    {{ form.fullname }}
                   </div>
 
                   <div class="masthead-form__group">
-                    <label>Password</label>
-                    <input type="text" placeholder="Your Password">
+                    <label for="id.phone_number" >{{ form.phone_number.label }}</label>
+                    {{ form.phone_number }}
                   </div>
 
                   <div class="masthead-form__group">
-                    <button type="submit" class="button -md -purple-1 text-white">Start Learning For Free</button>
+                    <label for="id.course" >{{ form.course.label }}</label>
+                    {{ form.course }}
+                  </div>
+
+                  <div class="masthead-form__group">
+                    <button type="submit" class="button -md -purple-1 text-white">Request Us</button>
                   </div>
 
                   <div class="masthead-form__desc">
@@ -1258,7 +1301,7 @@
 
                             <div>
                               <div class="px-15 rounded-200 bg-green-1">
-                                <span class="text-11 lh-1 uppercase fw-500 text-dark-1">Best sellers</span>
+                                <span class="text-11 lh-1 uppercase fw-500 text-dark-1">{{ t_course.course.category.name }}</span>
                               </div>
                             </div>
 
