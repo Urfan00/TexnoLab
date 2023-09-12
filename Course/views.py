@@ -15,6 +15,15 @@ class CourseListView(ListView):
         context["course_category"] = CourseCategory.objects.all()
         return context
 
+    def get_queryset(self):
+        category = self.request.GET.get('category')
+
+        if category:
+            self.queryset = Course.objects.filter(category__name=category).all()
+        else:
+            self.queryset = Course.objects.all()
+            return self.queryset
+
 
 class CourseDetailView(DetailView, CreateView):
     model = Course
