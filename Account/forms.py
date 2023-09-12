@@ -16,7 +16,7 @@ class LoginForm(AuthenticationForm):
         widget=forms.TextInput(
             attrs={
                 'class': 'form-control',
-                'placeholder' : 'ID Code'
+                'placeholder' : 'ID Kod'
             }
         )
     )
@@ -24,7 +24,7 @@ class LoginForm(AuthenticationForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder' : 'Password'
+                'placeholder' : 'Şifrə'
             }
         )
     )
@@ -32,23 +32,23 @@ class LoginForm(AuthenticationForm):
 
 # CHANGE PASSWORD FORM
 class ChangePasswordForm(PasswordChangeForm):
-    old_password = forms.CharField(required=True, label='Old Password',
+    old_password = forms.CharField(required=True, label='Cari şifrə',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Your Old Password'
+                'placeholder': 'Cari şifrə'
             }))
-    new_password1 = forms.CharField(required=True, label='New Password',
+    new_password1 = forms.CharField(required=True, label='Yeni şifrə',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Your New Password'
+                'placeholder': 'Yeni şifrə'
             }))
-    new_password2 = forms.CharField(required=True, label='Confirm New Password',
+    new_password2 = forms.CharField(required=True, label='Yeni şifrənin təsdiqi',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Confirm Your New Password'
+                'placeholder': 'Yeni şifrənin təsdiqi'
             }))
 
 
@@ -58,7 +58,7 @@ class ResetPasswordForm(PasswordResetForm):
         widget=forms.EmailInput(
             attrs={
                 'class': 'form-control',
-                'placeholder' : 'Enter Your E-mail'
+                'placeholder' : 'E-poçtunuzu daxil edin'
             }
         )
     )
@@ -70,12 +70,12 @@ class CustomSetPasswordForm(SetPasswordForm):
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Your New Password'
+                'placeholder': '********'
             }))
     new_password2 = forms.CharField(required=True, label='Confirm New Password',
         widget=forms.PasswordInput(
             attrs={
                 'class': 'form-control',
-                'placeholder': 'Confirm Your New Password'
+                'placeholder': '********'
             }))
 

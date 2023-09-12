@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 
 class NavMenu(DateMixin):
     menu = models.CharField(max_length=255)
+    url_link = models.CharField(max_length=200, null=True, blank=True)
     sub_menu = models.ForeignKey("NavMenu", on_delete=models.CASCADE, related_name='parent_menu', null=True, blank=True)
 
     def __str__(self):
