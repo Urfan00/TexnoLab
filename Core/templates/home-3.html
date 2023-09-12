@@ -47,7 +47,7 @@
             <div class="header-left d-flex items-center">
 
               <div class="header__logo ">
-                <a data-barba href="index.html">
+                <a data-barba href="{% url 'index' %}">
                   <img src="{% static '' %}img/general/logo-dark.svg" alt="logo">
                 </a>
               </div>
@@ -246,27 +246,24 @@
                       <ul class="menu__nav text-dark-1 -is-active">
 
 
-                        {% for main in main_menus %}
-                          <li class="menu-item-has-children">
-                            <a data-barba href="#">{{ main.menu }} <i class="icon-chevron-right text-13 ml-10"></i></a>
-
-                            {% if main.parent_menu.all %}
-
+                      {% for main in main_menus %}
+                        <li {% if main.parent_menu.all %} class="menu-item-has-children" {% endif %}>
+                          <a data-barba href="/{{ main.url_link }}/">{{ main.menu }} {% if main.parent_menu.all %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
+                          {% if main.parent_menu.all %}
+    
                             <ul class="subnav">
                               <li class="menu__backButton js-nav-list-back">
-                                <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ main.menu }}</a>
+                                <a href=""><i class="icon-chevron-left text-13 mr-10"></i> {{ main.menu }}</a>
                               </li>
-
                               {% for sub in main.parent_menu.all %}
-                                <li><a href="{{ sub.get_absolute_url }}">{{ sub.menu }}</a></li>
+                                <li><a href="/{{ sub.url_link }}/">{{ sub.menu }}</a></li>
                               {% endfor %}
-
                             </ul>
-
-                            {% endif %}
-                          </li>
-                        {% endfor %}
-
+  
+                          {% endif %}
+                        </li>
+  
+                      {% endfor %}
 
 
                         {% comment %} <li class="menu-item-has-children">

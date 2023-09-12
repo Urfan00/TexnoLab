@@ -16,7 +16,7 @@ class AboutUsAdmin(admin.ModelAdmin):
 
 
 class NavMenuAdmin(admin.ModelAdmin):
-    list_display = ['id', 'menu', 'sub_menu', 'created_at', 'updated_at']
+    list_display = ['id', 'menu', 'sub_menu', 'url_link', 'created_at', 'updated_at']
     list_display_links = ['id', 'menu']
     search_fields = ['menu']
 

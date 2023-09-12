@@ -6,8 +6,8 @@ Rza
 
 
 Urfan
-1. navbar url
-2. navbar oxlar
+1. navbar url ==> hazir
+2. navbar oxlar ==> hazir
 3. kurs filter
 4. bloq pagination
 4. course list // filteri search ele (hazir ama filter qalib search birde)
