@@ -12,13 +12,13 @@
               <div class="col-auto">
                 <div data-anim="slide-up delay-1">
 
-                  <h1 class="page-header__title pt-40">Latest News</h1>
+                  <h1 class="page-header__title pt-40">Xəbərlər</h1>
 
                 </div>
 
                 <div data-anim="slide-up delay-2">
 
-                  <p class="page-header__text">We’re on a mission to deliver engaging, curated courses at a reasonable price.</p>
+                  {% comment %} <p class="page-header__text">We’re on a mission to deliver engaging, curated courses at a reasonable price.</p> {% endcomment %}
 
                 </div>
               </div>
@@ -50,7 +50,7 @@
                     <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ blog.blog_category.id }}">
                       <a href="{% url 'blog' blog.slug %}" class="blogCard -type-1">
                         <div class="blogCard__image">
-                          <img class="w-1/1 rounded-8" src="{{ blog.photo.url }}" alt="image">
+                          <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ blog.photo.url }}" alt="image">
                         </div>
                         <div class="blogCard__content mt-20">
                           <div class="blogCard__category">{{ blog.title }}</div>

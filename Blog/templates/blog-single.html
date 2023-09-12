@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-    <div class="content-wrapper  js-content-wrapper">
+    <div class="content-wrapper  js-content-wrapper mt-40">
 
       <section class="page-header -type-1">
         <div class="container">
@@ -20,13 +20,13 @@
       </section>
 
 
-      <section class="layout-pt-md">
+      <section class="layout-pt-md pt-0 ">
         <div class="container">
           <div class="ratio ratio-16:9 rounded-8 bg-image js-lazy" data-bg="{{ blog.photo.url }}"></div>
         </div>
       </section>
 
-      <section class="layout-pt-md layout-pb-lg">
+      <section class="layout-pt-md layout-pb-lg pb-40">
         <div class="container">
           <div class="blogSection">
             <div class="blogCard">
@@ -45,7 +45,7 @@
       </section>
 
       {% if related_blogs %}
-        <section class="layout-pt-lg layout-pb-lg bg-light-4">
+        <section class="layout-pt-lg layout-pb-lg bg-light-4 pt-40">
           <div data-anim-wrap class="container">
             <div data-anim-child="slide-up delay-1" class="row justify-center text-center">
               <div class="col-auto">
