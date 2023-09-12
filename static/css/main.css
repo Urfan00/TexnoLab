@@ -5,6 +5,32 @@
   overflow: hidden;
 }
 
+
+
+.success_data-success{
+  width: 100%;
+  font-size: 18px;
+  padding: 20px;
+  border-radius: 4px;
+  background: #0cd37d;
+  color: white;
+  text-align: center;
+  margin: 15px 0px;
+}
+
+.success_data-email {
+  width: 100%;
+  font-size: 18px;
+  padding: 20px;
+  border-radius: 4px;
+  background: #d30c0c;
+  color: white;
+  text-align: center;
+  margin: 15px 0px;
+}
+
+
+
 .ratio::before {
   display: block;
   width: 100%;

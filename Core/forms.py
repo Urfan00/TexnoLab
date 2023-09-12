@@ -7,28 +7,28 @@ class ContactFormModel(forms.ModelForm):
         model = ContactUs
         fields = ['fullname', 'email', 'message']
         labels = {
-            'fullname' : 'Fullname',
-            'email' : 'Email',
-            'message' : 'Message'
+            'fullname' : 'Ad, soyad',
+            'email' : 'E-poçts',
+            'message' : 'Mesaj'
         }
         widgets = {
             'fullname' : forms.TextInput(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"Fullname",
+                    'placeholder' :"",
                 }
             ),
             'email' : forms.EmailInput(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"E-mail address"
+                    'placeholder' :""
                 }
             ),
             'message' : forms.Textarea(
                 attrs={
                     'class' : 'form-control',
                     'rows' : 7,
-                    'placeholder' :"Write your message"
+                    'placeholder' :""
                 }
             ),
         }

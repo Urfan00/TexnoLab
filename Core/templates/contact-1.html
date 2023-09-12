@@ -8,7 +8,7 @@
         <div id="map" class="map"></div>
       </section>
 
-      <section class="layout-pt-md layout-pb-lg">
+      <section class="layout-pt-md layout-pb-lg pb-40">
         <div data-anim-wrap class="container">
           <div class="row y-gap-50 justify-between">
             <div class="col-lg-4">
@@ -42,8 +42,8 @@
             </div>
 
             <div class="col-lg-7">
-              <h3 class="text-24 fw-500">Send a Message.</h3>
-              <p class="mt-25">Neque convallis a cras semper auctor. Libero id faucibus nisl<br> tincidunt egetnvallis.</p>
+              <h3 class="text-24 fw-500">Bizimlə əlaqə üçün.</h3>
+              {% comment %} <p class="mt-25">Neque convallis a cras semper auctor. Libero id faucibus nisl<br> tincidunt egetnvallis.</p> {% endcomment %}
 
               {% include 'messages.html' %}
 
@@ -55,10 +55,10 @@
                   <div class="alert alert-danger alert-dismissible" role="alert">
                     <div id="form_errors">
                       {% for key, value in form.errors.items %}
-                        <strong>{{ key }} {{ value }}</strong>
+                        <strong style="color:red">{{ value }}</strong>
                       {% endfor %}
                     </div>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                   
                   </div>
                 {% endif %}
 
@@ -76,7 +76,7 @@
                 </div>
                 <div class="col-12">
                   <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
-                    Send Message
+                    Göndər
                   </button>
                 </div>
               </form>
@@ -85,16 +85,16 @@
         </div>
       </section>
 
-      <section class="layout-pt-lg layout-pb-lg bg-light-4">
+      <section class="layout-pt-lg layout-pb-lg bg-light-4 pt-40">
         <div class="container">
           <div class="row justify-center text-center">
             <div class="col-xl-8 col-lg-9 col-md-11">
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">Frequently Asked Questions.</h2>
+                <h2 class="sectionTitle__title ">Tez tez verilən suallar</h2>
 
-                <p class="sectionTitle__text ">Ut enim ad minim veniam, quis nostrud exercitation ullamco</p>
+                {% comment %} <p class="sectionTitle__text ">Ut enim ad minim veniam, quis nostrud exercitation ullamco</p> {% endcomment %}
 
               </div>
 
