@@ -6,10 +6,9 @@ Rza
 
 
 Urfan
-1. contact duzelt & elave FAQ yazildi (hazir)
-2. error (hazir +-)
-3. navbar cixar (hazir ama url duz islemir)
+1. navbar url
+2. navbar oxlar
+3. kurs filter
+4. bloq pagination
 4. course list // filteri search ele (hazir ama filter qalib search birde)
-5. course list / categorylari cixar (hazir)
-6. course statistika / baxis sayi & comment ve sayi
 7. comment delete ola bilsin // silinende statistikadanda silinsin
