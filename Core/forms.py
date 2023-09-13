@@ -8,7 +8,7 @@ class ContactFormModel(forms.ModelForm):
         fields = ['fullname', 'email', 'message']
         labels = {
             'fullname' : 'Ad, soyad',
-            'email' : 'E-poçts',
+            'email' : 'E-poçt',
             'message' : 'Mesaj'
         }
         widgets = {

@@ -26,6 +26,7 @@ class IndexView(View):
         context['courses'] = Course.objects.order_by('-start_date').all()[:8]
         context['top_course'] = CourseStatistic.objects.order_by('-read_count').all()[:10]
         context['main_menus'] = NavMenu.objects.filter(sub_menu__isnull=True).all()
+        context['testimonials'] = Account.objects.order_by('?').all()[:5] # ad soyad testimonials bu 3 u ancaq !!!
         return context
 
     def get(self, request, *args, **kwargs):

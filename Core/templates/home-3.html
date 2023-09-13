@@ -234,10 +234,10 @@
                     <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
 
                       {% if user.is_authenticated %}
-                        <a href="{% url 'logout' %}" class="text-dark-1">Log out</a>
-                        <a href="{% url 'change_password' %}" class="text-dark-1 ml-30">Change Password</a>
+                        <a href="{% url 'logout' %}" class="text-dark-1">Çıxış</a>
+                        <a href="{% url 'change_password' %}" class="text-dark-1 ml-30">Şifrəni dəyiş</a>
                       {% else %}
-                        <a href="{% url 'login' %}" class="text-dark-1">Log in</a>
+                        <a href="{% url 'login' %}" class="text-dark-1">Giriş</a>
                       {% endif %}
 
                     </div>
@@ -264,583 +264,6 @@
                         </li>
   
                       {% endfor %}
-
-
-                        {% comment %} <li class="menu-item-has-children">
-                          <a data-barba href="#">
-                            Home <i class="icon-chevron-right text-13 ml-10"></i>
-                          </a>
-
-                          <ul class="subnav">
-                            <li class="menu__backButton js-nav-list-back">
-                              <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Home</a>
-                            </li>
-
-                            <li><a href="index.html">Home 1</a></li>
-
-                            <li><a href="home-2.html">Home 2</a></li>
-
-                            <li><a href="home-3.html">Home 3</a></li>
-
-                            <li><a href="home-4.html">Home 4</a></li>
-
-                            <li><a href="home-5.html">Home 5</a></li>
-
-                            <li><a href="home-6.html">Home 6</a></li>
-
-                            <li><a href="home-7.html">Home 7</a></li>
-
-                            <li><a href="home-8.html">Home 8</a></li>
-
-                            <li><a href="home-9.html">Home 9</a></li>
-
-                            <li><a href="home-10.html">Home 10</a></li>
-
-                          </ul>
-                        </li>
-
-                        <li class="menu-item-has-children -has-mega-menu">
-                          <a data-barba href="#">Courses <i class="icon-chevron-right text-13 ml-10"></i></a>
-
-
-                          <div class="mega xl:d-none">
-                            <div class="mega__menu">
-                              <div class="row x-gap-40">
-                                <div class="col">
-                                  <h4 class="text-17 fw-500 mb-20">Course List Layouts</h4>
-
-                                  <ul class="mega__list">
-
-                                    <li><a data-barba href="courses-list-1.html">Course List v1</a></li>
-
-                                    <li><a data-barba href="courses-list-2.html">Course List v2</a></li>
-
-                                    <li><a data-barba href="courses-list-3.html">Course List v3</a></li>
-
-                                    <li><a data-barba href="courses-list-4.html">Course List v4</a></li>
-
-                                    <li><a data-barba href="courses-list-5.html">Course List v5</a></li>
-
-                                    <li><a data-barba href="courses-list-6.html">Course List v6</a></li>
-
-                                    <li><a data-barba href="courses-list-7.html">Course List v7</a></li>
-
-                                    <li><a data-barba href="courses-list-8.html">Course List v8</a></li>
-
-                                    <li><a data-barba href="courses-list-9.html">Course List v9</a></li>
-
-                                  </ul>
-
-                                </div>
-
-                                <div class="col">
-                                  <h4 class="text-17 fw-500 mb-20">Course Single Layouts</h4>
-
-                                  <ul class="mega__list">
-
-                                    <li><a data-barba href="courses-single-1.html">Course Single v1</a></li>
-
-                                    <li><a data-barba href="courses-single-2.html">Course Single v2</a></li>
-
-                                    <li><a data-barba href="courses-single-3.html">Course Single v3</a></li>
-
-                                    <li><a data-barba href="courses-single-4.html">Course Single v4</a></li>
-
-                                    <li><a data-barba href="courses-single-5.html">Course Single v5</a></li>
-
-                                    <li><a data-barba href="courses-single-6.html">Course Single v6</a></li>
-
-                                  </ul>
-
-                                </div>
-
-                                <div class="col">
-                                  <h4 class="text-17 fw-500 mb-20">About Courses</h4>
-
-                                  <ul class="mega__list">
-
-                                    <li><a data-barba href="lesson-single-1.html">Lesson Page v1</a></li>
-
-                                    <li><a data-barba href="lesson-single-2.html">Lesson Page v2</a></li>
-
-                                    <li><a data-barba href="instructors-list-1.html">Instructors List v1</a></li>
-
-                                    <li><a data-barba href="instructors-list-2.html">Instructors List v2</a></li>
-
-                                    <li><a data-barba href="instructors-single.html">Instructors Single</a></li>
-
-                                    <li><a data-barba href="instructors-become.html">Become an Instructor</a></li>
-
-                                  </ul>
-
-                                </div>
-
-                                <div class="col">
-                                  <h4 class="text-17 fw-500 mb-20">Dashboard Pages</h4>
-
-                                  <ul class="mega__list">
-
-                                    <li><a data-barba href="dashboard.html">Dashboard</a></li>
-
-                                    <li><a data-barba href="dshb-courses.html">My Courses</a></li>
-
-                                    <li><a data-barba href="dshb-bookmarks.html">Bookmarks</a></li>
-
-                                    <li><a data-barba href="dshb-listing.html">Add Listing</a></li>
-
-                                    <li><a data-barba href="dshb-reviews.html">Reviews</a></li>
-
-                                    <li><a data-barba href="dshb-settings.html">Settings</a></li>
-
-                                    <li><a data-barba href="dshb-administration.html">Administration</a></li>
-
-                                    <li><a data-barba href="dshb-assignment.html">Assignment</a></li>
-
-                                    <li><a data-barba href="dshb-calendar.html">Calendar</a></li>
-
-                                    <li><a data-barba href="dshb-dashboard.html">Single Dashboard</a></li>
-
-                                    <li><a data-barba href="dshb-dictionary.html">Dictionary</a></li>
-
-                                    <li><a data-barba href="dshb-forums.html">Forums</a></li>
-
-                                    <li><a data-barba href="dshb-grades.html">Grades</a></li>
-
-                                    <li><a data-barba href="dshb-messages.html">Messages</a></li>
-
-                                    <li><a data-barba href="dshb-participants.html">Participants</a></li>
-
-                                    <li><a data-barba href="dshb-quiz.html">Quiz</a></li>
-
-                                    <li><a data-barba href="dshb-survey.html">Survey</a></li>
-
-                                  </ul>
-
-                                </div>
-
-                                <div class="col">
-                                  <h4 class="text-17 fw-500 mb-20">Popular Courses</h4>
-
-                                  <ul class="mega__list">
-
-                                    <li><a data-barba href="#">Web Developer</a></li>
-
-                                    <li><a data-barba href="#">Mobile Developer</a></li>
-
-                                    <li><a data-barba href="#">Digital Marketing</a></li>
-
-                                    <li><a data-barba href="#">Development</a></li>
-
-                                    <li><a data-barba href="#">Finance &amp; Accounting</a></li>
-
-                                    <li><a data-barba href="#">Design</a></li>
-
-                                    <li><a data-barba href="#">View All Courses</a></li>
-
-                                  </ul>
-
-                                </div>
-                              </div>
-
-                              <div class="mega-banner bg-purple-1 ml-40">
-                                <div class="text-24 lh-15 text-white fw-700">
-                                  Join more than<br>
-                                  <span class="text-green-1">8 million learners</span>
-                                  worldwide
-                                </div>
-                                <a href="#" class="button -md -green-1 text-dark-1 fw-500 col-12">Start Learning For Free</a>
-                              </div>
-                            </div>
-                          </div>
-
-
-                          <ul class="subnav d-none xl:d-block">
-                            <li class="menu__backButton js-nav-list-back">
-                              <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Courses</a>
-                            </li>
-
-                            <li class="menu-item-has-children">
-                              <a href="#">Course List Layouts<div class="icon-chevron-right text-11"></div></a>
-
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Course List Layouts</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-1.html">Course List v1</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-2.html">Course List v2</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-3.html">Course List v3</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-4.html">Course List v4</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-5.html">Course List v5</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-6.html">Course List v6</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-7.html">Course List v7</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-8.html">Course List v8</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-list-all.html">Course List All</a>
-                                </li>
-
-                              </ul>
-                            </li>
-
-                            <li class="menu-item-has-children">
-                              <a href="#">Course Single Layouts<div class="icon-chevron-right text-11"></div></a>
-
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Course Single Layouts</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-single-1.html">Course Single v1</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-single-2.html">Course Single v2</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-single-3.html">Course Single v3</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-single-4.html">Course Single v4</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-single-5.html">Course Single v5</a>
-                                </li>
-
-                                <li>
-                                  <a href="courses-single-6.html">Course Single v6</a>
-                                </li>
-
-                              </ul>
-                            </li>
-
-                            <li class="menu-item-has-children">
-                              <a href="#">About Courses<div class="icon-chevron-right text-11"></div></a>
-
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> About Courses</a>
-                                </li>
-
-                                <li>
-                                  <a href="lesson-single-1.html">Lesson Page v1</a>
-                                </li>
-
-                                <li>
-                                  <a href="lesson-single-2.html">Lesson Page v2</a>
-                                </li>
-
-                                <li>
-                                  <a href="instructors-list-1.html">Instructors List v1</a>
-                                </li>
-
-                                <li>
-                                  <a href="instructors-list-2.html">Instructors List v2</a>
-                                </li>
-
-                                <li>
-                                  <a href="instructors-single.html">Instructors Single</a>
-                                </li>
-
-                                <li>
-                                  <a href="instructors-become.html">Become an Instructor</a>
-                                </li>
-
-                              </ul>
-                            </li>
-
-                            <li class="menu-item-has-children">
-                              <a href="#">Dashboard Pages<div class="icon-chevron-right text-11"></div></a>
-
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Dashboard Pages</a>
-                                </li>
-
-                                <li>
-                                  <a href="dashboard.html">Dashboard</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-courses.html">My Courses</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-bookmarks.html">Bookmarks</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-listing.html">Add Listing</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-reviews.html">Reviews</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-settings.html">Settings</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-administration.html">Administration</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-assignment.html">Assignment</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-calendar.html">Calendar</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-dashboard.html">Single Dashboard</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-dictionary.html">Dictionary</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-forums.html">Forums</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-grades.html">Grades</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-messages.html">Messages</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-participants.html">Participants</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-quiz.html">Quiz</a>
-                                </li>
-
-                                <li>
-                                  <a href="dshb-survey.html">Survey</a>
-                                </li>
-
-                              </ul>
-                            </li>
-
-                            <li class="menu-item-has-children">
-                              <a href="#">Popular Courses<div class="icon-chevron-right text-11"></div></a>
-
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Popular Courses</a>
-                                </li>
-
-                                <li>
-                                  <a href="#">Web Developer</a>
-                                </li>
-
-                                <li>
-                                  <a href="#">Mobile Developer</a>
-                                </li>
-
-                                <li>
-                                  <a href="#">Digital Marketing</a>
-                                </li>
-
-                                <li>
-                                  <a href="#">Development</a>
-                                </li>
-
-                                <li>
-                                  <a href="#">Finance &amp; Accounting</a>
-                                </li>
-
-                                <li>
-                                  <a href="#">Design</a>
-                                </li>
-
-                                <li>
-                                  <a href="#">View All Courses</a>
-                                </li>
-
-                              </ul>
-                            </li>
-                          </ul>
-                        </li>
-
-                        <li class="menu-item-has-children">
-                          <a data-barba href="#">Events <i class="icon-chevron-right text-13 ml-10"></i></a>
-                          <ul class="subnav">
-                            <li class="menu__backButton js-nav-list-back">
-                              <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Events</a>
-                            </li>
-
-                            <li><a href="event-list-1.html">Event List 1</a></li>
-
-                            <li><a href="event-list-2.html">Event List 2</a></li>
-
-                            <li><a href="event-single.html">Event Single</a></li>
-
-                          </ul>
-                        </li>
-
-                        <li class="menu-item-has-children">
-                          <a data-barba href="#">Blog <i class="icon-chevron-right text-13 ml-10"></i></a>
-                          <ul class="subnav">
-                            <li class="menu__backButton js-nav-list-back">
-                              <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Blog</a>
-                            </li>
-
-                            <li><a href="blog-list-1.html">Blog List 1</a></li>
-
-                            <li><a href="blog-list-2.html">Blog List 2</a></li>
-
-                            <li><a href="blog-list-3.html">Blog List 3</a></li>
-
-                            <li><a href="blog-single.html">Blog Single</a></li>
-
-                          </ul>
-                        </li>
-
-                        <li class="menu-item-has-children">
-                          <a data-barba href="#">
-                            Pages <i class="icon-chevron-right text-13 ml-10"></i>
-                          </a>
-
-                          <ul class="subnav">
-                            <li class="menu__backButton js-nav-list-back">
-                              <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Pages</a>
-                            </li>
-                            <li class="menu-item-has-children">
-                              <a href="#">About Us<div class="icon-chevron-right text-11"></div></a>
-
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> About Us</a>
-                                </li>
-
-                                <li>
-                                  <a href="about-1.html">About 1</a>
-                                </li>
-
-                                <li>
-                                  <a href="about-2.html">About 2</a>
-                                </li>
-
-                              </ul>
-                            </li>
-
-                            <li class="menu-item-has-children">
-                              <a href="#">Contact<div class="icon-chevron-right text-11"></div></a>
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Contact</a>
-                                </li>
-
-                                <li>
-                                  <a href="contact-1.html">Contact 1</a>
-                                </li>
-
-                                <li>
-                                  <a href="contact-2.html">Contact 2</a>
-                                </li>
-
-                              </ul>
-                            </li>
-
-                            <li class="menu-item-has-children">
-                              <a href="#">Shop<div class="icon-chevron-right text-11"></div></a>
-                              <ul class="subnav">
-                                <li class="menu__backButton js-nav-list-back">
-                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> Shop</a>
-                                </li>
-
-                                <li>
-                                  <a href="shop-cart.html">Shop Cart</a>
-                                </li>
-
-                                <li>
-                                  <a href="shop-checkout.html">Shop Checkout</a>
-                                </li>
-
-                                <li>
-                                  <a href="shop-list.html">Shop List</a>
-                                </li>
-
-                                <li>
-                                  <a href="shop-order.html">Shop Order</a>
-                                </li>
-
-                                <li>
-                                  <a href="shop-single.html">Shop Single</a>
-                                </li>
-
-                              </ul>
-                            </li>
-
-
-                            <li>
-                              <a href="pricing.html">Membership plans</a>
-                            </li>
-
-                            <li>
-                              <a href="404.html">404 Page</a>
-                            </li>
-
-                            <li>
-                              <a href="terms.html">FAQs</a>
-                            </li>
-
-                            <li>
-                              <a href="help-center.html">Help Center</a>
-                            </li>
-
-                            <li>
-                              <a href="login.html">Login</a>
-                            </li>
-
-                            <li>
-                              <a href="signup.html">Register</a>
-                            </li>
-
-                            <li>
-                              <a href="ui-elements.html">UI Elements</a>
-                            </li>
-
-                          </ul>
-                        </li>
-
-                        <li>
-                          <a data-barba href="contact-1.html">Contact</a>
-                        </li> {% endcomment %}
                       </ul>
                     </div>
 
@@ -887,81 +310,7 @@
                 </div>
 
 
-                <div class="relative ml-30 xl:ml-20">
-                  <button class="d-flex items-center text-dark-1" data-el-toggle=".js-cart-toggle">
-                    <i class="text-20 icon icon-basket"></i>
-                  </button>
-
-                  <div class="toggle-element js-cart-toggle">
-                    <div class="header-cart bg-white -dark-bg-dark-1 rounded-8">
-                      <div class="px-30 pt-30 pb-10">
-
-                        <div class="row justify-between x-gap-40 pb-20">
-                          <div class="col">
-                            <div class="row x-gap-10 y-gap-10">
-                              <div class="col-auto">
-                                <img src="{% static '' %}img/menus/cart/1.png" alt="image">
-                              </div>
-
-                              <div class="col">
-                                <div class="text-dark-1 lh-15">The Ultimate Drawing Course Beginner to Advanced...</div>
-
-                                <div class="d-flex items-center mt-10">
-                                  <div class="lh-12 fw-500 line-through text-light-1 mr-10">$179</div>
-                                  <div class="text-18 lh-12 fw-500 text-dark-1">$79</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-auto">
-                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
-                          </div>
-                        </div>
-
-                        <div class="row justify-between x-gap-40 pb-20">
-                          <div class="col">
-                            <div class="row x-gap-10 y-gap-10">
-                              <div class="col-auto">
-                                <img src="{% static '' %}img/menus/cart/2.png" alt="image">
-                              </div>
-
-                              <div class="col">
-                                <div class="text-dark-1 lh-15">User Experience Design Essentials - Adobe XD UI UX...</div>
-
-                                <div class="d-flex items-center mt-10">
-                                  <div class="lh-12 fw-500 line-through text-light-1 mr-10">$179</div>
-                                  <div class="text-18 lh-12 fw-500 text-dark-1">$79</div>
-                                </div>
-                              </div>
-                            </div>
-                          </div>
-
-                          <div class="col-auto">
-                            <button><img src="{% static '' %}img/menus/close.svg" alt="icon"></button>
-                          </div>
-                        </div>
-
-                      </div>
-
-                      <div class="px-30 pt-20 pb-30 border-top-light">
-                        <div class="d-flex justify-between">
-                          <div class="text-18 lh-12 text-dark-1 fw-500">Total:</div>
-                          <div class="text-18 lh-12 text-dark-1 fw-500">$659</div>
-                        </div>
-
-                        <div class="row x-gap-20 y-gap-10 pt-30">
-                          <div class="col-sm-6">
-                            <button class="button py-20 -dark-1 text-white -dark-button-white col-12">View Cart</button>
-                          </div>
-                          <div class="col-sm-6">
-                            <button class="button py-20 -purple-1 text-white col-12">Checkout</button>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+                
 
 
                 <div class="d-none xl:d-block ml-20">
@@ -974,10 +323,10 @@
 
               <div class="header-right__buttons d-flex items-center ml-30 xl:ml-20 md:d-none">
                 {% if user.is_authenticated %}
-                  <a href="{% url 'logout' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Log out</a>
-                  <a href="{% url 'change_password' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Change Password</a>
+                  <a href="{% url 'logout' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Çıxış</a>
+                  <a href="{% url 'change_password' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Şifrəni dəyiş</a>
                 {% else %}
-                  <a href="{% url 'login' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Log in</a>
+                  <a href="{% url 'login' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Giriş</a>
                 {% endif %}
               </div>
             </div>
@@ -1017,7 +366,7 @@
             <div class="col-xl-5 col-lg-11">
               <div data-anim-child="slide-up delay-6" class="masthead-form">
                 <h4 class="masthead-form__title text-center text-20 lh-15 fw-500 mb-30">
-                  Create Your <span class="text-purple-1">Free Account</span>
+                  Kursumuza müraciət edin
                 </h4>
 
                 <form method="post" action="#">
@@ -1050,11 +399,11 @@
                   </div>
 
                   <div class="masthead-form__group">
-                    <button type="submit" class="button -md -purple-1 text-white">Request Us</button>
+                    <button type="submit" class="button -md -purple-1 text-white">Göndər</button>
                   </div>
 
                   <div class="masthead-form__desc">
-                    By continuing, you accept our Terms of Use, our Privacy Policy and that your data is stored in the USA. You confirm you are at least 16 years old (13 if you are an authorized Classrooms user).
+                    Bizim kurslarda iştirak etmək üçün bu formu doldurun, məlumatlar ala bilərsiniz.
                   </div>
                 </form>
               </div>
@@ -1110,140 +459,7 @@
         </div>
       </section>
 
-      <section class="layout-pt-lg layout-pb-lg">
-        <div class="container">
-          <div class="row y-gap-20 justify-between items-end">
-            <div class="col-lg-6">
-
-              <div class="sectionTitle ">
-
-                <h2 class="sectionTitle__title ">Top Categories</h2>
-
-                <p class="sectionTitle__text ">Lorem ipsum dolor sit amet, consectetur.</p>
-
-              </div>
-
-            </div>
-
-            <div class="col-auto">
-
-              <a href="" class="button -icon -purple-3 text-purple-1">
-                All Categories
-                <i class="icon-arrow-top-right text-13 ml-10"></i>
-              </a>
-
-            </div>
-          </div>
-
-          <div class="row y-gap-50 pt-60 lg:pt-50">
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/1.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">Digtal Marketing</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/2.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">Web Development</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/3.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">Graphic Design</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/4.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">Social Sciences</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/5.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">Photohraphy</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/6.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">Art &amp; Humanities</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/7.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">Personal Development</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-xl-3 col-lg-4 col-sm-6">
-              <div class="categoryCard -type-2">
-                <div class="categoryCard__image mr-20">
-                  <img src="{% static '' %}img/home-3/category/8.png" alt="image">
-                </div>
-
-                <div class="categoryCard__content">
-                  <h4 class="categoryCard__title text-17 fw-500">IT and Software</h4>
-                  <div class="categoryCard__text text-13 lh-1 mt-5">573+ Courses </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
+    
 
       <section class="layout-pt-lg layout-pb-lg section-bg">
         <div class="section-bg__item bg-light-6"></div>
@@ -1254,9 +470,9 @@
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">Top courses</h2>
+                <h2 class="sectionTitle__title ">Ən çox baxılan kurslarımız</h2>
 
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                {% comment %} <p class="sectionTitle__text ">10,000+ unique online course list designs</p> {% endcomment %}
 
               </div>
 
@@ -1265,8 +481,8 @@
             <div class="col-lg-auto">
               <div class="d-inline-block">
 
-                <a href="" class="button -icon -light-11 text-purple-1">
-                  All Courses
+                <a href="{% url "course" %}" class="button -icon -light-11 text-purple-1">
+                  Bütün kurslar
                   <i class="icon-arrow-top-right text-13 ml-10"></i>
                 </a>
 
@@ -1290,11 +506,11 @@
                           </div>
                           <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
 
-                            <div>
+                            {% comment %} <div>
                               <div class="px-15 rounded-200 bg-purple-1">
                                 <span class="text-11 lh-1 uppercase fw-500 text-white">Popular</span>
                               </div>
-                            </div>
+                            </div> {% endcomment %}
 
                             <div>
                               <div class="px-15 rounded-200 bg-green-1">
@@ -1319,585 +535,7 @@
                   </div>
                 {% endfor %}
 
-                {% comment %} <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-1">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/1.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Learn Figma - UI/UX Design Essential Training</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
-
-                <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-2">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/2.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                          <div>
-                            <div class="px-15 rounded-200 bg-purple-1">
-                              <span class="text-11 lh-1 uppercase fw-500 text-white">Popular</span>
-                            </div>
-                          </div>
-
-                          <div>
-                            <div class="px-15 rounded-200 bg-green-1">
-                              <span class="text-11 lh-1 uppercase fw-500 text-dark-1">Best sellers</span>
-                            </div>
-                          </div>
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Complete Python Bootcamp From Zero to Hero in Python</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
-
-                <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-3">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/3.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Angular - The Complete Guide (2022 Edition)</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
-
-                <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-4">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/4.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">The Ultimate Drawing Course Beginner to Advanced</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
-
-                <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-5">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/5.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Photography Masterclass: A Complete Guide to Photography</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
-
-                <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-6">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/6.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Instagram Marketing 2021: Complete Guide To Instagram</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
-
-                <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-7">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/7.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Complete Blender Creator: Learn 3D Modelling for Beginners</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div>
-
-                <div class="swiper-slide">
-                  <div data-anim-child="slide-up delay-8">
-
-                    <a href="courses-single-1.html" class="coursesCard -type-1 px-10 py-10 border-light bg-white rounded-8">
-                      <div class="relative">
-                        <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{% static '' %}img/coursesCards/8.png" alt="image">
-                          <div class="coursesCard__image_overlay rounded-8"></div>
-                        </div>
-                        <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                        </div>
-                      </div>
-
-                      <div class="h-100 px-10 pt-10">
-                        <div class="d-flex items-center">
-                          <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                          <div class="d-flex x-gap-5 items-center">
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                            <div class="icon-star text-9 text-yellow-1"></div>
-                          </div>
-                          <div class="text-13 lh-1 ml-10">(1991)</div>
-                        </div>
-
-                        <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">The Complete Financial Analyst Training &amp; Investing Course</div>
-
-                        <div class="d-flex x-gap-10 items-center pt-10">
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">6 lesson</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">3h 56m</div>
-                          </div>
-
-                          <div class="d-flex items-center">
-                            <div class="mr-8">
-                              <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                            </div>
-                            <div class="text-14 lh-1">Beginner</div>
-                          </div>
-
-                        </div>
-
-                        <div class="coursesCard-footer">
-                          <div class="coursesCard-footer__author">
-                            <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                            <div>Ali Tufan</div>
-                          </div>
-
-                          <div class="coursesCard-footer__price">
-                            <div>$179</div>
-                            <div>$79</div>
-                          </div>
-                        </div>
-                      </div>
-                    </a>
-
-                  </div>
-                </div> {% endcomment %}
+               
 
               </div>
             </div>
@@ -1996,222 +634,7 @@
         </div>
       </section>
 
-      <div class="line px-50">
-        <div class="line__item bg-light-5"></div>
-      </div>
-
-      <section class="layout-pt-lg layout-pb-lg">
-        <div data-anim-wrap class="container">
-          <div data-anim-child="slide-left delay-1" class="row y-gap-20 justify-between items-center">
-            <div class="col-lg-6">
-
-              <div class="sectionTitle ">
-
-                <h2 class="sectionTitle__title ">Learn from the best instructors</h2>
-
-                <p class="sectionTitle__text ">Lorem ipsum dolor sit amet, consectetur.</p>
-
-              </div>
-
-            </div>
-
-            <div class="col-auto">
-
-              <a href="instructors-list-1.html" class="button -icon -purple-3 text-purple-1">
-                View All Instructors
-                <i class="icon-arrow-top-right text-13 ml-10"></i>
-              </a>
-
-            </div>
-          </div>
-
-          <div class="row y-gap-30 pt-50">
-
-            <div class="col-lg-3 col-sm-6">
-              <div data-anim-child="slide-left delay-2" class="teamCard -type-1 -teamCard-hover">
-                <div class="teamCard__image">
-                  <img src="{% static '' %}img/team/1.png" alt="image">
-                  <div class="teamCard__socials">
-                    <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
-                      <a href="#"><i class="icon-facebook text-white"></i></a>
-                      <a href="#"><i class="icon-twitter text-white"></i></a>
-                      <a href="#"><i class="icon-instagram text-white"></i></a>
-                      <a href="#"><i class="icon-linkedin text-white"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="teamCard__content">
-                  <h4 class="teamCard__title">Floyd Miles</h4>
-                  <p class="teamCard__text">President of Sales</p>
-
-                  <div class="row items-center y-gap-10 x-gap-10 pt-10">
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-star text-yellow-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12 text-yellow-1 fw-500">4.5</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-online-learning text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">692 Students</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-play text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">15 Course</div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6">
-              <div data-anim-child="slide-left delay-3" class="teamCard -type-1 -teamCard-hover">
-                <div class="teamCard__image">
-                  <img src="{% static '' %}img/team/2.png" alt="image">
-                  <div class="teamCard__socials">
-                    <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
-                      <a href="#"><i class="icon-facebook text-white"></i></a>
-                      <a href="#"><i class="icon-twitter text-white"></i></a>
-                      <a href="#"><i class="icon-instagram text-white"></i></a>
-                      <a href="#"><i class="icon-linkedin text-white"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="teamCard__content">
-                  <h4 class="teamCard__title">Cameron Williamson</h4>
-                  <p class="teamCard__text">Web Designer</p>
-
-                  <div class="row items-center y-gap-10 x-gap-10 pt-10">
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-star text-yellow-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12 text-yellow-1 fw-500">4.5</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-online-learning text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">692 Students</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-play text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">15 Course</div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6">
-              <div data-anim-child="slide-left delay-4" class="teamCard -type-1 -teamCard-hover">
-                <div class="teamCard__image">
-                  <img src="{% static '' %}img/team/3.png" alt="image">
-                  <div class="teamCard__socials">
-                    <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
-                      <a href="#"><i class="icon-facebook text-white"></i></a>
-                      <a href="#"><i class="icon-twitter text-white"></i></a>
-                      <a href="#"><i class="icon-instagram text-white"></i></a>
-                      <a href="#"><i class="icon-linkedin text-white"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="teamCard__content">
-                  <h4 class="teamCard__title">Brooklyn Simmons</h4>
-                  <p class="teamCard__text">Dog Trainer</p>
-
-                  <div class="row items-center y-gap-10 x-gap-10 pt-10">
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-star text-yellow-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12 text-yellow-1 fw-500">4.5</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-online-learning text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">692 Students</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-play text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">15 Course</div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-sm-6">
-              <div data-anim-child="slide-left delay-5" class="teamCard -type-1 -teamCard-hover">
-                <div class="teamCard__image">
-                  <img src="{% static '' %}img/team/4.png" alt="image">
-                  <div class="teamCard__socials">
-                    <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
-                      <a href="#"><i class="icon-facebook text-white"></i></a>
-                      <a href="#"><i class="icon-twitter text-white"></i></a>
-                      <a href="#"><i class="icon-instagram text-white"></i></a>
-                      <a href="#"><i class="icon-linkedin text-white"></i></a>
-                    </div>
-                  </div>
-                </div>
-                <div class="teamCard__content">
-                  <h4 class="teamCard__title">Wade Warren</h4>
-                  <p class="teamCard__text">Marketing Coordinator</p>
-
-                  <div class="row items-center y-gap-10 x-gap-10 pt-10">
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-star text-yellow-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12 text-yellow-1 fw-500">4.5</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-online-learning text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">692 Students</div>
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="d-flex items-center">
-                        <div class="icon-play text-light-1 text-11 mr-5"></div>
-                        <div class="text-14 lh-12">15 Course</div>
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-            </div>
-
-          </div>
-
-          <div class="row justify-center text-center pt-60 lg:pt-40">
-            <div class="col-auto">
-              <p class="lh-1">Want to help people learn, grow and achieve more in life? <a class="text-purple-1 underline" href="instructors-become.html">Become an instructor</a></p>
-            </div>
-          </div>
-        </div>
-      </section>
+     
 
       <section class="layout-pt-lg layout-pb-lg section-bg">
         <div class="section-bg__item bg-light-6"></div>
@@ -2222,9 +645,9 @@
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">Testimonials</h2>
+                <h2 class="sectionTitle__title ">Rəylər</h2>
 
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                <p class="sectionTitle__text ">Tələbələrimizin kursumuz haqqında rəyləri</p>
 
               </div>
 
@@ -2236,105 +659,33 @@
               <div class="overflow-hidden js-testimonials-slider">
                 <div class="swiper-wrapper">
 
+                {% for feedback in testimonials %}
                   <div class="swiper-slide h-100">
                     <div data-anim="slide-up" class="testimonials -type-2 text-center">
                       <div class="testimonials__icon">
-                        <img src="{% static '' %}img/misc/quote.svg" alt="quote">
+                        <img src="{% static 'img/misc/quote.svg' %}" alt="quote">
                       </div>
-                      <div class="testimonials__text md:text-20 fw-500 text-dark-1">It is no exaggeration to say this Educrat experience was transformative–both professionally and personally. This workshop will long remain a high point of my life.</div>
+                      <div class="testimonials__text md:text-20 fw-500 text-dark-1">{{ feedback.feedback }}</div>
                       <div class="testimonials__author">
-                        <h5 class="text-17 lh-15 fw-500">Ali Tufan</h5>
-                        <div class="mt-5">Product Manager, Apple Inc</div>
+                        <h5 class="text-17 lh-15 fw-500">{{ feedback.first_name }} {{ feedback.last_name }}</h5>
+                        <div class="mt-5">Telebe</div>
                       </div>
                     </div>
                   </div>
-
-                  <div class="swiper-slide h-100">
-                    <div data-anim="slide-up" class="testimonials -type-2 text-center">
-                      <div class="testimonials__icon">
-                        <img src="{% static '' %}img/misc/quote.svg" alt="quote">
-                      </div>
-                      <div class="testimonials__text md:text-20 fw-500 text-dark-1">It is no exaggeration to say this Educrat experience was transformative–both professionally and personally. This workshop will long remain a high point of my life.</div>
-                      <div class="testimonials__author">
-                        <h5 class="text-17 lh-15 fw-500">Ali Tufan</h5>
-                        <div class="mt-5">Product Manager, Apple Inc</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="swiper-slide h-100">
-                    <div data-anim="slide-up" class="testimonials -type-2 text-center">
-                      <div class="testimonials__icon">
-                        <img src="{% static '' %}img/misc/quote.svg" alt="quote">
-                      </div>
-                      <div class="testimonials__text md:text-20 fw-500 text-dark-1">It is no exaggeration to say this Educrat experience was transformative–both professionally and personally. This workshop will long remain a high point of my life.</div>
-                      <div class="testimonials__author">
-                        <h5 class="text-17 lh-15 fw-500">Ali Tufan</h5>
-                        <div class="mt-5">Product Manager, Apple Inc</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="swiper-slide h-100">
-                    <div data-anim="slide-up" class="testimonials -type-2 text-center">
-                      <div class="testimonials__icon">
-                        <img src="{% static '' %}img/misc/quote.svg" alt="quote">
-                      </div>
-                      <div class="testimonials__text md:text-20 fw-500 text-dark-1">It is no exaggeration to say this Educrat experience was transformative–both professionally and personally. This workshop will long remain a high point of my life.</div>
-                      <div class="testimonials__author">
-                        <h5 class="text-17 lh-15 fw-500">Ali Tufan</h5>
-                        <div class="mt-5">Product Manager, Apple Inc</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="swiper-slide h-100">
-                    <div data-anim="slide-up" class="testimonials -type-2 text-center">
-                      <div class="testimonials__icon">
-                        <img src="{% static '' %}img/misc/quote.svg" alt="quote">
-                      </div>
-                      <div class="testimonials__text md:text-20 fw-500 text-dark-1">It is no exaggeration to say this Educrat experience was transformative–both professionally and personally. This workshop will long remain a high point of my life.</div>
-                      <div class="testimonials__author">
-                        <h5 class="text-17 lh-15 fw-500">Ali Tufan</h5>
-                        <div class="mt-5">Product Manager, Apple Inc</div>
-                      </div>
-                    </div>
-                  </div>
+                {% endfor %}
 
                 </div>
 
                 <div class="pt-60 lg:pt-40">
                   <div class="pagination -avatars row x-gap-40 y-gap-20 justify-center js-testimonials-pagination">
 
+                    {% for f_img in testimonials %}
                     <div class="col-auto">
-                      <div class="pagination__item is-active">
-                        <img src="{% static '' %}img/home-3/testimonials/1.png" alt="image">
+                      <div class="pagination__item {% if forloop.first %} is-active{% endif %}">
+                        <img width="60px" height="60px" src="{{ f_img.image.url }}" alt="image">
                       </div>
                     </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static '' %}img/home-3/testimonials/2.png" alt="image">
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static '' %}img/home-3/testimonials/3.png" alt="image">
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static '' %}img/home-3/testimonials/4.png" alt="image">
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static '' %}img/home-3/testimonials/5.png" alt="image">
-                      </div>
-                    </div>
+                  {% endfor %}
 
                   </div>
                 </div>
@@ -2344,16 +695,16 @@
         </div>
       </section>
 
-      <section class="layout-pt-lg layout-pb-lg">
+      <section class="layout-pt-lg layout-pb-lg pb-40 pt-40">
         <div data-anim-wrap class="container">
           <div class="row y-gap-15 justify-between items-center">
             <div class="col-lg-6">
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">Recent courses</h2>
+                <h2 class="sectionTitle__title ">Kurslar</h2>
 
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                <p class="sectionTitle__text ">Yeni kurslarımız</p>
 
               </div>
 
@@ -2388,593 +739,15 @@
               </div>
             {% endfor %}
 
-            {% comment %} <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-1">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/1.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Learn Figma - UI/UX Design Essential Training</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-2">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/2.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                      <div>
-                        <div class="px-15 rounded-200 bg-purple-1">
-                          <span class="text-11 lh-1 uppercase fw-500 text-white">Popular</span>
-                        </div>
-                      </div>
-
-                      <div>
-                        <div class="px-15 rounded-200 bg-green-1">
-                          <span class="text-11 lh-1 uppercase fw-500 text-dark-1">Best sellers</span>
-                        </div>
-                      </div>
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Complete Python Bootcamp From Zero to Hero in Python</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-3">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/3.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Angular - The Complete Guide (2022 Edition)</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-4">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/4.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">The Ultimate Drawing Course Beginner to Advanced</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-5">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/5.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Photography Masterclass: A Complete Guide to Photography</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-6">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/6.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Instagram Marketing 2021: Complete Guide To Instagram</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-7">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/7.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">Complete Blender Creator: Learn 3D Modelling for Beginners</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-up delay-8">
-
-                <a href="courses-single-1.html" class="coursesCard -type-1 border-light rounded-8">
-                  <div class="relative">
-                    <div class="coursesCard__image overflow-hidden rounded-top-8">
-                      <img class="w-1/1" src="{% static '' %}img/coursesCards/8.png" alt="image">
-                      <div class="coursesCard__image_overlay rounded-top-8"></div>
-                    </div>
-                    <div class="d-flex justify-between py-10 px-10 absolute-full-center z-3">
-
-                    </div>
-                  </div>
-
-                  <div class="h-100 pt-15 pb-10 px-20">
-                    <div class="d-flex items-center">
-                      <div class="text-14 lh-1 text-yellow-1 mr-10">4.5</div>
-                      <div class="d-flex x-gap-5 items-center">
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                        <div class="icon-star text-9 text-yellow-1"></div>
-                      </div>
-                      <div class="text-13 lh-1 ml-10">(1991)</div>
-                    </div>
-
-                    <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">The Complete Financial Analyst Training &amp; Investing Course</div>
-
-                    <div class="d-flex x-gap-10 items-center pt-10">
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/1.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">6 lesson</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/2.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">3h 56m</div>
-                      </div>
-
-                      <div class="d-flex items-center">
-                        <div class="mr-8">
-                          <img src="{% static '' %}img/coursesCards/icons/3.svg" alt="icon">
-                        </div>
-                        <div class="text-14 lh-1">Beginner</div>
-                      </div>
-
-                    </div>
-
-                    <div class="coursesCard-footer">
-                      <div class="coursesCard-footer__author">
-                        <img src="{% static '' %}img/general/avatar-1.png" alt="image">
-                        <div>Ali Tufan</div>
-                      </div>
-
-                      <div class="coursesCard-footer__price">
-                        <div>$179</div>
-                        <div>$79</div>
-                      </div>
-                    </div>
-                  </div>
-                </a>
-
-              </div>
-            </div> {% endcomment %}
+            
 
           </div>
 
           <div class="row justify-center pt-60 lg:pt-40">
             <div class="col-auto">
 
-              <a href="" class="button -icon -purple-3 text-purple-1">
-                All Courses
+              <a href="{% url "course" %}" class="button -icon -purple-3 text-purple-1">
+                Bütün kurslar
                 <i class="icon-arrow-top-right text-13 ml-10"></i>
               </a>
 
@@ -2983,80 +756,18 @@
         </div>
       </section>
 
-      <section class="layout-pt-lg layout-pb-lg section-bg">
-        <div class="section-bg__item bg-light-6"></div>
+     
 
+      <section class="layout-pt-lg layout-pb-lg pt-40">
         <div class="container">
           <div class="row y-gap-20 justify-center text-center">
             <div class="col-auto">
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">School Achievements</h2>
+                <h2 class="sectionTitle__title ">Tərəfdaşlar</h2>
 
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
-
-              </div>
-
-            </div>
-          </div>
-
-          <div class="row pt-60">
-
-            <div class="col-lg-3 col-md-6">
-              <div class="infoCard -type-2 text-center py-40 -infoCard-hover">
-                <div class="infoCard__image">
-                  <img src="{% static '' %}img/home-3/achieve/1.svg" alt="image">
-                </div>
-                <h5 class="infoCard__title text-24 lh-1 mt-25">350,000+</h5>
-                <p class="infoCard__text mt-5">Students worldwide</p>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div class="infoCard -type-2 text-center py-40 -infoCard-hover">
-                <div class="infoCard__image">
-                  <img src="{% static '' %}img/home-3/achieve/2.svg" alt="image">
-                </div>
-                <h5 class="infoCard__title text-24 lh-1 mt-25">496,00+</h5>
-                <p class="infoCard__text mt-5">Total course views</p>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div class="infoCard -type-2 text-center py-40 -infoCard-hover">
-                <div class="infoCard__image">
-                  <img src="{% static '' %}img/home-3/achieve/3.svg" alt="image">
-                </div>
-                <h5 class="infoCard__title text-24 lh-1 mt-25">19,000+</h5>
-                <p class="infoCard__text mt-5">Five-star course reviews</p>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div class="infoCard -type-2 text-center py-40 -infoCard-hover">
-                <div class="infoCard__image">
-                  <img src="{% static '' %}img/home-3/achieve/4.svg" alt="image">
-                </div>
-                <h5 class="infoCard__title text-24 lh-1 mt-25">987,000+</h5>
-                <p class="infoCard__text mt-5">Students community</p>
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section>
-
-      <section class="layout-pt-lg layout-pb-lg">
-        <div class="container">
-          <div class="row y-gap-20 justify-center text-center">
-            <div class="col-auto">
-
-              <div class="sectionTitle ">
-
-                <h2 class="sectionTitle__title ">What will you learn</h2>
-
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                {% comment %} <p class="sectionTitle__text ">10,000+ unique online course list designs</p> {% endcomment %}
 
               </div>
 
@@ -3078,59 +789,7 @@
                   </div>
                 {% endfor %}
 
-                {% comment %} <div class="swiper-slide h-100">
-                  <div data-anim-child="slide-left delay-1" class="infoCard -type-1">
-                    <div class="infoCard__image">
-                      <img src="{% static '' %}img/home-3/learn/1.png" alt="image">
-                    </div>
-                    <h5 class="infoCard__title text-17 lh-15 mt-10">Node Js</h5>
-                  </div>
-                </div>
-
-                <div class="swiper-slide h-100">
-                  <div data-anim-child="slide-left delay-2" class="infoCard -type-1">
-                    <div class="infoCard__image">
-                      <img src="{% static '' %}img/home-3/learn/2.png" alt="image">
-                    </div>
-                    <h5 class="infoCard__title text-17 lh-15 mt-10">HTML5</h5>
-                  </div>
-                </div>
-
-                <div class="swiper-slide h-100">
-                  <div data-anim-child="slide-left delay-3" class="infoCard -type-1">
-                    <div class="infoCard__image">
-                      <img src="{% static '' %}img/home-3/learn/3.png" alt="image">
-                    </div>
-                    <h5 class="infoCard__title text-17 lh-15 mt-10">JQuery</h5>
-                  </div>
-                </div>
-
-                <div class="swiper-slide h-100">
-                  <div data-anim-child="slide-left delay-4" class="infoCard -type-1">
-                    <div class="infoCard__image">
-                      <img src="{% static '' %}img/home-3/learn/4.png" alt="image">
-                    </div>
-                    <h5 class="infoCard__title text-17 lh-15 mt-10">CSS</h5>
-                  </div>
-                </div>
-
-                <div class="swiper-slide h-100">
-                  <div data-anim-child="slide-left delay-5" class="infoCard -type-1">
-                    <div class="infoCard__image">
-                      <img src="{% static '' %}img/home-3/learn/5.png" alt="image">
-                    </div>
-                    <h5 class="infoCard__title text-17 lh-15 mt-10">React Native</h5>
-                  </div>
-                </div>
-
-                <div class="swiper-slide h-100">
-                  <div data-anim-child="slide-left delay-6" class="infoCard -type-1">
-                    <div class="infoCard__image">
-                      <img src="{% static '' %}img/home-3/learn/6.png" alt="image">
-                    </div>
-                    <h5 class="infoCard__title text-17 lh-15 mt-10">Vue Js</h5>
-                  </div>
-                </div> {% endcomment %}
+             
 
               </div>
 
@@ -3148,16 +807,17 @@
         <div class="line__item bg-light-5"></div>
       </div>
 
-      <section class="layout-pt-lg layout-pb-lg">
-        <div data-anim-wrap class="container">
+      <section class="layout-pt-lg layout-pb-lg pt-40">
+        
+        <div data-anim-wrap class="container ">
           <div data-anim-child="slide-left delay-1" class="row y-gap-20 justify-between items-center">
             <div class="col-lg-6">
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">Xəbər</h2>
+                <h2 class="sectionTitle__title ">Xəbərlər</h2>
 
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                <p class="sectionTitle__text ">Yeniliklərimiz haqqında məlumatlar alın</p>
 
               </div>
 
@@ -3165,8 +825,8 @@
 
             <div class="col-auto">
 
-              <a href="" class="button -icon -purple-3 text-purple-1">
-                Browse Blog
+              <a href="{% url "blog" %}" class="button -icon -purple-3 text-purple-1">
+                Bütün xəbərlər
                 <i class="icon-arrow-top-right text-13 ml-10"></i>
               </a>
 
@@ -3177,77 +837,28 @@
 
             {% for blog in blogs %}
               <div class="col-lg-3 col-md-6">
-                <div data-anim-child="slide-left delay-2" class="blogCard -type-1">
-                  <div class="blogCard__image">
-                    <img src="{{ blog.photo.url }}" alt="image">
+                <a href="{% url "blog" blog.slug %}">
+                  <div data-anim-child="slide-left delay-2" class="blogCard -type-1">
+                    <div class="blogCard__image">
+                      <img src="{{ blog.photo.url }}" alt="image">
+                    </div>
+                    <div class="blogCard__content mt-20">
+                      <a href="{% url "blog" blog.slug %}" class="blogCard__category">{{ blog.title }}</a>
+                      <h4 class="blogCard__title text-17 lh-15 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
+                      <div class="blogCard__date text-14 mt-5">{{ blog.date|date:"F j, Y" }}</div>
+                    </div>
                   </div>
-                  <div class="blogCard__content mt-20">
-                    <a href="blog-single.html" class="blogCard__category">{{ blog.title }}</a>
-                    <h4 class="blogCard__title text-17 lh-15 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
-                    <div class="blogCard__date text-14 mt-5">{{ blog.date|date:"F j, Y" }}</div>
-                  </div>
-                </div>
+                </a>
               </div>
             {% endfor %}
 
-            {% comment %} <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-left delay-2" class="blogCard -type-1">
-                <div class="blogCard__image">
-                  <img src="{% static '' %}img/home-3/blog/1.png" alt="image">
-                </div>
-                <div class="blogCard__content mt-20">
-                  <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
-                  <h4 class="blogCard__title text-17 lh-15 mt-5">Eco-Education in Our Lives: We Can Change the Future</h4>
-                  <div class="blogCard__date text-14 mt-5">December 16, 2022</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-left delay-3" class="blogCard -type-1">
-                <div class="blogCard__image">
-                  <img src="{% static '' %}img/home-3/blog/2.png" alt="image">
-                </div>
-                <div class="blogCard__content mt-20">
-                  <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
-                  <h4 class="blogCard__title text-17 lh-15 mt-5">Eco-Education in Our Lives: We Can Change the Future</h4>
-                  <div class="blogCard__date text-14 mt-5">December 16, 2022</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-left delay-4" class="blogCard -type-1">
-                <div class="blogCard__image">
-                  <img src="{% static '' %}img/home-3/blog/3.png" alt="image">
-                </div>
-                <div class="blogCard__content mt-20">
-                  <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
-                  <h4 class="blogCard__title text-17 lh-15 mt-5">Eco-Education in Our Lives: We Can Change the Future</h4>
-                  <div class="blogCard__date text-14 mt-5">December 16, 2022</div>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-lg-3 col-md-6">
-              <div data-anim-child="slide-left delay-5" class="blogCard -type-1">
-                <div class="blogCard__image">
-                  <img src="{% static '' %}img/home-3/blog/4.png" alt="image">
-                </div>
-                <div class="blogCard__content mt-20">
-                  <a href="blog-single.html" class="blogCard__category">EDUCATION</a>
-                  <h4 class="blogCard__title text-17 lh-15 mt-5">Eco-Education in Our Lives: We Can Change the Future</h4>
-                  <div class="blogCard__date text-14 mt-5">December 16, 2022</div>
-                </div>
-              </div>
-            </div> {% endcomment %}
-
+            
 
           </div>
         </div>
       </section>
 
-      <section class="layout-pt-lg layout-pb-lg mb-90 section-bg">
+      {% comment %} <section class="layout-pt-lg layout-pb-lg mb-90 section-bg">
         <div class="section-bg__item">
           <img class="img-full rounded-16" src="{% static '' %}img/home-3/cta/bg.png" alt="image">
         </div>
@@ -3278,7 +889,7 @@
             </div>
           </div>
         </div>
-      </section>
+      </section> {% endcomment %}
 
       <footer class="footer -type-5 pt-60">
         <div class="container">

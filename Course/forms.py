@@ -25,27 +25,27 @@ class RequestUsForm(forms.ModelForm):
         model = RequestUs
         fields = ['fullname', 'phone_number', 'course']
         labels = {
-            'fullname' : 'Fullname',
-            'phone_number' : 'Phone Number',
-            'course' : 'Course'
+            'fullname' : 'Ad, soyad',
+            'phone_number' : 'Əlaqə nömrəniz',
+            'course' : 'Kurs seçin'
         }
         widgets = {
             'fullname' : forms.TextInput(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"Fullname",
+                    'placeholder' :"",
                 }
             ),
             'phone_number' : forms.TextInput(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"Phone number"
+                    'placeholder' :"+994-- --- -- --"
                 }
             ),
             'course' : forms.Select(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"Course"
+                    'placeholder' :"Kurs seçin"
                 }
             ),
         }
