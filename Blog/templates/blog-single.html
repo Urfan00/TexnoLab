@@ -2,7 +2,7 @@
 {% load static %}
 {% block content %}
 
-    <div class="content-wrapper  js-content-wrapper mt-40">
+    <div class="content-wrapper  js-content-wrapper pt-80">
 
       <section class="page-header -type-1">
         <div class="container">
@@ -34,7 +34,7 @@
                 <div class="col-xl-8 col-lg-9 col-md-11">
                   <div class="blogCard__content">
 
-                    {{ blog.description|safe }}
+                    {{ blog.description|safe|escape| =linebreaks }}
 
                   </div>
                 </div>
@@ -45,16 +45,16 @@
       </section>
 
       {% if related_blogs %}
-        <section class="layout-pt-lg layout-pb-lg bg-light-4 pt-40">
+        <section class="layout-pt-lg layout-pb-lg bg-light-4">
           <div data-anim-wrap class="container">
             <div data-anim-child="slide-up delay-1" class="row justify-center text-center">
               <div class="col-auto">
 
                 <div class="sectionTitle ">
 
-                  <h2 class="sectionTitle__title ">Related Posts</h2>
+                  <h2 class="sectionTitle__title ">Oxşar xəbərlər</h2>
 
-                  <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                  {% comment %} <p class="sectionTitle__text ">10,000+ unique online course list designs</p> {% endcomment %}
 
                 </div>
 
@@ -64,20 +64,22 @@
             <div class="row y-gap-30 pt-60">
 
               {% for related in related_blogs %}
-                <a href="{% url 'blog' related.slug %}" class="blogCard -type-1">
+                
                   <div class="col-lg-3 col-md-6">
-                    <div data-anim-child="slide-up delay-2" class="blogCard -type-1">
-                      <div class="blogCard__image">
-                        <img src="{{ related.photo.url }}" alt="image">
+                    <a href="{% url 'blog' related.slug %}" class="blogCard -type-1">
+                      <div data-anim-child="slide-up delay-2" class="blogCard -type-1">
+                        <div class="blogCard__image">
+                          <img src="{{ related.photo.url }}" alt="image">
+                        </div>
+                        <div class="blogCard__content mt-20">
+                          <a href="{% url 'blog' related.slug %}" class="blogCard__category">{{ related.title }}</a>
+                          <h4 class="blogCard__title text-17 lh-15 mt-5">{{ related.description|safe|truncatewords:4 }}</h4>
+                          <div class="blogCard__date text-14 mt-5">{{ related.date|date:"F j, Y" }}</div>
+                        </div>
                       </div>
-                      <div class="blogCard__content mt-20">
-                        <a href="{% url 'blog' related.slug %}" class="blogCard__category">{{ related.title }}</a>
-                        <h4 class="blogCard__title text-17 lh-15 mt-5">{{ related.description|safe|truncatewords:4 }}</h4>
-                        <div class="blogCard__date text-14 mt-5">{{ related.date|date:"F j, Y" }}</div>
-                      </div>
-                    </div>
+                    </a>
                   </div>
-                </a>
+                
               {% endfor %}
 
             </div>

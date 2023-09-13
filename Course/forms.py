@@ -7,14 +7,14 @@ class CourseFeedbackForm(forms.ModelForm):
         model = CourseFeedback
         fields = ['message']
         labels = {
-            'message' : 'Message'
+            'message' : 'Rəyiniz'
         }
         widgets = {
             'message' : forms.Textarea(
                 attrs={
                     'class' : 'form-control',
                     'rows' : 8,
-                    'placeholder' :"Write your message"
+                    'placeholder' :"Rəyinizi bildirin"
                 }
             )
         }

@@ -39,7 +39,7 @@ class IndexView(View):
             # Save the form data to the database
             form.save()
             # Optionally, you can add a success message or redirect to a different page
-            messages.success(request, 'Form submission successful.')
+            messages.success(request, 'Müraciətiniz uğurla göndərildi.')
             return redirect('index')  # Update with the appropriate view name
         return render(request, self.template_name, {'form': form, **self.get_context_data()})
 
@@ -67,5 +67,5 @@ class ContactUsView(CreateView):
         return context
 
     def form_valid(self, form):
-        messages.success(self.request, 'Your comment has been sent successfully!')
+        messages.success(self.request, 'Müraciətiniz uğurla göndərildi.')
         return super().form_valid(form)

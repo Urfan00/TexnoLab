@@ -2,35 +2,9 @@
 {% load static %}
 {% block content %}
 
-    <div class="content-wrapper  js-content-wrapper">
+    <div class="content-wrapper  js-content-wrapper pt-80">
 
-      <section data-anim="fade" class="breadcrumbs ">
-        <div class="container">
-          <div class="row">
-            <div class="col-auto">
-              <div class="breadcrumbs__content">
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">Home</a>
-                </div>
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">All courses</a>
-                </div>
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">User Experience Design</a>
-                </div>
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">User Interface</a>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
 
       <div class="js-pin-container">
@@ -44,14 +18,14 @@
               <div class="row y-gap-30 relative">
                 <div class="col-xl-7 col-lg-8">
                   <div class="d-flex x-gap-15 y-gap-10 pb-20">
-                    <div>
+                    {% comment %} <div>
                       <div class="badge px-15 py-8 text-11 bg-green-1 text-dark-1 fw-400">BEST SELLER</div>
                     </div>
                     <div>
                       <div class="badge px-15 py-8 text-11 bg-orange-1 text-white fw-400">NEW</div>
-                    </div>
+                    </div> {% endcomment %}
                     <div>
-                      <div class="badge px-15 py-8 text-11 bg-purple-1 text-white fw-400">POPULAR</div>
+                      <div class="badge px-15 py-8 text-11 bg-purple-1 text-white fw-400">{{course.category.name}}</div>
                     </div>
                   </div>
 
@@ -88,36 +62,36 @@
                   <div class="tabs -active-purple-2 js-tabs pt-0">
                     <div class="tabs__controls d-flex js-tabs-controls">
                       <button class="tabs__button js-tabs-button js-update-pin-scene is-active" data-tab-target=".-tab-item-1" type="button">
-                        Overview
+                        Ümumi baxış
                       </button>
                       <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-2" type="button">
-                        Course Content
+                        Kursun məzmunu
                       </button>
                       <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-4" type="button">
-                        Reviews
+                        Rəylər
                       </button>
                     </div>
 
                     <div class="tabs__content pt-60 lg:pt-40 js-tabs-content">
                       <div class="tabs__pane -tab-item-1 is-active">
-                        <h4 class="text-18 fw-500">Description</h4>
+                        <h4 class="text-18 fw-500">Ətraflı məlumat</h4>
 
                         <div class="show-more mt-30 js-show-more">
                           <div class="show-more__content">
                             <p class="">{{ course.description }}</p>
                           </div>
 
-                          <button class="show-more__button text-purple-1 fw-500 underline mt-30">Show more</button>
+                          <button class="show-more__button text-purple-1 fw-500 underline mt-30">Daha çox</button>
                         </div>
 
                       </div>
 
                       <div class="tabs__pane -tab-item-2">
-                        <h2 class="text-20 fw-500">Course Content</h2>
+                        <h2 class="text-20 fw-500">Kursun məzmunu</h2>
 
                         <div class="d-flex justify-between items-center mt-30">
-                          <div class="">27 sections • 95 lectures</div>
-                          <a href="#" class="underline text-purple-1">Expand All Sections</a>
+                          {% comment %} <div class="">27 sections • 95 lectures</div> {% endcomment %}
+                          {% comment %} <a href="#" class="underline text-purple-1">Expand All Sections</a> {% endcomment %}
                         </div>
 
                         <div class="mt-10">
@@ -135,7 +109,7 @@
                                     <span class="text-17 fw-500 text-dark-1">{{ c_pro.program_name }}</span>
                                   </div>
 
-                                  <div>5 lectures • 87 min</div>
+                                  {% comment %} <div>5 lectures • 87 min</div> {% endcomment %}
                                 </div>
 
                                 <div class="accordion__content">
@@ -151,12 +125,12 @@
                                               </div>
                                                 <div>{{ sub.program_name }}</div>
                                             </div>
-
-                                            <div class="d-flex x-gap-20 items-center">
-                                              <a href="#" class="text-14 lh-1 text-purple-1 underline">Preview</a>
-                                              <a href="#" class="text-14 lh-1 text-purple-1 underline">5 question</a>
-                                              <a href="#" class="text-14 lh-1 text-purple-1 underline">03:56</a>
-                                            </div>
+                                            {% if sub.file %}
+                                              <div class="d-flex x-gap-20 items-center">
+                                                <a target="_blank" href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Fayla bax</a>
+                                                <a download href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Yüklə</a>
+                                              </div>
+                                            {% endif %}
                                           </div>
                                         {% endfor %}
                                       {% endif %}
@@ -176,7 +150,7 @@
                         <div class="blogPost -comments">
                           <div class="blogPost__content">
                             <h2 class="text-20 fw-500">
-                              Reviews
+                              Rəylər
                             </h2>
 
                             <ul class="comments__list mt-30">
@@ -213,7 +187,7 @@
 
                         <div class="respondForm pt-30">
                           <h3 class="text-20 fw-500">
-                            Write a Review
+                            Rəy əlavə et
                           </h3>
 
                           <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" action="#">
@@ -237,7 +211,7 @@
                             </div>
                             <div class="col-12">
                               <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
-                                Submit Review
+                                Əlavə et
                               </button>
                             </div>
                           </form>
@@ -254,7 +228,7 @@
 
       </div>
 
-
+      {% if related_course %}
       <section class="layout-pt-md layout-pb-lg">
         <div data-anim-wrap class="container">
           <div class="row">
@@ -262,9 +236,9 @@
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">You May Like</h2>
+                <h2 class="sectionTitle__title ">Oxşar kurslar</h2>
 
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                {% comment %} <p class="sectionTitle__text ">10,000+ unique online course list designs</p> {% endcomment %}
 
               </div>
 
@@ -310,5 +284,5 @@
           </div>
         </div>
       </section>
-
+      {% endif %}
 {% endblock %}

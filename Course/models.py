@@ -79,10 +79,11 @@ class Gallery(DateMixin):
 
 
 class CourseProgram(DateMixin):
+
     program_name = models.CharField(max_length=255)
     sub_program_name = models.ForeignKey("CourseProgram", on_delete=models.CASCADE, related_name='course_sub_program_name', null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_program')
-
+    file = models.FileField(upload_to=Uploader.course_program, null=True, blank=True)
     def __str__(self):
         return self.program_name
 

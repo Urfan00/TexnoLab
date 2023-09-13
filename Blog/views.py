@@ -12,6 +12,7 @@ class BlogView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = BlogCategory.objects.all()
+        # context['blogss'] = Blog.objects.filter(blog_category=BlogCategory.objects.first())
         return context
 
 

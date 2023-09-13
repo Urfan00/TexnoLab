@@ -29,3 +29,7 @@ class Uploader:
     @staticmethod
     def about_us(instance, filename):
         return f"About_US/{instance.title}/{filename}"
+
+    @staticmethod
+    def course_program(instance, filename):
+        return f"Course/{instance.course.title}/Program/{filename}"

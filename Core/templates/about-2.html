@@ -4,33 +4,7 @@
 
     <div class="content-wrapper  js-content-wrapper">
 
-      <section data-anim="fade" class="breadcrumbs ">
-        <div class="container">
-          <div class="row">
-            <div class="col-auto">
-              <div class="breadcrumbs__content">
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">Home</a>
-                </div>
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">All courses</a>
-                </div>
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">User Experience Design</a>
-                </div>
-
-                <div class="breadcrumbs__item ">
-                  <a href="#">User Interface</a>
-                </div>
-
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      
 
       <section class="page-header -type-1">
         <div class="container">
@@ -39,7 +13,7 @@
               <div class="col-auto">
                 <div data-anim="slide-up delay-1">
 
-                  <h1 class="page-header__title">About Us</h1>
+                  <h1 class="page-header__title">Haqqımızda</h1>
 
                 </div>
               </div>
@@ -75,9 +49,9 @@
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title ">Testimonials</h2>
+                <h2 class="sectionTitle__title ">Rəylər</h2>
 
-                <p class="sectionTitle__text ">10,000+ unique online course list designs</p>
+                <p class="sectionTitle__text ">Tələbələrimizin kursumuz haqqında rəyləri</p>
 
               </div>
 
@@ -98,7 +72,7 @@
                         <div class="testimonials__text md:text-20 fw-500 text-dark-1">{{ feedback.feedback }}</div>
                         <div class="testimonials__author">
                           <h5 class="text-17 lh-15 fw-500">{{ feedback.first_name }} {{ feedback.last_name }}</h5>
-                          <div class="mt-5">Product Manager, Apple Inc</div>
+                          <div class="mt-5">Tələbə</div>
                         </div>
                       </div>
                     </div>
@@ -114,40 +88,12 @@
 
                     {% for f_img in testimonials %}
                       <div class="col-auto">
-                        <div class="pagination__item is-active">
+                        <div class="pagination__item {% if forloop.first %} is-active{% endif %}">
                           <img width="60px" height="60px" src="{{ f_img.image.url }}" alt="image">
                         </div>
                       </div>
                     {% endfor %}
-                    {% comment %} <div class="col-auto">
-                      <div class="pagination__item is-active">
-                        <img src="{% static 'img/home-3/testimonials/1.png' %}" alt="image">
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static 'img/home-3/testimonials/2.png' %}" alt="image">
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static 'img/home-3/testimonials/3.png' %}" alt="image">
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static 'img/home-3/testimonials/4.png' %}" alt="image">
-                      </div>
-                    </div>
-
-                    <div class="col-auto">
-                      <div class="pagination__item ">
-                        <img src="{% static 'img/home-3/testimonials/5.png' %}" alt="image">
-                      </div>
-                    </div> {% endcomment %}
+                   
 
                   </div>
                 </div>
@@ -157,54 +103,6 @@
         </div>
       </section>
 
-      {% comment %} <section class="layout-pt-md layout-pb-lg">
-        <div data-anim-wrap class="container">
-          <div class="row justify-center">
-            <div class="col text-center">
-              <p class="text-lg text-dark-1">PARTNERS</p>
-            </div>
-          </div>
-
-          <div class="row y-gap-30 justify-between sm:justify-start items-center pt-60 md:pt-50">
-
-            <div data-anim-child="slide-up delay-1" class="col-lg-auto col-md-2 col-sm-3 col-4">
-              <div class="d-flex justify-center items-center px-4">
-                <img class="w-1/1" src="{% static 'img/clients/1.svg' %}" alt="clients image">
-              </div>
-            </div>
-
-            <div data-anim-child="slide-up delay-1" class="col-lg-auto col-md-2 col-sm-3 col-4">
-              <div class="d-flex justify-center items-center px-4">
-                <img class="w-1/1" src="{% static 'img/clients/2.svg' %}" alt="clients image">
-              </div>
-            </div>
-
-            <div data-anim-child="slide-up delay-1" class="col-lg-auto col-md-2 col-sm-3 col-4">
-              <div class="d-flex justify-center items-center px-4">
-                <img class="w-1/1" src="{% static 'img/clients/3.svg' %}" alt="clients image">
-              </div>
-            </div>
-
-            <div data-anim-child="slide-up delay-1" class="col-lg-auto col-md-2 col-sm-3 col-4">
-              <div class="d-flex justify-center items-center px-4">
-                <img class="w-1/1" src="{% static 'img/clients/4.svg' %}" alt="clients image">
-              </div>
-            </div>
-
-            <div data-anim-child="slide-up delay-1" class="col-lg-auto col-md-2 col-sm-3 col-4">
-              <div class="d-flex justify-center items-center px-4">
-                <img class="w-1/1" src="{% static 'img/clients/5.svg' %}" alt="clients image">
-              </div>
-            </div>
-
-            <div data-anim-child="slide-up delay-1" class="col-lg-auto col-md-2 col-sm-3 col-4">
-              <div class="d-flex justify-center items-center px-4">
-                <img class="w-1/1" src="{% static 'img/clients/6.svg' %}" alt="clients image">
-              </div>
-            </div>
-
-          </div>
-        </div>
-      </section> {% endcomment %}
+      
 
 {% endblock %}
