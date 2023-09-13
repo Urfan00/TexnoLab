@@ -2,6 +2,7 @@
 
 {% for message in messages %}
   <div class="success_data-{{message.tags}} alert-dismissible" role="alert">
-    {{ message }} {{ message.tags }}
+    {{ message }}
+     {% comment %} {{ message.tags }} {% endcomment %}
   </div>
 {% endfor %}

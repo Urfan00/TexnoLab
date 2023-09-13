@@ -3,7 +3,34 @@
 {% block content %}
 
     <div class="content-wrapper  js-content-wrapper pt-80">
+<style>
+  .btnS{
+    margin: 15px;
+    text-align: center;
+  }
+  
+  .mybtn{
+          border-radius:3px;
+          text-decoration:none;
+          font-family:sans-serif;
+          font-size:20px;
+          padding: 10px 20px;
+          background-color:#00ad25;
+          color:white;
+          transition-delay:.2s;
+          transition:.3s;
+          font-variant-caps:all-small-caps;
+          box-shadow:4px 3px 11px 0 #00ad25;
+          }
+  .mybtn:hover{
+          background-color:#009420;
+          box-shadow:4px 3px 11px 0 #005a13;
+          }
 
+
+
+         
+</style>
       
 
 
@@ -127,8 +154,16 @@
                                             </div>
                                             {% if sub.file %}
                                               <div class="d-flex x-gap-20 items-center">
-                                                <a target="_blank" href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Fayla bax</a>
-                                                <a download href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Yüklə</a>
+                                                <div class="btnS">
+                                                  <a class="mybtn" style="color:white!important" target="_blank" href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Fayla bax</a>
+                                                </div>
+                                                <div class="btnS">
+                                                  <a class="mybtn" style="color:white!important" download href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Yüklə</a>
+                                                </div>
+                                                  
+                                                    
+
+                                                
                                               </div>
                                             {% endif %}
                                           </div>
