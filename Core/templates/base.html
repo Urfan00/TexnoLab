@@ -219,7 +219,7 @@
               <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
                 {% if user.is_authenticated %}
                   <a href="{% url 'logout' %}" class="text-dark-1">Log out</a>
-                  <a href="{% url 'change_password' %}" class="text-dark-1 ml-30">Change Password</a>
+                  <a href="{% url 'profile' %}" class="text-dark-1 ml-30">Profil</a>
                 {% else %}
                   <a href="{% url 'login' %}" class="text-dark-1">Log in</a>
                 {% endif %}
@@ -916,9 +916,9 @@
 
 
                 <div class="relative ml-30 xl:ml-20">
-                  <button class="d-flex items-center text-white" data-el-toggle=".js-cart-toggle">
+                  {% comment %} <button class="d-flex items-center text-white" data-el-toggle=".js-cart-toggle">
                     <i class="text-20 icon icon-basket"></i>
-                  </button>
+                  </button> {% endcomment %}
 
                   <div class="toggle-element js-cart-toggle">
                     <div class="header-cart bg-white -dark-bg-dark-1 rounded-8">
@@ -1003,7 +1003,7 @@
               <div class="header-right__buttons d-flex items-center ml-30 md:d-none">
                 {% if user.is_authenticated %}
                   <a href="{% url 'logout' %}" class="button -underline text-white">Log out</a>
-                  <a href="{% url 'change_password' %}" class="button -sm -white text-dark-1 ml-30">Change Password</a>
+                  <a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a>
                 {% else %}
                   <a href="{% url 'login' %}" class="button -underline text-white">Log in</a>
                 {% endif %}
