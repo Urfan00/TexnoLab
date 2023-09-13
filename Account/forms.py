@@ -79,3 +79,94 @@ class CustomSetPasswordForm(SetPasswordForm):
                 'placeholder': '********'
             }))
 
+
+class AccountInforrmationForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['bio', 'email', "number", 'feedback', 'image', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn']
+        labels = {
+            'number' : 'Əlaqə nömrəsi',
+            'email' : 'E-poçt',
+            'image' : 'Profil şəkli',
+            'feedback' : 'Kurs haqıında rəyiniz',
+            'bio' : 'Haqqınızda məlumat',
+            'instagram' : 'İnstagram',
+            'twitter' : 'Twitter',
+            'facebook' : 'Facebook',
+            'github' : 'Github',
+            'youtube' : 'YouTube',
+            'linkedIn' : 'LinkedIn'
+        }
+        widgets = {
+            'number' : forms.TextInput(
+                attrs={
+                    # 'class' : 'form-control',
+                    'placeholder' : "Enter your first name",
+                }
+            ),
+            'email' : forms.EmailInput(
+                attrs={
+                    # 'class' : 'form-control',
+                    'placeholder' :"E-mail address"
+                }
+            ),
+            'feedback' : forms.Textarea(
+                attrs={
+                    # 'class' : 'form-control',
+                    'rows' : 7,
+                    'placeholder' :""
+                }
+            ),
+            'bio' : forms.Textarea(
+                attrs={
+                    # 'class' : 'form-control',
+                    'rows' : 7,
+                    'placeholder' :""
+                }
+            ),
+            # 'image' : forms.ImageField(
+            #     # attrs={
+            #     #     'class' : 'form-control',
+            #     #     'placeholder' :""
+            #     # }
+            # ),
+            'instagram' : forms.URLInput(
+                attrs={
+                    'class': 's',
+                    'placeholder' :"",
+                    
+                }
+            ),
+            'twitter' : forms.URLInput(
+                attrs={
+                    'class': 's',
+                    'placeholder' :""
+                }
+            ),
+            'facebook' : forms.URLInput(
+                attrs={
+                    'class': 's',
+                    'placeholder' :""
+                }
+            ),
+            'github' : forms.URLInput(
+                attrs={
+                    'class': 's',
+                    'placeholder' :""
+                }
+            ),
+            'youtube' : forms.URLInput(
+                attrs={
+                    'class': 's',
+                    'placeholder' :""
+                }
+            ),
+            'linkedIn' : forms.URLInput(
+                attrs={
+                    'class': 's',
+                    'placeholder' :""
+                }
+            ),
+        }
+
+

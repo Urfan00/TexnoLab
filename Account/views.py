@@ -1,8 +1,12 @@
-from django.shortcuts import redirect
-from .forms import ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm
+from django.shortcuts import redirect, render
+
+from Account.models import Account
+from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
+from django.views.generic import CreateView
+from django.contrib import messages
 
 
 
@@ -39,3 +43,35 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
     template_name='reset_pwd/reset_password_confirm.html'
     form_class=CustomSetPasswordForm
     success_url = reverse_lazy('logout')
+
+
+class AccountInformationView(LoginRequiredMixin, CreateView):
+    model = Account
+    template_name = 'dshb-settings.html'
+
+    def get(self, request, *args, **kwargs):
+        form = AccountInforrmationForm(instance=request.user)
+        return render(request, 'dshb-settings.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = AccountInforrmationForm(request.POST, request.FILES)
+
+        if form.is_valid():
+            user_account = Account.objects.get(pk=request.user.pk)
+            user_account.number = form.cleaned_data.get('number')
+            user_account.email = form.cleaned_data.get('email')
+            user_account.feedback = form.cleaned_data.get('feedback')
+            user_account.bio = form.cleaned_data.get('bio')
+            user_account.image = form.cleaned_data.get('image')
+            user_account.instagram = form.cleaned_data.get('instagram')
+            user_account.twitter = form.cleaned_data.get('twitter')
+            user_account.facebook = form.cleaned_data.get('facebook')
+            user_account.github = form.cleaned_data.get('github')
+            user_account.youtube = form.cleaned_data.get('youtube')
+            user_account.linkedIn = form.cleaned_data.get('linkedIn')
+            user_account.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('profile')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('profile')

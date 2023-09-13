@@ -1,14 +1,17 @@
 Rza
-1. Blog paginations/ all category
-2. blog category default
-3. Contact map url / success mesaji
-4. service template create
+1. Contact map url / success mesaji
+2. service template create
+3.
 
 
 Urfan
-1. navbar url ==> hazir (index ??????)
-2. navbar oxlar ==> hazir
-3. kurs filter ==>> hazir (url de cixmir ama ???)
-4. bloq pagination
-4. course list // filteri search ele (hazir ama filter qalib search birde)
-7. comment delete ola bilsin // silinende statistikadanda silinsin
+1. comment delete ola bilsin // silinende statistikadanda silinsin
+2. course list count cixar
+3.
+
+
+***************************
+2. reyler detail page
+3. footer
+4. blog details description
+5. 
