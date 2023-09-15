@@ -15,3 +15,10 @@ Urfan
 3. footer
 4. blog details description
 5. 
+
+**************************
+
+1. ilk defe login olanda change passworda etsin
+2. RequestUsForm status olsun baxilib ya yox deye
+3. Course Student  odenis endirim qaliq
+4.  

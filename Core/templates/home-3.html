@@ -668,7 +668,9 @@
                       <div class="testimonials__text md:text-20 fw-500 text-dark-1">{{ feedback.feedback }}</div>
                       <div class="testimonials__author">
                         <h5 class="text-17 lh-15 fw-500">{{ feedback.first_name }} {{ feedback.last_name }}</h5>
-                        <div class="mt-5">Telebe</div>
+                        <div class="mt-5">
+                          {% if feedback.is_graduate %} mezun {% else %}telebe{% endif %}
+                        </div>
                       </div>
                     </div>
                   </div>

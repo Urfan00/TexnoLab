@@ -3,7 +3,7 @@ from Account.models import Account, Group
 from services.mixins import DateMixin
 from services.uploader import Uploader
 from django.template.defaultfilters import slugify
-
+from ckeditor.fields import RichTextField
 
 
 class CourseCategory(DateMixin):
@@ -79,11 +79,12 @@ class Gallery(DateMixin):
 
 
 class CourseProgram(DateMixin):
-
     program_name = models.CharField(max_length=255)
-    sub_program_name = models.ForeignKey("CourseProgram", on_delete=models.CASCADE, related_name='course_sub_program_name', null=True, blank=True)
+    description = RichTextField(null=True, blank=True)
+    # sub_program_name = models.ForeignKey("CourseProgram", on_delete=models.CASCADE, related_name='course_sub_program_name', null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_program')
     file = models.FileField(upload_to=Uploader.course_program, null=True, blank=True)
+
     def __str__(self):
         return self.program_name
 

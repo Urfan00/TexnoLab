@@ -142,33 +142,25 @@
                                 <div class="accordion__content">
                                   <div class="accordion__content__inner px-30 py-30">
                                     <div class="y-gap-20">
+                                      <div class="d-flex justify-between">
+                                        <div class="d-flex items-center">
 
-                                      {% if c_pro.course_sub_program_name.all %}
-                                        {% for sub in c_pro.course_sub_program_name.all %}
-                                          <div class="d-flex justify-between">
-                                            <div class="d-flex items-center">
-                                              <div class="d-flex justify-center items-center size-30 rounded-full bg-purple-3 mr-10">
-                                                <div class="icon-play text-9"></div>
-                                              </div>
-                                                <div>{{ sub.program_name }}</div>
+                                          {% if c_pro.description %}
+                                            <div>{{ c_pro.description|safe }}</div>
+                                          {% endif %}
+
+                                        </div>
+                                        {% if c_pro.file %}
+                                          <div class="d-flex x-gap-20 items-center">
+                                            <div class="btnS">
+                                              <a class="mybtn" style="color:white!important" target="_blank" href="{{ c_pro.file.url }}" class="text-14 lh-1 text-purple-1 underline">Fayla bax</a>
                                             </div>
-                                            {% if sub.file %}
-                                              <div class="d-flex x-gap-20 items-center">
-                                                <div class="btnS">
-                                                  <a class="mybtn" style="color:white!important" target="_blank" href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Fayla bax</a>
-                                                </div>
-                                                <div class="btnS">
-                                                  <a class="mybtn" style="color:white!important" download href="{{ sub.file.url }}" class="text-14 lh-1 text-purple-1 underline">Yüklə</a>
-                                                </div>
-                                                  
-                                                    
-
-                                                
-                                              </div>
-                                            {% endif %}
+                                            <div class="btnS">
+                                              <a class="mybtn" style="color:white!important" download href="{{ c_pro.file.url }}" class="text-14 lh-1 text-purple-1 underline">Yüklə</a>
+                                            </div>
                                           </div>
-                                        {% endfor %}
-                                      {% endif %}
+                                        {% endif %}
+                                      </div>
                                     </div>
                                   </div>
                                 </div>
@@ -220,38 +212,42 @@
                           </div>
                         </div>
 
-                        <div class="respondForm pt-30">
-                          <h3 class="text-20 fw-500">
-                            Rəy əlavə et
-                          </h3>
+                        {% if user.is_authenticated and user_review %}
 
-                          <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" action="#">
+                          <div class="respondForm pt-30">
+                            <h3 class="text-20 fw-500">
+                              Rəy əlavə et
+                            </h3>
 
-                            {% csrf_token %}
+                            <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" action="#">
 
-                            {% if form.errors %}
-                              <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div id="form_errors">
-                                  {% for key, value in form.errors.items %}
-                                    <strong>{{ key }}-{{ value }}</strong>
-                                  {% endfor %}
+                              {% csrf_token %}
+
+                              {% if form.errors %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                  <div id="form_errors">
+                                    {% for key, value in form.errors.items %}
+                                      <strong>{{ key }}-{{ value }}</strong>
+                                    {% endfor %}
+                                  </div>
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                              {% endif %}
+
+                              <div class="col-12">
+                                <label for="id_message" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.message.label }}</label>
+                                {{ form.message }}
                               </div>
-                            {% endif %}
+                              <div class="col-12">
+                                <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
+                                  Əlavə et
+                                </button>
+                              </div>
+                            </form>
 
-                            <div class="col-12">
-                              <label for="id_message" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.message.label }}</label>
-                              {{ form.message }}
-                            </div>
-                            <div class="col-12">
-                              <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
-                                Əlavə et
-                              </button>
-                            </div>
-                          </form>
+                          </div>
 
-                        </div>
+                        {% endif %}
                       </div>
                     </div>
                   </div>

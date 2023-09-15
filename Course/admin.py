@@ -33,7 +33,7 @@ class GalleryAdmin(admin.ModelAdmin):
 
 
 class CourseProgramAdmin(admin.ModelAdmin):
-    list_display = ['id', 'program_name', 'sub_program_name', 'course', 'created_at', 'updated_at']
+    list_display = ['id', 'program_name', 'course', 'created_at', 'updated_at']
     list_display_links = ['id', 'program_name',]
     search_fields = ['program_name', 'course__title']
 

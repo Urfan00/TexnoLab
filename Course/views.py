@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import CourseFeedbackForm
-from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, Gallery
+from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, Gallery
 from django.core.exceptions import ObjectDoesNotExist
 
 
@@ -43,14 +43,17 @@ class CourseDetailView(DetailView, CreateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['course_programs'] = CourseProgram.objects.filter(sub_program_name__isnull=True).all()
+        context['course_programs'] = CourseProgram.objects.filter(course__slug=self.kwargs.get('slug')).all()
         context['related_course'] = Course.objects.filter(category = self.object.category).exclude(slug=self.kwargs.get('slug'))[:8]
         context['reviews'] = CourseFeedback.objects.filter(course__slug = self.kwargs.get('slug')).all()
         context['galleries'] = Gallery.objects.filter(course__slug=self.kwargs.get('slug')).all() # RZA GALLERY EKRANA CIXARMAQ
+        context['user_review'] = CourseStudent.objects.filter(course__slug=self.kwargs.get('slug'), is_active=True, student=self.request.user).first()
+        print(context['user_review'])
         return context
 
     def form_valid(self, form, *args, **kwargs):
         form.instance.student = self.request.user
+        print('===============>>>>>>>>>>', form.instance.student)
         form.instance.course = Course.objects.get(slug=self.kwargs.get('slug'))
         form.instance.save()
         self.object = self.get_object()
