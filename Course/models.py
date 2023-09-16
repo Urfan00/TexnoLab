@@ -96,7 +96,10 @@ class CourseProgram(DateMixin):
 
 class CourseStudent(DateMixin):
     is_active = models.BooleanField(default=False)
-    average = models.FloatField()
+    average = models.FloatField(default=0)
+    payment = models.FloatField(default=0)
+    discount = models.FloatField(default=0)
+    rest = models.FloatField(default=0)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='student_group')
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='learner')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='student_course')
