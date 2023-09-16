@@ -18,7 +18,7 @@ Urfan
 
 **************************
 
-1. ilk defe login olanda change passworda etsin
+1. ilk defe login olanda change passworda etsin === >>> hazir
 2. RequestUsForm status olsun baxilib ya yox deye
 3. Course Student  odenis endirim qaliq
 4.  

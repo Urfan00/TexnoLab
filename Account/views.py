@@ -19,6 +19,17 @@ class LogInView(LoginView):
             return redirect('index')
         return super().get(request, *args, **kwargs)
 
+    def get_success_url(self):
+        if self.request.user.is_authenticated:
+            if hasattr(self.request.user, 'first_time_login') and self.request.user.first_time_login:
+                # If user is authenticated and has first_time_login attribute set
+                self.request.user.first_time_login = False
+                self.request.user.save()
+                return reverse_lazy('change_password')
+            else:
+                return reverse_lazy('index')
+        return reverse_lazy('index')  # For anonymous users
+
 
 class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
     template_name='change-password.html'

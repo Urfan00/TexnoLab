@@ -40,6 +40,7 @@ class Group(DateMixin):
         verbose_name = 'Group'
         verbose_name_plural = 'Groups'
 
+
 class Account(AbstractUser):
     id_code = models.CharField(max_length=5, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255)
@@ -59,6 +60,7 @@ class Account(AbstractUser):
     youtube = models.URLField(max_length=200, null=True, blank=True)
     linkedIn = models.URLField(max_length=200, null=True, blank=True)
     group = models.ManyToManyField(Group, blank=True)
+    first_time_login = models.BooleanField(default=True)
     username = None
 
     USERNAME_FIELD = 'id_code'
