@@ -22,8 +22,9 @@ class CourseFeedbackAdmin(admin.ModelAdmin):
 
 
 class RequestUsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'fullname', 'phone_number', 'course', 'created_at', 'updated_at']
+    list_display = ['id', 'fullname', 'phone_number', 'course', 'status', 'created_at', 'updated_at']
     list_display_links = ['id', 'fullname']
+    list_filter = ['status']
     search_fields = ['fullname', 'phone_number', 'course__title']
 
 

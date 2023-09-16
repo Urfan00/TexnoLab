@@ -56,6 +56,7 @@ class RequestUs(DateMixin):
     fullname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=50)
     admin_comment = models.TextField(null=True, blank=True)
+    status = models.BooleanField(default=False)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='contact_us')
 
     def __str__(self):
