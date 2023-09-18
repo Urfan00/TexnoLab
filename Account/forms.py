@@ -83,19 +83,13 @@ class CustomSetPasswordForm(SetPasswordForm):
 class AccountInforrmationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['bio', 'email', "number", 'feedback', 'image', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn']
+        fields = ['bio', 'email', "number", 'feedback', 'image']
         labels = {
             'number' : 'Əlaqə nömrəsi',
             'email' : 'E-poçt',
             'image' : 'Profil şəkli',
             'feedback' : 'Kurs haqıında rəyiniz',
             'bio' : 'Haqqınızda məlumat',
-            'instagram' : 'İnstagram',
-            'twitter' : 'Twitter',
-            'facebook' : 'Facebook',
-            'github' : 'Github',
-            'youtube' : 'YouTube',
-            'linkedIn' : 'LinkedIn'
         }
         widgets = {
             'number' : forms.TextInput(
@@ -124,12 +118,22 @@ class AccountInforrmationForm(forms.ModelForm):
                     'placeholder' :""
                 }
             ),
-            # 'image' : forms.ImageField(
-            #     # attrs={
-            #     #     'class' : 'form-control',
-            #     #     'placeholder' :""
-            #     # }
-            # ),
+        }
+
+
+class SocialProfileForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn']
+        labels = {
+            'instagram' : 'İnstagram',
+            'twitter' : 'Twitter',
+            'facebook' : 'Facebook',
+            'github' : 'Github',
+            'youtube' : 'YouTube',
+            'linkedIn' : 'LinkedIn'
+        }
+        widgets = {
             'instagram' : forms.URLInput(
                 attrs={
                     'class': 's',
@@ -168,5 +172,3 @@ class AccountInforrmationForm(forms.ModelForm):
                 }
             ),
         }
-
-
