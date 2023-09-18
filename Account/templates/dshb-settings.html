@@ -23,6 +23,7 @@
 
   <title>Texnolab</title>
 </head>
+
 <style>
   .s{
     border: 0;
@@ -37,20 +38,13 @@
     transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1)
   }
 </style>
+
 <body class="preloader-visible" data-barba="wrapper">
-  <!-- preloader start -->
   <div class="preloader js-preloader">
     <div class="preloader__bg"></div>
   </div>
-  <!-- preloader end -->
-
-  <!-- barba container start -->
   <div class="barba-container" data-barba="container">
-
-
     <main class="main-content">
-
-
       <header class="header -dashboard -dark-bg-dark-1 js-header">
         <div class="header__container py-20 px-30">
           <div class="row justify-between items-center">
@@ -81,152 +75,13 @@
                       <i class="text-24 icon icon-night"></i>
                     </button>
                   </div>
-
-                 
-
-
-                  
-
-                  
-
-                  {% comment %} <div class="relative">
-                    <a href="#" class="d-flex items-center text-light-1 justify-center size-50 rounded-16 -hover-dshb-header-light" data-el-toggle=".js-notif-toggle">
-                      <i class="text-24 icon icon-notification"></i>
-                    </a>
-
-                    <div class="toggle-element js-notif-toggle">
-                      <div class="toggle-bottom -notifications bg-white -dark-bg-dark-1 shadow-4 border-light rounded-8 mt-10">
-                        <div class="py-30 px-30">
-                          <div class="y-gap-40">
-
-                            <div class="d-flex items-center ">
-                              <div class="shrink-0">
-                                <img src="{% static '' %}img/dashboard/actions/1.png" alt="image">
-                              </div>
-                              <div class="ml-12">
-                                <h4 class="text-15 lh-1 fw-500">Your resume updated!</h4>
-                                <div class="text-13 lh-1 mt-10">1 Hours Ago</div>
-                              </div>
-                            </div>
-
-                            <div class="d-flex items-center border-top-light">
-                              <div class="shrink-0">
-                                <img src="{% static '' %}img/dashboard/actions/2.png" alt="image">
-                              </div>
-                              <div class="ml-12">
-                                <h4 class="text-15 lh-1 fw-500">You changed password</h4>
-                                <div class="text-13 lh-1 mt-10">1 Hours Ago</div>
-                              </div>
-                            </div>
-
-                            <div class="d-flex items-center border-top-light">
-                              <div class="shrink-0">
-                                <img src="{% static '' %}img/dashboard/actions/3.png" alt="image">
-                              </div>
-                              <div class="ml-12">
-                                <h4 class="text-15 lh-1 fw-500">Your account has been created successfully</h4>
-                                <div class="text-13 lh-1 mt-10">1 Hours Ago</div>
-                              </div>
-                            </div>
-
-                            <div class="d-flex items-center border-top-light">
-                              <div class="shrink-0">
-                                <img src="{% static '' %}img/dashboard/actions/4.png" alt="image">
-                              </div>
-                              <div class="ml-12">
-                                <h4 class="text-15 lh-1 fw-500">You applied for a job Front-end Developer</h4>
-                                <div class="text-13 lh-1 mt-10">1 Hours Ago</div>
-                              </div>
-                            </div>
-
-                            <div class="d-flex items-center border-top-light">
-                              <div class="shrink-0">
-                                <img src="{% static '' %}img/dashboard/actions/5.png" alt="image">
-                              </div>
-                              <div class="ml-12">
-                                <h4 class="text-15 lh-1 fw-500">Your course uploaded successfully</h4>
-                                <div class="text-13 lh-1 mt-10">1 Hours Ago</div>
-                              </div>
-                            </div>
-
-                          </div>
-                        </div>
-                      </div>
-                    </div>
-                  </div> {% endcomment %}
                 </div>
 
                 <div class="relative d-flex items-center ml-10">
                   <a href="#" data-el-toggle=".js-profile-toggle">
                     <img class="size-50" style="border-radius: 50%;" src="{% if user.image %}{{ user.image.url }}{% else %}#{% endif %}" alt="image">
                   </a>
-
                   <div class="toggle-element js-profile-toggle">
-                    {% comment %} <div class="toggle-bottom -profile bg-white -dark-bg-dark-1 shadow-4 border-light rounded-8 mt-10">
-                      <div class="px-30 py-30">
-
-                        <div class="sidebar -dashboard">
-
-                          <div class="sidebar__item -is-active -dark-bg-dark-2">
-                            <a href="dashboard.html" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
-                              <i class="text-20 icon-discovery mr-15"></i>
-                              Dashboard
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-courses.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-play-button mr-15"></i>
-                              My Courses
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-bookmarks.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-bookmark mr-15"></i>
-                              Bookmarks
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-messages.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-message mr-15"></i>
-                              Messages
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-listing.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-list mr-15"></i>
-                              Create Course
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-reviews.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-comment mr-15"></i>
-                              Reviews
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-settings.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-setting mr-15"></i>
-                              Settings
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="#" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-power mr-15"></i>
-                              Logout
-                            </a>
-                          </div>
-
-                        </div>
-
-                      </div>
-                    </div> {% endcomment %}
                   </div>
                 </div>
               </div>
@@ -235,86 +90,66 @@
         </div>
       </header>
 
-
       <div class="content-wrapper js-content-wrapper">
         <div class="dashboard -home-9 js-dashboard-home-9">
           <div class="dashboard__sidebar scroll-bar-1">
-
-
             <div class="sidebar -dashboard">
-
               <div class="sidebar__item">
                 <a href="{% url 'index' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-discovery mr-15"></i>
                   Ana səhifə
                 </a>
               </div>
-
               <div class="sidebar__item ">
                 <a href="{% url "blog" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-play-button mr-15"></i>
                   Xəbərlər
                 </a>
               </div>
-
               <div class="sidebar__item ">
                 <a href="{% url 'course' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-bookmark mr-15"></i>
                   Kurslar
                 </a>
               </div>
-
               <div class="sidebar__item ">
                 <a href="{% url 'about' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-message mr-15"></i>
                   Haqqımızda
                 </a>
               </div>
-
               <div class="sidebar__item ">
                 <a href="{% url 'contact' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-list mr-15"></i>
                   Əlaqə
                 </a>
               </div>
-
               <div class="sidebar__item ">
                 <a href="{% url 'change_password' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-list mr-15"></i>
                   Şifrəni dəyiş
                 </a>
               </div>
-            
-
               <div class="sidebar__item -is-active -dark-bg-dark-2">
                 <a href="{% url 'profile' %}" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
                   <i class="text-20 icon-setting mr-15"></i>
                   Profil
                 </a>
               </div>
-
               <div class="sidebar__item ">
                 <a href="{% url "logout" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-power mr-15"></i>
                   Logout
                 </a>
               </div>
-
             </div>
-
-
           </div>
-
           <div class="dashboard__main">
             <div class="dashboard__content bg-light-4">
               <div class="row pb-50 mb-10">
                 <div class="col-auto">
-
                   <h1 class="text-30 lh-12 fw-700">Profile</h1>
-                  {% comment %} <div class="mt-10">Lorem ipsum dolor sit amet, consectetur.</div> {% endcomment %}
-                 
                 </div>
-                
               </div>
 
               {% include 'messages.html' %}
@@ -327,46 +162,17 @@
                         <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
                           Profili yenilə
                         </button>
-                         {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-2" type="button">
-                          Şifrəni dəyiş
-                        </button> {% endcomment %}
                         <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
                           Sosial şəbəkələr
                         </button>
-                         {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-4" type="button">
-                          Notifications
-                        </button>  {% endcomment %}
-                        {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-5" type="button">
-                          Close Account
-                        </button>  {% endcomment %}
                       </div>
-
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active">
                           <div class="row y-gap-20 x-gap-20 items-center">
                             <div class="col-auto">
                               <img class="size-100" style="border-radius: 50%;" src="{% if user.image %}{{ user.image.url }}{% else %}#{% endif %}" alt="image">
                             </div>
-
-                            {% comment %} <div class="col-auto">
-                              <div class="text-16 fw-500 text-dark-1">Profil ş</div>
-                              <div class="text-14 lh-1 mt-10">PNG or JPG no bigger than 800px wide and tall.</div>
-
-                              <div class="d-flex x-gap-10 y-gap-10 flex-wrap pt-15">
-                                <div>
-                                  <div class="d-flex justify-center items-center size-40 rounded-8 bg-light-3">
-                                    <div class="icon-cloud text-16"></div>
-                                  </div>
-                                </div>
-                                <div>
-                                  <div class="d-flex justify-center items-center size-40 rounded-8 bg-light-3">
-                                    <div class="icon-bin text-16"></div>
-                                  </div>
-                                </div>
-                              </div>
-                            </div> {% endcomment %}
                           </div>
-
                           <div class="border-top-light pt-30 mt-30">
                             <form method="post" class="contact-form row y-gap-30" enctype="multipart/form-data">
 
@@ -413,39 +219,6 @@
                           </form>
                           </div>
                         </div>
-
-                        {% comment %} <div class="tabs__pane -tab-item-2">
-                          <form action="#" class="contact-form row y-gap-30">
-
-                            <div class="col-md-7">
-
-                              <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Current password</label>
-
-                              <input type="text" placeholder="Current password">
-                            </div>
-
-
-                            <div class="col-md-7">
-
-                              <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">New password</label>
-
-                              <input type="text" placeholder="New password">
-                            </div>
-
-
-                            <div class="col-md-7">
-
-                              <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Confirm New Password</label>
-
-                              <input type="text" placeholder="Confirm New Password">
-                            </div>
-
-                            <div class="col-12">
-                              <button class="button -md -purple-1 text-white">Save Password</button>
-                            </div>
-                          </form>
-                        </div> {% endcomment %}
-
                         <div class="tabs__pane -tab-item-3">
                           <form method="post" class="contact-form row y-gap-30">
 
@@ -461,6 +234,7 @@
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                               </div>
                             {% endif %}
+
                             <div class="col-md-6">
                                 <label for="id_instagram" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.instagram.label }}</label>
                                 {{ form2.instagram }}
@@ -496,202 +270,11 @@
                             </div>
                           </form>
                         </div>
-
-                        {% comment %} <div class="tabs__pane -tab-item-4">
-                          <form action="#" class="contact-form">
-                            <div class="row">
-                              <div class="col-12">
-                                <div class="text-16 fw-500 text-dark-1">Notifications - Choose when and how to be notified</div>
-                                <p class="text-14 lh-13 mt-5">Select push and email notifications you'd like to receive</p>
-                              </div>
-                            </div>
-
-                            <div class="pt-60">
-                              <div class="row y-gap-20 justify-between">
-                                <div class="col-auto">
-                                  <div class="text-16 fw-500 text-dark-1">Choose when and how to be notified</div>
-                                </div>
-                              </div>
-
-
-                              <div class="pt-30">
-
-                                <div class="row y-gap-20 justify-between">
-                                  <div class="col-auto">
-                                    <div class="text-16 fw-500 text-dark-1">Subscriptions</div>
-                                    <p class="text-14 lh-13 mt-5">Notify me about activity from the profiles I'm subscribed to</p>
-                                  </div>
-                                  <div class="col-auto">
-                                    <div class="form-switch">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input type="checkbox">
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div class="border-top-light pt-20 mt-20">
-
-                                <div class="row y-gap-20 justify-between">
-                                  <div class="col-auto">
-                                    <div class="text-16 fw-500 text-dark-1">Recommended Courses</div>
-                                    <p class="text-14 lh-13 mt-5">Notify me about activity from the profiles I'm subscribed to</p>
-                                  </div>
-                                  <div class="col-auto">
-                                    <div class="form-switch">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input type="checkbox">
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div class="border-top-light pt-20 mt-20">
-
-                                <div class="row y-gap-20 justify-between">
-                                  <div class="col-auto">
-                                    <div class="text-16 fw-500 text-dark-1">Replies to my comments</div>
-                                    <p class="text-14 lh-13 mt-5">Notify me about activity from the profiles I'm subscribed to</p>
-                                  </div>
-                                  <div class="col-auto">
-                                    <div class="form-switch">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input type="checkbox">
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div class="border-top-light pt-20 mt-20">
-
-                                <div class="row y-gap-20 justify-between">
-                                  <div class="col-auto">
-                                    <div class="text-16 fw-500 text-dark-1">Activity on my comments</div>
-                                    <p class="text-14 lh-13 mt-5">Notify me about activity from the profiles I'm subscribed to</p>
-                                  </div>
-                                  <div class="col-auto">
-                                    <div class="form-switch">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input type="checkbox">
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-
-                            <div class="pt-60">
-                              <div class="row y-gap-20 justify-between">
-                                <div class="col-auto">
-                                  <div class="text-16 fw-500 text-dark-1">Email notifications</div>
-                                </div>
-                              </div>
-
-
-                              <div class="pt-30">
-
-                                <div class="row y-gap-20 justify-between">
-                                  <div class="col-auto">
-                                    <div class="text-16 fw-500 text-dark-1">Send me emails about my Cursus activity and updates I requested</div>
-                                    <p class="text-14 lh-13 mt-5">Notify me about activity from the profiles I'm subscribed to</p>
-                                  </div>
-                                  <div class="col-auto">
-                                    <div class="form-switch">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input type="checkbox">
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div class="border-top-light pt-20 mt-20">
-
-                                <div class="row y-gap-20 justify-between">
-                                  <div class="col-auto">
-                                    <div class="text-16 fw-500 text-dark-1">Promotions, course recommendations, and helpful resources from Cursus.</div>
-                                    <p class="text-14 lh-13 mt-5">Notify me about activity from the profiles I'm subscribed to</p>
-                                  </div>
-                                  <div class="col-auto">
-                                    <div class="form-switch">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input type="checkbox">
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-
-                              <div class="border-top-light pt-20 mt-20">
-
-                                <div class="row y-gap-20 justify-between">
-                                  <div class="col-auto">
-                                    <div class="text-16 fw-500 text-dark-1">Announcements from instructors whose course(s) I’m enrolled in.</div>
-                                    <p class="text-14 lh-13 mt-5">Notify me about activity from the profiles I'm subscribed to</p>
-                                  </div>
-                                  <div class="col-auto">
-                                    <div class="form-switch">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input type="checkbox">
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-
-                            </div>
-
-                            <div class="row pt-30">
-                              <div class="col-12">
-                                <button class="button -md -purple-1 text-white">Save Changes</button>
-                              </div>
-                            </div>
-                          </form>
-                        </div> {% endcomment %}
-
-                        {% comment %} <div class="tabs__pane -tab-item-5">
-                          <form action="#" class="contact-form row y-gap-30">
-                            <div class="col-12">
-                              <div class="text-16 fw-500 text-dark-1">Close account</div>
-                              <p class="mt-10">Warning: If you close your account, you will be unsubscribed from all your 5 courses, and will lose access forever.</p>
-                            </div>
-
-
-                            <div class="col-md-7">
-
-                              <label class="text-16 lh-1 fw-500 text-dark-1 mb-10">Enter Password</label>
-
-                              <input type="text" placeholder="Enter Password">
-                            </div>
-
-
-                            <div class="col-12">
-                              <button class="button -md -purple-1 text-white">Close Account</button>
-                            </div>
-                          </form>
-                        </div> {% endcomment %}
                       </div>
                     </div>
                   </div>
                 </div>
               </div>
-
             </div>
 
             <footer class="footer -dashboard py-30">
