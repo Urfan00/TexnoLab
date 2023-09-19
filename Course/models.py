@@ -22,7 +22,7 @@ class Course(DateMixin):
     slug = models.SlugField(null=True, blank=True)
     description = models.TextField()
     main_photo = models.ImageField(upload_to=Uploader.course_main_photo)
-    video_link = models.URLField()
+    video_link = models.URLField(null=True, blank=True)
     start_date = models.DateField()
     end_date = models.DateField()
     category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE, related_name='course_category')
