@@ -1,4 +1,5 @@
 from django import forms
+from Blog.models import Blog
 from Course.models import Course
 
 
@@ -45,6 +46,44 @@ class CourseEditForm(forms.ModelForm):
                 }
             ),
             'end_date' : forms.DateTimeInput(
+                attrs={
+                    'type': 'date',
+                    'placeholder' :"yyyy-dd-mm"
+                }
+            )
+        }
+
+
+class BlogEditForm(forms.ModelForm):
+    class Meta:
+        model = Blog
+        exclude = ['slug']
+        labels = {
+            'title' : 'Xəbər başlığı',
+            'description' : 'Xəbər haqqında',
+            'photo' : 'Xəbərin əsas şəkili ',
+            'date' : 'Tarixi',
+            'status' : 'Status',
+            'blog_category' : 'Kateqoriya'
+        }
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Kursun başlığı"
+                }
+            ),
+            'description' : forms.Textarea(
+                attrs={
+                    'rows' : 8,
+                    'placeholder' :"Ətraflı məlumat"
+                }
+            ),
+            'blog_category' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            ),
+            'date' : forms.DateTimeInput(
                 attrs={
                     'type': 'date',
                     'placeholder' :"yyyy-dd-mm"

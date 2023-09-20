@@ -22,6 +22,7 @@ class Blog(DateMixin):
     slug = models.SlugField(null=True, blank=True)
     photo = models.ImageField(upload_to=Uploader.blog_category)
     date = models.DateField()
+    status = models.BooleanField(default=True)
     blog_category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='blog_category')
 
     def __str__(self):
