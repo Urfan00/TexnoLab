@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db.models import Q
 from django.shortcuts import render, redirect
+from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
 from .forms import BlogCategoryEditForm, BlogEditForm, CourseEditForm
@@ -25,7 +26,7 @@ class DashboardView(ListView):
         context['course_count'] = Course.objects.count()
         context['service_count'] = Service.objects.count()
         context["courses"] = Course.objects.annotate(review_count=Count('course_feedback'), program_count=Count('course_program'), student_count=Count('student_course')).order_by('-created_at').all()[:5]
-        context["blogs"] = Blog.objects.order_by('-created_at').all()[:5]
+        context["blogs"] = Blog.objects.filter(is_delete=False).order_by('-created_at').all()[:5]
         context["services"] = Service.objects.order_by('-created_at').all()[:5]
         return context
 
@@ -113,7 +114,7 @@ class AdminCourseAddView(CreateView):
         return super().form_invalid(form)
 
 
-# BLOG
+# BLOG & BLOG CATEGORY
 class AdminBlogListView(ListView):
     model = Blog
     template_name = 'blog/dshb-blog.html'
@@ -122,27 +123,47 @@ class AdminBlogListView(ListView):
         context = super().get_context_data(**kwargs)
         a_query = self.request.GET.get('a', '')
         d_query = self.request.GET.get('d', '')
+        c_query = self.request.GET.get('c', '')
+        sb_query = self.request.GET.get('sb', '')
+        sc_query = self.request.GET.get('sc', '')
 
         # Filter active courses
-        active_blog = Blog.objects.filter(status=True).order_by('-created_at')
+        active_blog = Blog.objects.filter(status=True, is_delete=False).order_by('-created_at')
         
         # Filter inactive courses
-        deactive_blog = Blog.objects.filter(status=False).order_by('-created_at')
+        deactive_blog = Blog.objects.filter(status=False, is_delete=False).order_by('-created_at')
+
+        category = BlogCategory.objects.filter(is_delete=False).order_by('-created_at').all()
+        delete_category = BlogCategory.objects.filter(is_delete=True).order_by('-created_at').all()
+
+        delete_blog = Blog.objects.filter(is_delete=True).order_by('-created_at')
+
 
         # Apply search filter if a query is provided
         if a_query:
             active_blog = active_blog.filter(title__icontains=a_query)
         elif d_query:
             deactive_blog = deactive_blog.filter(title__icontains=d_query)
+        elif sb_query:
+            delete_blog = delete_blog.filter(title__icontains=sb_query)
+        elif c_query:
+            category = category.filter(name__icontains=c_query)
+        elif sc_query:
+            delete_category = category.filter(name__icontains=sc_query)
+
 
         context["active_blogs"] = active_blog
         context["deactive_blogs"] = deactive_blog
-        context["categories"] = BlogCategory.objects.order_by('-created_at').all()
-
+        context["categories"] = category
+        context["delete_blogs"] = delete_blog
+        context["delete_category"] = delete_category
 
         return context
 
 
+# ********************************************************************************
+
+# BLOG
 class AdminBlogAddView(CreateView):
     model = Blog
     template_name = 'blog/dshb-listing-add-blog.html'
@@ -191,6 +212,26 @@ class AdminBlogEditView(CreateView):
             return redirect('blog_dashboard')
 
 
+class AdminBlogDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        blog_id = kwargs.get('slug')
+        blog = get_object_or_404(Blog, slug=blog_id)
+        blog.is_delete = True
+        blog.save()
+        messages.success(request, 'Blog deleted successfully')
+        return redirect('blog_dashboard')
+
+
+class AdminBlogUndeleteView(View):
+    def post(self, request, slug, *args, **kwargs):
+        blog = get_object_or_404(Blog, slug=slug)
+        blog.is_delete = False  # Set is_delete to False to undelete
+        blog.save()
+        messages.success(request, 'Blog undeleted successfully')
+        return redirect('blog_dashboard')
+
+
+# BLOG CATEGORY
 class AdminBlogCategoryAddView(CreateView):
     model = BlogCategory
     template_name = 'blog/dshb-listing-add-blog-category.html'
@@ -233,3 +274,23 @@ class AdminBlogCategoryEditView(CreateView):
             messages.error(request, 'Məlumatlarınız yenilənmədi')
             return redirect('blog_dashboard')
 
+
+class AdminBlogCategoryDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        category_id = kwargs.get('pk')
+        category = get_object_or_404(BlogCategory, pk=category_id)
+        category.is_delete = True
+        category.save()
+        messages.success(request, 'Blog Category deleted successfully')
+        return redirect('blog_dashboard')
+
+
+class AdminBlogCategoryUndeleteView(View):
+    def post(self, request, pk, *args, **kwargs):
+        category = get_object_or_404(BlogCategory, pk=pk)
+        category.is_delete = False  # Set is_delete to False to undelete
+        category.save()
+        messages.success(request, 'Blog Category undeleted successfully')
+        return redirect('blog_dashboard')
+
+# ********************************************************************************

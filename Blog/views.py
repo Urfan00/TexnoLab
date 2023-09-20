@@ -7,12 +7,11 @@ from .models import Blog, BlogCategory
 class BlogView(ListView):
     model = Blog
     template_name = 'blog-list-1.html'
-    context_object_name = 'blogs'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = BlogCategory.objects.all()
-        # context['blogss'] = Blog.objects.filter(blog_category=BlogCategory.objects.first())
+        context['categories'] = BlogCategory.objects.filter(is_delete=False).all()
+        context['blogs'] = Blog.objects.filter(is_delete=False).all()
         return context
 
 
@@ -22,7 +21,7 @@ class BlogDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['categories'] = BlogCategory.objects.all()
-        context['related_blogs'] = Blog.objects.filter(blog_category = self.object.blog_category).exclude(slug=self.kwargs.get('slug'))[:4]
+        context['categories'] = BlogCategory.objects.filter(is_delete=False).all()
+        context['related_blogs'] = Blog.objects.filter(blog_category = self.object.blog_category, is_delete=False).exclude(slug=self.kwargs.get('slug'))[:4]
         return context
 

@@ -29,6 +29,12 @@
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-3" type="button">
                           Xəbər kateqoriyaları
                         </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-4" type="button">
+                          Silinmiş xəbərlər
+                        </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-5" type="button">
+                          Silinmiş kateqoriyalar
+                        </button>
                       </div>
 
                       <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -116,9 +122,15 @@
                                           <a href="{% url "blog_edit" a_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
-                                          <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                          <form method="post" action="{% url 'blog_delete' a_blog.slug %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                          </form>
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
                                             <div style="color:white" class="icon-bin"></div>
-                                          </a>
+                                          </a> {% endcomment %}
                                         </div>
                                       </td>
                                     </tr>
@@ -186,9 +198,15 @@
                                             <a href="{% url "blog_edit" d_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                               <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
-                                            <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                            <form method="post" action="{% url 'blog_delete' d_blog.slug %}" style="display: inline;">
+                                              {% csrf_token %}
+                                              <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                              </button>
+                                            </form>
+                                            {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
                                               <div style="color:white" class="icon-bin"></div>
-                                            </a>
+                                            </a> {% endcomment %}
                                           </div>
                                         </td>
                                       </tr>
@@ -252,6 +270,91 @@
                                           <a href="{% url "blog_category_edit" ctg.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
+                                          <form method="post" action="{% url 'blog_category_delete' ctg.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                            </button>
+                                          </form>
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                            <div style="color:white" class="icon-bin"></div>
+                                          </a> {% endcomment %}
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="tabs__pane -tab-item-4">
+
+                          <div class="row y-gap-10 ">
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="sb" placeholder="xəbər axtar" value="{{ request.GET.sb }}">
+                                  <button class="" type="submit">
+                                      <i class="icon-search text-light-1 text-20"></i>
+                                  </button>
+                              </form>
+                            </div>
+
+                            <div class="col-auto">
+                              <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                                <div>
+                                </div>
+                                <div>
+                                  {% comment %} <a href="{% url "blog_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                  </a> {% endcomment %}
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table" style="margin-top:25px; padding: 0px;">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Başlıq</th>
+                                    <th>Kateqori</th>
+                                    <th>Tarix</th>
+                                    <th>Şəkil</th>
+                                    <th>Əməliyyatlar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for s_blog in delete_blogs %}
+                                    <tr>
+                                      <td>{{ forloop.counter }}</td>
+                                      <td>{{ s_blog.title }}</td>
+                                      <td>{{ s_blog.blog_category.name }}</td>
+                                      <td>{{ s_blog.date }}</td>
+                                      <td><img width="50" height="50" src="{{ s_blog.photo.url }}" alt="{{ s_blog.title }}"></td>
+                                      <td>
+                                        <div class="menusuboper">
+                                          <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="{% url "blog_edit" s_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                          </a>
+                                          <form method="post" action="{% url 'blog_undelete' s_blog.slug %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
+                                                <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                            </button>
+                                          </form>
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                            <div style="color:white" class="icon-bin"></div>
+                                          </a> {% endcomment %}
                                         </div>
                                       </td>
                                     </tr>
@@ -264,7 +367,77 @@
 
                       </div>
 
+                      <div class="tabs__pane -tab-item-5">
 
+                        <div class="row y-gap-10 ">
+                          <div class="col-auto">
+                            <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="sc" placeholder="kateqoriya axtar" value="{{ request.GET.sc }}">
+                                <button class="" type="submit">
+                                    <i class="icon-search text-light-1 text-20"></i>
+                                </button>
+                            </form>
+                          </div>
+
+                          <div class="col-auto">
+                            <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                              <div>
+                              </div>
+                              <div>
+                                {% comment %} <a href="{% url "blog_category_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                  Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                </a> {% endcomment %}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="tDiv">
+                          <div class="table-responsive">
+                            <table class="table" style="margin-top:25px; padding: 0px;">
+                              <thead>
+                                <tr>
+                                  <th>№</th>
+                                  <th>Kateqoriya adı</th>
+                                  <th>Tarix</th>
+                                  <th>Əməliyyatlar</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+
+                                {% for s_ctg in delete_category %}
+                                  <tr>
+                                    <td>{{ forloop.counter }}</td>
+                                    <td>{{ s_ctg.name }}</td>
+                                    <td>{{ s_ctg.created_at }}</td>
+                                    <td>
+                                      <div class="menusuboper">
+                                        <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                          <i class="fa fa-eye" aria-hidden="true"></i>
+                                        </a>
+                                        <a href="{% url "blog_category_edit" s_ctg.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                          <i class="fa fa-pencil" aria-hidden="true"></i>
+                                        </a>
+                                        <form method="post" action="{% url 'blog_category_undelete' s_ctg.pk %}" style="display: inline;">
+                                          {% csrf_token %}
+                                          <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
+                                              <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                          </button>
+                                        </form>
+                                        {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                          <div style="color:white" class="icon-bin"></div>
+                                        </a> {% endcomment %}
+                                      </div>
+                                    </td>
+                                  </tr>
+                                {% endfor %}
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                      </div>
 
                         </div>
                       </div>

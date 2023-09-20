@@ -7,6 +7,7 @@ from django.template.defaultfilters import slugify
 
 class BlogCategory(DateMixin):
     name = models.CharField(max_length=255)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -23,6 +24,7 @@ class Blog(DateMixin):
     photo = models.ImageField(upload_to=Uploader.blog_category)
     date = models.DateField()
     status = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
     blog_category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='blog_category')
 
     def __str__(self):
