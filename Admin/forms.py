@@ -1,5 +1,5 @@
 from django import forms
-from Blog.models import Blog
+from Blog.models import Blog, BlogCategory
 from Course.models import Course
 
 
@@ -87,6 +87,23 @@ class BlogEditForm(forms.ModelForm):
                 attrs={
                     'type': 'date',
                     'placeholder' :"yyyy-dd-mm"
+                }
+            )
+        }
+
+
+
+class BlogCategoryEditForm(forms.ModelForm):
+    class Meta:
+        model = BlogCategory
+        fields = ['name']
+        labels = {
+            'name' : 'Kateqoriya adı'
+        }
+        widgets = {
+            'name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Kateqoriya adı"
                 }
             )
         }

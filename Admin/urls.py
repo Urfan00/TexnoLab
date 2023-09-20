@@ -1,5 +1,7 @@
 from django.urls import path
 from .views import (AdminBlogAddView,
+                    AdminBlogCategoryAddView,
+                    AdminBlogCategoryEditView,
                     AdminBlogEditView,
                     AdminBlogListView,
                     AdminCourseAddView,
@@ -19,6 +21,8 @@ urlpatterns = [
     path('blog_edit/<slug:slug>', AdminBlogEditView.as_view(), name='blog_edit'),
     path('blog_add/', AdminBlogAddView.as_view(), name='blog_add'),
 
+    path('blog_category_edit/<int:pk>', AdminBlogCategoryEditView.as_view(), name='blog_category_edit'),
+    path('blog_category_add/', AdminBlogCategoryAddView.as_view(), name='blog_category_add'),
 
 ]
 
