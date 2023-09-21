@@ -4,7 +4,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
-from .forms import BlogCategoryEditForm, BlogEditForm, CourseEditForm
+from .forms import BlogCategoryEditForm, BlogEditForm, CourseEditForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
 from Course.models import Course
 from Service.models import Service
@@ -294,3 +294,111 @@ class AdminBlogCategoryUndeleteView(View):
         return redirect('blog_dashboard')
 
 # ********************************************************************************
+
+# Service & Service Image
+class AdminServiceListView(ListView):
+    model = Service
+    template_name = 'service/dshb-service.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a_query = self.request.GET.get('a', '')
+        d_query = self.request.GET.get('d', '')
+        ss_query = self.request.GET.get('ss', '')
+        # c_query = self.request.GET.get('c', '')
+        # sc_query = self.request.GET.get('sc', '')
+
+        active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
+        deactive_service = Service.objects.filter(status=False, is_delete=False).order_by('-created_at')
+        delete_service = Service.objects.filter(is_delete=True).order_by('-created_at')
+
+        # category = BlogCategory.objects.filter(is_delete=False).order_by('-created_at').all()
+        # delete_category = BlogCategory.objects.filter(is_delete=True).order_by('-created_at').all()
+
+        # Apply search filter if a query is provided
+        if a_query:
+            active_service = active_service.filter(title__icontains=a_query)
+        elif d_query:
+            deactive_service = deactive_service.filter(title__icontains=d_query)
+        elif ss_query:
+            delete_service = delete_service.filter(title__icontains=ss_query)
+        # elif c_query:
+        #     category = category.filter(name__icontains=c_query)
+        # elif sc_query:
+        #     delete_category = category.filter(name__icontains=sc_query)
+
+
+        context["active_services"] = active_service
+        context["deactive_services"] = deactive_service
+        context["delete_services"] = delete_service
+        # context["categories"] = category
+        # context["delete_category"] = delete_category
+
+        return context
+
+
+class AdminServiceAddView(CreateView):
+    model = Service
+    template_name = 'service/dshb-listing-add-service.html'
+    form_class = ServiceEditForm
+    success_url = reverse_lazy('service_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminServiceEditView(CreateView):
+    model = Service
+    template_name = 'service/dshb-listing-service.html'
+
+    def get(self, request, *args, **kwargs):
+        service_id = kwargs.get('slug')  # Get the course ID from URL kwargs
+        service = get_object_or_404(Service, slug=service_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = ServiceEditForm(instance=service)
+        return render(request, 'service/dshb-listing-service.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ServiceEditForm(request.POST, instance=get_object_or_404(Service, slug=kwargs.get('slug')))
+
+        if form.is_valid():
+            service = Service.objects.get(slug=kwargs.get('slug'))
+            service.title = form.cleaned_data.get('title')
+            service.description1 = form.cleaned_data.get('description1')
+            service.description2 = form.cleaned_data.get('description2')
+            service.status = form.cleaned_data.get('status')
+            service.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('service_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('service_dashboard')
+
+
+class AdminServiceDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        service_id = kwargs.get('slug')
+        service = get_object_or_404(Service, slug=service_id)
+        service.is_delete = True
+        service.save()
+        messages.success(request, 'Service deleted successfully')
+        return redirect('service_dashboard')
+
+
+class AdminServiceUndeleteView(View):
+    def post(self, request, slug, *args, **kwargs):
+        service = get_object_or_404(Service, slug=slug)
+        service.is_delete = False  # Set is_delete to False to undelete
+        service.save()
+        messages.success(request, 'Service undeleted successfully')
+        return redirect('service_dashboard')
+
+

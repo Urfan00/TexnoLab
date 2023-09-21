@@ -10,6 +10,8 @@ class Service(DateMixin):
     slug = models.SlugField(null=True, blank=True)
     description1 = RichTextField()
     description2 = RichTextField()
+    status = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

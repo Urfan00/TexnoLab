@@ -1,6 +1,7 @@
 from django import forms
 from Blog.models import Blog, BlogCategory
 from Course.models import Course
+from Service.models import Service
 
 
 
@@ -92,7 +93,6 @@ class BlogEditForm(forms.ModelForm):
         }
 
 
-
 class BlogCategoryEditForm(forms.ModelForm):
     class Meta:
         model = BlogCategory
@@ -107,3 +107,37 @@ class BlogCategoryEditForm(forms.ModelForm):
                 }
             )
         }
+
+
+class ServiceEditForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['title', 'description1', 'description2', 'status']
+        labels = {
+            'title' : 'Servis adı',
+            'description1' : 'Servis haqqında 1',
+            'description2' : 'Servis haqqında 2',
+            'status' : 'Status',
+        }
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Service adı"
+                }
+            ),
+            'description1' : forms.Textarea(
+                attrs={
+                    'rows' : 8,
+                    'placeholder' :"Ətraflı məlumat"
+                }
+            ),
+            'description2' : forms.Textarea(
+                attrs={
+                    'rows' : 8,
+                    'placeholder' :"Ətraflı məlumat"
+                }
+            ),
+        }
+
+
+
