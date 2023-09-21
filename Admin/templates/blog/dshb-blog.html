@@ -122,7 +122,7 @@
                                           <a href="{% url "blog_edit" a_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
-                                          <form method="post" action="{% url 'blog_delete' a_blog.slug %}" style="display: inline;">
+                                          <form method="post" action="{% url 'blog_delete' a_blog.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
@@ -198,7 +198,7 @@
                                             <a href="{% url "blog_edit" d_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                               <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
-                                            <form method="post" action="{% url 'blog_delete' d_blog.slug %}" style="display: inline;">
+                                            <form method="post" action="{% url 'blog_delete' d_blog.pk %}" style="display: inline;">
                                               {% csrf_token %}
                                               <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
                                                   <i class="fa fa-trash" aria-hidden="true"></i>
@@ -346,7 +346,7 @@
                                           <a href="{% url "blog_edit" s_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
-                                          <form method="post" action="{% url 'blog_undelete' s_blog.slug %}" style="display: inline;">
+                                          <form method="post" action="{% url 'blog_undelete' s_blog.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
                                                 <i class="fa fa-undo" aria-hidden="true"></i> Undelete

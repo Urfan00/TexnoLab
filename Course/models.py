@@ -8,6 +8,7 @@ from ckeditor.fields import RichTextField
 
 class CourseCategory(DateMixin):
     name = models.CharField(max_length=255)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -23,6 +24,8 @@ class Course(DateMixin):
     description = models.TextField()
     main_photo = models.ImageField(upload_to=Uploader.course_main_photo)
     video_link = models.URLField(null=True, blank=True)
+    status = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
     start_date = models.DateField()
     end_date = models.DateField()
     category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE, related_name='course_category')

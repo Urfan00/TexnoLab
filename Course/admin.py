@@ -4,14 +4,16 @@ from .models import Course, CourseCategory, CourseFeedback, CourseProgram, Cours
 
 
 class CourseCategoryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name', 'created_at', 'updated_at']
+    list_display = ['id', 'name', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'name']
+    list_filter = ['is_delete']
     search_fields = ['name']
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'slug', 'main_photo', 'video_link', 'start_date', 'end_date', 'category', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'slug', 'main_photo', 'video_link', 'start_date', 'end_date', 'category', 'status', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
+    list_filter = ['status', 'is_delete']
     search_fields = ['title', 'slug', 'category__name']
 
 

@@ -1,6 +1,6 @@
 from django import forms
 from Blog.models import Blog, BlogCategory
-from Course.models import Course
+from Course.models import Course, CourseCategory
 from Service.models import Service
 
 
@@ -53,6 +53,23 @@ class CourseEditForm(forms.ModelForm):
                 }
             )
         }
+
+
+class CourseCategoryEditForm(forms.ModelForm):
+    class Meta:
+        model = CourseCategory
+        fields = ['name']
+        labels = {
+            'name' : 'Kateqoriya adı'
+        }
+        widgets = {
+            'name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Kateqoriya adı"
+                }
+            )
+        }
+
 
 
 class BlogEditForm(forms.ModelForm):
