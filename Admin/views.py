@@ -12,8 +12,21 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Q
 
+# **********************************************************************************
+from django.contrib.auth.mixins import UserPassesTestMixin
+from django.core.exceptions import PermissionDenied
 
-class DashboardView(ListView):
+class StaffRequiredMixin(UserPassesTestMixin):
+    def test_func(self):
+        return self.request.user.is_staff
+
+    def handle_no_permission(self):
+        # Customize the behavior when the user is not staff
+        raise PermissionDenied("You do not have permission to access this page.")
+# **********************************************************************************
+
+
+class DashboardView(StaffRequiredMixin, ListView):
     model = Account
     template_name = 'dashboard.html'
 
@@ -31,7 +44,7 @@ class DashboardView(ListView):
 # *************************************************************************************
 
 # COURSE & COURSE CATEGORY
-class AdminCourseListView(ListView):
+class AdminCourseListView(StaffRequiredMixin, ListView):
     model = Course
     template_name = 'course/dshb-courses.html'
 
@@ -80,7 +93,7 @@ class AdminCourseListView(ListView):
 
 
 # COURSE
-class AdminCourseEditView(CreateView):
+class AdminCourseEditView(StaffRequiredMixin, CreateView):
     model = Course
     template_name = 'course/dshb-listing.html'
 
@@ -113,7 +126,7 @@ class AdminCourseEditView(CreateView):
             return redirect('course_dashboard')
 
 
-class AdminCourseAddView(CreateView):
+class AdminCourseAddView(StaffRequiredMixin, CreateView):
     model = Course
     template_name = 'course/dshb-listing-add.html'
     form_class = CourseEditForm
@@ -130,7 +143,7 @@ class AdminCourseAddView(CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseDeleteView(View):
+class AdminCourseDeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(Course, pk=pk)
         course.is_delete = True
@@ -139,7 +152,7 @@ class AdminCourseDeleteView(View):
         return redirect('course_dashboard')
 
 
-class AdminCourseUndeleteView(View):
+class AdminCourseUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(Course, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
@@ -149,7 +162,7 @@ class AdminCourseUndeleteView(View):
 
 
 # COURSE CATEGORY
-class AdminCourseCategoryEditView(CreateView):
+class AdminCourseCategoryEditView(StaffRequiredMixin, CreateView):
     model = CourseCategory
     template_name = 'course/dshb-listing-course-category-edit.html'
 
@@ -175,7 +188,7 @@ class AdminCourseCategoryEditView(CreateView):
             return redirect('course_dashboard')
 
 
-class AdminCourseCategoryAddView(CreateView):
+class AdminCourseCategoryAddView(StaffRequiredMixin, CreateView):
     model = CourseCategory
     template_name = 'course/dshb-listing-course-category-add.html'
     form_class = CourseCategoryEditForm
@@ -192,7 +205,7 @@ class AdminCourseCategoryAddView(CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseCategoryDeleteView(View):
+class AdminCourseCategoryDeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(CourseCategory, pk=pk)
         course.is_delete = True
@@ -201,7 +214,7 @@ class AdminCourseCategoryDeleteView(View):
         return redirect('course_dashboard')
 
 
-class AdminCourseCategoryUndeleteView(View):
+class AdminCourseCategoryUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(CourseCategory, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
@@ -213,7 +226,7 @@ class AdminCourseCategoryUndeleteView(View):
 # ********************************************************************************
 
 # BLOG & BLOG CATEGORY
-class AdminBlogListView(ListView):
+class AdminBlogListView(StaffRequiredMixin, ListView):
     model = Blog
     template_name = 'blog/dshb-blog.html'
 
@@ -260,7 +273,7 @@ class AdminBlogListView(ListView):
 
 
 # BLOG
-class AdminBlogAddView(CreateView):
+class AdminBlogAddView(StaffRequiredMixin, CreateView):
     model = Blog
     template_name = 'blog/dshb-listing-add-blog.html'
     form_class = BlogEditForm
@@ -277,7 +290,7 @@ class AdminBlogAddView(CreateView):
         return super().form_invalid(form)
 
 
-class AdminBlogEditView(CreateView):
+class AdminBlogEditView(StaffRequiredMixin, CreateView):
     model = Blog
     template_name = 'blog/dshb-listing-blog.html'
 
@@ -308,7 +321,7 @@ class AdminBlogEditView(CreateView):
             return redirect('blog_dashboard')
 
 
-class AdminBlogDeleteView(View):
+class AdminBlogDeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         blog_id = kwargs.get('pk')
         blog = get_object_or_404(Blog, pk=pk)
@@ -318,7 +331,7 @@ class AdminBlogDeleteView(View):
         return redirect('blog_dashboard')
 
 
-class AdminBlogUndeleteView(View):
+class AdminBlogUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         blog = get_object_or_404(Blog, pk=pk)
         blog.is_delete = False  # Set is_delete to False to undelete
@@ -328,7 +341,7 @@ class AdminBlogUndeleteView(View):
 
 
 # BLOG CATEGORY
-class AdminBlogCategoryAddView(CreateView):
+class AdminBlogCategoryAddView(StaffRequiredMixin, CreateView):
     model = BlogCategory
     template_name = 'blog/dshb-listing-add-blog-category.html'
     form_class = BlogCategoryEditForm
@@ -345,7 +358,7 @@ class AdminBlogCategoryAddView(CreateView):
         return super().form_invalid(form)
 
 
-class AdminBlogCategoryEditView(CreateView):
+class AdminBlogCategoryEditView(StaffRequiredMixin, CreateView):
     model = BlogCategory
     template_name = 'blog/dshb-listing-blog-category.html'
 
@@ -371,7 +384,7 @@ class AdminBlogCategoryEditView(CreateView):
             return redirect('blog_dashboard')
 
 
-class AdminBlogCategoryDeleteView(View):
+class AdminBlogCategoryDeleteView(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         category_id = kwargs.get('pk')
         category = get_object_or_404(BlogCategory, pk=category_id)
@@ -381,7 +394,7 @@ class AdminBlogCategoryDeleteView(View):
         return redirect('blog_dashboard')
 
 
-class AdminBlogCategoryUndeleteView(View):
+class AdminBlogCategoryUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         category = get_object_or_404(BlogCategory, pk=pk)
         category.is_delete = False  # Set is_delete to False to undelete
@@ -393,7 +406,7 @@ class AdminBlogCategoryUndeleteView(View):
 
 
 # Service
-class AdminServiceListView(ListView):
+class AdminServiceListView(StaffRequiredMixin, ListView):
     model = Service
     template_name = 'service/dshb-service.html'
 
@@ -434,7 +447,7 @@ class AdminServiceListView(ListView):
         return context
 
 
-class AdminServiceAddView(CreateView):
+class AdminServiceAddView(StaffRequiredMixin, CreateView):
     model = Service
     template_name = 'service/dshb-listing-add-service.html'
     form_class = ServiceEditForm
@@ -451,7 +464,7 @@ class AdminServiceAddView(CreateView):
         return super().form_invalid(form)
 
 
-class AdminServiceEditView(CreateView):
+class AdminServiceEditView(StaffRequiredMixin, CreateView):
     model = Service
     template_name = 'service/dshb-listing-service.html'
 
@@ -480,7 +493,7 @@ class AdminServiceEditView(CreateView):
             return redirect('service_dashboard')
 
 
-class AdminServiceDeleteView(View):
+class AdminServiceDeleteView(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         service_id = kwargs.get('pk')
         service = get_object_or_404(Service, pk=service_id)
@@ -490,7 +503,7 @@ class AdminServiceDeleteView(View):
         return redirect('service_dashboard')
 
 
-class AdminServiceUndeleteView(View):
+class AdminServiceUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         service = get_object_or_404(Service, pk=pk)
         service.is_delete = False  # Set is_delete to False to undelete
@@ -501,7 +514,7 @@ class AdminServiceUndeleteView(View):
 
 # ********************************************************************************
 # Course Statistic & Request US & Feedback & Program
-class AdminCourseSRFPListView(ListView):
+class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
     template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp.html'
 
@@ -575,7 +588,7 @@ class AdminCourseSRFPListView(ListView):
 
 
 # Feedback
-class AdminCourseSRFPFeedbackDeleteView(View):
+class AdminCourseSRFPFeedbackDeleteView(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         feedback_id = kwargs.get('pk')
         feedback = get_object_or_404(CourseFeedback, pk=feedback_id)
@@ -585,7 +598,7 @@ class AdminCourseSRFPFeedbackDeleteView(View):
         return redirect('course_srfp')
 
 
-class AdminCourseSRFPFeedbackUndeleteView(View):
+class AdminCourseSRFPFeedbackUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         feedback = get_object_or_404(CourseFeedback, pk=pk)
         feedback.is_delete = False  # Set is_delete to False to undelete
@@ -594,14 +607,14 @@ class AdminCourseSRFPFeedbackUndeleteView(View):
         return redirect('course_srfp')
 
 
-class AdminCourseSRFPDetailView(DetailView):
+class AdminCourseSRFPDetailView(StaffRequiredMixin, DetailView):
     model = CourseFeedback
     template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp-look.html'
     context_object_name = 'feedback'
 
 
 # Request US
-class AdminCourseSRFPRequestUsDeleteView(View):
+class AdminCourseSRFPRequestUsDeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = True
@@ -610,7 +623,7 @@ class AdminCourseSRFPRequestUsDeleteView(View):
         return redirect('course_srfp')
 
 
-class AdminCourseSRFPRequestUsUndeleteView(View):
+class AdminCourseSRFPRequestUsUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
@@ -619,7 +632,7 @@ class AdminCourseSRFPRequestUsUndeleteView(View):
         return redirect('course_srfp')
 
 
-class AdminCourseSRFPRequestUsDetailView(DetailView, CreateView):
+class AdminCourseSRFPRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
     model = RequestUs
     template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp-look-request.html'
     context_object_name = 'request'
@@ -646,7 +659,7 @@ class AdminCourseSRFPRequestUsDetailView(DetailView, CreateView):
 
 
 # Program
-class AdminCourseProgramAddView(CreateView):
+class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
     model = CourseProgram
     template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-add.html'
     form_class = CourseProgramEditForm
@@ -663,7 +676,7 @@ class AdminCourseProgramAddView(CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseProgramEditView(CreateView):
+class AdminCourseProgramEditView(StaffRequiredMixin, CreateView):
     model = CourseProgram
     template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html'
 
@@ -692,7 +705,7 @@ class AdminCourseProgramEditView(CreateView):
             return redirect('course_srfp')
 
 
-class AdminCourseProgramDeleteView(View):
+class AdminCourseProgramDeleteView(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         program_id = kwargs.get('pk')
         program = get_object_or_404(CourseProgram, pk=program_id)
@@ -702,7 +715,7 @@ class AdminCourseProgramDeleteView(View):
         return redirect('course_srfp')
 
 
-class AdminCourseProgramUndeleteView(View):
+class AdminCourseProgramUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         program = get_object_or_404(CourseProgram, pk=pk)
         program.is_delete = False  # Set is_delete to False to undelete

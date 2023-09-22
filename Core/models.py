@@ -21,6 +21,7 @@ class NavMenu(DateMixin):
 class Partner(DateMixin):
     title = models.CharField(max_length=255)
     img = models.ImageField(upload_to=Uploader.partners_image)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -36,6 +37,7 @@ class AboutUs(DateMixin):
     img1 = models.ImageField(upload_to=Uploader.about_us)
     img2 = models.ImageField(upload_to=Uploader.about_us)
     img3 = models.ImageField(upload_to=Uploader.about_us)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -49,6 +51,8 @@ class ContactUs(DateMixin):
     fullname = models.CharField(max_length=255)
     email = models.EmailField(max_length=254)
     message = models.TextField()
+    is_view = models.BooleanField(default=False)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fullname
@@ -71,6 +75,7 @@ class ContactInfo(DateMixin):
     github = models.URLField(max_length=200, null=True, blank=True)
     youtube = models.URLField(max_length=200, null=True, blank=True)
     linkedIn = models.URLField(max_length=200, null=True, blank=True)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title
@@ -83,6 +88,7 @@ class ContactInfo(DateMixin):
 class FAQ(DateMixin):
     question = models.CharField(max_length=255)
     answer = models.CharField(max_length=255)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.question
