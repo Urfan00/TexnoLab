@@ -8,7 +8,7 @@ from .views import (AdminBlogAddView,
                     AdminBlogEditView,
                     AdminBlogListView,
                     AdminBlogUndeleteView,
-                    AdminContactUSFAQPartnersListView,
+                    AdminContactUSFAQPartnersListView, AdminContactUsDeleteView, AdminContactUsUndeleteView, AdminContactUsView,
                     AdminCourseAddView,
                     AdminCourseCategoryAddView,
                     AdminCourseCategoryDeleteView,
@@ -129,6 +129,10 @@ urlpatterns = [
     path('faq/<int:pk>/delete/', AdminFAQDeleteView.as_view(), name='faq_delete'),
     path('faq/<int:pk>/undelete/', AdminFAQUndeleteView.as_view(), name='faq_undelete'),
 
+    # Contact us
+    path('contact_us/<int:pk>/delete/', AdminContactUsDeleteView.as_view(), name='contact_us_delete'),
+    path('contact_us/<int:pk>/undelete/', AdminContactUsUndeleteView.as_view(), name='contact_us_undelete'),
+    path('contact_us/<int:pk>', AdminContactUsView.as_view(), name='contact_us_look'),
 
 
 ]

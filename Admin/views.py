@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
-from Core.models import FAQ, Partner
+from Core.models import FAQ, ContactUs, Partner
 from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, FAQEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
@@ -737,10 +737,9 @@ class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
         sp_query = self.request.GET.get('sp', '')
         faq_query = self.request.GET.get('faq', '')
         s_faq_query = self.request.GET.get('s_faq', '')
-        # df_query = self.request.GET.get('df', '')
-        # m_query = self.request.GET.get('m', '')
-        # bm_query = self.request.GET.get('bm', '')
-        # dr_query = self.request.GET.get('dr', '')
+        cu_query = self.request.GET.get('cu', '')
+        bcu_query = self.request.GET.get('bcu', '')
+        dcu_query = self.request.GET.get('dcu', '')
 
         partners = Partner.objects.filter(is_delete=False).order_by('-created_at').all()
         d_partners = Partner.objects.filter(is_delete=True).order_by('-created_at').all()
@@ -748,9 +747,9 @@ class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
         faqs = FAQ.objects.filter(is_delete=False).order_by('-created_at').all()
         s_faqs = FAQ.objects.filter(is_delete=True).order_by('-created_at').all()
 
-        # request_us = RequestUs.objects.filter(is_view=False, is_delete=False).all()
-        # b_request_us = RequestUs.objects.filter(is_view=True, is_delete=False).all()
-        # d_request_us = RequestUs.objects.filter(is_delete=True).all()
+        contact_us = ContactUs.objects.filter(is_view=False, is_delete=False).all()
+        b_contact_us = ContactUs.objects.filter(is_view=True, is_delete=False).all()
+        d_contact_us = ContactUs.objects.filter(is_delete=True).all()
 
 
         # # active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
@@ -763,12 +762,21 @@ class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
             faqs = faqs.filter(question__icontains=faq_query)
         elif s_faq_query:
             s_faqs = s_faqs.filter(question__icontains=s_faq_query)
+        elif cu_query:
+            contact_us = contact_us.filter(Q(fullname__icontains=cu_query) | Q(email__icontains=cu_query))
+        elif bcu_query:
+            b_contact_us = b_contact_us.filter(Q(fullname__icontains=bcu_query) | Q(email__icontains=bcu_query))
+        elif dcu_query:
+            d_contact_us = d_contact_us.filter(Q(fullname__icontains=dcu_query) | Q(email__icontains=dcu_query))
 
 
         context["partners"] = partners
         context["d_partners"] = d_partners
         context["faqs"] = faqs
         context["s_faqs"] = s_faqs
+        context["contact_us"] = contact_us
+        context["b_contact_us"] = b_contact_us
+        context["d_contact_us"] = d_contact_us
 
         return context
 
@@ -900,5 +908,36 @@ class AdminFAQUndeleteView(StaffRequiredMixin, View):
         messages.success(request, 'FAQ undeleted successfully')
         return redirect('core_dashboard')
 
+
+# Contact Us
+class AdminContactUsDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        contact_us_id = kwargs.get('pk')
+        contact_us = get_object_or_404(ContactUs, pk=contact_us_id)
+        contact_us.is_delete = True
+        contact_us.save()
+        messages.success(request, 'Contact us deleted successfully')
+        return redirect('core_dashboard')
+
+
+class AdminContactUsUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        contact_us = get_object_or_404(ContactUs, pk=pk)
+        contact_us.is_delete = False  # Set is_delete to False to undelete
+        contact_us.save()
+        messages.success(request, 'Contact us undeleted successfully')
+        return redirect('core_dashboard')
+
+
+class AdminContactUsView(StaffRequiredMixin, DetailView):
+    model = ContactUs
+    template_name = 'core/partner-faq-contact_us/contact_us/dshb-contact_us-look.html'
+    context_object_name = 'contact_us'
+
+    def get(self, request, *args, **kwargs):
+        contact_us = ContactUs.objects.get(pk=self.get_object().pk)
+        contact_us.is_view = True
+        contact_us.save()
+        return super().get(request, *args, **kwargs)
 
 

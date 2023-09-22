@@ -1,6 +1,3 @@
-F.A.Q --> list/add/edit/delete/undelete
-Contact Us --> list/add/edit/delete/undelete
-
 About Us --> 
 Contact Info -->
 

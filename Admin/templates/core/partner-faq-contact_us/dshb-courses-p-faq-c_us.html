@@ -203,7 +203,7 @@
                   <div class="row y-gap-10 ">
                     <div class="col-auto">
                       <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="df" placeholder="Şərh axtar" value="{{ request.GET.df }}">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="cu" placeholder="kontakt axtar" value="{{ request.GET.cu }}">
                           <button class="" type="submit">
                               <i class="icon-search text-light-1 text-20"></i>
                           </button>
@@ -217,29 +217,29 @@
                         <thead>
                           <tr>
                             <th>№</th>
-                            <th>Kurs adı </th>
-                            <th>Tələbə</th>
-                            <th>şərh</th>
+                            <th>Ad Soyad</th>
+                            <th>E-poçt</th>
+                            <th>Mesaj</th>
                             <th>Əməliyyatlar</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                          {% for feedback in d_feedbacks %}
+                          {% for contact in contact_us %}
                             <tr>
                               <td>{{ forloop.counter }}</td>
-                              <td>{{ feedback.course.title }}</td>
-                              <td>{{ feedback.student.last_name }} {{ feedback.student.first_name }}</td>
-                              <td>{{ feedback.message|truncatewords:5 }}</td>
+                              <td>{{ contact.fullname }}</td>
+                              <td>{{ contact.email }}</td>
+                              <td>{{ contact.message|truncatewords:5 }}</td>
                               <td>
                                 <div class="menusuboper">
-                                  <a href="{% url "course_srfp_look" feedback.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                  <a href="{% url "contact_us_look" contact.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                   </a>
-                                  <form method="post" action="{% url "feedback_undelete" feedback.pk %}" style="display: inline;">
+                                  <form method="post" action="{% url "contact_us_delete" contact.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
-                                        <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                   </form>
                                   {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
@@ -262,7 +262,7 @@
                   <div class="row y-gap-10 ">
                     <div class="col-auto">
                       <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="m" placeholder="Kurs müraciəti axtar" value="{{ request.GET.m }}">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="bcu" placeholder="kontakt axtar" value="{{ request.GET.bcu }}">
                           <button class="" type="submit">
                               <i class="icon-search text-light-1 text-20"></i>
                           </button>
@@ -277,33 +277,30 @@
                           <tr>
                             <th>№</th>
                             <th>Ad Soyad</th>
-                            <th>Telefon nömrəsi</th>
-                            <th>Kurs Adı</th>
+                            <th>E-poçt</th>
+                            <th>Mesaj</th>
                             <th>Əməliyyatlar</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                          {% for r_us in request_us %}
+                          {% for contact in b_contact_us %}
                             <tr>
                               <td>{{ forloop.counter }}</td>
-                              <td>{{ r_us.fullname }}</td>
-                              <td>{{ r_us.phone_number }}</td>
-                              <td>{{ r_us.course.title }}</td>
+                              <td>{{ contact.fullname }}</td>
+                              <td>{{ contact.email }}</td>
+                              <td>{{ contact.message|truncatewords:5 }}</td>
                               <td>
                                 <div class="menusuboper">
-                                  <a href="{% url "request_us_look" r_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                  <a href="{% url "contact_us_look" contact.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                   </a>
-                                  <form method="post" action="{% url "request_us_delete" r_us.pk %}" style="display: inline;">
+                                  <form method="post" action="{% url "contact_us_delete" contact.pk %}" style="display: inline;">
                                     {% csrf_token %}
                                     <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                   </form>
-                                  {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
-                                    <div style="color:white" class="icon-bin"></div>
-                                  </a> {% endcomment %}
                                 </div>
                               </td>
                             </tr>
@@ -321,7 +318,7 @@
                   <div class="row y-gap-10 ">
                     <div class="col-auto">
                       <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="bm" placeholder="Kurs müraciəti axtar" value="{{ request.GET.bm }}">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="dcu" placeholder="Kurs müraciəti axtar" value="{{ request.GET.dcu }}">
                           <button class="" type="submit">
                               <i class="icon-search text-light-1 text-20"></i>
                           </button>
@@ -336,28 +333,28 @@
                           <tr>
                             <th>№</th>
                             <th>Ad Soyad</th>
-                            <th>Telefon nömrəsi</th>
-                            <th>Kurs Adı</th>
+                            <th>E-poçt</th>
+                            <th>Mesaj</th>
                             <th>Əməliyyatlar</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                          {% for br_us in b_request_us %}
+                          {% for contact in d_contact_us %}
                             <tr>
                               <td>{{ forloop.counter }}</td>
-                              <td>{{ br_us.fullname }}</td>
-                              <td>{{ br_us.phone_number }}</td>
-                              <td>{{ br_us.course.title }}</td>
+                              <td>{{ contact.fullname }}</td>
+                              <td>{{ contact.email }}</td>
+                              <td>{{ contact.message|truncatewords:5 }}</td>
                               <td>
                                 <div class="menusuboper">
-                                  <a href="{% url "request_us_look" br_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                  <a href="{% url "contact_us_look" contact.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                     <i class="fa fa-eye" aria-hidden="true"></i>
                                   </a>
-                                  <form method="post" action="{% url "request_us_delete" br_us.pk %}" style="display: inline;">
+                                  <form method="post" action="{% url "contact_us_undelete" contact.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
-                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
+                                        <i class="fa fa-undo" aria-hidden="true"></i> Undelete
                                     </button>
                                   </form>
                                 </div>
