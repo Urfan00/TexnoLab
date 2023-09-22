@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
-from Core.models import Partner
-from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
+from Core.models import FAQ, Partner
+from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, FAQEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
 from Service.models import Service
@@ -735,8 +735,8 @@ class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         p_query = self.request.GET.get('p', '')
         sp_query = self.request.GET.get('sp', '')
-        # ks_query = self.request.GET.get('ks', '')
-        # f_query = self.request.GET.get('f', '')
+        faq_query = self.request.GET.get('faq', '')
+        s_faq_query = self.request.GET.get('s_faq', '')
         # df_query = self.request.GET.get('df', '')
         # m_query = self.request.GET.get('m', '')
         # bm_query = self.request.GET.get('bm', '')
@@ -745,10 +745,9 @@ class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
         partners = Partner.objects.filter(is_delete=False).order_by('-created_at').all()
         d_partners = Partner.objects.filter(is_delete=True).order_by('-created_at').all()
 
+        faqs = FAQ.objects.filter(is_delete=False).order_by('-created_at').all()
+        s_faqs = FAQ.objects.filter(is_delete=True).order_by('-created_at').all()
 
-        # statistics = CourseStatistic.objects.all()
-        # feedbacks = CourseFeedback.objects.filter(is_delete=False).all()
-        # d_feedbacks = CourseFeedback.objects.filter(is_delete=True).all()
         # request_us = RequestUs.objects.filter(is_view=False, is_delete=False).all()
         # b_request_us = RequestUs.objects.filter(is_view=True, is_delete=False).all()
         # d_request_us = RequestUs.objects.filter(is_delete=True).all()
@@ -760,10 +759,16 @@ class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
             partners = partners.filter(title__icontains=p_query)
         elif sp_query:
             d_partners = d_partners.filter(title__icontains=sp_query)
+        elif faq_query:
+            faqs = faqs.filter(question__icontains=faq_query)
+        elif s_faq_query:
+            s_faqs = s_faqs.filter(question__icontains=s_faq_query)
 
 
         context["partners"] = partners
         context["d_partners"] = d_partners
+        context["faqs"] = faqs
+        context["s_faqs"] = s_faqs
 
         return context
 
@@ -831,6 +836,69 @@ class AdminPartnerUndeleteView(StaffRequiredMixin, View):
         messages.success(request, 'Partner undeleted successfully')
         return redirect('core_dashboard')
 
+
+# FAQ
+class AdminFAQAddView(StaffRequiredMixin, CreateView):
+    model = FAQ
+    template_name = 'core/partner-faq-contact_us/f.a.q/dshb-faq-add.html'
+    form_class = FAQEditForm
+    success_url = reverse_lazy('core_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminFAQEditView(StaffRequiredMixin, CreateView):
+    model = FAQ
+    template_name = 'core/partner-faq-contact_us/f.a.q/dshb-faq-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        faq_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        faq = get_object_or_404(FAQ, pk=faq_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = FAQEditForm(instance=faq)
+        return render(request, 'core/partner-faq-contact_us/f.a.q/dshb-faq-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = FAQEditForm(request.POST, instance=get_object_or_404(Partner, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            faq = FAQ.objects.get(pk=kwargs.get('pk'))
+            faq.question = form.cleaned_data.get('question')
+            faq.answer = form.cleaned_data.get('answer')
+            faq.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('core_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('core_dashboard')
+
+
+class AdminFAQDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        faq_id = kwargs.get('pk')
+        faq = get_object_or_404(FAQ, pk=faq_id)
+        faq.is_delete = True
+        faq.save()
+        messages.success(request, 'FAQ deleted successfully')
+        return redirect('core_dashboard')
+
+
+class AdminFAQUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        faq = get_object_or_404(FAQ, pk=pk)
+        faq.is_delete = False  # Set is_delete to False to undelete
+        faq.save()
+        messages.success(request, 'FAQ undeleted successfully')
+        return redirect('core_dashboard')
 
 
 

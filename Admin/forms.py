@@ -1,6 +1,6 @@
 from django import forms
 from Blog.models import Blog, BlogCategory
-from Core.models import Partner
+from Core.models import FAQ, Partner
 from Course.models import Course, CourseCategory, CourseProgram, RequestUs
 from Service.models import Service
 
@@ -229,3 +229,24 @@ class PartnerEditForm(forms.ModelForm):
             ),
         }
 
+
+class FAQEditForm(forms.ModelForm):
+    class Meta:
+        model = FAQ
+        fields = ['question', 'answer']
+        labels = {
+            'question' : 'Ən çox verilən sual',
+            'answer' : 'Cavab'
+        }
+        widgets = {
+            'question' : forms.TextInput(
+                attrs={
+                    'placeholder' :"sualı qeyd edin"
+                }
+            ),
+            'answer' : forms.TextInput(
+                attrs={
+                    'placeholder' :"cavabı qeyd edin"
+                }
+            ),
+        }
