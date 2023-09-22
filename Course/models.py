@@ -46,6 +46,7 @@ class CourseFeedback(DateMixin):
     message = models.TextField()
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_course_feedback')
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_feedback')
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.student.first_name} - {self.student.last_name} feedback"
@@ -59,8 +60,9 @@ class RequestUs(DateMixin):
     fullname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=50)
     admin_comment = models.TextField(null=True, blank=True)
-    status = models.BooleanField(default=False)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='contact_us')
+    is_view = models.BooleanField(default=False)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.fullname
@@ -85,9 +87,10 @@ class Gallery(DateMixin):
 class CourseProgram(DateMixin):
     program_name = models.CharField(max_length=255)
     description = RichTextField(null=True, blank=True)
-    # sub_program_name = models.ForeignKey("CourseProgram", on_delete=models.CASCADE, related_name='course_sub_program_name', null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_program')
     file = models.FileField(upload_to=Uploader.course_program, null=True, blank=True)
+    is_delete = models.BooleanField(default=False)
+
 
     def __str__(self):
         return self.program_name

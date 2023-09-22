@@ -18,15 +18,16 @@ class CourseAdmin(admin.ModelAdmin):
 
 
 class CourseFeedbackAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'course', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'course', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
+    list_filter = ['is_delete']
     search_fields = ['student', 'course__title']
 
 
 class RequestUsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'fullname', 'phone_number', 'course', 'status', 'created_at', 'updated_at']
+    list_display = ['id', 'fullname', 'phone_number', 'course', 'is_view', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'fullname']
-    list_filter = ['status']
+    list_filter = ['is_view', 'is_delete']
     search_fields = ['fullname', 'phone_number', 'course__title']
 
 
@@ -36,8 +37,9 @@ class GalleryAdmin(admin.ModelAdmin):
 
 
 class CourseProgramAdmin(admin.ModelAdmin):
-    list_display = ['id', 'program_name', 'course', 'created_at', 'updated_at']
+    list_display = ['id', 'program_name', 'course', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'program_name',]
+    list_filter =  ['is_delete']
     search_fields = ['program_name', 'course__title']
 
 

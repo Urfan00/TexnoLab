@@ -1,0 +1,574 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+  <div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+      <div class="row pb-50 mb-10">
+        <div class="col-auto">
+
+          <h1 class="text-30 lh-12 fw-700">Kurslar</h1>
+          <div class="mt-10">Bütün kurslar ilə bu bölmədə tanış ola bilərsiniz</div>
+
+        </div>
+      </div>
+
+      {% include "messages.html" %}
+
+      <div class="row y-gap-30">
+        <div class="col-12">
+          <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+            <div class="tabs -active-purple-2 js-tabs">
+              <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
+                  Kurs statistikaları
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-2" type="button">
+                  Şərhlər
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-3" type="button">
+                  Silinmiş şərhlər
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-4" type="button">
+                  Baxılmamış Kurs müraciətləri
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-5" type="button">
+                  Baxılmış Kurs müraciətləri
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-6" type="button">
+                  Silinmiş Kurs müraciətləri
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-7" type="button">
+                  Kurs proqramları
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-8" type="button">
+                  Silinmiş Kurs proqramları
+                </button>
+              </div>
+
+              <div class="tabs__content py-30 px-30 js-tabs-content">
+                <div class="tabs__pane -tab-item-1 is-active">
+                  <div class="row y-gap-10 ">
+
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="ks" placeholder="Kurs statistikası axtar" value="{{ request.GET.ks }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <style>
+                    .tDiv{
+                      width:100%;
+                      overflow-x:scroll;
+                    }
+
+                    {% comment %} .dif{
+                      display:block!important;
+                    } {% endcomment %}
+
+                    .wt{
+                      min-width:30px!important;
+                      height:30px!important;
+                      padding:8px!important;
+                      float:left!important;
+                      margin:5px;
+                    }
+
+                    .menusuboper{
+                      width: 135px;
+                      height:40px;
+                      float: left;
+                    }
+
+                    table.table td{
+                      padding: 10px;
+                    }
+                  </style>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Kurs adı</th>
+                            <th>Şərh sayı</th>
+                            <th>Baxış sayı</th>
+                            {% comment %} <th>Əməliyyatlar</th> {% endcomment %}
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for statistic in statistics %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ statistic.course.title }}</td>
+                              <td>{{ statistic.review_count }}</td>
+                              <td>{{ statistic.read_count }}</td>
+                              {% comment %} <td>
+                                <div class="menusuboper">
+                                  <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a>
+                                  <a href="{% url "course_edit" a_course.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url "course_delete" a_course.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </form>
+                                </div>
+                              </td> {% endcomment %}
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="tabs__pane -tab-item-2">
+
+                    <div class="row y-gap-10 ">
+                      <div class="col-auto">
+                        <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                            <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="f" placeholder="Şərh axtar" value="{{ request.GET.f }}">
+                            <button class="" type="submit">
+                                <i class="icon-search text-light-1 text-20"></i>
+                            </button>
+                        </form>
+                      </div>
+                    </div>
+
+                    <div class="tDiv">
+                      <div class="table-responsive">
+                        <table class="table" style="margin-top:25px; padding: 0px;">
+                          <thead>
+                            <tr>
+                              <th>№</th>
+                              <th>Kurs adı </th>
+                              <th>Tələbə</th>
+                              <th>şərh</th>
+                              <th>Əməliyyatlar</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for feedback in feedbacks %}
+                              <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ feedback.course.title }}</td>
+                                <td>{{ feedback.student.last_name }} {{ feedback.student.first_name }}</td>
+                                <td>{{ feedback.message|truncatewords:5 }}</td>
+                                <td>
+                                  <div class="menusuboper">
+                                    <a href="{% url "course_srfp_look" feedback.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <form method="post" action="{% url "feedback_delete" feedback.pk %}" style="display: inline;">
+                                      {% csrf_token %}
+                                      <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                          <i class="fa fa-trash" aria-hidden="true"></i>
+                                      </button>
+                                    </form>
+                                  </div>
+                                </td>
+                              </tr>
+                            {% endfor %}
+
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                </div>
+
+                <div class="tabs__pane -tab-item-3">
+
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="df" placeholder="Şərh axtar" value="{{ request.GET.df }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Kurs adı </th>
+                            <th>Tələbə</th>
+                            <th>şərh</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for feedback in d_feedbacks %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ feedback.course.title }}</td>
+                              <td>{{ feedback.student.last_name }} {{ feedback.student.first_name }}</td>
+                              <td>{{ feedback.message|truncatewords:5 }}</td>
+                              <td>
+                                <div class="menusuboper">
+                                  <a href="{% url "course_srfp_look" feedback.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url "feedback_undelete" feedback.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
+                                        <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                    </button>
+                                  </form>
+                                  {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                    <div style="color:white" class="icon-bin"></div>
+                                  </a> {% endcomment %}
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="tabs__pane -tab-item-4">
+
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="m" placeholder="Kurs müraciəti axtar" value="{{ request.GET.m }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Ad Soyad</th>
+                            <th>Telefon nömrəsi</th>
+                            <th>Kurs Adı</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for r_us in request_us %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ r_us.fullname }}</td>
+                              <td>{{ r_us.phone_number }}</td>
+                              <td>{{ r_us.course.title }}</td>
+                              <td>
+                                <div class="menusuboper">
+                                  <a href="{% url "request_us_look" r_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url "request_us_delete" r_us.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </form>
+                                  {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                    <div style="color:white" class="icon-bin"></div>
+                                  </a> {% endcomment %}
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="tabs__pane -tab-item-5">
+
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="bm" placeholder="Kurs müraciəti axtar" value="{{ request.GET.bm }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Ad Soyad</th>
+                            <th>Telefon nömrəsi</th>
+                            <th>Kurs Adı</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for br_us in b_request_us %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ br_us.fullname }}</td>
+                              <td>{{ br_us.phone_number }}</td>
+                              <td>{{ br_us.course.title }}</td>
+                              <td>
+                                <div class="menusuboper">
+                                  <a href="{% url "request_us_look" br_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url "request_us_delete" br_us.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </form>
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tabs__pane -tab-item-6">
+
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="dr" placeholder="Kurs müraciəti axtar" value="{{ request.GET.dr }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Ad Soyad</th>
+                            <th>Telefon nömrəsi</th>
+                            <th>Kurs Adı</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for dr_us in d_request_us %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ dr_us.fullname }}</td>
+                              <td>{{ dr_us.phone_number }}</td>
+                              <td>{{ dr_us.course.title }}</td>
+                              <td>
+                                <div class="menusuboper">
+                                  <a href="{% url "request_us_look" dr_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url "request_us_undelete" dr_us.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
+                                        <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                    </button>
+                                  </form>
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="tabs__pane -tab-item-7">
+
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="p" placeholder="Program axtar" value="{{ request.GET.p }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+
+                    <div class="col-auto">
+                      <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                        <div>
+                        </div>
+                        <div>
+                          <a href="{% url "program_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                            Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Program adı</th>
+                            <th>Kurs adı </th>
+                            <th>Qısa Məzmun</th>
+                            <th>Fayl</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for program in programs %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ program.program_name }}</td>
+                              <td>{{ program.course.title }}</td>
+                              <td>{{ program.description|truncatewords:5 }}</td>
+                              {% if program.file %}
+                                <td><a href="{{ program.file.url }}"></a>{{ program.file.url }}</a></td>
+                              {% else %}
+                                <td>-----</td>
+                              {% endif %}
+                              <td>
+                                <div class="menusuboper">
+                                  <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a>
+                                  <a href="{% url "program_edit" program.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url "program_delete" program.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </form>
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="tabs__pane -tab-item-8">
+
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="sp" placeholder="Program axtar" value="{{ request.GET.sp }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Program adı</th>
+                            <th>Kurs adı </th>
+                            <th>Qısa Məzmun</th>
+                            <th>Fayl</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for program in d_programs %}
+                              <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ program.program_name }}</td>
+                                <td>{{ program.course.title }}</td>
+                                <td>{{ program.description|truncatewords:5 }}</td>
+                                {% if program.file %}
+                                  <td><a href="{{ program.file.url }}"></a>{{ program.file.url }}</a></td>
+                                {% else %}
+                                <td>-----</td>
+                                {% endif %}
+                                <td>
+                                  <div class="menusuboper">
+                                    <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                      <i class="fa fa-eye" aria-hidden="true"></i>
+                                    </a>
+                                    <a href="{% url "program_edit" program.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                      <i class="fa fa-pencil" aria-hidden="true"></i>
+                                    </a>
+                                  <form method="post" action="{% url "program_undelete" program.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
+                                        <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                    </button>
+                                  </form>
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+{% endblock %}

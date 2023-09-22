@@ -1,16 +1,16 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import ListView, CreateView
+from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
-from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, ServiceEditForm
+from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, RequestUsAdminCommentForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
-from Course.models import Course, CourseCategory
+from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
 from Service.models import Service
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy
-
+from django.db.models import Q
 
 
 class DashboardView(ListView):
@@ -497,3 +497,215 @@ class AdminServiceUndeleteView(View):
         service.save()
         messages.success(request, 'Service undeleted successfully')
         return redirect('service_dashboard')
+
+
+# ********************************************************************************
+# Course Statistic & Request US & Feedback & Program
+class AdminCourseSRFPListView(ListView):
+    model = CourseStatistic
+    template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        ks_query = self.request.GET.get('ks', '')
+        f_query = self.request.GET.get('f', '')
+        df_query = self.request.GET.get('df', '')
+        m_query = self.request.GET.get('m', '')
+        bm_query = self.request.GET.get('bm', '')
+        dr_query = self.request.GET.get('dr', '')
+        p_query = self.request.GET.get('p', '')
+        sp_query = self.request.GET.get('sp', '')
+
+        statistics = CourseStatistic.objects.all()
+
+        feedbacks = CourseFeedback.objects.filter(is_delete=False).all()
+        d_feedbacks = CourseFeedback.objects.filter(is_delete=True).all()
+
+        request_us = RequestUs.objects.filter(is_view=False, is_delete=False).all()
+        b_request_us = RequestUs.objects.filter(is_view=True, is_delete=False).all()
+        d_request_us = RequestUs.objects.filter(is_delete=True).all()
+
+        programs = CourseProgram.objects.filter(is_delete=False).all()
+        d_programs = CourseProgram.objects.filter(is_delete=True).all()
+
+        # active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
+
+        if ks_query:
+            statistics = statistics.filter(course__title__icontains=ks_query)
+        elif f_query:
+            feedbacks = feedbacks.filter(
+                Q(course__title__icontains=f_query) | Q(student__first_name__icontains=f_query) | Q(student__last_name__icontains=f_query)
+            )
+        elif df_query:
+            d_feedbacks = d_feedbacks.filter(
+                Q(course__title__icontains=df_query) | Q(student__first_name__icontains=df_query) | Q(student__last_name__icontains=df_query)
+            )
+        elif m_query:
+            request_us = request_us.filter(
+                Q(course__title__icontains=m_query) | Q(fullname__icontains=m_query)
+            )
+        elif bm_query:
+            b_request_us = b_request_us.filter(
+                Q(course__title__icontains=bm_query) | Q(fullname__icontains=bm_query)
+            )
+        elif dr_query:
+            d_request_us = d_request_us.filter(
+                Q(course__title__icontains=dr_query) | Q(fullname__icontains=dr_query)
+            )
+        elif p_query:
+            programs = programs.filter(
+                Q(course__title__icontains=p_query) | Q(program_name__icontains=p_query)
+            )
+        elif sp_query:
+            d_programs = d_programs.filter(
+                Q(course__title__icontains=sp_query) | Q(program_name__icontains=sp_query)
+            )
+
+
+        context["statistics"] = statistics
+        context["feedbacks"] = feedbacks
+        context["d_feedbacks"] = d_feedbacks
+        context["request_us"] = request_us
+        context["b_request_us"] = b_request_us
+        context["d_request_us"] = d_request_us
+        context["programs"] = programs
+        context["d_programs"] = d_programs
+
+        return context
+
+
+# Feedback
+class AdminCourseSRFPFeedbackDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        feedback_id = kwargs.get('pk')
+        feedback = get_object_or_404(CourseFeedback, pk=feedback_id)
+        feedback.is_delete = True
+        feedback.save()
+        messages.success(request, 'Feedback deleted successfully')
+        return redirect('course_srfp')
+
+
+class AdminCourseSRFPFeedbackUndeleteView(View):
+    def post(self, request, pk, *args, **kwargs):
+        feedback = get_object_or_404(CourseFeedback, pk=pk)
+        feedback.is_delete = False  # Set is_delete to False to undelete
+        feedback.save()
+        messages.success(request, 'Feedback undeleted successfully')
+        return redirect('course_srfp')
+
+
+class AdminCourseSRFPDetailView(DetailView):
+    model = CourseFeedback
+    template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp-look.html'
+    context_object_name = 'feedback'
+
+
+# Request US
+class AdminCourseSRFPRequestUsDeleteView(View):
+    def post(self, request, pk, *args, **kwargs):
+        course = get_object_or_404(RequestUs, pk=pk)
+        course.is_delete = True
+        course.save()
+        messages.success(request, 'Request Us deleted successfully')
+        return redirect('course_srfp')
+
+
+class AdminCourseSRFPRequestUsUndeleteView(View):
+    def post(self, request, pk, *args, **kwargs):
+        course = get_object_or_404(RequestUs, pk=pk)
+        course.is_delete = False  # Set is_delete to False to undelete
+        course.save()
+        messages.success(request, 'Request Us undeleted successfully')
+        return redirect('course_srfp')
+
+
+class AdminCourseSRFPRequestUsDetailView(DetailView, CreateView):
+    model = RequestUs
+    template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp-look-request.html'
+    context_object_name = 'request'
+    form_class = RequestUsAdminCommentForm
+
+    # def get(self, request, *args, **kwargs):
+    #     request_us = RequestUs.objects.get(pk=self.get_object().pk)
+    #     request_us.is_view = True
+    #     request_us.save()
+    #     return super().get(request, *args, **kwargs)
+
+    def form_valid(self, form, *args, **kwargs):
+        if form.is_valid():
+            # Your code to save the admin_comment here
+            request_us = RequestUs.objects.get(pk=self.get_object().pk)
+            request_us.admin_comment = form.cleaned_data['admin_comment']
+            request_us.is_view = True
+            request_us.save()
+            messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+            return redirect("request_us_look", pk=self.kwargs.get('pk'))
+        else:
+            messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+            return redirect("request_us_look", pk=self.kwargs.get('pk'))
+
+
+# Program
+class AdminCourseProgramAddView(CreateView):
+    model = CourseProgram
+    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-add.html'
+    form_class = CourseProgramEditForm
+    success_url = reverse_lazy('course_srfp')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminCourseProgramEditView(CreateView):
+    model = CourseProgram
+    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        program_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        program = get_object_or_404(CourseProgram, pk=program_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = CourseProgramEditForm(instance=program)
+        return render(request, 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = CourseProgramEditForm(request.POST, request.FILES, instance=get_object_or_404(CourseProgram, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            program = CourseProgram.objects.get(pk=kwargs.get('pk'))
+            program.program_name = form.cleaned_data.get('program_name')
+            program.description = form.cleaned_data.get('description')
+            program.course = form.cleaned_data.get('course')
+            program.file = form.cleaned_data.get('file')
+            program.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('course_srfp')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('course_srfp')
+
+
+class AdminCourseProgramDeleteView(View):
+    def post(self, request, *args, **kwargs):
+        program_id = kwargs.get('pk')
+        program = get_object_or_404(CourseProgram, pk=program_id)
+        program.is_delete = True
+        program.save()
+        messages.success(request, 'Course Program deleted successfully')
+        return redirect('course_srfp')
+
+
+class AdminCourseProgramUndeleteView(View):
+    def post(self, request, pk, *args, **kwargs):
+        program = get_object_or_404(CourseProgram, pk=pk)
+        program.is_delete = False  # Set is_delete to False to undelete
+        program.save()
+        messages.success(request, 'Course Program undeleted successfully')
+        return redirect('course_srfp')

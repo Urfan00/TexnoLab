@@ -1,6 +1,6 @@
 from django import forms
 from Blog.models import Blog, BlogCategory
-from Course.models import Course, CourseCategory
+from Course.models import Course, CourseCategory, CourseProgram, RequestUs
 from Service.models import Service
 
 
@@ -69,7 +69,6 @@ class CourseCategoryEditForm(forms.ModelForm):
                 }
             )
         }
-
 
 
 class BlogEditForm(forms.ModelForm):
@@ -157,4 +156,54 @@ class ServiceEditForm(forms.ModelForm):
         }
 
 
+class RequestUsAdminCommentForm(forms.ModelForm):
+    class Meta:
+        model = RequestUs
+        fields = ['admin_comment']
+        labels = {
+            'admin_comment' : 'Admin Şərhi'
+        }
+        widgets = {
+            'admin_comment' : forms.Textarea(
+                attrs={
+                    'class' : 'form-control',
+                    'placeholder' :"Şərh yazın",
+                    'row': 8
+                }
+            )
+        }
+
+
+class CourseProgramEditForm(forms.ModelForm):
+    class Meta:
+        model = CourseProgram
+        fields = ['program_name', 'description', 'file', 'course']
+        labels = {
+            'program_name' : 'Program başlığı',
+            'description' : 'Program haqqında',
+            'file' : 'Fayl',
+            'course' : 'Kurs'
+        }
+        widgets = {
+            'program_name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Kursun başlığı"
+                }
+            ),
+            'description' : forms.Textarea(
+                attrs={
+                    'rows' : 8,
+                    'placeholder' :"Ətraflı məlumat"
+                }
+            ),
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            ),
+            'file' : forms.FileInput(
+                attrs={
+                }
+            ),
+        }
 

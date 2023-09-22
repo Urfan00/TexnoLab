@@ -1,9 +1,11 @@
 from django.urls import path
 from .views import (AdminBlogAddView, AdminBlogDeleteView, AdminBlogEditView, AdminBlogListView, AdminBlogUndeleteView,
                     AdminBlogCategoryAddView, AdminBlogCategoryDeleteView, AdminBlogCategoryEditView, AdminBlogCategoryUndeleteView,
-                    AdminCourseAddView, AdminCourseDeleteView, AdminCourseEditView, AdminCourseListView, AdminCourseUndeleteView,
+                    AdminCourseAddView, AdminCourseDeleteView, AdminCourseEditView, AdminCourseListView, AdminCourseProgramAddView, AdminCourseProgramDeleteView, AdminCourseProgramEditView, AdminCourseProgramUndeleteView, AdminCourseUndeleteView,
                     AdminCourseCategoryAddView,AdminCourseCategoryEditView, AdminCourseCategoryDeleteView, AdminCourseCategoryUndeleteView,
                     AdminServiceAddView, AdminServiceDeleteView, AdminServiceEditView, AdminServiceListView, AdminServiceUndeleteView,
+                    AdminCourseSRFPListView, AdminCourseSRFPFeedbackDeleteView, AdminCourseSRFPFeedbackUndeleteView, AdminCourseSRFPDetailView,
+                    AdminCourseSRFPRequestUsDeleteView, AdminCourseSRFPRequestUsUndeleteView, AdminCourseSRFPRequestUsDetailView, 
                     DashboardView)
 
 
@@ -57,6 +59,24 @@ urlpatterns = [
 
     # ************************************************************************************************************************
 
+    # Course Statistic & Feedback & & Request us & Program
+    path('course_srfp/', AdminCourseSRFPListView.as_view(), name='course_srfp'),
+
+    # Feedback
+    path('course_srfp_look/<int:pk>', AdminCourseSRFPDetailView.as_view(), name='course_srfp_look'),
+    path('feedback/<int:pk>/delete/', AdminCourseSRFPFeedbackDeleteView.as_view(), name='feedback_delete'),
+    path('feedback/<int:pk>/undelete/', AdminCourseSRFPFeedbackUndeleteView.as_view(), name='feedback_undelete'),
+
+    # Request us
+    path('request_us/<int:pk>/delete/', AdminCourseSRFPRequestUsDeleteView.as_view(), name='request_us_delete'),
+    path('request_us/<int:pk>/undelete/', AdminCourseSRFPRequestUsUndeleteView.as_view(), name='request_us_undelete'),
+    path('request_us/<int:pk>', AdminCourseSRFPRequestUsDetailView.as_view(), name='request_us_look'),
+
+    # Course Program
+    path('program_add/', AdminCourseProgramAddView.as_view(), name='program_add'),
+    path('program_edit/<int:pk>', AdminCourseProgramEditView.as_view(), name='program_edit'),
+    path('program/<int:pk>/delete/', AdminCourseProgramDeleteView.as_view(), name='program_delete'),
+    path('program/<int:pk>/undelete/', AdminCourseProgramUndeleteView.as_view(), name='program_undelete'),
 
 
 ]
