@@ -1,11 +1,43 @@
 from django.urls import path
-from .views import (AdminBlogAddView, AdminBlogDeleteView, AdminBlogEditView, AdminBlogListView, AdminBlogUndeleteView,
-                    AdminBlogCategoryAddView, AdminBlogCategoryDeleteView, AdminBlogCategoryEditView, AdminBlogCategoryUndeleteView,
-                    AdminCourseAddView, AdminCourseDeleteView, AdminCourseEditView, AdminCourseListView, AdminCourseProgramAddView, AdminCourseProgramDeleteView, AdminCourseProgramEditView, AdminCourseProgramUndeleteView, AdminCourseUndeleteView,
-                    AdminCourseCategoryAddView,AdminCourseCategoryEditView, AdminCourseCategoryDeleteView, AdminCourseCategoryUndeleteView,
-                    AdminServiceAddView, AdminServiceDeleteView, AdminServiceEditView, AdminServiceListView, AdminServiceUndeleteView,
-                    AdminCourseSRFPListView, AdminCourseSRFPFeedbackDeleteView, AdminCourseSRFPFeedbackUndeleteView, AdminCourseSRFPDetailView,
-                    AdminCourseSRFPRequestUsDeleteView, AdminCourseSRFPRequestUsUndeleteView, AdminCourseSRFPRequestUsDetailView, 
+from .views import (AdminBlogAddView,
+                    AdminBlogCategoryAddView,
+                    AdminBlogCategoryDeleteView,
+                    AdminBlogCategoryEditView,
+                    AdminBlogCategoryUndeleteView,
+                    AdminBlogDeleteView,
+                    AdminBlogEditView,
+                    AdminBlogListView,
+                    AdminBlogUndeleteView,
+                    AdminContactUSFAQPartnersListView,
+                    AdminCourseAddView,
+                    AdminCourseCategoryAddView,
+                    AdminCourseCategoryDeleteView,
+                    AdminCourseCategoryEditView,
+                    AdminCourseCategoryUndeleteView,
+                    AdminCourseDeleteView,
+                    AdminCourseEditView,
+                    AdminCourseListView,
+                    AdminCourseProgramAddView,
+                    AdminCourseProgramDeleteView,
+                    AdminCourseProgramEditView,
+                    AdminCourseProgramUndeleteView,
+                    AdminCourseSRFPDetailView,
+                    AdminCourseSRFPFeedbackDeleteView,
+                    AdminCourseSRFPFeedbackUndeleteView,
+                    AdminCourseSRFPListView,
+                    AdminCourseSRFPRequestUsDeleteView,
+                    AdminCourseSRFPRequestUsDetailView,
+                    AdminCourseSRFPRequestUsUndeleteView,
+                    AdminCourseUndeleteView,
+                    AdminPartnerAddView,
+                    AdminPartnerDeleteView,
+                    AdminPartnerEditView,
+                    AdminPartnerUndeleteView,
+                    AdminServiceAddView,
+                    AdminServiceDeleteView,
+                    AdminServiceEditView,
+                    AdminServiceListView,
+                    AdminServiceUndeleteView,
                     DashboardView)
 
 
@@ -77,6 +109,18 @@ urlpatterns = [
     path('program_edit/<int:pk>', AdminCourseProgramEditView.as_view(), name='program_edit'),
     path('program/<int:pk>/delete/', AdminCourseProgramDeleteView.as_view(), name='program_delete'),
     path('program/<int:pk>/undelete/', AdminCourseProgramUndeleteView.as_view(), name='program_undelete'),
+
+    # Partner & Contact US & FAQ
+    path('core_dashboard/', AdminContactUSFAQPartnersListView.as_view(), name='core_dashboard'),
+
+    # Partner
+    path('partner_add/', AdminPartnerAddView.as_view(), name='partner_add'),
+    path('partner_edit/<int:pk>', AdminPartnerEditView.as_view(), name='partner_edit'),
+    path('partner/<int:pk>/delete/', AdminPartnerDeleteView.as_view(), name='partner_delete'),
+    path('partner/<int:pk>/undelete/', AdminPartnerUndeleteView.as_view(), name='partner_undelete'),
+
+
+
 
 
 ]

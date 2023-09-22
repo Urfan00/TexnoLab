@@ -1,8 +1,8 @@
-Partners
-F.A.Q
-About Us 
-Contact Us
-Contact Info
+F.A.Q --> list/add/edit/delete/undelete
+Contact Us --> list/add/edit/delete/undelete
+
+About Us --> 
+Contact Info -->
 
 Accounts
 Course Students

@@ -1,5 +1,6 @@
 from django import forms
 from Blog.models import Blog, BlogCategory
+from Core.models import Partner
 from Course.models import Course, CourseCategory, CourseProgram, RequestUs
 from Service.models import Service
 
@@ -202,6 +203,27 @@ class CourseProgramEditForm(forms.ModelForm):
                 }
             ),
             'file' : forms.FileInput(
+                attrs={
+                }
+            ),
+        }
+
+
+class PartnerEditForm(forms.ModelForm):
+    class Meta:
+        model = Partner
+        fields = ['title', 'img']
+        labels = {
+            'title' : 'Partner adı',
+            'img' : 'Şəkil'
+        }
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Kursun başlığı"
+                }
+            ),
+            'img' : forms.FileInput(
                 attrs={
                 }
             ),

@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
-from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, RequestUsAdminCommentForm, ServiceEditForm
+from Core.models import Partner
+from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
 from Service.models import Service
@@ -722,3 +723,114 @@ class AdminCourseProgramUndeleteView(StaffRequiredMixin, View):
         program.save()
         messages.success(request, 'Course Program undeleted successfully')
         return redirect('course_srfp')
+
+
+# ********************************************************************************
+# Partner & Contact US & FAQ
+class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
+    model = CourseStatistic
+    template_name = 'core/partner-faq-contact_us/dshb-courses-p-faq-c_us.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        p_query = self.request.GET.get('p', '')
+        sp_query = self.request.GET.get('sp', '')
+        # ks_query = self.request.GET.get('ks', '')
+        # f_query = self.request.GET.get('f', '')
+        # df_query = self.request.GET.get('df', '')
+        # m_query = self.request.GET.get('m', '')
+        # bm_query = self.request.GET.get('bm', '')
+        # dr_query = self.request.GET.get('dr', '')
+
+        partners = Partner.objects.filter(is_delete=False).order_by('-created_at').all()
+        d_partners = Partner.objects.filter(is_delete=True).order_by('-created_at').all()
+
+
+        # statistics = CourseStatistic.objects.all()
+        # feedbacks = CourseFeedback.objects.filter(is_delete=False).all()
+        # d_feedbacks = CourseFeedback.objects.filter(is_delete=True).all()
+        # request_us = RequestUs.objects.filter(is_view=False, is_delete=False).all()
+        # b_request_us = RequestUs.objects.filter(is_view=True, is_delete=False).all()
+        # d_request_us = RequestUs.objects.filter(is_delete=True).all()
+
+
+        # # active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
+
+        if p_query:
+            partners = partners.filter(title__icontains=p_query)
+        elif sp_query:
+            d_partners = d_partners.filter(title__icontains=sp_query)
+
+
+        context["partners"] = partners
+        context["d_partners"] = d_partners
+
+        return context
+
+
+# Partner
+class AdminPartnerAddView(StaffRequiredMixin, CreateView):
+    model = Partner
+    template_name = 'core/partner-faq-contact_us/partners/dshb-partner-add.html'
+    form_class = PartnerEditForm
+    success_url = reverse_lazy('core_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminPartnerEditView(StaffRequiredMixin, CreateView):
+    model = Partner
+    template_name = 'core/partner-faq-contact_us/partners/dshb-partner-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        partner_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        partner = get_object_or_404(Partner, pk=partner_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = PartnerEditForm(instance=partner)
+        return render(request, 'core/partner-faq-contact_us/partners/dshb-partner-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = PartnerEditForm(request.POST, request.FILES, instance=get_object_or_404(Partner, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            partner = Partner.objects.get(pk=kwargs.get('pk'))
+            partner.title = form.cleaned_data.get('title')
+            partner.img = form.cleaned_data.get('img')
+            partner.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('core_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('core_dashboard')
+
+
+class AdminPartnerDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        partner_id = kwargs.get('pk')
+        partner = get_object_or_404(Partner, pk=partner_id)
+        partner.is_delete = True
+        partner.save()
+        messages.success(request, 'Partner deleted successfully')
+        return redirect('core_dashboard')
+
+
+class AdminPartnerUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        partner = get_object_or_404(Partner, pk=pk)
+        partner.is_delete = False  # Set is_delete to False to undelete
+        partner.save()
+        messages.success(request, 'Partner undeleted successfully')
+        return redirect('core_dashboard')
+
+
+
+
