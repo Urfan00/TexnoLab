@@ -1,0 +1,131 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .imp{
+    color: red;
+  }
+
+  .inpClass{
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 8px;
+    border: 1px solid #DDDDDD;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 15px 22px;
+    transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+</style>
+          <div class="dashboard__main">
+            <div class="dashboard__content bg-light-4">
+              <div class="row pb-50 mb-10">
+                <div class="col-auto">
+
+                  <h1 class="text-30 lh-12 fw-700">Program əlavə et</h1>
+                  <div class="mt-10">Bu bölmədə yeni program əlavə edə bilərsiniz.</div>
+
+                </div>
+              </div>
+
+
+              <div class="row y-gap-60">
+                <div class="col-12">
+                  <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                    <div class="d-flex items-center py-20 px-30 border-bottom-light">
+                      <h2 class="text-17 lh-1 fw-500">Yeni program əlavəsi</h2>
+                    </div>
+
+                    <div class="py-30 px-30">
+                      <form method="post" class="contact-form row y-gap-30" enctype="multipart/form-data">
+
+                        {% csrf_token %}
+
+                        {% if form.errors %}
+                          <div class="alert alert-danger alert-dismissible" role="alert">
+                            <div id="form_errors">
+                              {% for key, value in form.errors.items %}
+                                <strong>{{ key }}-{{ value }}</strong>
+                              {% endfor %}
+                            </div>
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                          </div>
+                        {% endif %}
+
+                        <div class="col-12">
+                          <label id="a1" for="id_title" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.title.label }} <span class="imp">*</span></label>
+                          {{ form.title }}
+                        </div>
+
+
+                        <div class="col-12">
+                          <label id="a2" for="id_location" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.location.label }} <span class="imp">*</span></label>
+                          {{ form.location }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_location_url" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.location_url.label }} <span class="imp">*</span></label>
+                          {{ form.location_url }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_content" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.content.label }} <span class="imp">*</span></label>
+                          {{ form.content }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_phone_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.phone_number.label }} <span class="imp">*</span></label>
+                          {{ form.phone_number }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_email" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.email.label }} <span class="imp">*</span></label>
+                          {{ form.email }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_instagram" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.instagram.label }} <span class="imp">*</span></label>
+                          {{ form.instagram }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_twitter" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.twitter.label }} <span class="imp">*</span></label>
+                          {{ form.twitter }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_facebook" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.facebook.label }} <span class="imp">*</span></label>
+                          {{ form.facebook }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_github" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.github.label }} <span class="imp">*</span></label>
+                          {{ form.github }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_youtube" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.youtube.label }} <span class="imp">*</span></label>
+                          {{ form.youtube }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a2" for="id_linkedIn" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.linkedIn.label }} <span class="imp">*</span></label>
+                          {{ form.linkedIn }}
+                        </div>
+
+                        <div class="row y-gap-20 justify-between pt-15">
+                          <div class="col-auto">
+                            <button class="button -md -purple-1 text-white">Təsdiq et</button>
+                          </div>
+                        </div>
+                      </form>
+
+                    </div>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+{% endblock %}

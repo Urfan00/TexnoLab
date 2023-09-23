@@ -1,6 +1,6 @@
 from django import forms
 from Blog.models import Blog, BlogCategory
-from Core.models import FAQ, Partner
+from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, RequestUs
 from Service.models import Service
 
@@ -250,3 +250,134 @@ class FAQEditForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class AboutUsEditForm(forms.ModelForm):
+    class Meta:
+        model = AboutUs
+        fields = ['title', 'content', 'img1', 'img2', 'img3']
+        labels = {
+            'title' : 'Başlıq',
+            'content' : 'Məzmun',
+            'img1' : 'Şəkil1',
+            'img2' : 'Şəkil2',
+            'img3' : 'Şəkil3',
+        }
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' : "Başlıq"
+                }
+            ),
+            'content' : forms.Textarea(
+                attrs={
+                    'row': "8",
+                    'placeholder' : "Məzmun"
+                }
+            ),
+            'img1' : forms.FileInput(
+                attrs={
+                }
+            ),
+            'img2' : forms.FileInput(
+                attrs={
+                }
+            ),
+            'img3' : forms.FileInput(
+                attrs={
+                }
+            ),
+        }
+
+
+class ContactInfoEditForm(forms.ModelForm):
+    class Meta:
+        model = ContactInfo
+        fields = ['title', 'location', 'location_url', 'content', 'phone_number', 'email', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn']
+        labels = {
+            'title' : 'Başlıq',
+            'location' : 'Ünvan',
+            'location_url' : 'Ünvan linki',
+            'content' : 'Məzmun',
+            'phone_number' : 'Telefon nömrəsi',
+            'email' : 'E-poçt',
+            'instagram' : 'İnstagram',
+            'twitter' : 'Twitter',
+            'facebook' : 'Facebook',
+            'github' : 'Github',
+            'youtube' : 'YouTube',
+            'linkedIn' : 'LinkedIn',
+        }
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Başlıq"
+                }
+            ),
+            'location' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Ünvan"
+                }
+            ),
+            'location_url' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"Ünvan linki"
+                }
+            ),
+            'content' : forms.Textarea(
+                attrs={
+                    'row': "8",
+                    'placeholder' : "Məzmun"
+                }
+            ),
+            'phone_number' : forms.TextInput(
+                attrs={
+                    'placeholder' :"+994-- --- -- --"
+                }
+            ),
+            'email' : forms.EmailInput(
+                attrs={
+                    'placeholder' :"E-poçt"
+                }
+            ),
+            'instagram' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"instagram"
+                }
+            ),
+            'twitter' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"twitter"
+                }
+            ),
+            'facebook' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"facebook"
+                }
+            ),
+            'github' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"github"
+                }
+            ),
+            'youtube' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"youtube"
+                }
+            ),
+            'linkedIn' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"linkedIn"
+                }
+            ),
+        }
+
+
+

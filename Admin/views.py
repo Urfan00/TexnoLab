@@ -2,8 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
-from Core.models import FAQ, ContactUs, Partner
-from .forms import BlogCategoryEditForm, BlogEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, FAQEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
+from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner
+from .forms import AboutUsEditForm, BlogCategoryEditForm, BlogEditForm, ContactInfoEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, FAQEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
 from Service.models import Service
@@ -16,6 +16,7 @@ from django.db.models import Q
 # **********************************************************************************
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+
 
 class StaffRequiredMixin(UserPassesTestMixin):
     def test_func(self):
@@ -751,9 +752,6 @@ class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
         b_contact_us = ContactUs.objects.filter(is_view=True, is_delete=False).all()
         d_contact_us = ContactUs.objects.filter(is_delete=True).all()
 
-
-        # # active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
-
         if p_query:
             partners = partners.filter(title__icontains=p_query)
         elif sp_query:
@@ -876,7 +874,7 @@ class AdminFAQEditView(StaffRequiredMixin, CreateView):
         return render(request, 'core/partner-faq-contact_us/f.a.q/dshb-faq-edit.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = FAQEditForm(request.POST, instance=get_object_or_404(Partner, pk=kwargs.get('pk')))
+        form = FAQEditForm(request.POST)
 
         if form.is_valid():
             faq = FAQ.objects.get(pk=kwargs.get('pk'))
@@ -940,4 +938,80 @@ class AdminContactUsView(StaffRequiredMixin, DetailView):
         contact_us.save()
         return super().get(request, *args, **kwargs)
 
+
+# About Us & Contact Info
+class AdminAboutContactInfoListView(StaffRequiredMixin, View):
+    template_name = 'core/about_us-contact_us/dshb-about-contact-info.html'
+
+    def get_context_data(self):
+        context = {}
+        context["about"] = AboutUs.objects.first()
+        context["contact_info"] = ContactInfo.objects.first()
+        return context
+
+    def get(self, request, *args, **kwargs):
+        return render(request, self.template_name, {**self.get_context_data()})
+
+
+class AdminAboutUsEditView(StaffRequiredMixin, CreateView):
+    model = AboutUs
+    template_name = 'core/about_us-contact_us/dshb-faq-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        about = AboutUs.objects.first()
+
+        form = AboutUsEditForm(instance=about)
+        return render(request, 'core/about_us-contact_us/dshb-about_us-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = AboutUsEditForm(request.POST, request.FILES, instance=AboutUs.objects.first())
+
+        if form.is_valid():
+            about = AboutUs.objects.first()
+            about.title = form.cleaned_data.get('title')
+            about.content = form.cleaned_data.get('content')
+            about.img1 = form.cleaned_data.get('img1')
+            about.img2 = form.cleaned_data.get('img2')
+            about.img3 = form.cleaned_data.get('img3')
+            about.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('about_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('about_dashboard')
+
+
+class AdminContactInfoEditView(StaffRequiredMixin, CreateView):
+    model = ContactInfo
+    template_name = 'core/about_us-contact_us/dshb-contact_info-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        contact_info = ContactInfo.objects.first()
+
+        form = ContactInfoEditForm(instance=contact_info)
+        return render(request, 'core/about_us-contact_us/dshb-contact_info-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ContactInfoEditForm(request.POST)
+
+        if form.is_valid():
+            contact_info = ContactInfo.objects.first()
+            contact_info.title = form.cleaned_data.get('title')
+            contact_info.location = form.cleaned_data.get('location')
+            contact_info.location_url = form.cleaned_data.get('location_url')
+            contact_info.content = form.cleaned_data.get('content')
+            contact_info.phone_number = form.cleaned_data.get('phone_number')
+            contact_info.email = form.cleaned_data.get('email')
+            contact_info.instagram = form.cleaned_data.get('instagram')
+            contact_info.twitter = form.cleaned_data.get('twitter')
+            contact_info.facebook = form.cleaned_data.get('facebook')
+            contact_info.github = form.cleaned_data.get('github')
+            contact_info.youtube = form.cleaned_data.get('youtube')
+            contact_info.linkedIn = form.cleaned_data.get('linkedIn')
+            contact_info.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('about_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('about_dashboard')
 
