@@ -1,0 +1,86 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+  <div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+      <div class="row pb-50 mb-10">
+        <div class="col-auto">
+
+          <h1 class="text-30 lh-12 fw-700">Tələbə</h1>
+
+        </div>
+      </div>
+
+      <div class="row y-gap-60">
+        <div class="col-12">
+          <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+            <div class="py-30 px-30">
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td><strong>Ad Soyad</strong></td>
+                    <td>{{ student.last_name }} {{ student.first_name }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>İD Kod</strong></td>
+                    <td>{{ student.id_code }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>E-poçt</strong></td>
+                    <td>{{ student.email }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>FIN</strong></td>
+                    <td>{{ student.FIN }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Şəkil</strong></td>
+                    <td>{{ student.image.url }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Telefon nömrəsi</strong></td>
+                    <td>{{ student.number }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Doğum tarixi</strong></td>
+                    <td>{{ student.birthday|date:"F j, Y" }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Balans</strong></td>
+                    <td>{{ student.balance }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>İnstagram</strong></td>
+                    <td>{{ student.instagram }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Twitter</strong></td>
+                    <td>{{ student.twitter }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Facebook</strong></td>
+                    <td>{{ student.facebook }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Github</strong></td>
+                    <td>{{ student.github }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>YouTube</strong></td>
+                    <td>{{ student.youtube }}</td>
+                  </tr>
+                  <tr>
+                    <td><strong>LinkedIn</strong></td>
+                    <td>{{ student.linkedIn }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+{% endblock %}

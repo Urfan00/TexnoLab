@@ -1,4 +1,5 @@
 from django import forms
+from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, RequestUs
@@ -375,6 +376,52 @@ class ContactInfoEditForm(forms.ModelForm):
                 attrs={
                     'class' : 'inpClass',
                     'placeholder' :"linkedIn"
+                }
+            ),
+        }
+
+
+class AccountEditForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'id_code', 'balance']
+        labels = {
+            'first_name' : 'Ad',
+            'last_name' : 'Soyad',
+            'FIN' : 'FİN kod',
+            'birthday' : 'Doğum tarixi',
+            'id_code' : 'İD Kod',
+            'balance' : 'Balans',
+        }
+        widgets = {
+            'first_name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Ad"
+                }
+            ),
+            'last_name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Soyad"
+                }
+            ),
+            'FIN' : forms.TextInput(
+                attrs={
+                    'placeholder' :"FİN kod"
+                }
+            ),
+            'birthday' : forms.DateInput(
+                attrs={
+                    'placeholder' :"yyyy-mm-dd"
+                }
+            ),
+            'id_code' : forms.TextInput(
+                attrs={
+                    'placeholder' :"İD Kod"
+                }
+            ),
+            'balance' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Balans"
                 }
             ),
         }

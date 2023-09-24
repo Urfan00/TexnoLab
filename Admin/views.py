@@ -3,7 +3,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
 from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner
-from .forms import AboutUsEditForm, BlogCategoryEditForm, BlogEditForm, ContactInfoEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, FAQEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
+from .forms import AboutUsEditForm, AccountEditForm, BlogCategoryEditForm, BlogEditForm, ContactInfoEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, FAQEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
 from Service.models import Service
@@ -1014,4 +1014,79 @@ class AdminContactInfoEditView(StaffRequiredMixin, CreateView):
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
             return redirect('about_dashboard')
+
+
+# Account & Register
+class AdminAccountListView(StaffRequiredMixin, ListView):
+    model = Account
+    template_name = 'account/dshb-account-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        s_query = self.request.GET.get('s', '')
+
+        students = Account.objects.filter(is_delete=False).order_by('-date_joined')
+
+        if s_query:
+            students = students.filter(
+                Q(first_name__icontains=s_query) | Q(last_name__icontains=s_query)
+            )
+
+        context["students"] = students
+
+        return context
+
+
+class AdminAccountDetailView(StaffRequiredMixin, DetailView):
+    model = Account
+    template_name = 'account/dshb-account-look.html'
+    context_object_name = 'student'
+
+
+class AdminAccountAddView(StaffRequiredMixin, CreateView):
+    model = Account
+    template_name = 'account/dshb-account-add.html'
+    form_class = AccountEditForm
+    success_url = reverse_lazy('account_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminAccountEditView(StaffRequiredMixin, CreateView):
+    model = Account
+    template_name = 'account/dshb-account-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        account_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        account = get_object_or_404(Account, pk=account_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = AccountEditForm(instance=account)
+        return render(request, 'account/dshb-account-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = AccountEditForm(request.POST, request.FILES, instance=get_object_or_404(Account, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            account = Account.objects.get(pk=kwargs.get('pk'))
+            account.first_name = form.cleaned_data.get('first_name')
+            account.last_name = form.cleaned_data.get('last_name')
+            account.FIN = form.cleaned_data.get('FIN')
+            account.birthday = form.cleaned_data.get('birthday')
+            account.id_code = form.cleaned_data.get('id_code')
+            account.balance = form.cleaned_data.get('balance')
+            account.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('account_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('account_dashboard')
 

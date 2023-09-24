@@ -1,6 +1,9 @@
 from django.urls import path
 from .views import (AdminAboutContactInfoListView,
                     AdminAboutUsEditView,
+                    AdminAccountAddView,
+                    AdminAccountDetailView, AdminAccountEditView,
+                    AdminAccountListView,
                     AdminBlogAddView,
                     AdminBlogCategoryAddView,
                     AdminBlogCategoryDeleteView,
@@ -146,6 +149,13 @@ urlpatterns = [
 
     path('about_us_edit', AdminAboutUsEditView.as_view(), name='about_us_edit'),
     path('contact_info_edit', AdminContactInfoEditView.as_view(), name='contact_info_edit'),
+
+    # Account & Register
+    path('account_dashboard/', AdminAccountListView.as_view(), name='account_dashboard'),
+    path('account_look/<int:pk>', AdminAccountDetailView.as_view(), name='account_look'),
+    path('account_add/', AdminAccountAddView.as_view(), name='account_add'),
+    path('account_edit/<int:pk>', AdminAccountEditView.as_view(), name='account_edit'),
+
 
 ]
 

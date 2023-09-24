@@ -61,6 +61,7 @@ class Account(AbstractUser):
     linkedIn = models.URLField(max_length=200, null=True, blank=True)
     group = models.ManyToManyField(Group, blank=True)
     first_time_login = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
     username = None
 
     USERNAME_FIELD = 'id_code'
