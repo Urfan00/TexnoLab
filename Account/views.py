@@ -1,5 +1,4 @@
 from django.shortcuts import redirect, render
-
 from Account.models import Account
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
@@ -7,10 +6,11 @@ from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib import messages
+from django.contrib.auth.mixins import UserPassesTestMixin
 
 
 
-class LogInView(LoginView):
+class LogInView(LoginView, UserPassesTestMixin):
     template_name = 'login.html'
     form_class = LoginForm
 
@@ -23,8 +23,6 @@ class LogInView(LoginView):
         if self.request.user.is_authenticated:
             if hasattr(self.request.user, 'first_time_login') and self.request.user.first_time_login:
                 # If user is authenticated and has first_time_login attribute set
-                self.request.user.first_time_login = False
-                self.request.user.save()
                 return reverse_lazy('change_password')
             else:
                 return reverse_lazy('index')
@@ -35,6 +33,15 @@ class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
     template_name='change-password.html'
     form_class= ChangePasswordForm
     success_url = reverse_lazy('logout')
+
+    def form_valid(self, form):
+        # Call the parent class's form_valid method to perform the password change
+
+        # Update the first_time_login attribute to False
+        self.request.user.first_time_login = False
+        self.request.user.save()
+
+        super().form_valid(form)
 
 
 class ResetPasswordView(PasswordResetView):

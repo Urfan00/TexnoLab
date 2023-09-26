@@ -28,6 +28,7 @@ class Service(DateMixin):
 class ServiceImage(DateMixin):
     photo = models.ImageField(upload_to=Uploader.service_image)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='service_images')
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.service.title} image {self.pk}'

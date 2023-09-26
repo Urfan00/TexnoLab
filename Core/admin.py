@@ -11,9 +11,8 @@ class PartnerAdmin(admin.ModelAdmin):
 
 
 class AboutUsAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'img1', 'img2', 'img3', 'is_delete', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'img1', 'img2', 'img3', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
-    list_filter = ['is_delete']
     search_fields = ['title']
 
 

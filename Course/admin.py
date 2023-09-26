@@ -32,8 +32,9 @@ class RequestUsAdmin(admin.ModelAdmin):
 
 
 class GalleryAdmin(admin.ModelAdmin):
-    list_display = ['id', 'photo', 'course', 'created_at', 'updated_at']
+    list_display = ['id', 'photo', 'course', 'is_delete', 'created_at', 'updated_at']
     search_fields = ['course__title']
+    list_filter = ['is_delete']
 
 
 class CourseProgramAdmin(admin.ModelAdmin):

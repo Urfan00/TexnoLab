@@ -37,7 +37,6 @@ class AboutUs(DateMixin):
     img1 = models.ImageField(upload_to=Uploader.about_us)
     img2 = models.ImageField(upload_to=Uploader.about_us)
     img3 = models.ImageField(upload_to=Uploader.about_us)
-    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return self.title

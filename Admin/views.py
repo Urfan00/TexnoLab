@@ -38,9 +38,9 @@ class DashboardView(StaffRequiredMixin, ListView):
         context['blog_count'] = Blog.objects.count()
         context['course_count'] = Course.objects.count()
         context['service_count'] = Service.objects.count()
-        context["courses"] = Course.objects.annotate(review_count=Count('course_feedback'), program_count=Count('course_program'), student_count=Count('student_course')).order_by('-created_at').all()[:5]
+        context["courses"] = Course.objects.filter(category__is_delete=False, is_delete=False).annotate(review_count=Count('course_feedback'), program_count=Count('course_program'), student_count=Count('student_course')).order_by('-created_at').all()[:5]
         context["blogs"] = Blog.objects.filter(is_delete=False).order_by('-created_at').all()[:5]
-        context["services"] = Service.objects.order_by('-created_at').all()[:5]
+        context["services"] = Service.objects.filter(is_delete=False).order_by('-created_at').all()[:5]
         return context
 
 # *************************************************************************************
@@ -1089,4 +1089,3 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
             return redirect('account_dashboard')
-

@@ -3,6 +3,7 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
+# from Account.views import FirstTimeLoginMixin
 from Course.forms import RequestUsForm
 from Course.models import Course, CourseStatistic
 from .forms import ContactFormModel
@@ -21,12 +22,12 @@ class IndexView(View):
 
     def get_context_data(self):
         context = {}
-        context["partners"] = Partner.objects.all()
-        context['blogs'] = Blog.objects.order_by('-date').all()[:4]
-        context['courses'] = Course.objects.order_by('-start_date').all()[:8]
+        context["partners"] = Partner.objects.filter(is_delete=False).all()
+        context['blogs'] = Blog.objects.filter(is_delete=False).order_by('-date').all()[:4]
+        context['courses'] = Course.objects.filter(is_delete=False).order_by('-start_date').all()[:8]
         context['top_course'] = CourseStatistic.objects.order_by('-read_count').all()[:10]
         context['main_menus'] = NavMenu.objects.filter(sub_menu__isnull=True).all()
-        context['testimonials'] = Account.objects.order_by('?').all()[:5] # ad soyad testimonials bu 3 u ancaq !!!
+        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False).order_by('?').all()[:5]
         return context
 
     def get(self, request, *args, **kwargs):
@@ -51,7 +52,7 @@ class AboutView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['about'] = AboutUs.objects.first()
-        context['testimonials'] = Account.objects.order_by('?').all()[:5] # ad soyad testimonials bu 3 u ancaq !!!
+        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False).order_by('?').all()[:5]
         return context
 
 
@@ -63,7 +64,7 @@ class ContactUsView(CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["info"] = ContactInfo.objects.first()
-        context['faqs'] = FAQ.objects.all()
+        context['faqs'] = FAQ.objects.filter(is_delete=False).all()
         return context
 
     def form_valid(self, form):

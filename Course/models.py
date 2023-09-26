@@ -75,6 +75,7 @@ class RequestUs(DateMixin):
 class Gallery(DateMixin):
     photo = models.ImageField(upload_to=Uploader.course_gallery)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_gallery')
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.course.title} gallery photo {self.pk}"
@@ -90,7 +91,6 @@ class CourseProgram(DateMixin):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_program')
     file = models.FileField(upload_to=Uploader.course_program, null=True, blank=True)
     is_delete = models.BooleanField(default=False)
-
 
     def __str__(self):
         return self.program_name

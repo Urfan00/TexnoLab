@@ -1,24 +1,17 @@
 {% extends 'base.html' %}
-
 {% load static %}
 {% block content %}
 
     <div class="content-wrapper  js-content-wrapper">
-
       <section class="page-header -type-1">
         <div class="container">
           <div class="page-header__content">
             <div class="row justify-center text-center">
               <div class="col-auto">
                 <div data-anim="slide-up delay-1">
-
                   <h1 class="page-header__title pt-80">Kurslar</h1>
-
                 </div>
-
                 <div data-anim="slide-up delay-2">
-
-                  {% comment %} <p class="page-header__text">We’re on a mission to deliver engaging, curated courses at a reasonable price.</p> {% endcomment %}
 
                 </div>
               </div>
@@ -27,15 +20,13 @@
         </div>
       </section>
 
-
       <section class="layout-pt-sm layout-pb-lg">
         <div data-anim-wrap class="container">
           <div class="tabs -pills js-tabs">
             <div data-anim-child="slide-up delay-3" class="tabs__controls d-flex justify-center x-gap-10 js-tabs-controls">
-             
+
               {% for cat in course_category %}
                 <div>
-                  {% comment %} {% if forloop.first %} is-active{% endif %} {% endcomment %}
                   <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-{{ cat.id }}" type="button">{{ cat.name }}</button>
                 </div>
               {% endfor %}
@@ -45,9 +36,9 @@
               {% for cat in course_category %}
               <div class="tabs__pane -tab-item-{{cat.id}} {% if forloop.first %} is-active{% endif %}" id="category-{{cat.id}}">
                 <div class="row y-gap-30">
-               
+
                   {% for blog in courses %}
-                  
+
                     <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ blog.category.id }}">
                       <a href="{% url 'course' blog.slug %}" class="blogCard -type-1">
                         <div class="blogCard__image">
@@ -56,38 +47,12 @@
                         <div class="blogCard__content mt-20">
                           <div class="blogCard__category">{{ blog.title }}</div>
                           <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
-                      
-                       
-                        
+
                         </div>
                       </a>
                     </div>
-                    
                   {% endfor %}
-
                 </div>
-
-                {% comment %} <div class="row justify-center pt-60 lg:pt-40">
-                  <div class="col-auto">
-                    <div class="pagination -buttons">
-                      <button class="pagination__button -prev">
-                        <i class="icon icon-chevron-left"></i>
-                      </button>
-
-                      <div class="pagination__count">
-                        <a href="#">1</a>
-                        <a class="-count-is-active" href="#">2</a>
-                        <a href="#">3</a>
-                        <span>...</span>
-                        <a href="#">67</a>
-                      </div>
-
-                      <button class="pagination__button -next">
-                        <i class="icon icon-chevron-right"></i>
-                      </button>
-                    </div>
-                  </div>
-                </div> {% endcomment %}
               </div>
               {% endfor %}
             </div>
@@ -95,44 +60,38 @@
         </div>
       </section>
 
-
-
-
-
-
-      
       <script>
         // Get all category buttons and category sections
         const categoryButtons = document.querySelectorAll('.js-tabs-button');
         const categorySections = document.querySelectorAll('.tabs__pane');
-      
+
         // Get all blog post elements
         const blogPosts = document.querySelectorAll('.col-lg-4.col-md-6');
-      
+
         // Add click event listeners to category buttons
         categoryButtons.forEach(button => {
           button.addEventListener('click', () => {
             // Remove active class from all category buttons
             categoryButtons.forEach(btn => btn.classList.remove('is-active'));
-      
+
             // Add active class to the clicked button
             button.classList.add('is-active');
-      
+
             // Get the data-tab-target attribute of the clicked button
             const target = button.getAttribute('data-tab-target');
-      
+
             // Remove active class from all category sections
             categorySections.forEach(section => section.classList.remove('is-active'));
-      
+
             // Add active class to the category section with the matching ID
             const matchingSection = document.querySelector(target);
             if (matchingSection) {
               matchingSection.classList.add('is-active');
             }
-      
+
             // Get the category ID of the selected category
             const categoryId = parseInt(target.split('-').pop(), 10);
-      
+
             // Filter and display only the blog posts with the selected category
             blogPosts.forEach(post => {
               const postCategoryId = parseInt(post.getAttribute('data-category-id'), 10);
@@ -145,6 +104,5 @@
           });
         });
       </script>
-      
-      
+
 {% endblock %}
