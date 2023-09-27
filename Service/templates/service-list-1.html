@@ -1,0 +1,137 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+    <div class="content-wrapper  js-content-wrapper">
+
+      <section class="page-header -type-1">
+        <div class="container">
+          <div class="page-header__content">
+            <div class="row justify-center text-center">
+              <div class="col-auto">
+                <div data-anim="slide-up delay-1">
+
+                  <h1 class="page-header__title pt-80">Xəbərlər</h1>
+
+                </div>
+
+                <div data-anim="slide-up delay-2">
+
+                  {% comment %} <p class="page-header__text">We’re on a mission to deliver engaging, curated courses at a reasonable price.</p> {% endcomment %}
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="layout-pt-sm layout-pb-lg">
+        <div data-anim-wrap class="container">
+          <div class="tabs -pills js-tabs">
+            <div data-anim-child="slide-up delay-3" class="tabs__controls d-flex justify-center x-gap-10 js-tabs-controls">
+             
+              
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">Servis mərkəzi</button>
+                </div>
+
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-2" type="button">Görüntülər</button>
+                </div>
+
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-3" type="button">Nəyi təmir edirik?</button>
+                </div>
+              
+            </div>
+
+            <div class="tabs__content pt-40 js-tabs-content">
+            
+              <div class="tabs__pane -tab-item-1 is-active" id="category-1">
+                <div class="row y-gap-30">
+               
+                 
+                  
+                    <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="1">
+                      <a href="#" class="blogCard -type-1">
+                        <div class="blogCard__image">
+                          <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="#" alt="image">
+                        </div>
+                        <div class="blogCard__content mt-20">
+                          <div class="blogCard__category">{{ blog.title }}</div>
+                          <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
+                          <div class="blogCard__date text-14 mt-5">{{ blog.date }}</div>
+                        </div>
+                      </a>
+                    </div>
+      
+                </div>
+              </div>
+
+
+
+
+              <div class="tabs__pane -tab-item-2" id="category-2">
+                <div class="row y-gap-30">
+               
+                 
+                  
+                    <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="2">
+                      <a href="#" class="blogCard -type-1">
+                        <div class="blogCard__image">
+                          <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="#" alt="image">
+                        </div>
+                        <div class="blogCard__content mt-20">
+                          <div class="blogCard__category">{{ blog.title }}</div>
+                          <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
+                          <div class="blogCard__date text-14 mt-5">{{ blog.date }}</div>
+                        </div>
+                      </a>
+                    </div>
+      
+                </div>
+              </div>
+
+
+
+
+
+              <div class="tabs__pane -tab-item-3" id="category-3">
+                <div class="row y-gap-30">
+               
+                 
+                  
+                    <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="3">
+                      <a href="#" class="blogCard -type-1">
+                        <div class="blogCard__image">
+                          <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="#" alt="image">
+                        </div>
+                        <div class="blogCard__content mt-20">
+                          <div class="blogCard__category">{{ blog.title }}</div>
+                          <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
+                          <div class="blogCard__date text-14 mt-5">{{ blog.date }}</div>
+                        </div>
+                      </a>
+                    </div>
+      
+                </div>
+              </div>
+          
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+      
+      
+      
+      
+{% endblock %}
