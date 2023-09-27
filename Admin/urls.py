@@ -104,7 +104,7 @@ urlpatterns = [
 
     # ************************************************************************************************************************
 
-    # Course Statistic & Feedback & & Request us & Program
+    # Course Statistic & Feedback & Request us & Program
     path('course_srfp/', AdminCourseSRFPListView.as_view(), name='course_srfp'),
 
     # Feedback

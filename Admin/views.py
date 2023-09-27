@@ -34,7 +34,7 @@ class DashboardView(StaffRequiredMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['account_count'] = Account.objects.count()
+        context['account_count'] = Account.objects.filter(is_active=True, is_staff=False, is_superuser=False).count()
         context['blog_count'] = Blog.objects.count()
         context['course_count'] = Course.objects.count()
         context['service_count'] = Service.objects.count()
@@ -1025,7 +1025,7 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         s_query = self.request.GET.get('s', '')
 
-        students = Account.objects.filter(is_delete=False).order_by('-date_joined')
+        students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False).order_by('-date_joined')
 
         if s_query:
             students = students.filter(

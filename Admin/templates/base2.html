@@ -164,7 +164,7 @@
             <div class="sidebar -dashboard">
 
               <div class="sidebar__item -is-active -dark-bg-dark-2">
-                <a href="dashboard.html" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
+                <a href="{% url "dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
                   <i class="text-20 icon-discovery mr-15"></i>
                   Dashboard
                 </a>
@@ -185,37 +185,37 @@
               </div>
 
               <div class="sidebar__item ">
-                <a href="dshb-messages.html" class="d-flex items-center text-17 lh-1 fw-500 ">
+                <a href="{% url "service_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-message mr-15"></i>
-                  Messages
+                  Servislər
                 </a>
               </div>
 
               <div class="sidebar__item ">
-                <a href="dshb-listing.html" class="d-flex items-center text-17 lh-1 fw-500 ">
+                <a href="{% url "course_srfp" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-list mr-15"></i>
                   Create Course
                 </a>
               </div>
 
               <div class="sidebar__item ">
-                <a href="dshb-reviews.html" class="d-flex items-center text-17 lh-1 fw-500 ">
+                <a href="{% url "core_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-comment mr-15"></i>
                   Reviews
                 </a>
               </div>
 
               <div class="sidebar__item ">
-                <a href="dshb-settings.html" class="d-flex items-center text-17 lh-1 fw-500 ">
+                <a href="{% url "about_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-setting mr-15"></i>
-                  Settings
+                  Haqqımızda
                 </a>
               </div>
 
               <div class="sidebar__item ">
-                <a href="#" class="d-flex items-center text-17 lh-1 fw-500 ">
+                <a href="{% url "account_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-power mr-15"></i>
-                  Logout
+                  Tələbələr
                 </a>
               </div>
 
