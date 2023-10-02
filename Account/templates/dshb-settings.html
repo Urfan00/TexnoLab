@@ -162,8 +162,11 @@
                         <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
                           Profili yenilə
                         </button>
-                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
+                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-2" type="button">
                           Sosial şəbəkələr
+                        </button>
+                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
+                          Mənim kurslarım
                         </button>
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -219,7 +222,7 @@
                           </form>
                           </div>
                         </div>
-                        <div class="tabs__pane -tab-item-3">
+                        <div class="tabs__pane -tab-item-2">
                           <form method="post" class="contact-form row y-gap-30">
 
                             {% csrf_token %}
@@ -270,6 +273,82 @@
                             </div>
                           </form>
                         </div>
+
+                        <div class="tabs__pane -tab-item-3">
+
+                          <style>
+                            .tDiv{
+                              width:100%;
+                              overflow-x:scroll;
+                            }
+
+                            {% comment %} .dif{
+                              display:block!important;
+                            } {% endcomment %}
+
+                            .wt{
+                              min-width:30px!important;
+                              height:30px!important;
+                              padding:8px!important;
+                              float:left!important;
+                              margin:5px;
+                            }
+
+                            .menusuboper{
+                              width: 135px;
+                              height:40px;
+                              float: left;
+                            }
+
+                            table.table td{
+                              padding: 10px;
+                            }
+                          </style>
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table" style="margin-top:25px; padding: 0px;">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Kurslar</th>
+                                    <th>Kurs şəkili</th>
+                                    <th>Qruplar</th>
+                                    <th>Ortalama balı</th>
+                                    <th>Ödəniş</th>
+                                    <th>Endirim</th>
+                                    <th>Qalıq</th>
+                                    <th>Status</th>
+                                    <th>Başlama vaxtı</th>
+                                    <th>Bitmə vaxtı</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for course in my_course %}
+                                    <tr>
+                                      <td>{{ forloop.counter }}</td>
+                                      <td>{{ course.course.title }}</td>
+                                      <td><img width="50" height="50" src="{{ course.course.main_photo.url }}" alt=""></td>
+                                      <td>{{ course.group.name }}</td>
+                                      <td>{{ course.average }}</td>
+                                      <td>{{ course.payment }}</td>
+                                      <td>{{ course.discount }}</td>
+                                      <td>{{ course.rest }}</td>
+                                      <td>{{ course.is_active }}</td>
+                                      <td>{{ course.course.start_date }}</td>
+                                      <td>{{ course.course.end_date }}</td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
+
+
                       </div>
                     </div>
                   </div>

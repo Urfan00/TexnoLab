@@ -1,5 +1,6 @@
 from django.shortcuts import redirect, render
 from Account.models import Account
+from Course.models import CourseStudent
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -7,6 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
+from django.views import View
 
 
 
@@ -63,14 +65,19 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
     success_url = reverse_lazy('logout')
 
 
-class AccountInformationView(LoginRequiredMixin, CreateView):
+class AccountInformationView(LoginRequiredMixin, View):
     model = Account
     template_name = 'dshb-settings.html'
+
+    def get_context_data(self):
+        context = {}
+        context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
+        return context
 
     def get(self, request, *args, **kwargs):
         form1 = AccountInforrmationForm(instance=request.user)
         form2 = SocialProfileForm(instance=request.user)
-        return render(request, 'dshb-settings.html', {'form1': form1, 'form2': form2})
+        return render(request, self.template_name, {**self.get_context_data(), 'form1': form1, 'form2': form2})
 
     def post(self, request, *args, **kwargs):
         form1 = AccountInforrmationForm(request.POST, request.FILES)
