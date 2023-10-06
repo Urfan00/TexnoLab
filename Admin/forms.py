@@ -104,6 +104,7 @@ class BlogEditForm(forms.ModelForm):
             ),
             'date' : forms.DateTimeInput(
                 attrs={
+                    "class" : 'inpClass',
                     'type': 'date',
                     'placeholder' :"yyyy-dd-mm"
                 }
@@ -425,6 +426,3 @@ class AccountEditForm(forms.ModelForm):
                 }
             ),
         }
-
-
-

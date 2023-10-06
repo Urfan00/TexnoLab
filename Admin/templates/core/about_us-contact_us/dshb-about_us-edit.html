@@ -39,7 +39,7 @@
 
                     <div class="py-30 px-30">
                       <form method="post" class="contact-form row y-gap-30" enctype="multipart/form-data">
-
+                        {{ form.media }}
                         {% csrf_token %}
 
                         {% if form.errors %}

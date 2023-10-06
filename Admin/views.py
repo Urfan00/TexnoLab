@@ -302,7 +302,7 @@ class AdminBlogEditView(StaffRequiredMixin, CreateView):
 
         # Create an instance of the CourseEditForm with the retrieved course
         form = BlogEditForm(instance=blog)
-        return render(request, 'blog/dshb-listing-blog-category.html', {'form': form})
+        return render(request, 'blog/dshb-listing-blog.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = BlogEditForm(request.POST, request.FILES, instance=get_object_or_404(Blog, slug=kwargs.get('slug')))
@@ -955,7 +955,7 @@ class AdminAboutContactInfoListView(StaffRequiredMixin, View):
 
 class AdminAboutUsEditView(StaffRequiredMixin, CreateView):
     model = AboutUs
-    template_name = 'core/about_us-contact_us/dshb-faq-edit.html'
+    template_name = 'core/about_us-contact_us/dshb-about_us-edit.html'
 
     def get(self, request, *args, **kwargs):
         about = AboutUs.objects.first()
