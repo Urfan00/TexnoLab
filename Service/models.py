@@ -36,3 +36,15 @@ class ServiceImage(DateMixin):
     class Meta:
         verbose_name = 'Service Image'
         verbose_name_plural = 'Service Images'
+
+
+class ServiceHome(DateMixin):
+    title = models.CharField(max_length=255)
+    photo = models.ImageField(upload_to=Uploader.service_image_home)
+
+    def __str__(self):
+        return f'{self.title}'
+
+    class Meta:
+        verbose_name = 'Service Home'
+        verbose_name_plural = 'Service Home'

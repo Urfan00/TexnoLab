@@ -6,6 +6,7 @@ from Account.models import Account
 # from Account.views import FirstTimeLoginMixin
 from Course.forms import RequestUsForm
 from Course.models import Course, CourseStatistic
+from Service.models import ServiceHome
 from .forms import ContactFormModel
 from .models import FAQ, AboutUs, ContactInfo, NavMenu, Partner
 from django.contrib import messages
@@ -25,9 +26,9 @@ class IndexView(View):
         context["partners"] = Partner.objects.filter(is_delete=False).all()
         context['blogs'] = Blog.objects.filter(is_delete=False).order_by('-date').all()[:4]
         context['courses'] = Course.objects.filter(is_delete=False).order_by('-start_date').all()[:8]
-        context['top_course'] = CourseStatistic.objects.order_by('-read_count').all()[:10]
         context['main_menus'] = NavMenu.objects.filter(sub_menu__isnull=True).all()
         context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False).order_by('?').all()[:5]
+        context['sercice_home'] = ServiceHome.objects.order_by('-created_at')[:10]
         return context
 
     def get(self, request, *args, **kwargs):

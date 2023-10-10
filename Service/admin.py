@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, ServiceImage
+from .models import Service, ServiceHome, ServiceImage
 
 
 
@@ -16,5 +16,11 @@ class ServiceAdmin(admin.ModelAdmin):
     search_fields = ['title']
 
 
+class ServiceHomeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'title', 'photo', 'created_at', 'updated_at']
+    search_fields = ['title']
+
+
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceImage, ServiceImageAdmin)
+admin.site.register(ServiceHome, ServiceHomeAdmin)
