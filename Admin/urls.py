@@ -2,7 +2,8 @@ from django.urls import path
 from .views import (AdminAboutContactInfoListView,
                     AdminAboutUsEditView,
                     AdminAccountAddView,
-                    AdminAccountDetailView, AdminAccountEditView,
+                    AdminAccountDetailView,
+                    AdminAccountEditView,
                     AdminAccountListView,
                     AdminBlogAddView,
                     AdminBlogCategoryAddView,
@@ -50,6 +51,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminServiceDeleteView,
                     AdminServiceEditView,
                     AdminServiceListView,
+                    AdminServiceMainEditView,
                     AdminServiceUndeleteView,
                     DashboardView)
 
@@ -97,8 +99,11 @@ urlpatterns = [
 
     # Service
     path('service_dashboard/', AdminServiceListView.as_view(), name='service_dashboard'),
+
+    path('service_main_edit/', AdminServiceMainEditView.as_view(), name='service_main_edit'),
+
     path('service_add/', AdminServiceAddView.as_view(), name='service_add'),
-    path('service_edit/<slug:slug>', AdminServiceEditView.as_view(), name='service_edit'),
+    path('service_edit/<int:pk>', AdminServiceEditView.as_view(), name='service_edit'),
     path('service/<int:pk>/delete/', AdminServiceDeleteView.as_view(), name='service_delete'),
     path('service/<int:pk>/undelete/', AdminServiceUndeleteView.as_view(), name='service_undelete'),
 
@@ -156,6 +161,4 @@ urlpatterns = [
     path('account_add/', AdminAccountAddView.as_view(), name='account_add'),
     path('account_edit/<int:pk>', AdminAccountEditView.as_view(), name='account_edit'),
 
-
 ]
-

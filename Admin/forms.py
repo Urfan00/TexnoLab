@@ -3,7 +3,7 @@ from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, RequestUs
-from Service.models import Service
+from Service.models import Service, ServiceHome
 
 
 
@@ -125,6 +125,25 @@ class BlogCategoryEditForm(forms.ModelForm):
                     'placeholder' :"Kateqoriya adı"
                 }
             )
+        }
+
+
+class ServiceHomeEditForm(forms.ModelForm):
+    class Meta:
+        model = ServiceHome
+        fields = ['title', 'photo', 'status']
+        labels = {
+            'title' : 'Servis adı',
+            'description1' : 'Servis haqqında 1',
+            'description2' : 'Servis haqqında 2',
+            'status' : 'Status',
+        }
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Service adı"
+                }
+            ),
         }
 
 

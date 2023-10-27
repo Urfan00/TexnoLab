@@ -17,8 +17,9 @@ class ServiceAdmin(admin.ModelAdmin):
 
 
 class ServiceHomeAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'photo', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'photo', 'status', 'is_delete', 'created_at', 'updated_at']
     search_fields = ['title']
+    list_filter = ['status', 'is_delete']
 
 
 admin.site.register(Service, ServiceAdmin)

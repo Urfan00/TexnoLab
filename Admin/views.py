@@ -3,10 +3,22 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
 from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner
-from .forms import AboutUsEditForm, AccountEditForm, BlogCategoryEditForm, BlogEditForm, ContactInfoEditForm, CourseCategoryEditForm, CourseEditForm, CourseProgramEditForm, FAQEditForm, PartnerEditForm, RequestUsAdminCommentForm, ServiceEditForm
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
-from Service.models import Service
+from Service.models import Service, ServiceHome, ServiceImage
+from .forms import (AboutUsEditForm,
+                    AccountEditForm,
+                    BlogCategoryEditForm,
+                    BlogEditForm,
+                    ContactInfoEditForm,
+                    CourseCategoryEditForm,
+                    CourseEditForm,
+                    CourseProgramEditForm,
+                    FAQEditForm,
+                    PartnerEditForm,
+                    RequestUsAdminCommentForm,
+                    ServiceEditForm,
+                    ServiceHomeEditForm)
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
@@ -409,7 +421,7 @@ class AdminBlogCategoryUndeleteView(StaffRequiredMixin, View):
 
 # Service
 class AdminServiceListView(StaffRequiredMixin, ListView):
-    model = Service
+    model = ServiceHome
     template_name = 'service/dshb-service.html'
 
     def get_context_data(self, **kwargs):
@@ -417,42 +429,63 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         a_query = self.request.GET.get('a', '')
         d_query = self.request.GET.get('d', '')
         ss_query = self.request.GET.get('ss', '')
-        # c_query = self.request.GET.get('c', '')
-        # sc_query = self.request.GET.get('sc', '')
 
-        active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
-        deactive_service = Service.objects.filter(status=False, is_delete=False).order_by('-created_at')
-        delete_service = Service.objects.filter(is_delete=True).order_by('-created_at')
+        active_service = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')
+        deactive_service = ServiceHome.objects.filter(status=False, is_delete=False).order_by('-created_at')
+        delete_service = ServiceHome.objects.filter(is_delete=True).order_by('-created_at')
 
-        # category = BlogCategory.objects.filter(is_delete=False).order_by('-created_at').all()
-        # delete_category = BlogCategory.objects.filter(is_delete=True).order_by('-created_at').all()
-
-        # Apply search filter if a query is provided
         if a_query:
             active_service = active_service.filter(title__icontains=a_query)
         elif d_query:
             deactive_service = deactive_service.filter(title__icontains=d_query)
         elif ss_query:
             delete_service = delete_service.filter(title__icontains=ss_query)
-        # elif c_query:
-        #     category = category.filter(name__icontains=c_query)
-        # elif sc_query:
-        #     delete_category = category.filter(name__icontains=sc_query)
-
 
         context["active_services"] = active_service
         context["deactive_services"] = deactive_service
         context["delete_services"] = delete_service
-        # context["categories"] = category
-        # context["delete_category"] = delete_category
-
+        main_service = Service.objects.filter(status=True, is_delete=False).first()
+        
+        if main_service:
+            context['main_service'] = main_service
+            context['service_images'] = ServiceImage.objects.filter(service=main_service)
+        else:
+            # Handle the case where no matching service is found
+            context['main_service'] = None
+            context['service_images'] = None
         return context
 
 
-class AdminServiceAddView(StaffRequiredMixin, CreateView):
+class AdminServiceMainEditView(StaffRequiredMixin, CreateView):
     model = Service
+    template_name = 'service/dshb-service-main-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        about = Service.objects.filter(status=True, is_delete=False).first()
+
+        form = ServiceEditForm(instance=about)
+        return render(request, 'service/dshb-service-main-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ServiceEditForm(request.POST, request.FILES, instance=Service.objects.filter(status=True, is_delete=False).first())
+
+        if form.is_valid():
+            service = Service.objects.filter(status=True, is_delete=False).first()
+            service.title = form.cleaned_data.get('title')
+            service.description1 = form.cleaned_data.get('description1')
+            service.description2 = form.cleaned_data.get('description2')
+            service.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('service_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('service_dashboard')
+
+
+class AdminServiceAddView(StaffRequiredMixin, CreateView):
+    model = ServiceHome
     template_name = 'service/dshb-listing-add-service.html'
-    form_class = ServiceEditForm
+    form_class = ServiceHomeEditForm
     success_url = reverse_lazy('service_dashboard')
 
     def form_valid(self, form):
@@ -467,25 +500,23 @@ class AdminServiceAddView(StaffRequiredMixin, CreateView):
 
 
 class AdminServiceEditView(StaffRequiredMixin, CreateView):
-    model = Service
+    model = ServiceHome
     template_name = 'service/dshb-listing-service.html'
 
-    def get(self, request, *args, **kwargs):
-        service_id = kwargs.get('slug')  # Get the course ID from URL kwargs
-        service = get_object_or_404(Service, slug=service_id)  # Retrieve the Course instance
+    def get(self, request, pk, *args, **kwargs):
+        service = get_object_or_404(ServiceHome, pk=pk)  # Retrieve the Course instance
 
         # Create an instance of the CourseEditForm with the retrieved course
-        form = ServiceEditForm(instance=service)
+        form = ServiceHomeEditForm(instance=service)
         return render(request, 'service/dshb-listing-service.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = ServiceEditForm(request.POST, instance=get_object_or_404(Service, slug=kwargs.get('slug')))
+        form = ServiceHomeEditForm(request.POST, request.FILES, instance=get_object_or_404(ServiceHome, pk=kwargs.get('pk')))
 
         if form.is_valid():
-            service = Service.objects.get(slug=kwargs.get('slug'))
+            service = ServiceHome.objects.get(pk=kwargs.get('pk'))
             service.title = form.cleaned_data.get('title')
-            service.description1 = form.cleaned_data.get('description1')
-            service.description2 = form.cleaned_data.get('description2')
+            service.photo = form.cleaned_data.get('photo')
             service.status = form.cleaned_data.get('status')
             service.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
@@ -498,7 +529,7 @@ class AdminServiceEditView(StaffRequiredMixin, CreateView):
 class AdminServiceDeleteView(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         service_id = kwargs.get('pk')
-        service = get_object_or_404(Service, pk=service_id)
+        service = get_object_or_404(ServiceHome, pk=service_id)
         service.is_delete = True
         service.save()
         messages.success(request, 'Service deleted successfully')
@@ -507,7 +538,7 @@ class AdminServiceDeleteView(StaffRequiredMixin, View):
 
 class AdminServiceUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
-        service = get_object_or_404(Service, pk=pk)
+        service = get_object_or_404(ServiceHome, pk=pk)
         service.is_delete = False  # Set is_delete to False to undelete
         service.save()
         messages.success(request, 'Service undeleted successfully')

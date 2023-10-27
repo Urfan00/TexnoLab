@@ -41,6 +41,8 @@ class ServiceImage(DateMixin):
 class ServiceHome(DateMixin):
     title = models.CharField(max_length=255)
     photo = models.ImageField(upload_to=Uploader.service_image_home)
+    status = models.BooleanField(default=True)
+    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return f'{self.title}'

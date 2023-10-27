@@ -29,6 +29,9 @@
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-3" type="button">
                           Silinmiş servislər
                         </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-4" type="button">
+                          Servislər Haqqında
+                        </button>
                       </div>
 
                       <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -111,7 +114,7 @@
                                           <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                           </a>
-                                          <a href="{% url "service_edit" a_service.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                          <a href="{% url "service_edit" a_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
                                           <form method="post" action="{% url "service_delete" a_service.pk %}" style="display: inline;">
@@ -185,7 +188,7 @@
                                             <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                               <i class="fa fa-eye" aria-hidden="true"></i>
                                             </a>
-                                            <a href="{% url "service_edit" d_service.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                            <a href="{% url "service_edit" d_service.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                               <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                             <form method="post" action="{% url "service_delete" d_service.pk %}" style="display: inline;">
@@ -248,7 +251,7 @@
                                           <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
                                           </a>
-                                          <a href="{% url "service_edit" d_service.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                          <a href="{% url "service_edit" d_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
                                           <form method="post" action="{% url "service_undelete" d_service.pk %}" style="display: inline;">
@@ -270,6 +273,52 @@
                             </div>
                           </div>
 
+                        </div>
+
+                        <div class="tabs__pane -tab-item-4">
+                          <div class="row y-gap-10 ">
+                            <div class="col-auto">
+                              <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                                <div>
+                                </div>
+                                <div>
+                                  <a href="{% url "service_main_edit" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    Redaktə et &nbsp;&nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                            <div class="col-12">
+                              <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                                <div class="py-30 px-30">
+        
+                                  <table class="table table-bordered">
+                                    <tbody>
+                                      <tr>
+                                        <td><strong>Başlıq</strong></td>
+                                        <td>{{ main_service.title }}</td>
+                                      </tr>
+                                      <tr>
+                                        <td><strong>Məzmun 1</strong></td>
+                                        <td>{{ main_service.description1|safe }}</td>
+                                      </tr>
+                                      <tr>
+                                        <td><strong>Məzmun 2</strong></td>
+                                        <td>{{ main_service.description2|safe }}</td>
+                                      </tr>
+                                      {% for img in service_images %}
+                                        <tr>
+                                          <td><strong>Şəkil {{ forloop.counter }}</strong></td>
+                                          <td><img src="{{ img.photo.url }}" alt="{{ main_service.title }}"></td>
+                                        </tr>
+                                      {% endfor %}
+                                    </tbody>
+                                  </table>
+                                </div>
+                              </div>
+                            </div>
+        
+                          </div>
                         </div>
 
                         </div>
