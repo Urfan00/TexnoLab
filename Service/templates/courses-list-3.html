@@ -1,0 +1,141 @@
+{% extends 'base.html' %}
+
+{% load static %}
+{% block content %}
+
+<style>
+  .wi{
+    width: 100%; 
+    height: 160px; 
+    object-fit: cover;
+  }
+</style>
+
+    <div class="content-wrapper  js-content-wrapper">
+
+
+      <section data-anim="fade" class="breadcrumbs ">
+        <div class="container">
+          <div class="row">
+            <div class="col-auto">
+              <div class="breadcrumbs__content">
+
+                <div class="breadcrumbs__item ">
+                  <a href="#">Home</a>
+                </div>
+
+                <div class="breadcrumbs__item ">
+                  <a href="#">All courses</a>
+                </div>
+
+                <div class="breadcrumbs__item ">
+                  <a href="#">User Experience Design</a>
+                </div>
+
+                <div class="breadcrumbs__item ">
+                  <a href="#">User Interface</a>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="page-header -type-1">
+        <div class="container">
+          <div class="page-header__content">
+            <div class="row">
+              <div class="col-auto">
+                <div data-anim="slide-up delay-1">
+
+                  <h1 class="page-header__title">Service Galery</h1>
+
+                </div>
+
+                <div data-anim="slide-up delay-2">
+
+                  <p class="page-header__text">Write an introductory description of the category.</p>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="layout-pt-md layout-pb-lg">
+        <div data-anim="slide-up delay-2" class="container">
+
+          <div class="row y-gap-30">
+            {% for galery in galeries %}
+            <div class="col-xl-3 col-lg-4 col-md-6">
+
+              <div class="coursesCard -type-1">
+                <div class="relative">
+                    <div class="coursesCard__image overflow-hidden rounded-8">
+                      <img class="w-1/1 wi" src="{{ galery.photo.url }}" alt="image">
+                    </div>
+                </div>
+              </div>
+
+            </div>
+            {% endfor %}
+          </div>
+
+
+          <div class="row justify-center pt-90 lg:pt-50">
+            <div class="col-auto">
+              <div class="pagination -buttons">
+                {% if galeries.has_previous %}
+                  <a href="?page=1" class="pagination__button -prev">
+                    <i class="icon icon-chevron-left"></i>
+                  </a>
+                {% endif %}
+          
+                <div class="pagination__count">
+                  {% for num in galeries.paginator.page_range %}
+                    <a href="?page={{ num }}"
+                       {% if galeries.number == num %}class="-count-is-active"{% endif %}>
+                      {{ num }}
+                    </a>
+                  {% endfor %}
+                </div>
+          
+                {% if galeries.has_next %}
+                  <a href="?page={{ galeries.next_page_number }}" class="pagination__button -next">
+                    <i class="icon icon-chevron-right"></i>
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+          </div>
+
+
+          {% comment %} <div class="row justify-center pt-90 lg:pt-50">
+            <div class="col-auto">
+              <div class="pagination -buttons">
+                <button class="pagination__button -prev">
+                  <i class="icon icon-chevron-left"></i>
+                </button>
+
+                <div class="pagination__count">
+                  <a href="#">1</a>
+                  <a class="-count-is-active" href="#">2</a>
+                  <a href="#">3</a>
+                  <span>...</span>
+                  <a href="#">67</a>
+                </div>
+
+                <button class="pagination__button -next">
+                  <i class="icon icon-chevron-right"></i>
+                </button>
+              </div>
+            </div>
+          </div> {% endcomment %}
+        </div>
+      </section>
+
+{% endblock %}
