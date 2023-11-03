@@ -1,5 +1,31 @@
 {% extends 'base.html' %}
-
+<style>
+  .gallery__list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .gallery__item {
+    width: calc(95% / 2);
+  }
+  .gallery__item:not(:nth-child(-n+2)) {
+    margin-top: 20px;
+  }
+  .gallery__item img {
+    width: 100%;
+    height: auto;
+  }
+  .gallery__item a {
+    transition: .5s;
+  }
+  .gallery__item a:hover {
+    filter: opacity(0.7);
+  }
+  .gallery__item a:hover img {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  }
+</style>
 {% load static %}
 {% block content %}
 
@@ -73,19 +99,28 @@
 
               <div class="tabs__pane -tab-item-2" id="category-2">
                 <div class="row y-gap-30">
-
+                 
                   {% for img in service_images %}
 
                   <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="2">
                     <div class="blogCard -type-1">
                       <div class="blogCard__image">
-                        <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ img.photo.url }}" alt="image">
+
+                        <ul class="gallery__list">
+                          <li class="gallery__item" style="float: left;">
+                            <a href="{{ img.photo.url }}" data-lightbox="group1" data-title="">
+                              <img src="{{ img.photo.url }}" alt="">
+                            </a>
+                          </li>
+                        </ul>
+
+                        {% comment %} <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ img.photo.url }}" alt="image"> {% endcomment %}
                       </div>
                     </div>
                   </div>
 
                   {% endfor %}
-
+                  
 
                 </div>
               </div>

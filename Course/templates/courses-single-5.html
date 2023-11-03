@@ -112,19 +112,20 @@
                           <div class="accordion -block-2 text-left js-accordion">
 
                             {% for c_pro in course_programs %}
-
                               <div class="accordion__item">
                                 <div class="accordion__button py-20 px-30 bg-light-4">
                                   <div class="d-flex items-center">
+                                    {% if c_pro.description %}
                                     <div class="accordion__icon">
                                       <div class="icon" data-feather="chevron-down"></div>
                                       <div class="icon" data-feather="chevron-up"></div>
                                     </div>
+                                    {% endif %}
                                     <span class="text-17 fw-500 text-dark-1">{{ c_pro.program_name }}</span>
                                   </div>
 
                                 </div>
-
+                                {% if c_pro.description %}
                                 <div class="accordion__content">
                                   <div class="accordion__content__inner px-30 py-30">
                                     <div class="y-gap-20">
@@ -150,6 +151,8 @@
                                     </div>
                                   </div>
                                 </div>
+
+                                {% endif %}
                               </div>
 
                             {% endfor %}
