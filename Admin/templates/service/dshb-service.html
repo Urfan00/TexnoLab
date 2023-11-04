@@ -60,7 +60,7 @@
                             </div>
                           </div>
 
-                          <style>
+                                                    <style>
                             .tDiv{
                               width:100%;
                               overflow-x:scroll;
@@ -79,9 +79,13 @@
                             }
 
                             .menusuboper{
-                              width: 135px;
+                              width: 195px;
                               height:40px;
                               float: left;
+                            }
+
+                            .c{
+                              color: white!important;
                             }
 
                             table.table td{
@@ -111,16 +115,16 @@
                                       <td>{{ a_service.description2 }}</td> {% endcomment %}
                                       <td>
                                         <div class="menusuboper">
-                                          <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
-                                          </a>
+                                          </a> {% endcomment %}
                                           <a href="{% url "service_edit" a_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
                                           <form method="post" action="{% url "service_delete" a_service.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                <i class="fa fa-trash c" aria-hidden="true"></i>
                                             </button>
                                           </form>
                                           {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
@@ -185,16 +189,16 @@
                                         <td>{{ d_service.description2 }}</td> {% endcomment %}
                                         <td>
                                           <div class="menusuboper">
-                                            <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                            {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                               <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
+                                            </a> {% endcomment %}
                                             <a href="{% url "service_edit" d_service.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                               <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                             <form method="post" action="{% url "service_delete" d_service.pk %}" style="display: inline;">
                                               {% csrf_token %}
                                               <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
-                                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                                  <i class="fa fa-trash c" aria-hidden="true"></i>
                                               </button>
                                             </form>
                                             {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
@@ -248,16 +252,16 @@
                                       <td>{{ d_service.description2 }}</td> {% endcomment %}
                                       <td>
                                         <div class="menusuboper">
-                                          <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
-                                          </a>
+                                          </a> {% endcomment %}
                                           <a href="{% url "service_edit" d_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
                                           <form method="post" action="{% url "service_undelete" d_service.pk %}" style="display: inline;">
                                             {% csrf_token %}
-                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
-                                                <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et">
+                                                <i class="fa fa-undo" aria-hidden="true"></i> &nbsp; Bərpa et
                                             </button>
                                           </form>
                                           {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">

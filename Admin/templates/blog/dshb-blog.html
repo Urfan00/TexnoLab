@@ -66,7 +66,7 @@
                           <style>
                             .tDiv{
                               width:100%;
-                              overflow-x:scroll;
+
                             }
 
                             {% comment %} .dif{
@@ -82,13 +82,17 @@
                             }
 
                             .menusuboper{
-                              width: 135px;
+                              width: 195px;
                               height:40px;
                               float: left;
                             }
 
                             table.table td{
                               padding: 10px;
+                            }
+
+                            .c{
+                              color: white!important;
                             }
                           </style>
 
@@ -116,16 +120,16 @@
                                       <td><img width="50" height="50" src="{{ a_blog.photo.url }}" alt="{{ a_blog.title }}"></td>
                                       <td>
                                         <div class="menusuboper">
-                                          <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
-                                          </a>
+                                          </a> {% endcomment %}
                                           <a href="{% url "blog_edit" a_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
                                           <form method="post" action="{% url 'blog_delete' a_blog.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                <i class="fa fa-trash c" aria-hidden="true"></i>
                                             </button>
                                           </form>
                                           {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
@@ -192,16 +196,16 @@
                                         <td><img width="50" height="50" src="{{ d_blog.photo.url }}" alt="{{ a_blog.title }}"></td>
                                         <td>
                                           <div class="menusuboper">
-                                            <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                            {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                               <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a>
+                                            </a> {% endcomment %}
                                             <a href="{% url "blog_edit" d_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                               <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
                                             <form method="post" action="{% url 'blog_delete' d_blog.pk %}" style="display: inline;">
                                               {% csrf_token %}
                                               <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
-                                                  <i class="fa fa-trash" aria-hidden="true"></i>
+                                                  <i class="fa fa-trash c" aria-hidden="true"></i>
                                               </button>
                                             </form>
                                             {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
@@ -264,16 +268,16 @@
                                       <td>{{ ctg.created_at }}</td>
                                       <td>
                                         <div class="menusuboper">
-                                          <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
-                                          </a>
+                                          </a> {% endcomment %}
                                           <a href="{% url "blog_category_edit" ctg.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
                                           <form method="post" action="{% url 'blog_category_delete' ctg.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
-                                                <i class="fa fa-trash" aria-hidden="true"></i>
+                                                <i class="fa fa-trash c" aria-hidden="true"></i>
                                             </button>
                                           </form>
                                           {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
@@ -338,18 +342,18 @@
                                       <td>{{ s_blog.blog_category.name }}</td>
                                       <td>{{ s_blog.date }}</td>
                                       <td><img width="50" height="50" src="{{ s_blog.photo.url }}" alt="{{ s_blog.title }}"></td>
-                                      <td>
+                                      <td style="width: 200px;">
                                         <div class="menusuboper">
-                                          <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                             <i class="fa fa-eye" aria-hidden="true"></i>
-                                          </a>
+                                          </a> {% endcomment %}
                                           <a href="{% url "blog_edit" s_blog.slug %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
-                                          <form method="post" action="{% url 'blog_undelete' s_blog.pk %}" style="display: inline;">
+                                          <form method="post" action="{% url 'blog_undelete' s_blog.pk %}" style="display: inline; float:left">
                                             {% csrf_token %}
-                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
-                                                <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et"><i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Bərpa et 
+                                                
                                             </button>
                                           </form>
                                           {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
@@ -412,16 +416,16 @@
                                     <td>{{ s_ctg.created_at }}</td>
                                     <td>
                                       <div class="menusuboper">
-                                        <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                        {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
                                           <i class="fa fa-eye" aria-hidden="true"></i>
-                                        </a>
+                                        </a> {% endcomment %}
                                         <a href="{% url "blog_category_edit" s_ctg.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                           <i class="fa fa-pencil" aria-hidden="true"></i>
                                         </a>
                                         <form method="post" action="{% url 'blog_category_undelete' s_ctg.pk %}" style="display: inline;">
                                           {% csrf_token %}
-                                          <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
-                                              <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                          <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Undelete">
+                                              <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Bərpa et
                                           </button>
                                         </form>
                                         {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">

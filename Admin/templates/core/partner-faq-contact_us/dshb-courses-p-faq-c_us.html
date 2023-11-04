@@ -92,6 +92,10 @@
                       float: left;
                     }
 
+                    .c{
+                      color: white!important;
+                    }
+
                     table.table td{
                       padding: 10px;
                     }
@@ -125,7 +129,7 @@
                                   </a>
                                   <form method="post" action="{% url "partner_delete" partner.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#c9302c; color:white" title="Sil">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                   </form>
@@ -182,8 +186,8 @@
                                     </a>
                                     <form method="post" action="{% url "partner_undelete" partner.pk %}" style="display: inline;">
                                       {% csrf_token %}
-                                      <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
-                                          <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                      <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et">
+                                          <i class="fa fa-undo" aria-hidden="true"></i>&nbsp; Bərpa et
                                       </button>
                                     </form>
                                   </div>
@@ -238,7 +242,7 @@
                                   </a>
                                   <form method="post" action="{% url "contact_us_delete" contact.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#c9302c; color:white" title="Sil">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                   </form>
@@ -297,7 +301,7 @@
                                   </a>
                                   <form method="post" action="{% url "contact_us_delete" contact.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#c9302c; color:white" title="Sil">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                   </form>
@@ -353,8 +357,8 @@
                                   </a>
                                   <form method="post" action="{% url "contact_us_undelete" contact.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
-                                        <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et">
+                                        <i class="fa fa-undo" aria-hidden="true"></i>&nbsp; Bərpa et
                                     </button>
                                   </form>
                                 </div>
@@ -422,7 +426,7 @@
                                   </a>
                                   <form method="post" action="{% url "faq_delete" faq.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#c9302c; color:white" title="Sil">
                                         <i class="fa fa-trash" aria-hidden="true"></i>
                                     </button>
                                   </form>
@@ -479,8 +483,8 @@
                                   </a>
                                   <form method="post" action="{% url "faq_undelete" faq.pk %}" style="display: inline;">
                                     {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#3498db; color:white" title="Undelete">
-                                        <i class="fa fa-undo" aria-hidden="true"></i> Undelete
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et">
+                                        <i class="fa fa-undo" aria-hidden="true"></i>&nbsp; Bərpa et
                                     </button>
                                   </form>
                                 </div>
