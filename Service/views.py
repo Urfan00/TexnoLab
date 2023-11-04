@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
-from Service.models import Service, ServiceImage
+from Service.models import AllGalery, Service, ServiceImage
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -29,13 +29,13 @@ class ServiceView(ListView):
 
 
 class ServiceGalery(ListView):
-    model = ServiceImage
-    template_name = 'courses-list-3.html'
+    model = AllGalery
+    template_name = 'gallery.html'
     context_object_name = 'galeries'
-    paginate_by = 8
+    paginate_by = 20
 
     def get_queryset(self):
-        queryset = ServiceImage.objects.filter(is_delete=False, service__status=True, service__is_delete=False).all()
+        queryset = AllGalery.objects.all()
         return queryset
 
     def get_context_data(self, **kwargs):

@@ -37,3 +37,7 @@ class Uploader:
     @staticmethod
     def course_program(instance, filename):
         return f"Course/{instance.course.title}/Program/{filename}"
+
+    @staticmethod
+    def all_galery(instance, filename):
+        return f"Galery/{filename}"

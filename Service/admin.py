@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Service, ServiceHome, ServiceImage
+from .models import AllGalery, Service, ServiceHome, ServiceImage
 
 
 
@@ -25,3 +25,4 @@ class ServiceHomeAdmin(admin.ModelAdmin):
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceImage, ServiceImageAdmin)
 admin.site.register(ServiceHome, ServiceHomeAdmin)
+admin.site.register(AllGalery)

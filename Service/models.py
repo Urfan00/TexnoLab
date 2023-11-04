@@ -50,3 +50,11 @@ class ServiceHome(DateMixin):
     class Meta:
         verbose_name = 'Service Home'
         verbose_name_plural = 'Service Home'
+
+
+class AllGalery(DateMixin):
+    img = models.ImageField(upload_to=Uploader.all_galery)
+
+    def __str__(self):
+        return f"img-{self.pk}"
+    
