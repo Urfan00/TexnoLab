@@ -1,13 +1,13 @@
 from django.shortcuts import render, redirect
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from Account.models import Account
 from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
-from Service.models import Service, ServiceHome, ServiceImage
+from Service.models import AllGalery, Service, ServiceHome, ServiceImage
 from .forms import (AboutUsEditForm,
-                    AccountEditForm,
+                    AccountEditForm, AllGaleryEditForm,
                     BlogCategoryEditForm,
                     BlogEditForm,
                     ContactInfoEditForm,
@@ -24,6 +24,7 @@ from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Q
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 # **********************************************************************************
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -1120,3 +1121,62 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
             return redirect('account_dashboard')
+
+
+class AdminAllGalleryListView(StaffRequiredMixin, ListView):
+    model = AllGalery
+    template_name = 'gallery/dshb-gallery.html'
+    context_object_name = 'galleries'
+    paginate_by = 30
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        galleries = AllGalery.objects.all()
+
+        # Pagination
+        page = self.request.GET.get('page')
+        paginator = Paginator(galleries, self.paginate_by)
+
+        try:
+            galleries = paginator.page(page)
+        except PageNotAnInteger:
+            galleries = paginator.page(1)
+        except EmptyPage:
+            galleries = paginator.page(paginator.num_pages)
+
+        context['galleries'] = galleries
+        return context
+
+
+class AdminAllGalleryDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = AllGalery.objects.get(pk=image_id)
+            image.delete()
+        except AllGalery.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Şəkil uğurla silindi')
+
+        return redirect('gallery_dashboard')  # Redirect to the gallery dashboard page
+
+from django.views.generic.edit import FormView
+class AdminAllGalleryAddView(StaffRequiredMixin, FormView):
+    model = AllGalery
+    template_name = 'gallery/dshb-gallery_add.html'
+    form_class = AllGaleryEditForm
+    success_url = reverse_lazy('gallery_dashboard')
+
+    def form_valid(self, form):
+        uploaded_files = self.request.FILES.getlist('img')
+
+        for uploaded_file in uploaded_files:
+            AllGalery.objects.create(img=uploaded_file)
+
+        messages.success(self.request, 'Şəkil uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)

@@ -3,8 +3,8 @@ from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, RequestUs
-from Service.models import Service, ServiceHome
-
+from Service.models import AllGalery, Service, ServiceHome
+from multiupload.fields import MultiFileField
 
 
 class CourseEditForm(forms.ModelForm):
@@ -445,3 +445,11 @@ class AccountEditForm(forms.ModelForm):
                 }
             ),
         }
+
+
+class AllGaleryEditForm(forms.ModelForm):
+    img = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+
+    class Meta:
+        model = AllGalery
+        fields = ['img']

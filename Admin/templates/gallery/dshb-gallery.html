@@ -1,0 +1,100 @@
+{% extends 'base2.html' %}
+{% load static %}
+
+{% block content %}
+
+          <div class="dashboard__main">
+            <div class="dashboard__content bg-light-4">
+              <div class="row pb-50 mb-10">
+                <div class="col-auto">
+
+                  <h1 class="text-30 lh-12 fw-700">Qaleriya</h1>
+                  {% comment %} <div class="mt-10">Lorem ipsum dolor sit amet, consectetur.</div> {% endcomment %}
+
+                </div>
+              </div>
+
+              {% include "messages.html" %}
+
+              <div class="row y-gap-30">
+                <div class="col-12">
+                  <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                    <div class="tabs -active-purple-2 js-tabs">
+                      <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
+                          Bütün şəkillər
+                        </button>
+                      </div>
+
+                      <div class="tabs__content py-30 px-30 js-tabs-content">
+                        <div class="tabs__pane -tab-item-1 is-active">
+
+                          <div class="row y-gap-30 pt-30">
+
+                            {% for gallery in galleries %}
+
+                            <div class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
+                              <div class="relative">
+                                <img class="rounded-8 w-1/1" src="{{ gallery.img.url }}" alt="image">
+
+                                <button class="absolute-button" data-el-toggle=".js-more-{{ gallery.pk }}-toggle">
+                                  <span class="d-flex items-center justify-center size-35 bg-white shadow-1 rounded-8">
+                                    <i class="icon-menu-vertical"></i>
+                                  </span>
+                                </button>
+
+                                <div class="toggle-element -dshb-more js-more-{{ gallery.pk }}-toggle">
+                                  <div class="px-25 py-25 bg-white -dark-bg-dark-2 shadow-1 border-light rounded-8">
+                                    <form method="post" action="{% url 'delete_image' gallery.pk %}">
+                                      {% csrf_token %}
+                                      <button type="submit" onclick="return confirm('Are you sure you want to delete this image?');">
+                                        <i class="fa fa-trash c" aria-hidden="true"></i>&nbsp;Delete
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {% endfor %}
+
+                          </div>
+
+                          <div class="row justify-center pt-30">
+                            <div class="col-auto">
+                              <div class="pagination -buttons">
+                                {% if galleries.has_previous %}
+                                  <a href="?page=1" class="pagination__button -prev tW">
+                                    <i class="icon icon-chevron-left"></i>
+                                  </a>
+                                {% endif %}
+
+                                <div class="pagination__count">
+                                  {% for num in galleries.paginator.page_range %}
+                                    <a href="?page={{ num }}"
+                                       {% if galleries.number == num %}class="-count-is-active"{% endif %}>
+                                      {{ num }}
+                                    </a>
+                                  {% endfor %}
+                                </div>
+
+                                {% if galleries.has_next %}
+                                  <a href="?page={{ galleries.next_page_number }}" class="pagination__button -next tW">
+                                    <i class="icon icon-chevron-right"></i>
+                                  </a>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+{% endblock %}
