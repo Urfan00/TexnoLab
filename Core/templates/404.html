@@ -9,7 +9,7 @@
           <div class="row y-gap-50 justify-between items-center">
             <div class="col-lg-6">
               <div class="no-page__img">
-                <img src="{% static 'img/404/1.svg' %}" alt="image">
+                <img src="{% static 'img/404/error.jpg' %}" alt="image" style="border-radius: 50%;">
               </div>
             </div>
 
@@ -18,9 +18,9 @@
                 <h1 class="no-page__main text-dark-1">
                   40<span class="text-purple-1">4</span>
                 </h1>
-                <h2 class="text-35 lh-12 mt-5">Oops! It looks like you're lost.</h2>
-                <div class="mt-10">The page you're looking for isn't available. Try to search again<br> or use the go to.</div>
-                <button class="button -md -purple-1 text-white mt-20">Go Back To Homepage</button>
+                <h2 class="text-35 lh-12 mt-5">Səhifə tapılmadı!</h2>
+                <div class="mt-10">Davam etmək üçün aşağıdakı düyməyə klikləyin</div>
+                <a href="{% url "index" %}" class="button -md -purple-1 text-white mt-20">Ana Səhifə</a>
               </div>
             </div>
           </div>
