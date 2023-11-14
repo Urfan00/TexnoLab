@@ -45,10 +45,10 @@ class CourseProgramAdmin(admin.ModelAdmin):
 
 
 class CourseStudentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'group', 'course', 'average', 'payment', 'discount', 'rest', 'is_active', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'group', 'course', 'average', 'payment', 'discount', 'rest', 'is_active', 'is_deleted', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__id_code', 'group__name', 'course__title']
-    list_filter = ['is_active']
+    list_filter = ['is_active', 'is_deleted']
 
 
 

@@ -2,7 +2,7 @@ from django import forms
 from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
-from Course.models import Course, CourseCategory, CourseProgram, RequestUs
+from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, RequestUs
 from Service.models import AllGalery, Service, ServiceHome
 from multiupload.fields import MultiFileField
 
@@ -453,3 +453,50 @@ class AllGaleryEditForm(forms.ModelForm):
     class Meta:
         model = AllGalery
         fields = ['img']
+
+
+class CourseStudentEditForm(forms.ModelForm):
+    class Meta:
+        model = CourseStudent
+        fields = ['student', 'group', 'course', 'average', 'payment', 'rest', 'is_active']
+        labels = {
+            'student': 'Ad Soyad',
+            'group': 'Qrup',
+            'course': 'Kurs',
+            'average': 'Ortalama',
+            'payment': 'Ödəniş',
+            'rest': 'Qalıq',
+            'is_active' : 'Aktiv'
+        }
+        widgets = {
+            'student' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            ),
+            'group' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            ),
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            ),
+            'average' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Ortalama"
+                }
+            ),
+            'payment' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Ödəniş"
+                }
+            ),
+            'rest' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Qalıq"
+                }
+            ),
+        }

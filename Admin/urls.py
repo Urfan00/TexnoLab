@@ -56,7 +56,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminServiceListView,
                     AdminServiceMainEditView,
                     AdminServiceUndeleteView,
-                    AdminAllGalleryListView,
+                    AdminAllGalleryListView, CourseStudentAddView, CourseStudentDeleteView, CourseStudentEditView,
                     DashboardView)
 
 
@@ -164,6 +164,11 @@ urlpatterns = [
     path('account_look/<int:pk>', AdminAccountDetailView.as_view(), name='account_look'),
     path('account_add/', AdminAccountAddView.as_view(), name='account_add'),
     path('account_edit/<int:pk>', AdminAccountEditView.as_view(), name='account_edit'),
+
+    # Course Student
+    path('course_student_add/', CourseStudentAddView.as_view(), name='course_student_add'),
+    path('course_student_edit/<int:pk>', CourseStudentEditView.as_view(), name='course_student_edit'),
+    path('course_student/<int:pk>/delete/', CourseStudentDeleteView.as_view(), name='course_student_delete'),
 
     # All Gallery
     path('gallery_dashboard/', AdminAllGalleryListView.as_view(), name='gallery_dashboard'),

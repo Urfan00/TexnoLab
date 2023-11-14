@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from Account.models import Account
 from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner
 from Blog.models import Blog, BlogCategory
-from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, RequestUs
+from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, RequestUs
 from Service.models import AllGalery, Service, ServiceHome, ServiceImage
 from .forms import (AboutUsEditForm,
                     AccountEditForm, AllGaleryEditForm,
@@ -13,7 +13,7 @@ from .forms import (AboutUsEditForm,
                     ContactInfoEditForm,
                     CourseCategoryEditForm,
                     CourseEditForm,
-                    CourseProgramEditForm,
+                    CourseProgramEditForm, CourseStudentEditForm,
                     FAQEditForm,
                     PartnerEditForm,
                     RequestUsAdminCommentForm,
@@ -1054,15 +1054,22 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         s_query = self.request.GET.get('s', '')
+        cs_query = self.request.GET.get('cs', '')
 
         students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False).order_by('-date_joined')
+        c_students = CourseStudent.objects.filter(is_deleted=False).all()
 
         if s_query:
             students = students.filter(
                 Q(first_name__icontains=s_query) | Q(last_name__icontains=s_query)
             )
+        elif cs_query:
+            c_students = c_students.filter(
+                Q(student__first_name__icontains=cs_query) | Q(student__last_name__icontains=cs_query)
+            )
 
         context["students"] = students
+        context["c_students"] = c_students
 
         return context
 
@@ -1119,6 +1126,67 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
             return redirect('account_dashboard')
+
+
+# Course Student
+class CourseStudentAddView(StaffRequiredMixin, CreateView):
+    model = CourseStudent
+    template_name = 'account/dshb-course-student-add.html'
+    form_class = CourseStudentEditForm
+    success_url = reverse_lazy('account_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class CourseStudentEditView(StaffRequiredMixin, CreateView):
+    model = CourseStudent
+    template_name = 'account/dshb-course-student-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        student_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        student = get_object_or_404(CourseStudent, pk=student_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = CourseStudentEditForm(instance=student)
+        return render(request, 'account/dshb-course-student-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = CourseStudentEditForm(request.POST, instance=get_object_or_404(CourseStudent, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            student = CourseStudent.objects.get(pk=kwargs.get('pk'))
+            student.is_active = form.cleaned_data.get('is_active')
+            student.average = form.cleaned_data.get('average')
+            student.payment = form.cleaned_data.get('payment')
+            student.rest = form.cleaned_data.get('rest')
+            student.group = form.cleaned_data.get('group')
+            student.student = form.cleaned_data.get('student')
+            student.course = form.cleaned_data.get('course')
+            student.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('account_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('account_dashboard')
+
+
+class CourseStudentDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        course_student_id = kwargs.get('pk')
+        course_student = get_object_or_404(CourseStudent, pk=course_student_id)
+        course_student.is_deleted = True
+        course_student.save()
+        messages.success(request, 'Course Student deleted successfully')
+        return redirect('account_dashboard')
+
 
 
 # All Gallery

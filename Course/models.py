@@ -184,6 +184,7 @@ class CourseProgram(DateMixin):
 
 class CourseStudent(DateMixin):
     is_active = models.BooleanField(default=False)
+    is_deleted = models.BooleanField(default=False)
     average = models.FloatField(default=0)
     payment = models.FloatField(default=0)
     discount = models.FloatField(default=0)
