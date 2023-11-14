@@ -30,7 +30,7 @@
                   Silinmiş şərhlər
                 </button>
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-4" type="button">
-                  Baxılmamış Kurs müraciətləri
+                  Baxılmamış Kurs müraciətləri {% if is_view_false_count_request_us != 0 %} {{ is_view_false_count_request_us }} {% endif %}
                 </button>
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-5" type="button">
                   Baxılmış Kurs müraciətləri

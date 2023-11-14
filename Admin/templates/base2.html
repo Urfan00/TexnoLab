@@ -194,14 +194,14 @@
               <div class="sidebar__item ">
                 <a href="{% url "course_srfp" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-list mr-15"></i>
-                  Create Course
+                  Kurslar Haqqında {% if is_view_false_count_request_us != 0 %} {{ is_view_false_count_request_us }} {% endif %}
                 </a>
               </div>
 
               <div class="sidebar__item ">
                 <a href="{% url "core_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-comment mr-15"></i>
-                  Reviews
+                  Reviews {% if is_view_false_count_contact_us != 0 %} {{ is_view_false_count_contact_us }} {% endif %}
                 </a>
               </div>
 

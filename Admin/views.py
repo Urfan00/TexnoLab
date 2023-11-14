@@ -29,6 +29,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 # **********************************************************************************
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.core.exceptions import PermissionDenied
+from django.views.generic.edit import FormView
 
 
 class StaffRequiredMixin(UserPassesTestMixin):
@@ -575,8 +576,6 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
         programs = CourseProgram.objects.filter(is_delete=False).all()
         d_programs = CourseProgram.objects.filter(is_delete=True).all()
 
-        # active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
-
         if ks_query:
             statistics = statistics.filter(course__title__icontains=ks_query)
         elif f_query:
@@ -607,7 +606,6 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
             d_programs = d_programs.filter(
                 Q(course__title__icontains=sp_query) | Q(program_name__icontains=sp_query)
             )
-
 
         context["statistics"] = statistics
         context["feedbacks"] = feedbacks
@@ -1160,7 +1158,7 @@ class AdminAllGalleryDeleteView(StaffRequiredMixin, DeleteView):
 
         return redirect('gallery_dashboard')  # Redirect to the gallery dashboard page
 
-from django.views.generic.edit import FormView
+
 class AdminAllGalleryAddView(StaffRequiredMixin, FormView):
     model = AllGalery
     template_name = 'gallery/dshb-gallery_add.html'
