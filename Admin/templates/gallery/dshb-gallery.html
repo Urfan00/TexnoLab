@@ -24,6 +24,10 @@
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
                           Bütün şəkillər
                         </button>
+                        <form method="post" action="{% url 'gallery_delete_all' %}" class="d-inline">
+                          {% csrf_token %}
+                          <button type="submit" class="btn btn-danger">Bütün Şəkilləri Sil</button>
+                        </form>
                       </div>
 <style>
   .delBut{

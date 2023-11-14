@@ -1121,6 +1121,7 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
             return redirect('account_dashboard')
 
 
+# All Gallery
 class AdminAllGalleryListView(StaffRequiredMixin, ListView):
     model = AllGalery
     template_name = 'gallery/dshb-gallery.html'
@@ -1178,3 +1179,11 @@ class AdminAllGalleryAddView(StaffRequiredMixin, FormView):
         # If the form has validation errors, display an error message
         messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
         return super().form_invalid(form)
+
+
+class AdminAllGalleryDeleteAllView(View):
+    def post(self, request):
+        # Delete all images in the AllGalery model
+        AllGalery.objects.all().delete()
+        messages.success(request, 'Bütün şəkillər uğurla silindi')
+        return redirect('gallery_dashboard')

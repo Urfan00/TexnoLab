@@ -137,9 +137,3 @@ class AllGalery(DateMixin):
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
 
         super().save(*args, **kwargs)
-
-    def delete(self, using=None, keep_parents=False):
-        # Delete the image file if it exists
-        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img)))
-
-        super(AllGalery, self).delete(using, keep_parents)
