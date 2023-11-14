@@ -7,6 +7,7 @@ from ckeditor.fields import RichTextField
 from django.conf import settings
 from services.utils import delete_file_if_exists
 import os
+from django.utils.crypto import get_random_string
 
 
 class CourseCategory(DateMixin):
@@ -23,7 +24,7 @@ class CourseCategory(DateMixin):
 
 class Course(DateMixin):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True, unique=True)
     description = models.TextField()
     main_photo = models.ImageField(upload_to=Uploader.course_main_photo)
     video_link = models.URLField(null=True, blank=True)
@@ -38,6 +39,11 @@ class Course(DateMixin):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
+
+        while Course.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            # Generate a unique slug by adding a suffix
+            suffix = get_random_string(length=4, allowed_chars='0123456789abcdefghijklmnopqrstuvwxyz')
+            self.slug = f"{self.slug}-{suffix}"
 
         # Check if the instance already exists
         if self.pk:

@@ -6,11 +6,13 @@ from services.uploader import Uploader
 from django.template.defaultfilters import slugify
 from django.conf import settings
 from services.utils import delete_file_if_exists
+from django.utils.crypto import get_random_string
+
 
 
 class Service(DateMixin):
     title = models.CharField(max_length=255)
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True, unique=True)
     description1 = RichTextField()
     description2 = RichTextField()
     status = models.BooleanField(default=True)
@@ -21,6 +23,12 @@ class Service(DateMixin):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
+
+        while Service.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            # Generate a unique slug by adding a suffix
+            suffix = get_random_string(length=4, allowed_chars='0123456789abcdefghijklmnopqrstuvwxyz')
+            self.slug = f"{self.slug}-{suffix}"
+
         return super().save(*args, **kwargs)
 
     class Meta:

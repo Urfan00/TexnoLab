@@ -6,7 +6,7 @@ from django.template.defaultfilters import slugify
 from django.conf import settings
 from services.utils import delete_file_if_exists
 import os
-
+from django.utils.crypto import get_random_string
 
 
 class BlogCategory(DateMixin):
@@ -24,7 +24,7 @@ class BlogCategory(DateMixin):
 class Blog(DateMixin):
     title = models.CharField(max_length=255)
     description = RichTextField()
-    slug = models.SlugField(null=True, blank=True)
+    slug = models.SlugField(null=True, blank=True, unique=True)
     photo = models.ImageField(upload_to=Uploader.blog_category)
     date = models.DateField()
     status = models.BooleanField(default=True)
@@ -36,9 +36,13 @@ class Blog(DateMixin):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
 
-    def save(self, *args, **kwargs):
+        while Blog.objects.filter(slug=self.slug).exclude(pk=self.pk).exists():
+            # Generate a unique slug by adding a suffix
+            suffix = get_random_string(length=4, allowed_chars='0123456789abcdefghijklmnopqrstuvwxyz')
+            self.slug = f"{self.slug}-{suffix}"
+
+
         # Check if the instance already exists
         if self.pk:
             old_instance = Blog.objects.get(pk=self.pk)
