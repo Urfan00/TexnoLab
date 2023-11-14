@@ -4,6 +4,9 @@ from services.mixins import DateMixin
 from services.uploader import Uploader
 from django.template.defaultfilters import slugify
 from ckeditor.fields import RichTextField
+from django.conf import settings
+from services.utils import delete_file_if_exists
+import os
 
 
 class CourseCategory(DateMixin):
@@ -35,7 +38,31 @@ class Course(DateMixin):
 
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
-        return super().save(*args, **kwargs)
+
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = Course.objects.get(pk=self.pk)
+
+            # Check if the main_photo field is cleared
+            if old_instance.main_photo and not self.main_photo:
+                # Delete the old main_photo file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.main_photo)))
+
+            # Check if the main_photo is changed
+            if self.main_photo and self.main_photo != old_instance.main_photo:
+                # Delete old main_photo file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.main_photo)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the main_photo file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.main_photo))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        super(Course, self).delete(using, keep_parents)
 
     class Meta:
         verbose_name = 'Course'
@@ -80,6 +107,32 @@ class Gallery(DateMixin):
     def __str__(self):
         return f"{self.course.title} gallery photo {self.pk}"
 
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = Gallery.objects.get(pk=self.pk)
+
+            # Check if the photo field is cleared
+            if old_instance.photo and not self.photo:
+                # Delete the old photo file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.photo)))
+
+            # Check if the photo is changed
+            if self.photo and self.photo != old_instance.photo:
+                # Delete old photo file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.photo)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the photo file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.photo))
+
+        # Delete the photo file if it exists
+        delete_file_if_exists(image_path)
+
+        super(Gallery, self).delete(using, keep_parents)
+
     class Meta:
         verbose_name = 'Gallery'
         verbose_name_plural = 'Galleries'
@@ -94,6 +147,29 @@ class CourseProgram(DateMixin):
 
     def __str__(self):
         return self.program_name
+
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = CourseProgram.objects.get(pk=self.pk)
+
+            # Check if the file field is cleared
+            if old_instance.file and not self.file:
+                # Delete the old file file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.file)))
+
+            # Check if the file is changed
+            if self.file and self.file != old_instance.file:
+                # Delete old file file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.pfilehoto)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Delete the file file if it exists
+        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.file)))
+
+        super(CourseProgram, self).delete(using, keep_parents)
 
     class Meta:
         verbose_name = 'Course Program'

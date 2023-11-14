@@ -3,6 +3,9 @@ from django.contrib.auth.models import AbstractUser, BaseUserManager
 from services.mixins import DateMixin
 from services.uploader import Uploader
 from django.utils.crypto import get_random_string
+from services.utils import delete_file_if_exists
+import os
+from django.conf import settings
 
 
 class CustomUserManager(BaseUserManager):
@@ -73,9 +76,33 @@ class Account(AbstractUser):
         return f"{self.first_name} {self.last_name}"
 
     def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = Account.objects.get(pk=self.pk)
+
+            # Check if the image field is cleared
+            if old_instance.image and not self.image:
+                # Delete the old image file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.image)))
+
+            # Check if the image is changed
+            if self.image and self.image != old_instance.image:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.image)))
+
         if not self.id_code:
             self.id_code = get_random_string(length=5, allowed_chars='0123456789abcdefghjkmnpqrstuvwxyz')
-        return super().save(*args, **kwargs)
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.image))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        super(Account, self).delete(using, keep_parents)
 
     class Meta:
         verbose_name = 'Account'

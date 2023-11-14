@@ -2,6 +2,9 @@ from django.db import models
 from services.mixins import DateMixin
 from services.uploader import Uploader
 from ckeditor.fields import RichTextField
+from django.conf import settings
+from services.utils import delete_file_if_exists
+import os
 
 
 
@@ -26,6 +29,32 @@ class Partner(DateMixin):
     def __str__(self):
         return self.title
 
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = Partner.objects.get(pk=self.pk)
+
+            # Check if the img field is cleared
+            if old_instance.img and not self.img:
+                # Delete the old img file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
+
+            # Check if the img is changed
+            if self.img and self.img != old_instance.img:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.img))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        super(Partner, self).delete(using, keep_parents)
+
     class Meta:
         verbose_name = 'Partner'
         verbose_name_plural = 'Partners'
@@ -40,6 +69,52 @@ class AboutUs(DateMixin):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = AboutUs.objects.get(pk=self.pk)
+
+            # Check if the img1 field is cleared
+            if old_instance.img1 and not self.img1:
+                # Delete the old img1 file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img1)))
+
+            # Check if the img2 field is cleared
+            if old_instance.img2 and not self.img2:
+                # Delete the old img2 file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img2)))
+
+            # Check if the img3 field is cleared
+            if old_instance.img3 and not self.img3:
+                # Delete the old img3 file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img3)))
+
+            # Check if the img1 is changed
+            if self.img1 and self.img1 != old_instance.img1:
+                # Delete old img1 file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img1)))
+
+            # Check if the img2 is changed
+            if self.img2 and self.img2 != old_instance.img2:
+                # Delete old img2 file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img2)))
+
+            # Check if the img3 is changed
+            if self.img3 and self.img3 != old_instance.img3:
+                # Delete old img3 file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img3)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Delete the image file if it exists
+        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img1)))
+        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img2)))
+        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img3)))
+
+        super(AboutUs, self).delete(using, keep_parents)
+
 
     class Meta:
         verbose_name = 'About Us'

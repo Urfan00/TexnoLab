@@ -36,6 +36,32 @@ class ServiceImage(DateMixin):
     def __str__(self):
         return f'{self.service.title} image {self.pk}'
 
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = ServiceImage.objects.get(pk=self.pk)
+
+            # Check if the image field is cleared
+            if old_instance.photo and not self.photo:
+                # Delete the old photo file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.photo)))
+
+            # Check if the image is changed
+            if self.photo and self.photo != old_instance.photo:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.photo)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.photo))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        super(ServiceImage, self).delete(using, keep_parents)
+
     class Meta:
         verbose_name = 'Service Image'
         verbose_name_plural = 'Service Images'
@@ -50,6 +76,32 @@ class ServiceHome(DateMixin):
     def __str__(self):
         return f'{self.title}'
 
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = ServiceHome.objects.get(pk=self.pk)
+
+            # Check if the image field is cleared
+            if old_instance.photo and not self.photo:
+                # Delete the old photo file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.photo)))
+
+            # Check if the image is changed
+            if self.photo and self.photo != old_instance.photo:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.photo)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.photo))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        super(ServiceHome, self).delete(using, keep_parents)
+
     class Meta:
         verbose_name = 'Service Home'
         verbose_name_plural = 'Service Home'
@@ -61,11 +113,25 @@ class AllGalery(DateMixin):
     def __str__(self):
         return f"img-{self.pk}"
 
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = AllGalery.objects.get(pk=self.pk)
+
+            # Check if the image field is cleared
+            if old_instance.img and not self.img:
+                # Delete the old img file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
+
+            # Check if the image is changed
+            if self.img and self.img != old_instance.img:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
+
+        super().save(*args, **kwargs)
+
     def delete(self, using=None, keep_parents=False):
-        # Get the path to the image file
-        image_path = os.path.join(settings.MEDIA_ROOT, str(self.img))
-        
         # Delete the image file if it exists
-        delete_file_if_exists(image_path)
+        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img)))
 
         super(AllGalery, self).delete(using, keep_parents)
