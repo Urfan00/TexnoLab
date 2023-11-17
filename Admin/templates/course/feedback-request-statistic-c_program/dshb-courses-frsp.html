@@ -29,8 +29,8 @@
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-3" type="button">
                   Silinmiş şərhlər
                 </button>
-                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-4" type="button">
-                  Baxılmamış Kurs müraciətləri {% if is_view_false_count_request_us != 0 %} {{ is_view_false_count_request_us }} {% endif %}
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30 nowrapp" data-tab-target=".-tab-item-4" type="button">
+                  Baxılmamış Kurs müraciətləri <span class="count_badge"> {% if is_view_false_count_request_us != 0 %} {% if is_view_false_count_request_us > 99 %}99+{% else %}{{ is_view_false_count_request_us }}{% endif %} {% endif %}</span>
                 </button>
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-5" type="button">
                   Baxılmış Kurs müraciətləri

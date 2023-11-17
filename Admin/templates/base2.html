@@ -20,7 +20,28 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="{% static "css/vendors.css" %}">
   <link rel="stylesheet" href="{% static "css/main.css" %}">
-
+  <style>
+    .count_badge{
+      padding: 5px;
+      min-width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      margin-left: 2px;
+      font-size: 12px;
+      color: white;
+      background: grey;
+      display: flex;
+      float: left;
+      font-weight: bold;
+      justify-content: center;
+      align-items: center;
+    }
+    
+    .nowrapp{
+      display: flex;
+      flex-wrap: nowrap;
+    }
+  </style>
   <title>Texnolab</title>
 </head>
 
@@ -194,14 +215,14 @@
               <div class="sidebar__item ">
                 <a href="{% url "course_srfp" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-list mr-15"></i>
-                  Kurslar Haqqında {% if is_view_false_count_request_us != 0 %} {{ is_view_false_count_request_us }} {% endif %}
+                  Kurslar Haqqında <span class="count_badge">{% if is_view_false_count_request_us != 0 %} {% if is_view_false_count_request_us > 99 %}99+{% else %}{{ is_view_false_count_request_us }}{% endif %} {% endif %}</span>
                 </a>
               </div>
 
               <div class="sidebar__item ">
                 <a href="{% url "core_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-comment mr-15"></i>
-                  Reviews {% if is_view_false_count_contact_us != 0 %} {{ is_view_false_count_contact_us }} {% endif %}
+                  Reviews <span class="count_badge">{% if is_view_false_count_contact_us != 0 %} {% if is_view_false_count_contact_us > 99 %}99+{% else %}{{ is_view_false_count_contact_us }}{% endif %} {% endif %}</span>
                 </a>
               </div>
 

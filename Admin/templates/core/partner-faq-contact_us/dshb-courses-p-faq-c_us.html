@@ -26,8 +26,8 @@
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-2" type="button">
                   Silinmiş Partnerlər
                 </button>
-                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-3" type="button">
-                  Baxılmamış kontakt müraciətləri {% if is_view_false_count_contact_us != 0 %} {{ is_view_false_count_contact_us }} {% endif %}
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30 nowrapp" data-tab-target=".-tab-item-3" type="button">
+                  Baxılmamış kontakt müraciətləri <span class="count_badge">{% if is_view_false_count_contact_us != 0 %} {% if is_view_false_count_contact_us > 99 %}99+{% else %}{{ is_view_false_count_contact_us }}{% endif %} {% endif %}</span>
                 </button>
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-4" type="button">
                   Baxılmış kontakt müraciətləri
