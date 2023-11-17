@@ -24,10 +24,7 @@
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
                           Bütün şəkillər
                         </button>
-                        <form method="post" action="{% url 'gallery_delete_all' %}" class="d-inline">
-                          {% csrf_token %}
-                          <button type="submit" class="btn btn-danger">Bütün Şəkilləri Sil</button>
-                        </form>
+
                       </div>
 <style>
   .delBut{
@@ -40,6 +37,38 @@
   }
 </style>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
+
+                        <div class="row y-gap-10 ">
+
+                          
+                          <div class="col-auto">
+                            <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                              <div>
+                              </div>
+                              <div>
+                                <a href="{% url "gallery_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                  Əlavə et &nbsp;&nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                           {% if galleries %}
+                            <div class="col-auto">
+                              <form method="post" action="{% url 'gallery_delete_all' %}" class="d-inline">
+                                {% csrf_token %}
+                                <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#c9302c; color:white!important" title="Sil" onclick="return confirm('Diqqət! Bütün şəkillər tam silinəcək! Bunu etmək istədiyinizə əminsiniz?');">
+                                  <i class="fa fa-trash c" aria-hidden="true"></i>&nbsp;&nbsp;Bütün şəkilləri sil
+                                </button>
+                              </form>
+                            </div>
+                          {% endif %}
+                        </div>
+                         
+
+                        
+
+
+
                         <div class="tabs__pane -tab-item-1 is-active">
 
                           <div class="row y-gap-30 pt-30">
@@ -48,14 +77,14 @@
 
                             <div class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
                               <div class="relative">
-                                <img class="rounded-8 w-1/1" src="{{ gallery.img.url }}" alt="image" width="300px" height="160px">
+                                <img class="rounded-8 w-1/1" src="{{ gallery.img.url }}" alt="image" width="300px" style="height: 160px!important; object-fit: cover;">
 
 
                                 <div class="absolute-button  -dshb-more js-more-{{ gallery.pk }}-toggle">
                                   <div class=" bg-white -dark-bg-dark-2 shadow-1 border-light rounded-8">
                                     <form method="post" action="{% url 'delete_image' gallery.pk %}">
                                       {% csrf_token %}
-                                      <button  class="rounded-8 delBut" type="submit" onclick="return confirm('Are you sure you want to delete this image?');">
+                                      <button  class="rounded-8 delBut" type="submit" onclick="return confirm('Şəkili tam silmək istədiyinizə əminsiniz?');">
                                         <i class="fa fa-trash c" aria-hidden="true"></i> 
                                       </button>
                                     </form>

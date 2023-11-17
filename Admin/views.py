@@ -164,7 +164,7 @@ class AdminCourseDeleteView(StaffRequiredMixin, View):
         course = get_object_or_404(Course, pk=pk)
         course.is_delete = True
         course.save()
-        messages.success(request, 'Course deleted successfully')
+        messages.success(request, 'Kurs uğurla silindi')
         return redirect('course_dashboard')
 
 
@@ -173,7 +173,7 @@ class AdminCourseUndeleteView(StaffRequiredMixin, View):
         course = get_object_or_404(Course, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
         course.save()
-        messages.success(request, 'Course undeleted successfully')
+        messages.success(request, 'Kurs uğurla bərpa olundu')
         return redirect('course_dashboard')
 
 
@@ -226,7 +226,7 @@ class AdminCourseCategoryDeleteView(StaffRequiredMixin, View):
         course = get_object_or_404(CourseCategory, pk=pk)
         course.is_delete = True
         course.save()
-        messages.success(request, 'Course Category deleted successfully')
+        messages.success(request, 'Kurs kateqoriyası uğurla silindi')
         return redirect('course_dashboard')
 
 
@@ -235,7 +235,7 @@ class AdminCourseCategoryUndeleteView(StaffRequiredMixin, View):
         course = get_object_or_404(CourseCategory, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
         course.save()
-        messages.success(request, 'Course Category undeleted successfully')
+        messages.success(request, 'Kurs kateqoriyası uğurla bərpa olundu')
         return redirect('course_dashboard')
 
 
@@ -343,7 +343,7 @@ class AdminBlogDeleteView(StaffRequiredMixin, View):
         blog = get_object_or_404(Blog, pk=pk)
         blog.is_delete = True
         blog.save()
-        messages.success(request, 'Blog deleted successfully')
+        messages.success(request, 'Bloq uğurla silindi')
         return redirect('blog_dashboard')
 
 
@@ -352,7 +352,7 @@ class AdminBlogUndeleteView(StaffRequiredMixin, View):
         blog = get_object_or_404(Blog, pk=pk)
         blog.is_delete = False  # Set is_delete to False to undelete
         blog.save()
-        messages.success(request, 'Blog undeleted successfully')
+        messages.success(request, 'Bloq uğurla bərpa olundu')
         return redirect('blog_dashboard')
 
 
@@ -406,7 +406,7 @@ class AdminBlogCategoryDeleteView(StaffRequiredMixin, View):
         category = get_object_or_404(BlogCategory, pk=category_id)
         category.is_delete = True
         category.save()
-        messages.success(request, 'Blog Category deleted successfully')
+        messages.success(request, 'Bloq kateqoriyası uğurla silindi')
         return redirect('blog_dashboard')
 
 
@@ -415,7 +415,7 @@ class AdminBlogCategoryUndeleteView(StaffRequiredMixin, View):
         category = get_object_or_404(BlogCategory, pk=pk)
         category.is_delete = False  # Set is_delete to False to undelete
         category.save()
-        messages.success(request, 'Blog Category undeleted successfully')
+        messages.success(request, 'Bloq kateqoriyası uğurla bərpa olundu')
         return redirect('blog_dashboard')
 
 # ********************************************************************************
@@ -534,7 +534,7 @@ class AdminServiceDeleteView(StaffRequiredMixin, View):
         service = get_object_or_404(ServiceHome, pk=service_id)
         service.is_delete = True
         service.save()
-        messages.success(request, 'Service deleted successfully')
+        messages.success(request, 'Servis uğurla silindi')
         return redirect('service_dashboard')
 
 
@@ -543,7 +543,7 @@ class AdminServiceUndeleteView(StaffRequiredMixin, View):
         service = get_object_or_404(ServiceHome, pk=pk)
         service.is_delete = False  # Set is_delete to False to undelete
         service.save()
-        messages.success(request, 'Service undeleted successfully')
+        messages.success(request, 'Servis uğurla bərpa olundu')
         return redirect('service_dashboard')
 
 
@@ -626,7 +626,7 @@ class AdminCourseSRFPFeedbackDeleteView(StaffRequiredMixin, View):
         feedback = get_object_or_404(CourseFeedback, pk=feedback_id)
         feedback.is_delete = True
         feedback.save()
-        messages.success(request, 'Feedback deleted successfully')
+        messages.success(request, 'Feedback uğurla silindi')
         return redirect('course_srfp')
 
 
@@ -635,7 +635,7 @@ class AdminCourseSRFPFeedbackUndeleteView(StaffRequiredMixin, View):
         feedback = get_object_or_404(CourseFeedback, pk=pk)
         feedback.is_delete = False  # Set is_delete to False to undelete
         feedback.save()
-        messages.success(request, 'Feedback undeleted successfully')
+        messages.success(request, 'Feedback uğurla bərpa olundu')
         return redirect('course_srfp')
 
 
@@ -651,7 +651,7 @@ class AdminCourseSRFPRequestUsDeleteView(StaffRequiredMixin, View):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = True
         course.save()
-        messages.success(request, 'Request Us deleted successfully')
+        messages.success(request, 'Request Us uğurla silindi')
         return redirect('course_srfp')
 
 
@@ -660,7 +660,7 @@ class AdminCourseSRFPRequestUsUndeleteView(StaffRequiredMixin, View):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
         course.save()
-        messages.success(request, 'Request Us undeleted successfully')
+        messages.success(request, 'Request Us uğurla bərpa olundu')
         return redirect('course_srfp')
 
 
@@ -743,7 +743,7 @@ class AdminCourseProgramDeleteView(StaffRequiredMixin, View):
         program = get_object_or_404(CourseProgram, pk=program_id)
         program.is_delete = True
         program.save()
-        messages.success(request, 'Course Program deleted successfully')
+        messages.success(request, 'Kurs proqramı uğurla silindi')
         return redirect('course_srfp')
 
 
@@ -752,7 +752,7 @@ class AdminCourseProgramUndeleteView(StaffRequiredMixin, View):
         program = get_object_or_404(CourseProgram, pk=pk)
         program.is_delete = False  # Set is_delete to False to undelete
         program.save()
-        messages.success(request, 'Course Program undeleted successfully')
+        messages.success(request, 'Kurs proqramı uğurla bərpa olundu')
         return redirect('course_srfp')
 
 
@@ -860,7 +860,7 @@ class AdminPartnerDeleteView(StaffRequiredMixin, View):
         partner = get_object_or_404(Partner, pk=partner_id)
         partner.is_delete = True
         partner.save()
-        messages.success(request, 'Partner deleted successfully')
+        messages.success(request, 'Tərəfdaşlar uğurla silindi')
         return redirect('core_dashboard')
 
 
@@ -869,7 +869,7 @@ class AdminPartnerUndeleteView(StaffRequiredMixin, View):
         partner = get_object_or_404(Partner, pk=pk)
         partner.is_delete = False  # Set is_delete to False to undelete
         partner.save()
-        messages.success(request, 'Partner undeleted successfully')
+        messages.success(request, 'Tərəfdaşlar uğurla bərpa olundu')
         return redirect('core_dashboard')
 
 
@@ -924,7 +924,7 @@ class AdminFAQDeleteView(StaffRequiredMixin, View):
         faq = get_object_or_404(FAQ, pk=faq_id)
         faq.is_delete = True
         faq.save()
-        messages.success(request, 'FAQ deleted successfully')
+        messages.success(request, 'FAQ uğurla silindi')
         return redirect('core_dashboard')
 
 
@@ -933,7 +933,7 @@ class AdminFAQUndeleteView(StaffRequiredMixin, View):
         faq = get_object_or_404(FAQ, pk=pk)
         faq.is_delete = False  # Set is_delete to False to undelete
         faq.save()
-        messages.success(request, 'FAQ undeleted successfully')
+        messages.success(request, 'FAQ uğurla bərpa olundu')
         return redirect('core_dashboard')
 
 
@@ -944,7 +944,7 @@ class AdminContactUsDeleteView(StaffRequiredMixin, View):
         contact_us = get_object_or_404(ContactUs, pk=contact_us_id)
         contact_us.is_delete = True
         contact_us.save()
-        messages.success(request, 'Contact us deleted successfully')
+        messages.success(request, 'Bizimlə əlaqə uğurla silindi')
         return redirect('core_dashboard')
 
 
@@ -953,7 +953,7 @@ class AdminContactUsUndeleteView(StaffRequiredMixin, View):
         contact_us = get_object_or_404(ContactUs, pk=pk)
         contact_us.is_delete = False  # Set is_delete to False to undelete
         contact_us.save()
-        messages.success(request, 'Contact us undeleted successfully')
+        messages.success(request, 'Bizimlə əlaqə uğurla bərpa olundu')
         return redirect('core_dashboard')
 
 
@@ -1184,7 +1184,7 @@ class CourseStudentDeleteView(StaffRequiredMixin, View):
         course_student = get_object_or_404(CourseStudent, pk=course_student_id)
         course_student.is_deleted = True
         course_student.save()
-        messages.success(request, 'Course Student deleted successfully')
+        messages.success(request, 'Kurs tələbəsi uğurla silindi')
         return redirect('account_dashboard')
 
 

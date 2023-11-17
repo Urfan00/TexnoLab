@@ -302,3 +302,85 @@
       </body>
       
       </html>
+
+
+
+
+      
+
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    
+    const tabs = document.querySelectorAll('.tabs__button');
+    const panes = document.querySelectorAll('.tabs__pane');
+  
+    function showTab(tabId) {
+      panes.forEach(pane => {
+        if (pane.getAttribute('data-pane') === tabId) {
+          pane.style.display = 'block';
+          pane.classList.add('is-active');
+        } else {
+          pane.style.display = 'none';
+          pane.classList.remove('is-active');
+        }
+      });
+    }
+    
+    function setActiveTab(tabId) {
+      tabs.forEach(tab => {
+        if (tab.getAttribute('data-tab') === tabId) {
+          tab.classList.add('is-active');
+        } else {
+          tab.classList.remove('is-active');
+        }
+      });
+    }
+    
+  
+    function handleTabClick(event) {
+      
+      const clickedTab = event.target;
+      const tabId = clickedTab.getAttribute('data-tab');
+  
+      showTab(tabId);
+      setActiveTab(tabId);
+  
+      // Save selected tab to localStorage
+      localStorage.setItem('selectedTab', tabId);
+      localStorage.setItem('current_segment', window.location.pathname);
+    }
+  
+    tabs.forEach(tab => {
+      tab.addEventListener('click', handleTabClick);
+    });
+    
+    // Check localStorage for previously selected tab
+    const selectedTab = localStorage.getItem('selectedTab');
+    const current_segment = localStorage.getItem('current_segment');
+    
+   
+    if(current_segment != window.location.pathname){
+      localStorage.removeItem('selectedTab');
+    }else{
+      if (selectedTab) {
+
+        showTab(selectedTab);
+        setActiveTab(selectedTab);
+      } else {
+       
+        // If no tab was previously selected, open the first tab and pane by default
+        showTab(tabs[0].getAttribute('data-tab'));
+        setActiveTab(tabs[0].getAttribute('data-tab'));
+      }
+    }
+    
+
+   
+  });
+
+
+  console.log(window.location.pathname)
+
+ 
+  
+</script>
