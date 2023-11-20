@@ -23,12 +23,6 @@
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
                   Kurs statistikaları
                 </button>
-                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-2" type="button">
-                  Şərhlər
-                </button>
-                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab-target=".-tab-item-3" type="button">
-                  Silinmiş şərhlər
-                </button>
               </div>
 
               <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -114,121 +108,6 @@
                                   </form>
                                 </div>
                               </td> {% endcomment %}
-                            </tr>
-                          {% endfor %}
-
-                        </tbody>
-                      </table>
-                    </div>
-                  </div>
-
-                </div>
-
-                <div class="tabs__pane -tab-item-2">
-
-                    <div class="row y-gap-10 ">
-                      <div class="col-auto">
-                        <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                            <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="f" placeholder="Şərh axtar" value="{{ request.GET.f }}">
-                            <button class="" type="submit">
-                                <i class="icon-search text-light-1 text-20"></i>
-                            </button>
-                        </form>
-                      </div>
-                    </div>
-
-                    <div class="tDiv">
-                      <div class="table-responsive">
-                        <table class="table" style="margin-top:25px; padding: 0px;">
-                          <thead>
-                            <tr>
-                              <th>№</th>
-                              <th>Kurs adı </th>
-                              <th>Tələbə</th>
-                              <th>şərh</th>
-                              <th>Əməliyyatlar</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-
-                            {% for feedback in feedbacks %}
-                              <tr>
-                                <td>{{ forloop.counter }}</td>
-                                <td>{{ feedback.course.title }}</td>
-                                <td>{{ feedback.student.last_name }} {{ feedback.student.first_name }}</td>
-                                <td>{{ feedback.message|truncatewords:5 }}</td>
-                                <td>
-                                  <div class="menusuboper">
-                                    <a href="{% url "course_srfp_look" feedback.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
-                                      <i class="fa fa-eye" aria-hidden="true"></i>
-                                    </a>
-                                    <form method="post" action="{% url "feedback_delete" feedback.pk %}" style="display: inline;">
-                                      {% csrf_token %}
-                                      <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
-                                          <i class="fa fa-trash c" aria-hidden="true"></i>
-                                      </button>
-                                    </form>
-                                  </div>
-                                </td>
-                              </tr>
-                            {% endfor %}
-
-                          </tbody>
-                        </table>
-                      </div>
-                    </div>
-
-                </div>
-
-                <div class="tabs__pane -tab-item-3">
-
-                  <div class="row y-gap-10 ">
-                    <div class="col-auto">
-                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="df" placeholder="Şərh axtar" value="{{ request.GET.df }}">
-                          <button class="" type="submit">
-                              <i class="icon-search text-light-1 text-20"></i>
-                          </button>
-                      </form>
-                    </div>
-                  </div>
-
-                  <div class="tDiv">
-                    <div class="table-responsive">
-                      <table class="table" style="margin-top:25px; padding: 0px;">
-                        <thead>
-                          <tr>
-                            <th>№</th>
-                            <th>Kurs adı </th>
-                            <th>Tələbə</th>
-                            <th>şərh</th>
-                            <th>Əməliyyatlar</th>
-                          </tr>
-                        </thead>
-                        <tbody>
-
-                          {% for feedback in d_feedbacks %}
-                            <tr>
-                              <td>{{ forloop.counter }}</td>
-                              <td>{{ feedback.course.title }}</td>
-                              <td>{{ feedback.student.last_name }} {{ feedback.student.first_name }}</td>
-                              <td>{{ feedback.message|truncatewords:5 }}</td>
-                              <td>
-                                <div class="menusuboper">
-                                  <a href="{% url "course_srfp_look" feedback.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
-                                    <i class="fa fa-eye" aria-hidden="true"></i>
-                                  </a>
-                                  <form method="post" action="{% url "feedback_undelete" feedback.pk %}" style="display: inline;">
-                                    {% csrf_token %}
-                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et">
-                                        <i class="fa fa-undo" aria-hidden="true"></i>&nbsp; Bərpa et
-                                    </button>
-                                  </form>
-                                  {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
-                                    <div style="color:white" class="icon-bin"></div>
-                                  </a> {% endcomment %}
-                                </div>
-                              </td>
                             </tr>
                           {% endfor %}
 

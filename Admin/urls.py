@@ -28,19 +28,19 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseCategoryEditView,
                     AdminCourseCategoryUndeleteView,
                     AdminCourseDeleteView,
-                    AdminCourseEditView,
+                    AdminCourseEditView, AdminCourseFeedbackListView,
                     AdminCourseListView,
                     AdminCourseProgramAddView,
                     AdminCourseProgramDeleteView,
                     AdminCourseProgramEditView,
                     AdminCourseProgramUndeleteView,
-                    AdminCourseSRFPDetailView,
-                    AdminCourseSRFPFeedbackDeleteView,
-                    AdminCourseSRFPFeedbackUndeleteView,
+                    AdminCourseFeedbackDetailView,
+                    AdminCourseFeedbackDeleteView,
+                    AdminCourseFeedbackUndeleteView,
                     AdminCourseSRFPListView,
-                    AdminCourseSRFPRequestUsDeleteView,
-                    AdminCourseSRFPRequestUsDetailView,
-                    AdminCourseSRFPRequestUsUndeleteView,
+                    AdminRequestUsDeleteView,
+                    AdminRequestUsDetailView,
+                    AdminRequestUsUndeleteView,
                     AdminCourseUndeleteView,
                     AdminFAQAddView,
                     AdminFAQDeleteView,
@@ -121,18 +121,16 @@ urlpatterns = [
 
     # ************************************************************************************************************************
 
-    # Course Statistic & Feedback & Request us
+    # Course Statistic
     path('course_srfp/', AdminCourseSRFPListView.as_view(), name='course_srfp'),
 
-    # Feedback
-    path('course_srfp_look/<int:pk>', AdminCourseSRFPDetailView.as_view(), name='course_srfp_look'),
-    path('feedback/<int:pk>/delete/', AdminCourseSRFPFeedbackDeleteView.as_view(), name='feedback_delete'),
-    path('feedback/<int:pk>/undelete/', AdminCourseSRFPFeedbackUndeleteView.as_view(), name='feedback_undelete'),
+    # ************************************************************************************************************************
 
-    # Request us
-    path('request_us/<int:pk>/delete/', AdminCourseSRFPRequestUsDeleteView.as_view(), name='request_us_delete'),
-    path('request_us/<int:pk>/undelete/', AdminCourseSRFPRequestUsUndeleteView.as_view(), name='request_us_undelete'),
-    path('request_us/<int:pk>', AdminCourseSRFPRequestUsDetailView.as_view(), name='request_us_look'),
+    # Feedback
+    path('feedback_dashboard/', AdminCourseFeedbackListView.as_view(), name='feedback_dashboard'),
+    path('course_feedback_look/<int:pk>', AdminCourseFeedbackDetailView.as_view(), name='course_feedback_look'),
+    path('feedback/<int:pk>/delete/', AdminCourseFeedbackDeleteView.as_view(), name='feedback_delete'),
+    path('feedback/<int:pk>/undelete/', AdminCourseFeedbackUndeleteView.as_view(), name='feedback_undelete'),
 
     # ************************************************************************************************************************
 
@@ -160,6 +158,14 @@ urlpatterns = [
     path('contact_us/<int:pk>/undelete/', AdminContactUsUndeleteView.as_view(), name='contact_us_undelete'),
     path('contact_us/<int:pk>', AdminContactUsView.as_view(), name='contact_us_look'),
 
+    # ************************************************************************************************************************
+
+    # Request us
+    path('request_us/<int:pk>/delete/', AdminRequestUsDeleteView.as_view(), name='request_us_delete'),
+    path('request_us/<int:pk>/undelete/', AdminRequestUsUndeleteView.as_view(), name='request_us_undelete'),
+    path('request_us/<int:pk>', AdminRequestUsDetailView.as_view(), name='request_us_look'),
+
+    # ************************************************************************************************************************
 
     # About Us & Contact İnfo
     path('about_dashboard/', AdminAboutContactInfoListView.as_view(), name='about_dashboard'),

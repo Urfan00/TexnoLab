@@ -662,30 +662,57 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
 
         return context
 
+# ********************************************************************************
+# Course Feedback
+class AdminCourseFeedbackListView(StaffRequiredMixin, ListView):
+    model = CourseFeedback
+    template_name = 'feedback/dshb-feedback.html'
 
-# Feedback
-class AdminCourseSRFPFeedbackDeleteView(StaffRequiredMixin, View):
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        f_query = self.request.GET.get('f', '')
+        df_query = self.request.GET.get('df', '')
+
+        feedbacks = CourseFeedback.objects.filter(is_delete=False).order_by('-created_at').all()
+        d_feedbacks = CourseFeedback.objects.filter(is_delete=True).order_by('-created_at').all()
+
+        if f_query:
+            feedbacks = feedbacks.filter(
+                Q(course__title__icontains=f_query) | Q(student__first_name__icontains=f_query) | Q(student__last_name__icontains=f_query)
+            )
+        elif df_query:
+            d_feedbacks = d_feedbacks.filter(
+                Q(course__title__icontains=df_query) | Q(student__first_name__icontains=df_query) | Q(student__last_name__icontains=df_query)
+            )
+
+        context["feedbacks"] = feedbacks
+        context["d_feedbacks"] = d_feedbacks
+
+        return context
+
+
+class AdminCourseFeedbackDeleteView(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         feedback_id = kwargs.get('pk')
         feedback = get_object_or_404(CourseFeedback, pk=feedback_id)
         feedback.is_delete = True
         feedback.save()
         messages.success(request, 'Feedback uğurla silindi')
-        return redirect('course_srfp')
+        return redirect('feedback_dashboard')
 
 
-class AdminCourseSRFPFeedbackUndeleteView(StaffRequiredMixin, View):
+class AdminCourseFeedbackUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         feedback = get_object_or_404(CourseFeedback, pk=pk)
         feedback.is_delete = False  # Set is_delete to False to undelete
         feedback.save()
         messages.success(request, 'Feedback uğurla bərpa olundu')
-        return redirect('course_srfp')
+        return redirect('feedback_dashboard')
 
 
-class AdminCourseSRFPDetailView(StaffRequiredMixin, DetailView):
+class AdminCourseFeedbackDetailView(StaffRequiredMixin, DetailView):
     model = CourseFeedback
-    template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp-look.html'
+    template_name = 'feedback/dshb-courses-feedback-look.html'
     context_object_name = 'feedback'
 
 
@@ -948,7 +975,7 @@ class AdminContactUsView(StaffRequiredMixin, DetailView):
 
 
 # Request US
-class AdminCourseSRFPRequestUsDeleteView(StaffRequiredMixin, View):
+class AdminRequestUsDeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = True
@@ -957,7 +984,7 @@ class AdminCourseSRFPRequestUsDeleteView(StaffRequiredMixin, View):
         return redirect('apply_dashboard')
 
 
-class AdminCourseSRFPRequestUsUndeleteView(StaffRequiredMixin, View):
+class AdminRequestUsUndeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
@@ -966,7 +993,7 @@ class AdminCourseSRFPRequestUsUndeleteView(StaffRequiredMixin, View):
         return redirect('apply_dashboard')
 
 
-class AdminCourseSRFPRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
+class AdminRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
     model = RequestUs
     template_name = 'apply/dshb-courses-request-look.html'
     context_object_name = 'request'
