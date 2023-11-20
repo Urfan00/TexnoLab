@@ -6,5 +6,5 @@ def base_data(request):
 
     data["is_view_false_count_request_us"] = RequestUs.objects.filter(is_view=False, is_delete=False).count()
     data["is_view_false_count_contact_us"] = ContactUs.objects.filter(is_view=False, is_delete=False).count()
-
+    data['total_count'] = int(data["is_view_false_count_request_us"]) + int(data["is_view_false_count_contact_us"])
     return data

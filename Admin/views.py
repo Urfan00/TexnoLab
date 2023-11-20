@@ -629,7 +629,7 @@ class AdminServiceUndeleteView(StaffRequiredMixin, View):
 
 
 # ********************************************************************************
-# Course Statistic & Request US & Feedback & Program
+# Course Statistic & Feedback
 class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
     template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp.html'
@@ -639,19 +639,11 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
         ks_query = self.request.GET.get('ks', '')
         f_query = self.request.GET.get('f', '')
         df_query = self.request.GET.get('df', '')
-        m_query = self.request.GET.get('m', '')
-        bm_query = self.request.GET.get('bm', '')
-        dr_query = self.request.GET.get('dr', '')
 
         statistics = CourseStatistic.objects.all()
 
         feedbacks = CourseFeedback.objects.filter(is_delete=False).all()
         d_feedbacks = CourseFeedback.objects.filter(is_delete=True).all()
-
-        request_us = RequestUs.objects.filter(is_view=False, is_delete=False).all()
-        b_request_us = RequestUs.objects.filter(is_view=True, is_delete=False).all()
-        d_request_us = RequestUs.objects.filter(is_delete=True).all()
-
 
         if ks_query:
             statistics = statistics.filter(course__title__icontains=ks_query)
@@ -663,25 +655,10 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
             d_feedbacks = d_feedbacks.filter(
                 Q(course__title__icontains=df_query) | Q(student__first_name__icontains=df_query) | Q(student__last_name__icontains=df_query)
             )
-        elif m_query:
-            request_us = request_us.filter(
-                Q(course__title__icontains=m_query) | Q(fullname__icontains=m_query)
-            )
-        elif bm_query:
-            b_request_us = b_request_us.filter(
-                Q(course__title__icontains=bm_query) | Q(fullname__icontains=bm_query)
-            )
-        elif dr_query:
-            d_request_us = d_request_us.filter(
-                Q(course__title__icontains=dr_query) | Q(fullname__icontains=dr_query)
-            )
 
         context["statistics"] = statistics
         context["feedbacks"] = feedbacks
         context["d_feedbacks"] = d_feedbacks
-        context["request_us"] = request_us
-        context["b_request_us"] = b_request_us
-        context["d_request_us"] = d_request_us
 
         return context
 
@@ -710,51 +687,6 @@ class AdminCourseSRFPDetailView(StaffRequiredMixin, DetailView):
     model = CourseFeedback
     template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp-look.html'
     context_object_name = 'feedback'
-
-
-# Request US
-class AdminCourseSRFPRequestUsDeleteView(StaffRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        course = get_object_or_404(RequestUs, pk=pk)
-        course.is_delete = True
-        course.save()
-        messages.success(request, 'Request Us uğurla silindi')
-        return redirect('course_srfp')
-
-
-class AdminCourseSRFPRequestUsUndeleteView(StaffRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        course = get_object_or_404(RequestUs, pk=pk)
-        course.is_delete = False  # Set is_delete to False to undelete
-        course.save()
-        messages.success(request, 'Request Us uğurla bərpa olundu')
-        return redirect('course_srfp')
-
-
-class AdminCourseSRFPRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
-    model = RequestUs
-    template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp-look-request.html'
-    context_object_name = 'request'
-    form_class = RequestUsAdminCommentForm
-
-    # def get(self, request, *args, **kwargs):
-    #     request_us = RequestUs.objects.get(pk=self.get_object().pk)
-    #     request_us.is_view = True
-    #     request_us.save()
-    #     return super().get(request, *args, **kwargs)
-
-    def form_valid(self, form, *args, **kwargs):
-        if form.is_valid():
-            # Your code to save the admin_comment here
-            request_us = RequestUs.objects.get(pk=self.get_object().pk)
-            request_us.admin_comment = form.cleaned_data['admin_comment']
-            request_us.is_view = True
-            request_us.save()
-            messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
-            return redirect("request_us_look", pk=self.kwargs.get('pk'))
-        else:
-            messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
-            return redirect("request_us_look", pk=self.kwargs.get('pk'))
 
 
 # ********************************************************************************
@@ -934,7 +866,7 @@ class AdminFAQUndeleteView(StaffRequiredMixin, View):
 
 
 # ********************************************************************************
-# Contact US
+# Contact US & Request US
 class AdminContactUSListView(StaffRequiredMixin, ListView):
     model = ContactUs
     template_name = 'apply/dshb-apply.html'
@@ -944,10 +876,16 @@ class AdminContactUSListView(StaffRequiredMixin, ListView):
         cu_query = self.request.GET.get('cu', '')
         bcu_query = self.request.GET.get('bcu', '')
         dcu_query = self.request.GET.get('dcu', '')
+        m_query = self.request.GET.get('m', '')
+        bm_query = self.request.GET.get('bm', '')
+        dr_query = self.request.GET.get('dr', '')
 
         contact_us = ContactUs.objects.filter(is_view=False, is_delete=False).order_by('-created_at').all()
         b_contact_us = ContactUs.objects.filter(is_view=True, is_delete=False).order_by('-created_at').all()
         d_contact_us = ContactUs.objects.filter(is_delete=True).order_by('-created_at').all()
+        request_us = RequestUs.objects.filter(is_view=False, is_delete=False).order_by('-created_at').all()
+        b_request_us = RequestUs.objects.filter(is_view=True, is_delete=False).order_by('-created_at').all()
+        d_request_us = RequestUs.objects.filter(is_delete=True).order_by('-created_at').all()
 
         if cu_query:
             contact_us = contact_us.filter(Q(fullname__icontains=cu_query) | Q(email__icontains=cu_query))
@@ -955,10 +893,25 @@ class AdminContactUSListView(StaffRequiredMixin, ListView):
             b_contact_us = b_contact_us.filter(Q(fullname__icontains=bcu_query) | Q(email__icontains=bcu_query))
         elif dcu_query:
             d_contact_us = d_contact_us.filter(Q(fullname__icontains=dcu_query) | Q(email__icontains=dcu_query))
+        elif m_query:
+            request_us = request_us.filter(
+                Q(course__title__icontains=m_query) | Q(fullname__icontains=m_query)
+            )
+        elif bm_query:
+            b_request_us = b_request_us.filter(
+                Q(course__title__icontains=bm_query) | Q(fullname__icontains=bm_query)
+            )
+        elif dr_query:
+            d_request_us = d_request_us.filter(
+                Q(course__title__icontains=dr_query) | Q(fullname__icontains=dr_query)
+            )
 
         context["contact_us"] = contact_us
         context["b_contact_us"] = b_contact_us
         context["d_contact_us"] = d_contact_us
+        context["request_us"] = request_us
+        context["b_request_us"] = b_request_us
+        context["d_request_us"] = d_request_us
 
         return context
 
@@ -994,6 +947,46 @@ class AdminContactUsView(StaffRequiredMixin, DetailView):
         return super().get(request, *args, **kwargs)
 
 
+# Request US
+class AdminCourseSRFPRequestUsDeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        course = get_object_or_404(RequestUs, pk=pk)
+        course.is_delete = True
+        course.save()
+        messages.success(request, 'Kurs müraciəti uğurla silindi')
+        return redirect('apply_dashboard')
+
+
+class AdminCourseSRFPRequestUsUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        course = get_object_or_404(RequestUs, pk=pk)
+        course.is_delete = False  # Set is_delete to False to undelete
+        course.save()
+        messages.success(request, 'Kurs müraciəti uğurla bərpa olundu')
+        return redirect('apply_dashboard')
+
+
+class AdminCourseSRFPRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
+    model = RequestUs
+    template_name = 'apply/dshb-courses-request-look.html'
+    context_object_name = 'request'
+    form_class = RequestUsAdminCommentForm
+
+    def form_valid(self, form, *args, **kwargs):
+        if form.is_valid():
+            # Your code to save the admin_comment here
+            request_us = RequestUs.objects.get(pk=self.get_object().pk)
+            request_us.admin_comment = form.cleaned_data['admin_comment']
+            request_us.is_view = True
+            request_us.save()
+            messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+            return redirect("request_us_look", pk=self.kwargs.get('pk'))
+        else:
+            messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+            return redirect("request_us_look", pk=self.kwargs.get('pk'))
+
+
+# ********************************************************************************
 # About Us & Contact Info
 class AdminAboutContactInfoListView(StaffRequiredMixin, View):
     template_name = 'core/about_us-contact_us/dshb-about-contact-info.html'

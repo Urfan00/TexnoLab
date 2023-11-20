@@ -229,7 +229,7 @@
               <div class="sidebar__item ">
                 <a href="{% url "apply_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-comment mr-15"></i>
-                  Müraciətlər <span class="count_badge">{% if is_view_false_count_contact_us != 0 %} {% if is_view_false_count_contact_us > 99 %}99+{% else %}{{ is_view_false_count_contact_us }}{% endif %} {% endif %}</span>
+                  Müraciətlər <span class="count_badge">{% if total_count != 0 %} {% if total_count > 99 %}99+{% else %}{{ total_count }}{% endif %} {% endif %}</span>
                 </a>
               </div>
 
