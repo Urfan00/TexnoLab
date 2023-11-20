@@ -71,6 +71,8 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
         sc_query = self.request.GET.get('sc', '')
         k_query = self.request.GET.get('k', '')
         sk_query = self.request.GET.get('sk', '')
+        p_query = self.request.GET.get('p', '')
+        sp_query = self.request.GET.get('sp', '')
 
         # Filter active courses
         active_courses = Course.objects.filter(status=True, is_delete=False).order_by('-start_date')
@@ -84,6 +86,9 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
 
         deleted_categories = CourseCategory.objects.filter(is_delete=True).order_by('-created_at')
 
+        programs = CourseProgram.objects.filter(is_delete=False).all()
+        d_programs = CourseProgram.objects.filter(is_delete=True).all()
+
 
         # Apply search filter if a query is provided
         if a_query:
@@ -96,6 +101,14 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
             categories = categories.filter(title__icontains=k_query)
         elif sk_query:
             deleted_categories = deleted_categories.filter(name__icontains=sk_query)
+        elif p_query:
+            programs = programs.filter(
+                Q(course__title__icontains=p_query) | Q(program_name__icontains=p_query)
+            )
+        elif sp_query:
+            d_programs = d_programs.filter(
+                Q(course__title__icontains=sp_query) | Q(program_name__icontains=sp_query)
+            )
 
 
         context["active_course"] = active_courses
@@ -103,6 +116,8 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
         context["delete_course"] = delete_courses
         context["categories"] = categories
         context["deleted_categories"] = deleted_categories
+        context["programs"] = programs
+        context["d_programs"] = d_programs
 
 
         return context
@@ -236,6 +251,72 @@ class AdminCourseCategoryUndeleteView(StaffRequiredMixin, View):
         course.is_delete = False  # Set is_delete to False to undelete
         course.save()
         messages.success(request, 'Kurs kateqoriyası uğurla bərpa olundu')
+        return redirect('course_dashboard')
+
+
+# Program
+class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
+    model = CourseProgram
+    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-add.html'
+    form_class = CourseProgramEditForm
+    success_url = reverse_lazy('course_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminCourseProgramEditView(StaffRequiredMixin, CreateView):
+    model = CourseProgram
+    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        program_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        program = get_object_or_404(CourseProgram, pk=program_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = CourseProgramEditForm(instance=program)
+        return render(request, 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = CourseProgramEditForm(request.POST, request.FILES, instance=get_object_or_404(CourseProgram, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            program = CourseProgram.objects.get(pk=kwargs.get('pk'))
+            program.program_name = form.cleaned_data.get('program_name')
+            program.description = form.cleaned_data.get('description')
+            program.course = form.cleaned_data.get('course')
+            program.file = form.cleaned_data.get('file')
+            program.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('course_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('course_dashboard')
+
+
+class AdminCourseProgramDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        program_id = kwargs.get('pk')
+        program = get_object_or_404(CourseProgram, pk=program_id)
+        program.is_delete = True
+        program.save()
+        messages.success(request, 'Kurs proqramı uğurla silindi')
+        return redirect('course_dashboard')
+
+
+class AdminCourseProgramUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        program = get_object_or_404(CourseProgram, pk=pk)
+        program.is_delete = False  # Set is_delete to False to undelete
+        program.save()
+        messages.success(request, 'Kurs proqramı uğurla bərpa olundu')
         return redirect('course_dashboard')
 
 
@@ -561,8 +642,6 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
         m_query = self.request.GET.get('m', '')
         bm_query = self.request.GET.get('bm', '')
         dr_query = self.request.GET.get('dr', '')
-        p_query = self.request.GET.get('p', '')
-        sp_query = self.request.GET.get('sp', '')
 
         statistics = CourseStatistic.objects.all()
 
@@ -573,8 +652,6 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
         b_request_us = RequestUs.objects.filter(is_view=True, is_delete=False).all()
         d_request_us = RequestUs.objects.filter(is_delete=True).all()
 
-        programs = CourseProgram.objects.filter(is_delete=False).all()
-        d_programs = CourseProgram.objects.filter(is_delete=True).all()
 
         if ks_query:
             statistics = statistics.filter(course__title__icontains=ks_query)
@@ -598,14 +675,6 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
             d_request_us = d_request_us.filter(
                 Q(course__title__icontains=dr_query) | Q(fullname__icontains=dr_query)
             )
-        elif p_query:
-            programs = programs.filter(
-                Q(course__title__icontains=p_query) | Q(program_name__icontains=p_query)
-            )
-        elif sp_query:
-            d_programs = d_programs.filter(
-                Q(course__title__icontains=sp_query) | Q(program_name__icontains=sp_query)
-            )
 
         context["statistics"] = statistics
         context["feedbacks"] = feedbacks
@@ -613,8 +682,6 @@ class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
         context["request_us"] = request_us
         context["b_request_us"] = b_request_us
         context["d_request_us"] = d_request_us
-        context["programs"] = programs
-        context["d_programs"] = d_programs
 
         return context
 
@@ -688,72 +755,6 @@ class AdminCourseSRFPRequestUsDetailView(StaffRequiredMixin, DetailView, CreateV
         else:
             messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
             return redirect("request_us_look", pk=self.kwargs.get('pk'))
-
-
-# Program
-class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
-    model = CourseProgram
-    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-add.html'
-    form_class = CourseProgramEditForm
-    success_url = reverse_lazy('course_srfp')
-
-    def form_valid(self, form):
-        # If the form is valid, display a success message
-        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        # If the form has validation errors, display an error message
-        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
-        return super().form_invalid(form)
-
-
-class AdminCourseProgramEditView(StaffRequiredMixin, CreateView):
-    model = CourseProgram
-    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html'
-
-    def get(self, request, *args, **kwargs):
-        program_id = kwargs.get('pk')  # Get the course ID from URL kwargs
-        program = get_object_or_404(CourseProgram, pk=program_id)  # Retrieve the Course instance
-
-        # Create an instance of the CourseEditForm with the retrieved course
-        form = CourseProgramEditForm(instance=program)
-        return render(request, 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html', {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = CourseProgramEditForm(request.POST, request.FILES, instance=get_object_or_404(CourseProgram, pk=kwargs.get('pk')))
-
-        if form.is_valid():
-            program = CourseProgram.objects.get(pk=kwargs.get('pk'))
-            program.program_name = form.cleaned_data.get('program_name')
-            program.description = form.cleaned_data.get('description')
-            program.course = form.cleaned_data.get('course')
-            program.file = form.cleaned_data.get('file')
-            program.save()
-            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
-            return redirect('course_srfp')
-        else:
-            messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect('course_srfp')
-
-
-class AdminCourseProgramDeleteView(StaffRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        program_id = kwargs.get('pk')
-        program = get_object_or_404(CourseProgram, pk=program_id)
-        program.is_delete = True
-        program.save()
-        messages.success(request, 'Kurs proqramı uğurla silindi')
-        return redirect('course_srfp')
-
-
-class AdminCourseProgramUndeleteView(StaffRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        program = get_object_or_404(CourseProgram, pk=pk)
-        program.is_delete = False  # Set is_delete to False to undelete
-        program.save()
-        messages.success(request, 'Kurs proqramı uğurla bərpa olundu')
-        return redirect('course_srfp')
 
 
 # ********************************************************************************
@@ -1188,7 +1189,6 @@ class CourseStudentDeleteView(StaffRequiredMixin, View):
         return redirect('account_dashboard')
 
 
-
 # All Gallery
 class AdminAllGalleryListView(StaffRequiredMixin, ListView):
     model = AllGalery
@@ -1249,7 +1249,7 @@ class AdminAllGalleryAddView(StaffRequiredMixin, FormView):
         return super().form_invalid(form)
 
 
-class AdminAllGalleryDeleteAllView(View):
+class AdminAllGalleryDeleteAllView(StaffRequiredMixin, View):
     def post(self, request):
         # Delete all images in the AllGalery model
         AllGalery.objects.all().delete()
