@@ -936,37 +936,26 @@ class AdminFAQUndeleteView(StaffRequiredMixin, View):
 # ********************************************************************************
 # Contact US
 class AdminContactUSListView(StaffRequiredMixin, ListView):
-    model = CourseStatistic
-    template_name = 'core/partner-faq-contact_us/dshb-courses-p-faq-c_us.html'
+    model = ContactUs
+    template_name = 'apply/dshb-apply.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        faq_query = self.request.GET.get('faq', '')
-        s_faq_query = self.request.GET.get('s_faq', '')
         cu_query = self.request.GET.get('cu', '')
         bcu_query = self.request.GET.get('bcu', '')
         dcu_query = self.request.GET.get('dcu', '')
 
-        faqs = FAQ.objects.filter(is_delete=False).order_by('-created_at').all()
-        s_faqs = FAQ.objects.filter(is_delete=True).order_by('-created_at').all()
+        contact_us = ContactUs.objects.filter(is_view=False, is_delete=False).order_by('-created_at').all()
+        b_contact_us = ContactUs.objects.filter(is_view=True, is_delete=False).order_by('-created_at').all()
+        d_contact_us = ContactUs.objects.filter(is_delete=True).order_by('-created_at').all()
 
-        contact_us = ContactUs.objects.filter(is_view=False, is_delete=False).all()
-        b_contact_us = ContactUs.objects.filter(is_view=True, is_delete=False).all()
-        d_contact_us = ContactUs.objects.filter(is_delete=True).all()
-
-        if faq_query:
-            faqs = faqs.filter(question__icontains=faq_query)
-        elif s_faq_query:
-            s_faqs = s_faqs.filter(question__icontains=s_faq_query)
-        elif cu_query:
+        if cu_query:
             contact_us = contact_us.filter(Q(fullname__icontains=cu_query) | Q(email__icontains=cu_query))
         elif bcu_query:
             b_contact_us = b_contact_us.filter(Q(fullname__icontains=bcu_query) | Q(email__icontains=bcu_query))
         elif dcu_query:
             d_contact_us = d_contact_us.filter(Q(fullname__icontains=dcu_query) | Q(email__icontains=dcu_query))
 
-        context["faqs"] = faqs
-        context["s_faqs"] = s_faqs
         context["contact_us"] = contact_us
         context["b_contact_us"] = b_contact_us
         context["d_contact_us"] = d_contact_us
@@ -981,7 +970,7 @@ class AdminContactUsDeleteView(StaffRequiredMixin, View):
         contact_us.is_delete = True
         contact_us.save()
         messages.success(request, 'Bizimlə əlaqə uğurla silindi')
-        return redirect('core_dashboard')
+        return redirect('apply_dashboard')
 
 
 class AdminContactUsUndeleteView(StaffRequiredMixin, View):
@@ -990,12 +979,12 @@ class AdminContactUsUndeleteView(StaffRequiredMixin, View):
         contact_us.is_delete = False  # Set is_delete to False to undelete
         contact_us.save()
         messages.success(request, 'Bizimlə əlaqə uğurla bərpa olundu')
-        return redirect('core_dashboard')
+        return redirect('apply_dashboard')
 
 
 class AdminContactUsView(StaffRequiredMixin, DetailView):
     model = ContactUs
-    template_name = 'core/partner-faq-contact_us/contact_us/dshb-contact_us-look.html'
+    template_name = 'apply/dshb-contact_us-look.html'
     context_object_name = 'contact_us'
 
     def get(self, request, *args, **kwargs):

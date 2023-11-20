@@ -155,7 +155,7 @@ urlpatterns = [
     # ************************************************************************************************************************
 
     # Contact US
-    path('core_dashboard/', AdminContactUSListView.as_view(), name='core_dashboard'),
+    path('apply_dashboard/', AdminContactUSListView.as_view(), name='apply_dashboard'),
     path('contact_us/<int:pk>/delete/', AdminContactUsDeleteView.as_view(), name='contact_us_delete'),
     path('contact_us/<int:pk>/undelete/', AdminContactUsUndeleteView.as_view(), name='contact_us_undelete'),
     path('contact_us/<int:pk>', AdminContactUsView.as_view(), name='contact_us_look'),
