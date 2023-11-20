@@ -758,7 +758,6 @@ class AdminCourseSRFPRequestUsDetailView(StaffRequiredMixin, DetailView, CreateV
 
 
 # ********************************************************************************
-
 # Partner
 class AdminPartnerListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
@@ -846,13 +845,97 @@ class AdminPartnerUndeleteView(StaffRequiredMixin, View):
         return redirect('partner_dashboard')
 
 
+# ********************************************************************************
+# FAQ
+class AdminFAQListView(StaffRequiredMixin, ListView):
+    model = CourseStatistic
+    template_name = 'faq/dshb-faq.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        faq_query = self.request.GET.get('faq', '')
+        s_faq_query = self.request.GET.get('s_faq', '')
+
+        faqs = FAQ.objects.filter(is_delete=False).order_by('-created_at').all()
+        s_faqs = FAQ.objects.filter(is_delete=True).order_by('-created_at').all()
+
+        if faq_query:
+            faqs = faqs.filter(question__icontains=faq_query)
+        elif s_faq_query:
+            s_faqs = s_faqs.filter(question__icontains=s_faq_query)
+
+        context["faqs"] = faqs
+        context["s_faqs"] = s_faqs
+
+        return context
 
 
+class AdminFAQAddView(StaffRequiredMixin, CreateView):
+    model = FAQ
+    template_name = 'faq/dshb-faq-add.html'
+    form_class = FAQEditForm
+    success_url = reverse_lazy('faq_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminFAQEditView(StaffRequiredMixin, CreateView):
+    model = FAQ
+    template_name = 'faq/dshb-faq-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        faq_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        faq = get_object_or_404(FAQ, pk=faq_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = FAQEditForm(instance=faq)
+        return render(request, 'faq/dshb-faq-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = FAQEditForm(request.POST)
+
+        if form.is_valid():
+            faq = FAQ.objects.get(pk=kwargs.get('pk'))
+            faq.question = form.cleaned_data.get('question')
+            faq.answer = form.cleaned_data.get('answer')
+            faq.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('faq_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('faq_dashboard')
+
+
+class AdminFAQDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        faq_id = kwargs.get('pk')
+        faq = get_object_or_404(FAQ, pk=faq_id)
+        faq.is_delete = True
+        faq.save()
+        messages.success(request, 'FAQ uğurla silindi')
+        return redirect('faq_dashboard')
+
+
+class AdminFAQUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        faq = get_object_or_404(FAQ, pk=pk)
+        faq.is_delete = False  # Set is_delete to False to undelete
+        faq.save()
+        messages.success(request, 'FAQ uğurla bərpa olundu')
+        return redirect('faq_dashboard')
 
 
 # ********************************************************************************
-# Contact US & FAQ
-class AdminContactUSFAQListView(StaffRequiredMixin, ListView):
+# Contact US
+class AdminContactUSListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
     template_name = 'core/partner-faq-contact_us/dshb-courses-p-faq-c_us.html'
 
@@ -891,71 +974,6 @@ class AdminContactUSFAQListView(StaffRequiredMixin, ListView):
         return context
 
 
-# FAQ
-class AdminFAQAddView(StaffRequiredMixin, CreateView):
-    model = FAQ
-    template_name = 'core/partner-faq-contact_us/f.a.q/dshb-faq-add.html'
-    form_class = FAQEditForm
-    success_url = reverse_lazy('core_dashboard')
-
-    def form_valid(self, form):
-        # If the form is valid, display a success message
-        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        # If the form has validation errors, display an error message
-        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
-        return super().form_invalid(form)
-
-
-class AdminFAQEditView(StaffRequiredMixin, CreateView):
-    model = FAQ
-    template_name = 'core/partner-faq-contact_us/f.a.q/dshb-faq-edit.html'
-
-    def get(self, request, *args, **kwargs):
-        faq_id = kwargs.get('pk')  # Get the course ID from URL kwargs
-        faq = get_object_or_404(FAQ, pk=faq_id)  # Retrieve the Course instance
-
-        # Create an instance of the CourseEditForm with the retrieved course
-        form = FAQEditForm(instance=faq)
-        return render(request, 'core/partner-faq-contact_us/f.a.q/dshb-faq-edit.html', {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = FAQEditForm(request.POST)
-
-        if form.is_valid():
-            faq = FAQ.objects.get(pk=kwargs.get('pk'))
-            faq.question = form.cleaned_data.get('question')
-            faq.answer = form.cleaned_data.get('answer')
-            faq.save()
-            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
-            return redirect('core_dashboard')
-        else:
-            messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect('core_dashboard')
-
-
-class AdminFAQDeleteView(StaffRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        faq_id = kwargs.get('pk')
-        faq = get_object_or_404(FAQ, pk=faq_id)
-        faq.is_delete = True
-        faq.save()
-        messages.success(request, 'FAQ uğurla silindi')
-        return redirect('core_dashboard')
-
-
-class AdminFAQUndeleteView(StaffRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        faq = get_object_or_404(FAQ, pk=pk)
-        faq.is_delete = False  # Set is_delete to False to undelete
-        faq.save()
-        messages.success(request, 'FAQ uğurla bərpa olundu')
-        return redirect('core_dashboard')
-
-
-# Contact Us
 class AdminContactUsDeleteView(StaffRequiredMixin, View):
     def post(self, request, *args, **kwargs):
         contact_us_id = kwargs.get('pk')

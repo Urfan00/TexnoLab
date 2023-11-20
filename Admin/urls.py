@@ -18,7 +18,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminBlogListView,
                     AdminBlogUndeleteView,
                     AdminContactInfoEditView,
-                    AdminContactUSFAQListView,
+                    AdminContactUSListView,
                     AdminContactUsDeleteView,
                     AdminContactUsUndeleteView,
                     AdminContactUsView,
@@ -44,7 +44,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseUndeleteView,
                     AdminFAQAddView,
                     AdminFAQDeleteView,
-                    AdminFAQEditView,
+                    AdminFAQEditView, AdminFAQListView,
                     AdminFAQUndeleteView,
                     AdminPartnerAddView,
                     AdminPartnerDeleteView,
@@ -63,7 +63,7 @@ from .views import (AdminAboutContactInfoListView,
 urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
 
-    # Course & Course Category
+    # Course & Course Category & Course Program
     path('course_dashboard/', AdminCourseListView.as_view(), name='course_dashboard'),
 
     # Course
@@ -79,6 +79,14 @@ urlpatterns = [
     path('course_category_add/', AdminCourseCategoryAddView.as_view(), name='course_category_add'),
     path('course_category/<int:pk>/delete/', AdminCourseCategoryDeleteView.as_view(), name='course_category_delete'),
     path('course_category/<int:pk>/undelete/', AdminCourseCategoryUndeleteView.as_view(), name='course_category_undelete'),
+
+    # ************************************************************************************************************************
+
+    # Course Program
+    path('program_add/', AdminCourseProgramAddView.as_view(), name='program_add'),
+    path('program_edit/<int:pk>', AdminCourseProgramEditView.as_view(), name='program_edit'),
+    path('program/<int:pk>/delete/', AdminCourseProgramDeleteView.as_view(), name='program_delete'),
+    path('program/<int:pk>/undelete/', AdminCourseProgramUndeleteView.as_view(), name='program_undelete'),
 
     # ************************************************************************************************************************
 
@@ -113,7 +121,7 @@ urlpatterns = [
 
     # ************************************************************************************************************************
 
-    # Course Statistic & Feedback & Request us & Program
+    # Course Statistic & Feedback & Request us
     path('course_srfp/', AdminCourseSRFPListView.as_view(), name='course_srfp'),
 
     # Feedback
@@ -126,30 +134,28 @@ urlpatterns = [
     path('request_us/<int:pk>/undelete/', AdminCourseSRFPRequestUsUndeleteView.as_view(), name='request_us_undelete'),
     path('request_us/<int:pk>', AdminCourseSRFPRequestUsDetailView.as_view(), name='request_us_look'),
 
-    # Course Program
-    path('program_add/', AdminCourseProgramAddView.as_view(), name='program_add'),
-    path('program_edit/<int:pk>', AdminCourseProgramEditView.as_view(), name='program_edit'),
-    path('program/<int:pk>/delete/', AdminCourseProgramDeleteView.as_view(), name='program_delete'),
-    path('program/<int:pk>/undelete/', AdminCourseProgramUndeleteView.as_view(), name='program_undelete'),
+    # ************************************************************************************************************************
 
     # Partner
     path('partner_dashboard/', AdminPartnerListView.as_view(), name='partner_dashboard'),
-
     path('partner_add/', AdminPartnerAddView.as_view(), name='partner_add'),
     path('partner_edit/<int:pk>', AdminPartnerEditView.as_view(), name='partner_edit'),
     path('partner/<int:pk>/delete/', AdminPartnerDeleteView.as_view(), name='partner_delete'),
     path('partner/<int:pk>/undelete/', AdminPartnerUndeleteView.as_view(), name='partner_undelete'),
 
-    # Contact US & FAQ
-    path('core_dashboard/', AdminContactUSFAQListView.as_view(), name='core_dashboard'),
+    # ************************************************************************************************************************
 
     # FAQ
+    path('faq_dashboard/', AdminFAQListView.as_view(), name='faq_dashboard'),
     path('faq_add/', AdminFAQAddView.as_view(), name='faq_add'),
     path('faq_edit/<int:pk>', AdminFAQEditView.as_view(), name='faq_edit'),
     path('faq/<int:pk>/delete/', AdminFAQDeleteView.as_view(), name='faq_delete'),
     path('faq/<int:pk>/undelete/', AdminFAQUndeleteView.as_view(), name='faq_undelete'),
 
-    # Contact us
+    # ************************************************************************************************************************
+
+    # Contact US
+    path('core_dashboard/', AdminContactUSListView.as_view(), name='core_dashboard'),
     path('contact_us/<int:pk>/delete/', AdminContactUsDeleteView.as_view(), name='contact_us_delete'),
     path('contact_us/<int:pk>/undelete/', AdminContactUsUndeleteView.as_view(), name='contact_us_undelete'),
     path('contact_us/<int:pk>', AdminContactUsView.as_view(), name='contact_us_look'),
