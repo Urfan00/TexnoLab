@@ -18,7 +18,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminBlogListView,
                     AdminBlogUndeleteView,
                     AdminContactInfoEditView,
-                    AdminContactUSFAQPartnersListView,
+                    AdminContactUSFAQListView,
                     AdminContactUsDeleteView,
                     AdminContactUsUndeleteView,
                     AdminContactUsView,
@@ -48,7 +48,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminFAQUndeleteView,
                     AdminPartnerAddView,
                     AdminPartnerDeleteView,
-                    AdminPartnerEditView,
+                    AdminPartnerEditView, AdminPartnerListView,
                     AdminPartnerUndeleteView,
                     AdminServiceAddView,
                     AdminServiceDeleteView,
@@ -132,14 +132,16 @@ urlpatterns = [
     path('program/<int:pk>/delete/', AdminCourseProgramDeleteView.as_view(), name='program_delete'),
     path('program/<int:pk>/undelete/', AdminCourseProgramUndeleteView.as_view(), name='program_undelete'),
 
-    # Partner & Contact US & FAQ
-    path('core_dashboard/', AdminContactUSFAQPartnersListView.as_view(), name='core_dashboard'),
-
     # Partner
+    path('partner_dashboard/', AdminPartnerListView.as_view(), name='partner_dashboard'),
+
     path('partner_add/', AdminPartnerAddView.as_view(), name='partner_add'),
     path('partner_edit/<int:pk>', AdminPartnerEditView.as_view(), name='partner_edit'),
     path('partner/<int:pk>/delete/', AdminPartnerDeleteView.as_view(), name='partner_delete'),
     path('partner/<int:pk>/undelete/', AdminPartnerUndeleteView.as_view(), name='partner_undelete'),
+
+    # Contact US & FAQ
+    path('core_dashboard/', AdminContactUSFAQListView.as_view(), name='core_dashboard'),
 
     # FAQ
     path('faq_add/', AdminFAQAddView.as_view(), name='faq_add'),

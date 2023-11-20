@@ -758,64 +758,36 @@ class AdminCourseSRFPRequestUsDetailView(StaffRequiredMixin, DetailView, CreateV
 
 
 # ********************************************************************************
-# Partner & Contact US & FAQ
-class AdminContactUSFAQPartnersListView(StaffRequiredMixin, ListView):
+
+# Partner
+class AdminPartnerListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
-    template_name = 'core/partner-faq-contact_us/dshb-courses-p-faq-c_us.html'
+    template_name = 'partner/dshb-partner.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         p_query = self.request.GET.get('p', '')
         sp_query = self.request.GET.get('sp', '')
-        faq_query = self.request.GET.get('faq', '')
-        s_faq_query = self.request.GET.get('s_faq', '')
-        cu_query = self.request.GET.get('cu', '')
-        bcu_query = self.request.GET.get('bcu', '')
-        dcu_query = self.request.GET.get('dcu', '')
 
         partners = Partner.objects.filter(is_delete=False).order_by('-created_at').all()
         d_partners = Partner.objects.filter(is_delete=True).order_by('-created_at').all()
-
-        faqs = FAQ.objects.filter(is_delete=False).order_by('-created_at').all()
-        s_faqs = FAQ.objects.filter(is_delete=True).order_by('-created_at').all()
-
-        contact_us = ContactUs.objects.filter(is_view=False, is_delete=False).all()
-        b_contact_us = ContactUs.objects.filter(is_view=True, is_delete=False).all()
-        d_contact_us = ContactUs.objects.filter(is_delete=True).all()
 
         if p_query:
             partners = partners.filter(title__icontains=p_query)
         elif sp_query:
             d_partners = d_partners.filter(title__icontains=sp_query)
-        elif faq_query:
-            faqs = faqs.filter(question__icontains=faq_query)
-        elif s_faq_query:
-            s_faqs = s_faqs.filter(question__icontains=s_faq_query)
-        elif cu_query:
-            contact_us = contact_us.filter(Q(fullname__icontains=cu_query) | Q(email__icontains=cu_query))
-        elif bcu_query:
-            b_contact_us = b_contact_us.filter(Q(fullname__icontains=bcu_query) | Q(email__icontains=bcu_query))
-        elif dcu_query:
-            d_contact_us = d_contact_us.filter(Q(fullname__icontains=dcu_query) | Q(email__icontains=dcu_query))
-
 
         context["partners"] = partners
         context["d_partners"] = d_partners
-        context["faqs"] = faqs
-        context["s_faqs"] = s_faqs
-        context["contact_us"] = contact_us
-        context["b_contact_us"] = b_contact_us
-        context["d_contact_us"] = d_contact_us
 
         return context
 
 
-# Partner
 class AdminPartnerAddView(StaffRequiredMixin, CreateView):
     model = Partner
-    template_name = 'core/partner-faq-contact_us/partners/dshb-partner-add.html'
+    template_name = 'partner/dshb-partner-add.html'
     form_class = PartnerEditForm
-    success_url = reverse_lazy('core_dashboard')
+    success_url = reverse_lazy('partner_dashboard')
 
     def form_valid(self, form):
         # If the form is valid, display a success message
@@ -830,7 +802,7 @@ class AdminPartnerAddView(StaffRequiredMixin, CreateView):
 
 class AdminPartnerEditView(StaffRequiredMixin, CreateView):
     model = Partner
-    template_name = 'core/partner-faq-contact_us/partners/dshb-partner-edit.html'
+    template_name = 'partner/dshb-partner-edit.html'
 
     def get(self, request, *args, **kwargs):
         partner_id = kwargs.get('pk')  # Get the course ID from URL kwargs
@@ -838,7 +810,7 @@ class AdminPartnerEditView(StaffRequiredMixin, CreateView):
 
         # Create an instance of the CourseEditForm with the retrieved course
         form = PartnerEditForm(instance=partner)
-        return render(request, 'core/partner-faq-contact_us/partners/dshb-partner-edit.html', {'form': form})
+        return render(request, 'partner/dshb-partner-edit.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = PartnerEditForm(request.POST, request.FILES, instance=get_object_or_404(Partner, pk=kwargs.get('pk')))
@@ -849,10 +821,10 @@ class AdminPartnerEditView(StaffRequiredMixin, CreateView):
             partner.img = form.cleaned_data.get('img')
             partner.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
-            return redirect('core_dashboard')
+            return redirect('partner_dashboard')
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect('core_dashboard')
+            return redirect('partner_dashboard')
 
 
 class AdminPartnerDeleteView(StaffRequiredMixin, View):
@@ -862,7 +834,7 @@ class AdminPartnerDeleteView(StaffRequiredMixin, View):
         partner.is_delete = True
         partner.save()
         messages.success(request, 'Tərəfdaşlar uğurla silindi')
-        return redirect('core_dashboard')
+        return redirect('partner_dashboard')
 
 
 class AdminPartnerUndeleteView(StaffRequiredMixin, View):
@@ -871,7 +843,52 @@ class AdminPartnerUndeleteView(StaffRequiredMixin, View):
         partner.is_delete = False  # Set is_delete to False to undelete
         partner.save()
         messages.success(request, 'Tərəfdaşlar uğurla bərpa olundu')
-        return redirect('core_dashboard')
+        return redirect('partner_dashboard')
+
+
+
+
+
+
+# ********************************************************************************
+# Contact US & FAQ
+class AdminContactUSFAQListView(StaffRequiredMixin, ListView):
+    model = CourseStatistic
+    template_name = 'core/partner-faq-contact_us/dshb-courses-p-faq-c_us.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        faq_query = self.request.GET.get('faq', '')
+        s_faq_query = self.request.GET.get('s_faq', '')
+        cu_query = self.request.GET.get('cu', '')
+        bcu_query = self.request.GET.get('bcu', '')
+        dcu_query = self.request.GET.get('dcu', '')
+
+        faqs = FAQ.objects.filter(is_delete=False).order_by('-created_at').all()
+        s_faqs = FAQ.objects.filter(is_delete=True).order_by('-created_at').all()
+
+        contact_us = ContactUs.objects.filter(is_view=False, is_delete=False).all()
+        b_contact_us = ContactUs.objects.filter(is_view=True, is_delete=False).all()
+        d_contact_us = ContactUs.objects.filter(is_delete=True).all()
+
+        if faq_query:
+            faqs = faqs.filter(question__icontains=faq_query)
+        elif s_faq_query:
+            s_faqs = s_faqs.filter(question__icontains=s_faq_query)
+        elif cu_query:
+            contact_us = contact_us.filter(Q(fullname__icontains=cu_query) | Q(email__icontains=cu_query))
+        elif bcu_query:
+            b_contact_us = b_contact_us.filter(Q(fullname__icontains=bcu_query) | Q(email__icontains=bcu_query))
+        elif dcu_query:
+            d_contact_us = d_contact_us.filter(Q(fullname__icontains=dcu_query) | Q(email__icontains=dcu_query))
+
+        context["faqs"] = faqs
+        context["s_faqs"] = s_faqs
+        context["contact_us"] = contact_us
+        context["b_contact_us"] = b_contact_us
+        context["d_contact_us"] = d_contact_us
+
+        return context
 
 
 # FAQ
