@@ -257,7 +257,7 @@ class AdminCourseCategoryUndeleteView(StaffRequiredMixin, View):
 # Program
 class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
     model = CourseProgram
-    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-add.html'
+    template_name = 'course/dshb-listing-course-program-add.html'
     form_class = CourseProgramEditForm
     success_url = reverse_lazy('course_dashboard')
 
@@ -274,7 +274,7 @@ class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
 
 class AdminCourseProgramEditView(StaffRequiredMixin, CreateView):
     model = CourseProgram
-    template_name = 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html'
+    template_name = 'course/dshb-listing-course-program-edit.html'
 
     def get(self, request, *args, **kwargs):
         program_id = kwargs.get('pk')  # Get the course ID from URL kwargs
@@ -282,7 +282,7 @@ class AdminCourseProgramEditView(StaffRequiredMixin, CreateView):
 
         # Create an instance of the CourseEditForm with the retrieved course
         form = CourseProgramEditForm(instance=program)
-        return render(request, 'course/feedback-request-statistic-c_program/dshb-listing-course-program-edit.html', {'form': form})
+        return render(request, 'course/dshb-listing-course-program-edit.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
         form = CourseProgramEditForm(request.POST, request.FILES, instance=get_object_or_404(CourseProgram, pk=kwargs.get('pk')))
@@ -629,36 +629,22 @@ class AdminServiceUndeleteView(StaffRequiredMixin, View):
 
 
 # ********************************************************************************
-# Course Statistic & Feedback
-class AdminCourseSRFPListView(StaffRequiredMixin, ListView):
+# Course Statistic
+class AdminCourseStatisticListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
-    template_name = 'course/feedback-request-statistic-c_program/dshb-courses-frsp.html'
+    template_name = 'course/dshb-courses-statistic.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ks_query = self.request.GET.get('ks', '')
-        f_query = self.request.GET.get('f', '')
-        df_query = self.request.GET.get('df', '')
 
-        statistics = CourseStatistic.objects.all()
+        statistics = CourseStatistic.objects.order_by('-created_at').all()
 
-        feedbacks = CourseFeedback.objects.filter(is_delete=False).all()
-        d_feedbacks = CourseFeedback.objects.filter(is_delete=True).all()
 
         if ks_query:
             statistics = statistics.filter(course__title__icontains=ks_query)
-        elif f_query:
-            feedbacks = feedbacks.filter(
-                Q(course__title__icontains=f_query) | Q(student__first_name__icontains=f_query) | Q(student__last_name__icontains=f_query)
-            )
-        elif df_query:
-            d_feedbacks = d_feedbacks.filter(
-                Q(course__title__icontains=df_query) | Q(student__first_name__icontains=df_query) | Q(student__last_name__icontains=df_query)
-            )
 
         context["statistics"] = statistics
-        context["feedbacks"] = feedbacks
-        context["d_feedbacks"] = d_feedbacks
 
         return context
 

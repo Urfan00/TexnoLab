@@ -37,7 +37,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseFeedbackDetailView,
                     AdminCourseFeedbackDeleteView,
                     AdminCourseFeedbackUndeleteView,
-                    AdminCourseSRFPListView,
+                    AdminCourseStatisticListView,
                     AdminRequestUsDeleteView,
                     AdminRequestUsDetailView,
                     AdminRequestUsUndeleteView,
@@ -122,7 +122,7 @@ urlpatterns = [
     # ************************************************************************************************************************
 
     # Course Statistic
-    path('course_srfp/', AdminCourseSRFPListView.as_view(), name='course_srfp'),
+    path('statistic_dashboard/', AdminCourseStatisticListView.as_view(), name='statistic_dashboard'),
 
     # ************************************************************************************************************************
 
