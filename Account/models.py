@@ -1,3 +1,4 @@
+import shutil
 from django.db import models
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from services.mixins import DateMixin
@@ -82,16 +83,13 @@ class Account(AbstractUser):
 
             # Check if the image field is cleared
             if old_instance.image and not self.image:
-                # Delete the old image file
+                # Delete the old photo file
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.image)))
 
             # Check if the image is changed
             if self.image and self.image != old_instance.image:
                 # Delete old image file if it exists
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.image)))
-
-        if not self.id_code:
-            self.id_code = get_random_string(length=5, allowed_chars='0123456789abcdefghjkmnpqrstuvwxyz')
 
         super().save(*args, **kwargs)
 
@@ -101,6 +99,13 @@ class Account(AbstractUser):
 
         # Delete the image file if it exists
         delete_file_if_exists(image_path)
+
+        # Get the parent directory containing the image
+        image_parent_directory = os.path.dirname(image_path)
+
+        # Delete the immediate parent directory
+        if os.path.exists(image_parent_directory):
+            shutil.rmtree(image_parent_directory)
 
         super(Account, self).delete(using, keep_parents)
 

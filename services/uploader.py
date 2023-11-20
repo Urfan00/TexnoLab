@@ -4,7 +4,7 @@ class Uploader:
 
     @staticmethod
     def blog_category(instance, filename):
-        return f"Blog_Category/{instance.title}/{filename}"
+        return f"Blog/{instance.title}/{filename}"
 
     @staticmethod
     def service_image(instance, filename):
@@ -20,11 +20,11 @@ class Uploader:
 
     @staticmethod
     def course_main_photo(instance, filename):
-        return f"Course/{instance.title}/Course_main_photo/{filename}"
+        return f"Course/{instance.title}/{filename}"
 
     @staticmethod
     def course_gallery(instance, filename):
-        return f"Course/{instance.title}/Course_Gallery/{filename}"
+        return f"Course/{instance.course.title}/Course_Gallery/{filename}"
 
     @staticmethod
     def partners_image(instance, filename):

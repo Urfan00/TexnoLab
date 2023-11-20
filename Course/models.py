@@ -1,3 +1,4 @@
+import shutil
 from django.db import models
 from Account.models import Account, Group
 from services.mixins import DateMixin
@@ -49,24 +50,31 @@ class Course(DateMixin):
         if self.pk:
             old_instance = Course.objects.get(pk=self.pk)
 
-            # Check if the main_photo field is cleared
+            # Check if the image field is cleared
             if old_instance.main_photo and not self.main_photo:
-                # Delete the old main_photo file
+                # Delete the old photo file
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.main_photo)))
 
-            # Check if the main_photo is changed
+            # Check if the image is changed
             if self.main_photo and self.main_photo != old_instance.main_photo:
-                # Delete old main_photo file if it exists
+                # Delete old image file if it exists
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.main_photo)))
 
         super().save(*args, **kwargs)
 
     def delete(self, using=None, keep_parents=False):
-        # Get the path to the main_photo file
+        # Get the path to the image file
         image_path = os.path.join(settings.MEDIA_ROOT, str(self.main_photo))
 
         # Delete the image file if it exists
         delete_file_if_exists(image_path)
+
+        # Get the parent directory containing the image
+        image_parent_directory = os.path.dirname(image_path)
+
+        # Delete the immediate parent directory
+        if os.path.exists(image_parent_directory):
+            shutil.rmtree(image_parent_directory)
 
         super(Course, self).delete(using, keep_parents)
 
@@ -131,10 +139,10 @@ class Gallery(DateMixin):
         super().save(*args, **kwargs)
 
     def delete(self, using=None, keep_parents=False):
-        # Get the path to the photo file
+        # Get the path to the image file
         image_path = os.path.join(settings.MEDIA_ROOT, str(self.photo))
 
-        # Delete the photo file if it exists
+        # Delete the image file if it exists
         delete_file_if_exists(image_path)
 
         super(Gallery, self).delete(using, keep_parents)
@@ -167,7 +175,7 @@ class CourseProgram(DateMixin):
             # Check if the file is changed
             if self.file and self.file != old_instance.file:
                 # Delete old file file if it exists
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.pfilehoto)))
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.file)))
 
         super().save(*args, **kwargs)
 

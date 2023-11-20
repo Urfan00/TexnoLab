@@ -1,4 +1,5 @@
 import os
+import shutil
 from django.db import models
 from services.mixins import DateMixin
 from ckeditor.fields import RichTextField
@@ -30,6 +31,25 @@ class Service(DateMixin):
             self.slug = f"{self.slug}-{suffix}"
 
         return super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Delete associated images and their parent folders
+        for image in self.service_images.all():
+            # Get the path to the image file
+            image_path = os.path.join(settings.MEDIA_ROOT, str(image.photo))
+
+            # Delete the image file if it exists
+            delete_file_if_exists(image_path)
+
+            # Delete the ServiceImage instance
+            image.delete()
+
+            # Delete the parent folder if it's empty
+            folder_path = os.path.dirname(image_path)
+            if os.path.exists(folder_path) and not os.listdir(folder_path):
+                os.rmdir(folder_path)
+
+        super(Service, self).delete(using, keep_parents)
 
     class Meta:
         verbose_name = 'Service'
@@ -108,6 +128,13 @@ class ServiceHome(DateMixin):
         # Delete the image file if it exists
         delete_file_if_exists(image_path)
 
+        # Get the parent directory containing the image
+        image_parent_directory = os.path.dirname(image_path)
+
+        # Delete the immediate parent directory
+        if os.path.exists(image_parent_directory):
+            shutil.rmtree(image_parent_directory)
+
         super(ServiceHome, self).delete(using, keep_parents)
 
     class Meta:
@@ -137,3 +164,10 @@ class AllGalery(DateMixin):
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
 
         super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Delete the file only if it exists
+        if self.img:
+            delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img)))
+
+        super(AllGalery, self).delete(using, keep_parents)

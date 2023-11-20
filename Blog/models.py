@@ -1,3 +1,4 @@
+import shutil
 from django.db import models
 from services.mixins import DateMixin
 from ckeditor.fields import RichTextField
@@ -42,7 +43,6 @@ class Blog(DateMixin):
             suffix = get_random_string(length=4, allowed_chars='0123456789abcdefghijklmnopqrstuvwxyz')
             self.slug = f"{self.slug}-{suffix}"
 
-
         # Check if the instance already exists
         if self.pk:
             old_instance = Blog.objects.get(pk=self.pk)
@@ -65,6 +65,13 @@ class Blog(DateMixin):
 
         # Delete the image file if it exists
         delete_file_if_exists(image_path)
+
+        # Get the parent directory containing the image
+        image_parent_directory = os.path.dirname(image_path)
+
+        # Delete the immediate parent directory
+        if os.path.exists(image_parent_directory):
+            shutil.rmtree(image_parent_directory)
 
         super(Blog, self).delete(using, keep_parents)
 

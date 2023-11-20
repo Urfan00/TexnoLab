@@ -1,3 +1,4 @@
+import shutil
 from django.db import models
 from services.mixins import DateMixin
 from services.uploader import Uploader
@@ -34,12 +35,12 @@ class Partner(DateMixin):
         if self.pk:
             old_instance = Partner.objects.get(pk=self.pk)
 
-            # Check if the img field is cleared
+            # Check if the image field is cleared
             if old_instance.img and not self.img:
-                # Delete the old img file
+                # Delete the old photo file
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
 
-            # Check if the img is changed
+            # Check if the image is changed
             if self.img and self.img != old_instance.img:
                 # Delete old image file if it exists
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
@@ -52,6 +53,13 @@ class Partner(DateMixin):
 
         # Delete the image file if it exists
         delete_file_if_exists(image_path)
+
+        # Get the parent directory containing the image
+        image_parent_directory = os.path.dirname(image_path)
+
+        # Delete the immediate parent directory
+        if os.path.exists(image_parent_directory):
+            shutil.rmtree(image_parent_directory)
 
         super(Partner, self).delete(using, keep_parents)
 
@@ -75,43 +83,37 @@ class AboutUs(DateMixin):
         if self.pk:
             old_instance = AboutUs.objects.get(pk=self.pk)
 
-            # Check if the img1 field is cleared
-            if old_instance.img1 and not self.img1:
-                # Delete the old img1 file
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img1)))
+            # Loop through image fields and check if the images are cleared or changed
+            image_fields = ['img1', 'img2', 'img3']
+            for field in image_fields:
+                old_image = getattr(old_instance, field)
+                new_image = getattr(self, field)
 
-            # Check if the img2 field is cleared
-            if old_instance.img2 and not self.img2:
-                # Delete the old img2 file
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img2)))
+                # Check if the image field is cleared
+                if old_image and not new_image:
+                    # Delete the old photo file
+                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_image)))
 
-            # Check if the img3 field is cleared
-            if old_instance.img3 and not self.img3:
-                # Delete the old img3 file
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img3)))
-
-            # Check if the img1 is changed
-            if self.img1 and self.img1 != old_instance.img1:
-                # Delete old img1 file if it exists
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img1)))
-
-            # Check if the img2 is changed
-            if self.img2 and self.img2 != old_instance.img2:
-                # Delete old img2 file if it exists
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img2)))
-
-            # Check if the img3 is changed
-            if self.img3 and self.img3 != old_instance.img3:
-                # Delete old img3 file if it exists
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img3)))
+                # Check if the image is changed
+                if new_image and new_image != old_image:
+                    # Delete old image file if it exists
+                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_image)))
 
         super().save(*args, **kwargs)
 
     def delete(self, using=None, keep_parents=False):
-        # Delete the image file if it exists
-        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img1)))
-        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img2)))
-        delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img3)))
+        # Loop through image fields and delete associated images
+        image_fields = ['img1', 'img2', 'img3']
+        for field in image_fields:
+            image_path = os.path.join(settings.MEDIA_ROOT, str(getattr(self, field)))
+            image_parent_directory = os.path.dirname(image_path)
+
+            # Delete the associated image from the media folder
+            delete_file_if_exists(image_path)
+
+            # Delete the immediate parent directory
+            if os.path.exists(image_parent_directory):
+                shutil.rmtree(image_parent_directory)
 
         super(AboutUs, self).delete(using, keep_parents)
 
