@@ -38,11 +38,11 @@ from django.views.generic.edit import FormView
 
 class StaffRequiredMixin(UserPassesTestMixin):
     def test_func(self):
-        return self.request.user.is_superuser
+        return self.request.user.is_staff
 
     def handle_no_permission(self):
         if self.request.user.is_authenticated:
-            # If the user is authenticated but not a superuser, redirect to 404 page
+            # If the user is authenticated but not a staff, redirect to 404 page
             return render(self.request, '404.html')
         else:
             # If the user is not authenticated, redirect to the login page
