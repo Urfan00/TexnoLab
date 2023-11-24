@@ -8,7 +8,7 @@ class Uploader:
 
     @staticmethod
     def service_image(instance, filename):
-        return f"Service/{instance.service.title}/{filename}"
+        return f"Service/Service-Image/{filename}"
 
     @staticmethod
     def service_image_home(instance, filename):

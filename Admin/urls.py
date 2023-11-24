@@ -28,7 +28,8 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseCategoryEditView,
                     AdminCourseCategoryUndeleteView,
                     AdminCourseDeleteView,
-                    AdminCourseEditView, AdminCourseFeedbackListView,
+                    AdminCourseEditView,
+                    AdminCourseFeedbackListView,
                     AdminCourseListView,
                     AdminCourseProgramAddView,
                     AdminCourseProgramDeleteView,
@@ -38,25 +39,35 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseFeedbackDeleteView,
                     AdminCourseFeedbackUndeleteView,
                     AdminCourseStatisticListView,
+                    AdminGroupAddView,
+                    AdminGroupEditView,
                     AdminRequestUsDeleteView,
                     AdminRequestUsDetailView,
                     AdminRequestUsUndeleteView,
                     AdminCourseUndeleteView,
                     AdminFAQAddView,
                     AdminFAQDeleteView,
-                    AdminFAQEditView, AdminFAQListView,
+                    AdminFAQEditView,
+                    AdminFAQListView,
                     AdminFAQUndeleteView,
                     AdminPartnerAddView,
                     AdminPartnerDeleteView,
-                    AdminPartnerEditView, AdminPartnerListView,
+                    AdminPartnerEditView,
+                    AdminPartnerListView,
                     AdminPartnerUndeleteView,
                     AdminServiceAddView,
                     AdminServiceDeleteView,
                     AdminServiceEditView,
+                    AdminServiceImageAddView,
+                    AdminServiceImageDeleteAllView,
+                    AdminServiceImageDeleteView,
                     AdminServiceListView,
                     AdminServiceMainEditView,
                     AdminServiceUndeleteView,
-                    AdminAllGalleryListView, CourseStudentAddView, CourseStudentDeleteView, CourseStudentEditView,
+                    AdminAllGalleryListView,
+                    CourseStudentAddView,
+                    CourseStudentDeleteView,
+                    CourseStudentEditView,
                     DashboardView)
 
 
@@ -119,6 +130,9 @@ urlpatterns = [
     path('service/<int:pk>/delete/', AdminServiceDeleteView.as_view(), name='service_delete'),
     path('service/<int:pk>/undelete/', AdminServiceUndeleteView.as_view(), name='service_undelete'),
 
+    path('service_image_add/', AdminServiceImageAddView.as_view(), name='service_image_add'),
+    path('delete_service_image/<int:image_id>/', AdminServiceImageDeleteView.as_view(), name='delete_service_image'),
+    path('service_image_delete_all/', AdminServiceImageDeleteAllView.as_view(), name='service_image_delete_all'),
     # ************************************************************************************************************************
 
     # Course Statistic
@@ -173,11 +187,13 @@ urlpatterns = [
     path('about_us_edit', AdminAboutUsEditView.as_view(), name='about_us_edit'),
     path('contact_info_edit', AdminContactInfoEditView.as_view(), name='contact_info_edit'),
 
-    # Account & Register
+    # Account & Register & Group
     path('account_dashboard/', AdminAccountListView.as_view(), name='account_dashboard'),
     path('account_look/<int:pk>', AdminAccountDetailView.as_view(), name='account_look'),
     path('account_add/', AdminAccountAddView.as_view(), name='account_add'),
     path('account_edit/<int:pk>', AdminAccountEditView.as_view(), name='account_edit'),
+    path('group_add/', AdminGroupAddView.as_view(), name='group_add'),
+    path('group_edit/<int:pk>', AdminGroupEditView.as_view(), name='group_edit'),
 
     # Course Student
     path('course_student_add/', CourseStudentAddView.as_view(), name='course_student_add'),

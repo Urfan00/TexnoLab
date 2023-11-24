@@ -2,6 +2,16 @@
 {% load static %}
 {% block content %}
 
+<style>
+  .delBut{
+    background-color:#d9534f;padding: 5px 10px; color: white;
+
+  }
+
+  .delBut:hover{
+    background: brown;
+  }
+</style>
           <div class="dashboard__main">
             <div class="dashboard__content bg-light-4">
               <div class="row pb-50 mb-10">
@@ -31,6 +41,9 @@
                         </button>
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
                           Servislər Haqqında
+                        </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
+                          Şəkillər
                         </button>
                       </div>
 
@@ -310,12 +323,6 @@
                                         <td><strong>Məzmun 2</strong></td>
                                         <td>{{ main_service.description2|safe }}</td>
                                       </tr>
-                                      {% for img in service_images %}
-                                        <tr>
-                                          <td><strong>Şəkil {{ forloop.counter }}</strong></td>
-                                          <td><img src="{{ img.photo.url }}" alt="{{ main_service.title }}"></td>
-                                        </tr>
-                                      {% endfor %}
                                     </tbody>
                                   </table>
                                 </div>
@@ -324,6 +331,93 @@
         
                           </div>
                         </div>
+
+                        <div class="tabs__pane -tab-item-5" data-pane="tab5">
+
+                          <div class="row y-gap-10 ">
+
+                          
+                            <div class="col-auto">
+                              <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                                <div>
+                                </div>
+                                <div>
+                                  <a href="{% url "service_image_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    Əlavə et &nbsp;&nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                             {% if service_galleries %}
+                              <div class="col-auto">
+                                <form method="post" action="{% url 'service_image_delete_all' %}" class="d-inline">
+                                  {% csrf_token %}
+                                  <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#c9302c; color:white!important" title="Sil" onclick="return confirm('Diqqət! Bütün şəkillər tam silinəcək! Bunu etmək istədiyinizə əminsiniz?');">
+                                    <i class="fa fa-trash c" aria-hidden="true"></i>&nbsp;&nbsp;Bütün şəkilləri sil
+                                  </button>
+                                </form>
+                              </div>
+                            {% endif %}
+                          </div>
+
+
+                          <div class="row y-gap-30 pt-30">
+
+                            {% for gallery in service_galleries %}
+
+                            <div class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
+                              <div class="relative">
+                                <img class="rounded-8 w-1/1" src="{{ gallery.photo.url }}" alt="image" width="300px" style="height: 160px!important; object-fit: cover;">
+
+
+                                <div class="absolute-button  -dshb-more js-more-{{ gallery.pk }}-toggle">
+                                  <div class=" bg-white -dark-bg-dark-2 shadow-1 border-light rounded-8">
+                                    <form method="post" action="{% url 'delete_service_image' gallery.pk %}">
+                                      {% csrf_token %}
+                                      <button  class="rounded-8 delBut" type="submit" onclick="return confirm('Şəkili tam silmək istədiyinizə əminsiniz?');">
+                                        <i class="fa fa-trash c" aria-hidden="true"></i> 
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {% endfor %}
+
+                          </div>
+
+                          <div class="row justify-center pt-30">
+                            <div class="col-auto">
+                              <div class="pagination -buttons">
+                                {% if galleries.has_previous %}
+                                  <a href="?page=1" class="pagination__button -prev tW">
+                                    <i class="icon icon-chevron-left"></i>
+                                  </a>
+                                {% endif %}
+
+                                <div class="pagination__count">
+                                  {% for num in galleries.paginator.page_range %}
+                                    <a href="?page={{ num }}"
+                                       {% if galleries.number == num %}class="-count-is-active"{% endif %}>
+                                      {{ num }}
+                                    </a>
+                                  {% endfor %}
+                                </div>
+
+                                {% if galleries.has_next %}
+                                  <a href="?page={{ galleries.next_page_number }}" class="pagination__button -next tW">
+                                    <i class="icon icon-chevron-right"></i>
+                                  </a>
+                                {% endif %}
+                              </div>
+                            </div>
+                          </div>
+
+                        </div>
+
+
+
 
                         </div>
                       </div>

@@ -1,9 +1,9 @@
 from django import forms
-from Account.models import Account
+from Account.models import Account, Group
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, RequestUs
-from Service.models import AllGalery, Service, ServiceHome
+from Service.models import AllGalery, Service, ServiceHome, ServiceImage
 from multiupload.fields import MultiFileField
 
 
@@ -14,7 +14,7 @@ class CourseEditForm(forms.ModelForm):
         labels = {
             'title' : 'Kursun başlığı',
             'description' : 'Kurs haqqında',
-            'main_photo' : 'Kursun əsas şəkili ',
+            'main_photo' : 'Kursun əsas şəkili',
             'video_link' : 'Video linki',
             'start_date' : 'Başlama tarixi',
             'end_date' : 'Bitmə tarixi',
@@ -34,7 +34,8 @@ class CourseEditForm(forms.ModelForm):
             ),
             'video_link' : forms.URLInput(
                 attrs={
-                    'placeholder' :"http://www"
+                    'placeholder' :"http://www",
+                    'class' : 'inpClass'
                 }
             ),
             'category' : forms.Select(
@@ -44,14 +45,16 @@ class CourseEditForm(forms.ModelForm):
             ),
             'start_date' : forms.DateTimeInput(
                 attrs={
-                    'type': 'date',
-                    'placeholder' :"yyyy-dd-mm"
+                    'type': 'datetime-local',
+                    'placeholder' :"yyyy-dd-mm",
+                    'class' : 'inpClass'
                 }
             ),
             'end_date' : forms.DateTimeInput(
                 attrs={
-                    'type': 'date',
-                    'placeholder' :"yyyy-dd-mm"
+                    'type': 'datetime-local',
+                    'placeholder' :"yyyy-dd-mm",
+                    'class' : 'inpClass'
                 }
             )
         }
@@ -105,7 +108,7 @@ class BlogEditForm(forms.ModelForm):
             'date' : forms.DateTimeInput(
                 attrs={
                     "class" : 'inpClass',
-                    'type': 'date',
+                    'type': 'datetime-local',
                     'placeholder' :"yyyy-dd-mm"
                 }
             )
@@ -178,6 +181,14 @@ class ServiceEditForm(forms.ModelForm):
         }
 
 
+class ServiceImageEditForm(forms.ModelForm):
+    photo = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+
+    class Meta:
+        model = ServiceImage
+        fields = ['photo']
+
+
 class RequestUsAdminCommentForm(forms.ModelForm):
     class Meta:
         model = RequestUs
@@ -222,11 +233,7 @@ class CourseProgramEditForm(forms.ModelForm):
                 attrs={
                     'placeholder' :"-seçin-"
                 }
-            ),
-            'file' : forms.FileInput(
-                attrs={
-                }
-            ),
+            )
         }
 
 
@@ -243,11 +250,7 @@ class PartnerEditForm(forms.ModelForm):
                 attrs={
                     'placeholder' :"Kursun başlığı"
                 }
-            ),
-            'img' : forms.FileInput(
-                attrs={
-                }
-            ),
+            )
         }
 
 
@@ -280,9 +283,9 @@ class AboutUsEditForm(forms.ModelForm):
         labels = {
             'title' : 'Başlıq',
             'content' : 'Məzmun',
-            'img1' : 'Şəkil1',
-            'img2' : 'Şəkil2',
-            'img3' : 'Şəkil3',
+            'img1' : 'Şəkil 1',
+            'img2' : 'Şəkil 2',
+            'img3' : 'Şəkil 3',
         }
         widgets = {
             'title' : forms.TextInput(
@@ -295,19 +298,7 @@ class AboutUsEditForm(forms.ModelForm):
                     'row': "8",
                     'placeholder' : "Məzmun"
                 }
-            ),
-            'img1' : forms.FileInput(
-                attrs={
-                }
-            ),
-            'img2' : forms.FileInput(
-                attrs={
-                }
-            ),
-            'img3' : forms.FileInput(
-                attrs={
-                }
-            ),
+            )
         }
 
 
@@ -444,6 +435,22 @@ class AccountEditForm(forms.ModelForm):
                     'placeholder' :"Balans"
                 }
             ),
+        }
+
+
+class GroupEditForm(forms.ModelForm):
+    class Meta:
+        model = Group
+        fields = ['name']
+        labels = {
+            'name' : 'Qrup adı'
+        }
+        widgets = {
+            'name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Qrup adı"
+                }
+            )
         }
 
 

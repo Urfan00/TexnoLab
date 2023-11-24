@@ -79,7 +79,7 @@
 
                 <div class="relative d-flex items-center ml-10">
                   <a href="#" data-el-toggle=".js-profile-toggle">
-                    <img class="size-50" style="border-radius: 50%;" src="{% if user.image %}{{ user.image.url }}{% else %}#{% endif %}" alt="image">
+                    <img class="size-50" style="border-radius: 50%;" src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'img/avatars/user-default.png' %}{% endif %}" alt="image">
                   </a>
                   <div class="toggle-element js-profile-toggle">
                   </div>
@@ -173,7 +173,7 @@
                         <div class="tabs__pane -tab-item-1 is-active">
                           <div class="row y-gap-20 x-gap-20 items-center">
                             <div class="col-auto">
-                              <img class="size-100" style="border-radius: 50%;" src="{% if user.image %}{{ user.image.url }}{% else %}#{% endif %}" alt="image">
+                              <img class="size-100" style="border-radius: 50%;"src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'img/avatars/user-default.png' %}{% endif %}" alt="image">
                             </div>
                           </div>
                           <div class="border-top-light pt-30 mt-30">

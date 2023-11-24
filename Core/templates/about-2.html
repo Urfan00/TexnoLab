@@ -2,9 +2,14 @@
 {% load static %}
 {% block content %}
 
-    <div class="content-wrapper js-content-wrapper pt-80">
+<style>
+  .himg{
+    height: 160px!important;
+    object-fit: cover;"
+  }
+</style>
 
-      
+    <div class="content-wrapper js-content-wrapper pt-80">
 
       <section class="page-header -type-1">
         <div class="container">
@@ -28,9 +33,9 @@
           <div class="row y-gap-50 justify-between items-center">
             <div class="col-lg-6 pr-50 sm:pr-15">
               <div class="composition -type-8">
-                <div class="-el-1"><img src="{{ about.img1.url }}" alt="image"></div>
-                <div class="-el-2"><img src="{{ about.img2.url }}" alt="image"></div>
-                <div class="-el-3"><img src="{{ about.img3.url }}" alt="image"></div>
+                <div class="-el-1"><img src="{{ about.img1.url }}" class="himg" alt="image"></div>
+                <div class="-el-2"><img src="{{ about.img2.url }}" class="himg" alt="image"></div>
+                <div class="-el-3"><img src="{{ about.img3.url }}" class="himg" alt="image"></div>
               </div>
             </div>
 

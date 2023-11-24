@@ -31,8 +31,8 @@ class Course(DateMixin):
     video_link = models.URLField(null=True, blank=True)
     status = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
-    start_date = models.DateField()
-    end_date = models.DateField()
+    start_date = models.DateTimeField()
+    end_date = models.DateTimeField()
     category = models.ForeignKey(CourseCategory, on_delete=models.CASCADE, related_name='course_category')
 
     def __str__(self):

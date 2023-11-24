@@ -13,17 +13,9 @@ class ServiceView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        service = Service.objects.filter(status=True, is_delete=False).first()
-        print(service)
+        context['service'] = Service.objects.filter(status=True, is_delete=False).first()
+        context['service_images'] = ServiceImage.objects.all()
 
-        # If a service is found, filter its associated ServiceImage objects
-        if service:
-            context['service'] = service
-            context['service_images'] = ServiceImage.objects.filter(service=service, is_delete=False)
-        else:
-            # Handle the case where no matching service is found
-            context['service'] = None
-            context['service_images'] = None
         return context
 
 

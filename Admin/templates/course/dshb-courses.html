@@ -479,7 +479,7 @@
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ program.program_name }}</td>
                                       <td>{{ program.course.title }}</td>
-                                      <td>{{ program.description|truncatewords:5 }}</td>
+                                      <td>{{ program.description|truncatewords:5|safe }}</td>
                                       {% if program.file %}
                                         <td><a href="{{ program.file.url }}"></a>{{ program.file.url }}</a></td>
                                       {% else %}
@@ -544,7 +544,7 @@
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ program.program_name }}</td>
                                         <td>{{ program.course.title }}</td>
-                                        <td>{{ program.description|truncatewords:5 }}</td>
+                                        <td>{{ program.description|truncatewords:5|safe }}</td>
                                         {% if program.file %}
                                           <td><a href="{{ program.file.url }}"></a>{{ program.file.url }}</a></td>
                                         {% else %}

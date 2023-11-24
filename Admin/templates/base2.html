@@ -71,7 +71,7 @@
                 </div>
 
                 <div class="header__logo ml-30 md:ml-20">
-                  <a data-barba href="index.html">
+                  <a data-barba href="{% url "index" %}">
                     <img class="-light-d-none" src="{% static '' %}img/general/logo.svg" alt="logo">
                     <img class="-dark-d-none" src="{% static '' %}img/general/logo-dark.svg" alt="logo">
                   </a>
@@ -99,7 +99,8 @@
 
                 <div class="relative d-flex items-center ml-10">
                   <a href="#" data-el-toggle=".js-profile-toggle">
-                    <img class="size-50" src="{% static '' %}img/misc/user-profile.png" alt="image">
+                    {% comment %} <img class="size-50" src="" alt="image"> {% endcomment %}
+                    <img class="size-50" src="{% if superadmin_avatar %}{{ superadmin_avatar }}{% else %}{% static '' %}img/misc/user-profile.png{% endif %}" alt="image" style="border-radius: 50%;">
                   </a>
 
                   <div class="toggle-element js-profile-toggle">
@@ -121,41 +122,6 @@
                               Kurslarım
                             </a>
                           </div>
-
-                          {% comment %} <div class="sidebar__item ">
-                            <a href="dshb-bookmarks.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-bookmark mr-15"></i>
-                              Bookmarks
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-messages.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-message mr-15"></i>
-                              Messages
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-listing.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-list mr-15"></i>
-                              Create Course
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-reviews.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-comment mr-15"></i>
-                              Reviews
-                            </a>
-                          </div>
-
-                          <div class="sidebar__item ">
-                            <a href="dshb-settings.html" class="d-flex items-center text-17 lh-1 fw-500 ">
-                              <i class="text-20 icon-setting mr-15"></i>
-                              Settings
-                            </a>
-                          </div> {% endcomment %}
 
                           <div class="sidebar__item ">
                             <a href="{% url "logout" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
@@ -184,84 +150,96 @@
 
             <div class="sidebar -dashboard">
 
-              <div class="sidebar__item -is-active -dark-bg-dark-2">
+              {% url 'dashboard' as dashboard %}
+              <div class="sidebar__item {% if request.path == dashboard or request.path|slice:'/-' == dashboard %}-is-active{% endif %} -dark-bg-dark-2">
                 <a href="{% url "dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
                   <i class="text-20 icon-discovery mr-15"></i>
                   Dashboard
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'course_dashboard' as course_dashboard %}
+              <div class="sidebar__item {% if request.path == course_dashboard or request.path|slice:'/-' == course_dashboard %}-is-active{% endif %}">
                 <a href="{% url "course_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-play-button mr-15"></i>
                   Kurslar
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'blog_dashboard' as blog_dashboard %}
+              <div class="sidebar__item {% if request.path == blog_dashboard or request.path|slice:'/-' == blog_dashboard %}-is-active{% endif %}">
                 <a href="{% url "blog_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-bookmark mr-15"></i>
                   Xəbərlər
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'service_dashboard' as service_dashboard %}
+              <div class="sidebar__item {% if request.path == service_dashboard or request.path|slice:'/-' == service_dashboard %}-is-active{% endif %}">
                 <a href="{% url "service_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-message mr-15"></i>
                   Servislər
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'partner_dashboard' as partner_dashboard %}
+              <div class="sidebar__item {% if request.path == partner_dashboard or request.path|slice:'/-' == partner_dashboard %}-is-active{% endif %}">
                 <a href="{% url "partner_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-message mr-15"></i>
                   Partnerlər
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'faq_dashboard' as faq_dashboard %}
+              <div class="sidebar__item {% if request.path == faq_dashboard or request.path|slice:'/-' == faq_dashboard %}-is-active{% endif %}">
                 <a href="{% url "faq_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-message mr-15"></i>
                   FAQ
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'apply_dashboard' as apply_dashboard %}
+              <div class="sidebar__item {% if request.path == apply_dashboard or request.path|slice:'/-' == apply_dashboard %}-is-active{% endif %}">
                 <a href="{% url "apply_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-comment mr-15"></i>
-                  Müraciətlər <span class="count_badge">{% if total_count != 0 %} {% if total_count > 99 %}99+{% else %}{{ total_count }}{% endif %} {% endif %}</span>
+                  Müraciətlər {% if total_count != 0 %}<span class="count_badge"> {% if total_count > 99 %}99+{% else %}{{ total_count }}{% endif %} </span>{% endif %}
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'feedback_dashboard' as feedback_dashboard %}
+              <div class="sidebar__item {% if request.path == feedback_dashboard or request.path|slice:'/-' == feedback_dashboard %}-is-active{% endif %}">
                 <a href="{% url "feedback_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-message mr-15"></i>
                   Şərhlər
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'statistic_dashboard' as statistic_dashboard %}
+              <div class="sidebar__item {% if request.path == statistic_dashboard or request.path|slice:'/-' == statistic_dashboard %}-is-active{% endif %}">
                 <a href="{% url "statistic_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-list mr-15"></i>
                   Statistika
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'about_dashboard' as about_dashboard %}
+              <div class="sidebar__item {% if request.path == about_dashboard or request.path|slice:'/-' == about_dashboard %}-is-active{% endif %}">
                 <a href="{% url "about_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-setting mr-15"></i>
                   Haqqımızda
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'account_dashboard' as account_dashboard %}
+              <div class="sidebar__item {% if request.path == account_dashboard or request.path|slice:'/-' == account_dashboard %}-is-active{% endif %}">
                 <a href="{% url "account_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-power mr-15"></i>
                   Tələbələr
                 </a>
               </div>
 
-              <div class="sidebar__item ">
+              {% url 'gallery_dashboard' as gallery_dashboard %}
+              <div class="sidebar__item {% if request.path == gallery_dashboard or request.path|slice:'/-' == gallery_dashboard %}-is-active{% endif %}">
                 <a href="{% url "gallery_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-power mr-15"></i>
                   Qaleriya

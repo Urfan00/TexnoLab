@@ -27,7 +27,7 @@ class Blog(DateMixin):
     description = RichTextField()
     slug = models.SlugField(null=True, blank=True, unique=True)
     photo = models.ImageField(upload_to=Uploader.blog_category)
-    date = models.DateField()
+    date = models.DateTimeField()
     status = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
     blog_category = models.ForeignKey(BlogCategory, on_delete=models.CASCADE, related_name='blog_category')

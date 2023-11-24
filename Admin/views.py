@@ -1,24 +1,28 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
-from Account.models import Account
+from Account.models import Account, Group
 from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, RequestUs
 from Service.models import AllGalery, Service, ServiceHome, ServiceImage
 from .forms import (AboutUsEditForm,
-                    AccountEditForm, AllGaleryEditForm,
+                    AccountEditForm,
+                    AllGaleryEditForm,
                     BlogCategoryEditForm,
                     BlogEditForm,
                     ContactInfoEditForm,
                     CourseCategoryEditForm,
                     CourseEditForm,
-                    CourseProgramEditForm, CourseStudentEditForm,
+                    CourseProgramEditForm,
+                    CourseStudentEditForm,
                     FAQEditForm,
+                    GroupEditForm,
                     PartnerEditForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
-                    ServiceHomeEditForm)
+                    ServiceHomeEditForm,
+                    ServiceImageEditForm)
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
@@ -34,11 +38,16 @@ from django.views.generic.edit import FormView
 
 class StaffRequiredMixin(UserPassesTestMixin):
     def test_func(self):
-        return self.request.user.is_staff
+        return self.request.user.is_superuser
 
     def handle_no_permission(self):
-        # Customize the behavior when the user is not staff
-        raise PermissionDenied("You do not have permission to access this page.")
+        if self.request.user.is_authenticated:
+            # If the user is authenticated but not a superuser, redirect to 404 page
+            return render(self.request, '404.html')
+        else:
+            # If the user is not authenticated, redirect to the login page
+            return redirect('login')  # Replace 'login' with the actual name or URL of your login page
+
 # **********************************************************************************
 
 
@@ -49,12 +58,12 @@ class DashboardView(StaffRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['account_count'] = Account.objects.filter(is_active=True, is_staff=False, is_superuser=False).count()
-        context['blog_count'] = Blog.objects.count()
-        context['course_count'] = Course.objects.count()
-        context['service_count'] = Service.objects.count()
-        context["courses"] = Course.objects.filter(category__is_delete=False, is_delete=False).annotate(review_count=Count('course_feedback'), program_count=Count('course_program'), student_count=Count('student_course')).order_by('-created_at').all()[:5]
-        context["blogs"] = Blog.objects.filter(is_delete=False).order_by('-created_at').all()[:5]
-        context["services"] = Service.objects.filter(is_delete=False).order_by('-created_at').all()[:5]
+        context['blog_count'] = Blog.objects.filter(blog_category__is_delete=False, is_delete=False, status=True).count()
+        context['course_count'] = Course.objects.filter(category__is_delete=False, is_delete=False, status=True).count()
+        context['service_count'] = ServiceHome.objects.filter(is_delete=False, status=True).count()
+        context["courses"] = Course.objects.filter(category__is_delete=False, is_delete=False, status=True).annotate(review_count=Count('course_feedback'), program_count=Count('course_program'), student_count=Count('student_course')).order_by('-created_at').all()[:5]
+        context["blogs"] = Blog.objects.filter(blog_category__is_delete=False, is_delete=False, status=True).order_by('-created_at').all()[:5]
+        context["services"] = ServiceHome.objects.filter(is_delete=False, status=True).order_by('-created_at').all()[:5]
         return context
 
 # *************************************************************************************
@@ -527,16 +536,53 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         context["active_services"] = active_service
         context["deactive_services"] = deactive_service
         context["delete_services"] = delete_service
-        main_service = Service.objects.filter(status=True, is_delete=False).first()
-        
-        if main_service:
-            context['main_service'] = main_service
-            context['service_images'] = ServiceImage.objects.filter(service=main_service)
-        else:
-            # Handle the case where no matching service is found
-            context['main_service'] = None
-            context['service_images'] = None
+        context['main_service'] = Service.objects.filter(status=True, is_delete=False).first()
+
+        context['service_galleries'] = ServiceImage.objects.all()
+
         return context
+
+
+class AdminServiceImageAddView(StaffRequiredMixin, FormView):
+    model = ServiceImage
+    template_name = 'service/dshb-service-image-add.html'
+    form_class = ServiceImageEditForm
+    success_url = reverse_lazy('service_dashboard')
+
+    def form_valid(self, form):
+        uploaded_files = self.request.FILES.getlist('photo')
+
+        for uploaded_file in uploaded_files:
+            ServiceImage.objects.create(photo=uploaded_file)
+
+        messages.success(self.request, 'Şəkil uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminServiceImageDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = ServiceImage.objects.get(pk=image_id)
+            image.delete()
+        except ServiceImage.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Şəkil uğurla silindi')
+
+        return redirect('service_dashboard')
+
+
+class AdminServiceImageDeleteAllView(StaffRequiredMixin, View):
+    def post(self, request):
+        # Delete all images in the AllGalery model
+        ServiceImage.objects.all().delete()
+        messages.success(request, 'Bütün şəkillər uğurla silindi')
+        return redirect('service_dashboard')
 
 
 class AdminServiceMainEditView(StaffRequiredMixin, CreateView):
@@ -629,6 +675,7 @@ class AdminServiceUndeleteView(StaffRequiredMixin, View):
 
 
 # ********************************************************************************
+
 # Course Statistic
 class AdminCourseStatisticListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
@@ -1086,9 +1133,11 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         s_query = self.request.GET.get('s', '')
         cs_query = self.request.GET.get('cs', '')
+        g_query = self.request.GET.get('g', '')
 
         students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False).order_by('-date_joined')
         c_students = CourseStudent.objects.filter(is_deleted=False).all()
+        groups = Group.objects.all()
 
         if s_query:
             students = students.filter(
@@ -1098,9 +1147,14 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
             c_students = c_students.filter(
                 Q(student__first_name__icontains=cs_query) | Q(student__last_name__icontains=cs_query)
             )
+        elif g_query:
+            groups = groups.filter(
+                Q(name__icontains=g_query) | Q(name__icontains=g_query)
+            )
 
         context["students"] = students
         context["c_students"] = c_students
+        context["groups"] = groups
 
         return context
 
@@ -1152,6 +1206,50 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
             account.id_code = form.cleaned_data.get('id_code')
             account.balance = form.cleaned_data.get('balance')
             account.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('account_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('account_dashboard')
+
+
+# Group
+class AdminGroupAddView(StaffRequiredMixin, CreateView):
+    model = Group
+    template_name = 'account/dshb-group-add.html'
+    form_class = GroupEditForm
+    success_url = reverse_lazy('account_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminGroupEditView(StaffRequiredMixin, CreateView):
+    model = Group
+    template_name = 'account/dshb-group-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        group_id = kwargs.get('pk')  # Get the course ID from URL kwargs
+        group = get_object_or_404(Group, pk=group_id)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = GroupEditForm(instance=group)
+        return render(request, 'account/dshb-group-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = GroupEditForm(request.POST, instance=get_object_or_404(Group, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            group = Group.objects.get(pk=kwargs.get('pk'))
+            group.name = form.cleaned_data.get('name')
+            group.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('account_dashboard')
         else:
