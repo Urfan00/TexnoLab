@@ -64,7 +64,8 @@ from .views import (AdminAboutContactInfoListView,
                     AdminServiceListView,
                     AdminServiceMainEditView,
                     AdminServiceUndeleteView,
-                    AdminAllGalleryListView,
+                    AdminAllGalleryListView, AdminSubscriberDeleteView,
+                    AdminSubscriberView,
                     CourseStudentAddView,
                     CourseStudentDeleteView,
                     CourseStudentEditView,
@@ -205,5 +206,10 @@ urlpatterns = [
     path('delete_image/<int:image_id>/', AdminAllGalleryDeleteView.as_view(), name='delete_image'),
     path('gallery_add/', AdminAllGalleryAddView.as_view(), name='gallery_add'),
     path('gallery_delete_all/', AdminAllGalleryDeleteAllView.as_view(), name='gallery_delete_all'),
+
+    # Subscriber
+    path('subscribe_dashboard/', AdminSubscriberView.as_view(), name='subscribe_dashboard'),
+    path('delete_email/<int:email_id>/', AdminSubscriberDeleteView.as_view(), name='delete_email'),
+
 
 ]

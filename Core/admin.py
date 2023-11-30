@@ -1,7 +1,7 @@
 import os
 import shutil
 from django.contrib import admin
-from .models import FAQ, AboutUs, ContactInfo, ContactUs, NavMenu, Partner
+from .models import FAQ, AboutUs, ContactInfo, ContactUs, NavMenu, Partner, Subscribe
 
 
 
@@ -74,6 +74,7 @@ class AboutUsAdmin(admin.ModelAdmin):
         del actions['delete_selected']
         return actions
 
+
 class NavMenuAdmin(admin.ModelAdmin):
     list_display = ['id', 'menu', 'sub_menu', 'url_link', 'created_at', 'updated_at']
     list_display_links = ['id', 'menu']
@@ -101,10 +102,16 @@ class FAQAdmin(admin.ModelAdmin):
     search_fields = ['question']
 
 
+class SubscribeAdmin(admin.ModelAdmin):
+    list_display = ['id', 'email']
+    list_display_links = ['id', 'email']
+    search_fields = ['email']
+
+
 admin.site.register(Partner, PartnerAdmin)
 admin.site.register(NavMenu, NavMenuAdmin)
 admin.site.register(AboutUs, AboutUsAdmin)
 admin.site.register(ContactUs, ContactUsAdmin)
 admin.site.register(ContactInfo, ContactInfoAdmin)
 admin.site.register(FAQ, FAQAdmin)
-
+admin.site.register(Subscribe, SubscribeAdmin)

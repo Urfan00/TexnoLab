@@ -7,7 +7,7 @@ from Account.models import Account
 from Course.forms import RequestUsForm
 from Course.models import Course, CourseStatistic
 from Service.models import ServiceHome
-from .forms import ContactFormModel
+from .forms import ContactFormModel, SubscribeForm
 from .models import FAQ, AboutUs, ContactInfo, NavMenu, Partner
 from django.contrib import messages
 from Blog.models import Blog
@@ -71,3 +71,20 @@ class ContactUsView(CreateView):
     def form_valid(self, form):
         messages.success(self.request, 'Müraciətiniz uğurla göndərildi.')
         return super().form_valid(form)
+
+
+def subscribe_view(request):
+    current_path = request.META.get('HTTP_REFERER', '/')
+    print( '===>>',current_path)
+
+    if request.method == 'POST':
+        form = SubscribeForm(request.POST)
+        if form.is_valid():
+            form.save()
+            # You can add a success message or redirect the user to a thank you page
+            return redirect(current_path)
+    else:
+        form = SubscribeForm()
+
+    context = {'subscribe_form': form}
+    return render(request, 'base.html', context)

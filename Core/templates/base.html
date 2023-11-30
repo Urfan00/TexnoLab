@@ -951,12 +951,19 @@
                 <div class="text-17 fw-500 text-white uppercase mb-25">GET IN TOUCH</div>
                 <div class="footer-columns-form">
                   <div>We don’t send spam so don’t worry.</div>
-                  <form action="post">
+                  <form method="post" action="{% url 'subscribe' %}">
+                    {% csrf_token %}
+                    <div class="form-group">
+                      {{ subscribe_form.email }}
+                      <button type="submit">Subscribe</button>
+                    </div>
+                  </form>
+                  {% comment %} <form action="post">
                     <div class="form-group">
                       <input type="text" placeholder="Email...">
                       <button type="submit">Submit</button>
                     </div>
-                  </form>
+                  </form> {% endcomment %}
                 </div>
               </div>
             </div>

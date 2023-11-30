@@ -172,3 +172,14 @@ class FAQ(DateMixin):
     class Meta:
         verbose_name = 'F.A.Q'
         verbose_name_plural = 'F.A.Q'
+
+
+class Subscribe(DateMixin):
+    email = models.EmailField(max_length=254)
+
+    def __str__(self):
+        return self.email
+
+    class Meta:
+        verbose_name = 'Subscribe'
+        verbose_name_plural = 'Subscribe'

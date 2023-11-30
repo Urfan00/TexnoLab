@@ -1,5 +1,5 @@
 from django import forms
-from .models import ContactUs
+from .models import ContactUs, Subscribe
 
 
 class ContactFormModel(forms.ModelForm):
@@ -33,3 +33,19 @@ class ContactFormModel(forms.ModelForm):
             ),
         }
 
+
+class SubscribeForm(forms.ModelForm):
+    class Meta:
+        model = Subscribe
+        fields = ['email']
+        labels = {
+            'email' : 'E-poçt',
+        }
+        widgets = {
+            'email' : forms.EmailInput(
+                attrs={
+                    'class' : 'form-control',
+                    'placeholder' :"E-poçt daxil edin ..."
+                }
+            )
+        }

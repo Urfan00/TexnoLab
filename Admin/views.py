@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from Account.models import Account, Group
-from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner
+from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, RequestUs
 from Service.models import AllGalery, Service, ServiceHome, ServiceImage
@@ -1383,3 +1383,37 @@ class AdminAllGalleryDeleteAllView(StaffRequiredMixin, View):
         AllGalery.objects.all().delete()
         messages.success(request, 'Bütün şəkillər uğurla silindi')
         return redirect('gallery_dashboard')
+
+
+# Subscriber
+class AdminSubscriberView(StaffRequiredMixin, ListView):
+    model = Subscribe
+    template_name = 'subscribe/dshb-subscribe-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        s_query = self.request.GET.get('s', '')
+
+        subscribers = Subscribe.objects.order_by('-created_at').all()
+
+        if s_query:
+            subscribers = subscribers.filter(
+                Q(email__icontains=s_query) | Q(email__icontains=s_query)
+            )
+
+        context["subscribers"] = subscribers
+
+        return context
+
+
+class AdminSubscriberDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, email_id):
+        try:
+            email = Subscribe.objects.get(pk=email_id)
+            email.delete()
+        except Subscribe.DoesNotExist:
+            pass
+        messages.success(request, 'Şəkil uğurla silindi')
+
+        return redirect('subscribe_dashboard')
+
