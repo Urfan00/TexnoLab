@@ -48,7 +48,7 @@ class ChangePasswordView(LoginRequiredMixin, PasswordChangeView):
         self.request.user.first_time_login = False
         self.request.user.save()
 
-        super().form_valid(form)
+        return super().form_valid(form)
 
 
 class ResetPasswordView(PasswordResetView):

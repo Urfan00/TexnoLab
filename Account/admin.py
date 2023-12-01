@@ -31,21 +31,22 @@ class AccountAdmin(BaseUserAdmin):
 
     def delete_selected_with_images(self, request, queryset):
         for obj in queryset:
-            # Get the parent directory containing the image
-            image_parent_directory = os.path.dirname(obj.image.path)
+            # Check if the image attribute is not None and has a file associated with it
+            if obj.image and obj.image.path and os.path.exists(obj.image.path):
+                # Get the parent directory containing the image
+                image_parent_directory = os.path.dirname(obj.image.path)
 
-            # Delete the associated image from the media folder
-            if os.path.exists(obj.image.path):
+                # Delete the associated image from the media folder
                 os.remove(obj.image.path)
+
+                # Delete the immediate parent directory
+                if os.path.exists(image_parent_directory):
+                    shutil.rmtree(image_parent_directory)
 
             # Delete the object
             obj.delete()
 
-            # Delete the immediate parent directory
-            if os.path.exists(image_parent_directory):
-                shutil.rmtree(image_parent_directory)
-
-        self.message_user(request, "Selected blogs and their associated images have been deleted.")
+        self.message_user(request, "Selected accounts and their associated images have been deleted.")
 
     delete_selected_with_images.short_description = "Delete selected Account"
 

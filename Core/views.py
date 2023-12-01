@@ -28,7 +28,7 @@ class IndexView(View):
         context['courses'] = Course.objects.filter(is_delete=False).order_by('-start_date').all()[:8]
         context['main_menus'] = NavMenu.objects.filter(sub_menu__isnull=True).all()
         context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False).order_by('?').all()[:5]
-        context['sercice_home'] = ServiceHome.objects.order_by('-created_at')[:10]
+        context['sercice_home'] = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')[:10]
         return context
 
     def get(self, request, *args, **kwargs):
@@ -81,7 +81,11 @@ def subscribe_view(request):
         form = SubscribeForm(request.POST)
         if form.is_valid():
             form.save()
+            messages.success(request, 'Müraciətiniz uğurla göndərildi.')
             # You can add a success message or redirect the user to a thank you page
+            return redirect(current_path)
+        else:
+            messages.error(request, 'Bu e-poçt seçimi artıq mövcuddur.')
             return redirect(current_path)
     else:
         form = SubscribeForm()

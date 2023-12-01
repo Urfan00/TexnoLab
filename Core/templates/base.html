@@ -953,17 +953,15 @@
                   <div>We don’t send spam so don’t worry.</div>
                   <form method="post" action="{% url 'subscribe' %}">
                     {% csrf_token %}
+
+                    {% include "messages.html" %}
+
                     <div class="form-group">
                       {{ subscribe_form.email }}
                       <button type="submit">Subscribe</button>
                     </div>
                   </form>
-                  {% comment %} <form action="post">
-                    <div class="form-group">
-                      <input type="text" placeholder="Email...">
-                      <button type="submit">Submit</button>
-                    </div>
-                  </form> {% endcomment %}
+
                 </div>
               </div>
             </div>
