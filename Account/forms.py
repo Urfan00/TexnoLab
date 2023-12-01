@@ -94,7 +94,7 @@ class AccountInforrmationForm(forms.ModelForm):
             'number' : forms.TextInput(
                 attrs={
                     # 'class' : 'form-control',
-                    'placeholder' : "Enter your first name",
+                    'placeholder' : "Enter your number",
                 }
             ),
             'email' : forms.EmailInput(

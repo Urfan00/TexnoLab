@@ -1164,6 +1164,7 @@ class AdminAccountDetailView(StaffRequiredMixin, DetailView):
     template_name = 'account/dshb-account-look.html'
     context_object_name = 'student'
 
+from django.contrib.auth.hashers import make_password
 
 class AdminAccountAddView(StaffRequiredMixin, CreateView):
     model = Account
@@ -1172,6 +1173,10 @@ class AdminAccountAddView(StaffRequiredMixin, CreateView):
     success_url = reverse_lazy('account_dashboard')
 
     def form_valid(self, form):
+        # Set the password to FIN before saving the form
+        fin = form.cleaned_data['FIN']
+        form.instance.password = make_password(fin)
+        print(form.instance.password)
         # If the form is valid, display a success message
         messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
         return super().form_valid(form)
