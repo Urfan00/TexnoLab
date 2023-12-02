@@ -28,5 +28,6 @@ urlpatterns = [
     path('', include('Core.urls')),
     path('', include('Course.urls')),
     path('', include('Service.urls')),
+    path('', include('KEB.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

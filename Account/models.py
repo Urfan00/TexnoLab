@@ -56,6 +56,7 @@ class Account(AbstractUser):
     birthday = models.DateField(null=True, blank=True)
     balance = models.FloatField(default=0)
     is_graduate = models.BooleanField(default=False)
+    is_keb = models.BooleanField(default=False)
     feedback = models.TextField(max_length=255, null=True, blank=True)
     instagram = models.URLField(max_length=200, null=True, blank=True)
     twitter = models.URLField(max_length=200, null=True, blank=True)

@@ -1,0 +1,78 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+        <section class="page-header -type-1 mt-80">
+          <div class="container">
+            <div class="page-header__content">
+              <div class="row justify-center text-center">
+                <div class="col-auto">
+                  <div data-anim="slide-up delay-1">
+                    <h1 class="page-header__title">Kadr Ehtiyat Bazası</h1>
+                  </div>
+
+                  <div data-anim="slide-up delay-2">
+                    <p class="page-header__text">We’re on a mission to deliver engaging, curated courses at a reasonable price.</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="layout-pt-md layout-pb-md">
+          <div data-anim-wrap class="container">
+            <div data-anim-child="slide-left delay-1" class="row y-gap-20 justify-between items-center">
+              <div class="col-lg-6">
+                <div class="sectionTitle">
+                  <h2 class="sectionTitle__title">Learn from the best instructors</h2>
+
+                  <p class="sectionTitle__text">Lorem ipsum dolor sit amet, consectetur.</p>
+                </div>
+              </div>
+
+            </div>
+
+            <div class="row y-gap-30 pt-50">
+                {% for student in keb %}
+
+                    <div class="col-lg-3 col-sm-6">
+                        <div data-anim-child="slide-left delay-5" class="teamCard -type-1 -teamCard-hover">
+                        <div class="teamCard__image">
+                            <img src="{% if student.image %}{{ student.image.url }}{% endif %}" alt="image" />
+                            <div class="teamCard__socials">
+                            <div class="d-flex x-gap-20 y-gap-10 justify-center items-center h-100">
+                                {% if student.instagram %}
+                                    <a href="{{ student.instagram }}" target="_blank"><i class="icon-instagram text-white"></i></a>
+                                {% endif %}
+                                {% if student.twitter %}
+                                    <a href="{{ student.twitter }}" target="_blank"><i class="icon-twitter text-white"></i></a>
+                                {% endif %}
+                                {% if student.facebook %}
+                                    <a href="{{ student.facebook }}" target="_blank"><i class="icon-facebook text-white"></i></a>
+                                {% endif %}
+                                {% if student.github %}
+                                    <a href="{{ student.github }}" target="_blank"><i class="icon-linkedin text-white"></i></a>
+                                {% endif %}
+                                {% if student.youtube %}
+                                    <a href="{{ student.youtube }}" target="_blank"><i class="icon-linkedin text-white"></i></a>
+                                {% endif %}
+                                {% if student.linkedIn %}
+                                    <a href="{{ student.linkedIn }}" target="_blank"><i class="icon-linkedin text-white"></i></a>
+                                {% endif %}
+                            </div>
+                            </div>
+                        </div>
+                        <div class="teamCard__content">
+                            <h4 class="teamCard__title">{{ student.first_name }} {{ student.last_name }}</h4>
+                            {% comment %} <p class="teamCard__text">Marketing Coordinator</p> {% endcomment %}
+                        </div>
+                        </div>
+                    </div>
+
+                {% endfor %}
+            </div>
+          </div>
+        </section>
+
+{% endblock %}

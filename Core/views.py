@@ -3,7 +3,6 @@ from django.urls import reverse_lazy
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView
 from Account.models import Account
-# from Account.views import FirstTimeLoginMixin
 from Course.forms import RequestUsForm
 from Course.models import Course, CourseStatistic
 from Service.models import ServiceHome

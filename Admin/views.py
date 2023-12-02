@@ -29,6 +29,7 @@ from django.contrib import messages
 from django.urls import reverse_lazy
 from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.contrib.auth.hashers import make_password
 
 # **********************************************************************************
 from django.contrib.auth.mixins import UserPassesTestMixin
@@ -1168,7 +1169,6 @@ class AdminAccountDetailView(StaffRequiredMixin, DetailView):
     template_name = 'account/dshb-account-look.html'
     context_object_name = 'student'
 
-from django.contrib.auth.hashers import make_password
 
 class AdminAccountAddView(StaffRequiredMixin, CreateView):
     model = Account
@@ -1426,3 +1426,43 @@ class AdminSubscriberDeleteView(StaffRequiredMixin, DeleteView):
 
         return redirect('subscribe_dashboard')
 
+
+class AdminKEBListView(StaffRequiredMixin, ListView):
+    model = Account
+    template_name = 'keb/dshb-keb.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        p_query = self.request.GET.get('p', '')
+        sp_query = self.request.GET.get('sp', '')
+
+        keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=True, is_delete=False, is_superuser=False)
+        not_keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=False, is_delete=False, is_superuser=False)
+
+        if p_query:
+            keb_graduated_student = keb_graduated_student.filter( Q(first_name__icontains=p_query) | Q(last_name__icontains=p_query))
+        elif sp_query:
+            not_keb_graduated_student = not_keb_graduated_student.filter( Q(first_name__icontains=sp_query) | Q(last_name__icontains=sp_query))
+
+        context["keb"] = keb_graduated_student
+        context["not_keb"] = not_keb_graduated_student
+
+        return context
+
+
+class AdminKEBDeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        course = get_object_or_404(Account, pk=pk)
+        course.is_keb = False
+        course.save()
+        messages.success(request, 'Məzun uğurla kadr ehtiyat bazasından silindi')
+        return redirect('keb_dashboard')
+
+
+class AdminKEBUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        course = get_object_or_404(Account, pk=pk)
+        course.is_keb = True  # Set is_delete to False to undelete
+        course.save()
+        messages.success(request, 'Məzun uğurla kadr ehtiyat bazasına əlavə olundu')
+        return redirect('keb_dashboard')
