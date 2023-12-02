@@ -57,7 +57,7 @@ class Service(DateMixin):
 
 
 class ServiceImage(DateMixin):
-    photo = models.ImageField(upload_to=Uploader.service_image)
+    photo = models.ImageField(upload_to=Uploader.service_image, max_length=255)
     is_delete = models.BooleanField(default=False)
 
     def __str__(self):
@@ -96,7 +96,7 @@ class ServiceImage(DateMixin):
 
 class ServiceHome(DateMixin):
     title = models.CharField(max_length=255)
-    photo = models.ImageField(upload_to=Uploader.service_image_home)
+    photo = models.ImageField(upload_to=Uploader.service_image_home, max_length=255)
     status = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
 
@@ -142,7 +142,7 @@ class ServiceHome(DateMixin):
 
 
 class AllGalery(DateMixin):
-    img = models.ImageField(upload_to=Uploader.all_galery)
+    img = models.ImageField(upload_to=Uploader.all_galery, max_length=255)
 
     def __str__(self):
         return f"img-{self.pk}"

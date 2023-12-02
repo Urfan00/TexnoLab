@@ -61,7 +61,11 @@ class DashboardView(StaffRequiredMixin, ListView):
         context['blog_count'] = Blog.objects.filter(blog_category__is_delete=False, is_delete=False, status=True).count()
         context['course_count'] = Course.objects.filter(category__is_delete=False, is_delete=False, status=True).count()
         context['service_count'] = ServiceHome.objects.filter(is_delete=False, status=True).count()
-        context["courses"] = Course.objects.filter(category__is_delete=False, is_delete=False, status=True).annotate(review_count=Count('course_feedback'), program_count=Count('course_program'), student_count=Count('student_course')).order_by('-created_at').all()[:5]
+        context["courses"] = Course.objects.filter(category__is_delete=False, is_delete=False, status=True).annotate(
+                review_count=Count('course_feedback__id', distinct=True),
+                student_count=Count('student_course__id', distinct=True),
+                program_count=Count('course_program__id', distinct=True)
+            ).order_by('-created_at').all()[:5]
         context["blogs"] = Blog.objects.filter(blog_category__is_delete=False, is_delete=False, status=True).order_by('-created_at').all()[:5]
         context["services"] = ServiceHome.objects.filter(is_delete=False, status=True).order_by('-created_at').all()[:5]
         return context
@@ -752,7 +756,7 @@ class AdminCourseFeedbackDetailView(StaffRequiredMixin, DetailView):
 # ********************************************************************************
 # Partner
 class AdminPartnerListView(StaffRequiredMixin, ListView):
-    model = CourseStatistic
+    model = Partner
     template_name = 'partner/dshb-partner.html'
 
     def get_context_data(self, **kwargs):
@@ -840,7 +844,7 @@ class AdminPartnerUndeleteView(StaffRequiredMixin, View):
 # ********************************************************************************
 # FAQ
 class AdminFAQListView(StaffRequiredMixin, ListView):
-    model = CourseStatistic
+    model = FAQ
     template_name = 'faq/dshb-faq.html'
 
     def get_context_data(self, **kwargs):

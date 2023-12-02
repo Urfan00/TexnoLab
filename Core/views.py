@@ -24,10 +24,10 @@ class IndexView(View):
     def get_context_data(self):
         context = {}
         context["partners"] = Partner.objects.filter(is_delete=False).all()
-        context['blogs'] = Blog.objects.filter(is_delete=False).order_by('-date').all()[:4]
-        context['courses'] = Course.objects.filter(is_delete=False).order_by('-start_date').all()[:8]
+        context['blogs'] = Blog.objects.filter(status=True, blog_category__is_delete=False, is_delete=False).order_by('-date').all()[:4]
+        context['courses'] = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-start_date').all()[:8]
         context['main_menus'] = NavMenu.objects.filter(sub_menu__isnull=True).all()
-        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False).order_by('?').all()[:5]
+        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False, is_superuser=False).order_by('?').all()[:5]
         context['sercice_home'] = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')[:10]
         return context
 
@@ -53,7 +53,7 @@ class AboutView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['about'] = AboutUs.objects.first()
-        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False).order_by('?').all()[:5]
+        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False, is_superuser=False).order_by('?').all()[:5]
         return context
 
 
@@ -75,7 +75,6 @@ class ContactUsView(CreateView):
 
 def subscribe_view(request):
     current_path = request.META.get('HTTP_REFERER', '/')
-    print( '===>>',current_path)
 
     if request.method == 'POST':
         form = SubscribeForm(request.POST)

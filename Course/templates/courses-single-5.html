@@ -81,8 +81,11 @@
                       <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-2" type="button">
                         Kursun məzmunu
                       </button>
-                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-4" type="button">
+                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-3" type="button">
                         Rəylər
+                      </button>
+                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-4" type="button">
+                        Qeydiyyat
                       </button>
                     </div>
 
@@ -161,8 +164,7 @@
                         </div>
                       </div>
 
-
-                      <div class="tabs__pane -tab-item-4">
+                      <div class="tabs__pane -tab-item-3">
                         <div class="blogPost -comments">
                           <div class="blogPost__content">
                             <h2 class="text-20 fw-500">
@@ -212,20 +214,9 @@
 
                               {% csrf_token %}
 
-                              {% if form.errors %}
-                                <div class="alert alert-danger alert-dismissible" role="alert">
-                                  <div id="form_errors">
-                                    {% for key, value in form.errors.items %}
-                                      <strong>{{ key }}-{{ value }}</strong>
-                                    {% endfor %}
-                                  </div>
-                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                              {% endif %}
-
                               <div class="col-12">
-                                <label for="id_message" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.message.label }}</label>
-                                {{ form.message }}
+                                <label for="id_message" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ feedback_form.message.label }}</label>
+                                {{ feedback_form.message }}
                               </div>
                               <div class="col-12">
                                 <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
@@ -238,6 +229,42 @@
 
                         {% endif %}
                       </div>
+
+                      <div class="tabs__pane -tab-item-4">
+
+                        <h3 class="text-20 fw-500">
+                          Rəy əlavə et
+                        </h3>
+                          <div class="respondForm pt-30">
+
+                            <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30">
+
+                              {% csrf_token %}
+                              {{ request_form.as_hidden }}
+                              <div class="col-12">
+                                <label for="id_fullname" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.fullname.label }}</label>
+                                {{ request_form.fullname }}
+                              </div>
+                              <div class="col-12">
+                                <label for="id_phone_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.phone_number.label }}</label>
+                                {{ request_form.phone_number }}
+                              </div>
+                              <div class="col-12" style="display: none;">
+                                <label for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.course.label }}</label>
+                                {{ request_form.course }}
+                              </div>
+                              <div class="col-12">
+                                <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
+                                  Əlavə et
+                                </button>
+                              </div>
+                            </form>
+
+                          </div>
+
+                      </div>
+
+
                     </div>
                   </div>
                 </div>

@@ -49,7 +49,7 @@ class Account(AbstractUser):
     id_code = models.CharField(max_length=5, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255)
     FIN = models.CharField(max_length=21, unique=True, null=True, blank=True)
-    image = models.ImageField(upload_to=Uploader.user_image, null=True, blank=True)
+    image = models.ImageField(upload_to=Uploader.user_image, null=True, blank=True, max_length=255)
     bio = models.TextField(null=True, blank=True)
     email = models.EmailField(max_length=254)
     number = models.CharField(max_length=20)

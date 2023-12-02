@@ -27,7 +27,7 @@ class Course(DateMixin):
     title = models.CharField(max_length=255)
     slug = models.SlugField(null=True, blank=True, unique=True)
     description = models.TextField()
-    main_photo = models.ImageField(upload_to=Uploader.course_main_photo)
+    main_photo = models.ImageField(upload_to=Uploader.course_main_photo, max_length=255)
     video_link = models.URLField(null=True, blank=True)
     status = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
@@ -114,7 +114,7 @@ class RequestUs(DateMixin):
 
 
 class Gallery(DateMixin):
-    photo = models.ImageField(upload_to=Uploader.course_gallery)
+    photo = models.ImageField(upload_to=Uploader.course_gallery, max_length=255)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_gallery')
     is_delete = models.BooleanField(default=False)
 

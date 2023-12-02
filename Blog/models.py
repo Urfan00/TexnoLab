@@ -26,7 +26,7 @@ class Blog(DateMixin):
     title = models.CharField(max_length=255)
     description = RichTextField()
     slug = models.SlugField(null=True, blank=True, unique=True)
-    photo = models.ImageField(upload_to=Uploader.blog_category)
+    photo = models.ImageField(upload_to=Uploader.blog_category, max_length=255)
     date = models.DateTimeField()
     status = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)

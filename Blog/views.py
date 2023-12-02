@@ -11,7 +11,7 @@ class BlogView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = BlogCategory.objects.filter(is_delete=False).all()
-        context['blogs'] = Blog.objects.filter(blog_category__is_delete=False, is_delete=False).all()
+        context['blogs'] = Blog.objects.filter(status=True, blog_category__is_delete=False, is_delete=False).all()
         return context
 
 
@@ -22,6 +22,6 @@ class BlogDetailView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['categories'] = BlogCategory.objects.filter(is_delete=False).all()
-        context['related_blogs'] = Blog.objects.filter(blog_category = self.object.blog_category, blog_category__is_delete=False, is_delete=False).exclude(slug=self.kwargs.get('slug'))[:4]
+        context['related_blogs'] = Blog.objects.filter(status=True, blog_category = self.object.blog_category, blog_category__is_delete=False, is_delete=False).exclude(slug=self.kwargs.get('slug'))[:4]
         return context
 

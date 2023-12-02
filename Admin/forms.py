@@ -248,7 +248,7 @@ class PartnerEditForm(forms.ModelForm):
         widgets = {
             'title' : forms.TextInput(
                 attrs={
-                    'placeholder' :"Kursun başlığı"
+                    'placeholder' :"Partner adı"
                 }
             )
         }
