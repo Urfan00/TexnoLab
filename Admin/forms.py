@@ -2,7 +2,7 @@ from django import forms
 from Account.models import Account, Group
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
-from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, RequestUs
+from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, Gallery, RequestUs
 from Service.models import AllGalery, Service, ServiceHome, ServiceImage
 from multiupload.fields import MultiFileField
 
@@ -506,4 +506,19 @@ class CourseStudentEditForm(forms.ModelForm):
                     'placeholder' :"Qalıq"
                 }
             ),
+        }
+
+
+class GalLeryEditForm(forms.ModelForm):
+    photo = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+
+    class Meta:
+        model = Gallery
+        fields = ['photo', 'course']
+        widgets = {
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            )
         }

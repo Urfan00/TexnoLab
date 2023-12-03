@@ -46,7 +46,7 @@ class CourseDetailView(View):
         context['course_programs'] = CourseProgram.objects.filter(is_delete=False, course__slug=self.kwargs.get('slug')).all()
         context['related_course'] = Course.objects.filter(is_delete=False, category=self.object.category).exclude(slug=self.kwargs.get('slug'))[:8]
         context['reviews'] = CourseFeedback.objects.filter(is_delete=False, course__slug=self.kwargs.get('slug')).all()
-        context['galleries'] = Gallery.objects.filter(is_delete=False, course__slug=self.kwargs.get('slug')).all()
+        context['galleries'] = Gallery.objects.filter(course__slug=self.kwargs.get('slug')).all()
 
         if self.request.user.is_authenticated:
             context['user_review'] = CourseStudent.objects.filter(course__slug=self.kwargs.get('slug'), is_active=True, student=self.request.user).first()

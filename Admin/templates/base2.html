@@ -166,6 +166,14 @@
                 </a>
               </div>
 
+              {% url 'course_gallery_dashboard' as course_gallery_dashboard %}
+              <div class="sidebar__item {% if request.path == course_gallery_dashboard or request.path|slice:'/-' == course_gallery_dashboard %}-is-active{% endif %}">
+                <a href="{% url "course_gallery_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                  <i class="text-20 icon-play-button mr-15"></i>
+                  Kurs Qaleriyası
+                </a>
+              </div>
+
               {% url 'blog_dashboard' as blog_dashboard %}
               <div class="sidebar__item {% if request.path == blog_dashboard or request.path|slice:'/-' == blog_dashboard %}-is-active{% endif %}">
                 <a href="{% url "blog_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">

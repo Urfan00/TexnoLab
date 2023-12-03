@@ -116,7 +116,6 @@ class RequestUs(DateMixin):
 class Gallery(DateMixin):
     photo = models.ImageField(upload_to=Uploader.course_gallery, max_length=255)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_gallery')
-    is_delete = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.course.title} gallery photo {self.pk}"

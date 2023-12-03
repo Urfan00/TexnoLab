@@ -87,6 +87,9 @@
                       <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-4" type="button">
                         Qeydiyyat
                       </button>
+                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-5" type="button">
+                        Qaleriya
+                      </button>
                     </div>
 
                     <div class="tabs__content pt-60 lg:pt-40 js-tabs-content">
@@ -260,6 +263,21 @@
                               </div>
                             </form>
 
+                          </div>
+
+                      </div>
+
+                      <div class="tabs__pane -tab-item-5">
+
+                        <h3 class="text-20 fw-500">
+                          Şəkillər
+                        </h3>
+                          <div class="respondForm pt-30">
+                            <div>
+                              {% for i in galleries %}
+                                <img src="{{ i.photo.url }}" alt="" style="width: 250px; height: 160px; object-fit: cover;">
+                              {% endfor %}
+                            </div>
                           </div>
 
                       </div>

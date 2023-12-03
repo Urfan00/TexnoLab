@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from Account.models import Account, Group
 from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
-from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, RequestUs
+from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, Gallery, RequestUs
 from Service.models import AllGalery, Service, ServiceHome, ServiceImage
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
@@ -17,6 +17,7 @@ from .forms import (AboutUsEditForm,
                     CourseProgramEditForm,
                     CourseStudentEditForm,
                     FAQEditForm,
+                    GalLeryEditForm,
                     GroupEditForm,
                     PartnerEditForm,
                     RequestUsAdminCommentForm,
@@ -1466,3 +1467,73 @@ class AdminKEBUndeleteView(StaffRequiredMixin, View):
         course.save()
         messages.success(request, 'Məzun uğurla kadr ehtiyat bazasına əlavə olundu')
         return redirect('keb_dashboard')
+
+
+# Course Gallery
+class AdminAllCourseGalleryListView(StaffRequiredMixin, ListView):
+    model = Gallery
+    template_name = 'course-gallery/dshb-course-gallery.html'
+    context_object_name = 'galleries'
+    paginate_by = 30
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        a_query = self.request.GET.get('a', '')
+
+        galleries = Gallery.objects.all()
+
+        if a_query:
+            galleries = galleries.filter(course__title__icontains=a_query)
+
+
+        # Pagination
+        page = self.request.GET.get('page')
+        paginator = Paginator(galleries, self.paginate_by)
+
+        try:
+            galleries = paginator.page(page)
+        except PageNotAnInteger:
+            galleries = paginator.page(1)
+        except EmptyPage:
+            galleries = paginator.page(paginator.num_pages)
+
+        context['galleries'] = galleries
+        return context
+
+
+class AdminAllCourseGalleryDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = Gallery.objects.get(pk=image_id)
+            image.delete()
+        except Gallery.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Şəkil uğurla silindi')
+
+        return redirect('course_gallery_dashboard')
+
+
+class AdminCourseGalleryAddView(StaffRequiredMixin, FormView):
+    model = Gallery
+    template_name = 'course-gallery/dshb-course-gallery-add.html'
+    form_class = GalLeryEditForm
+    success_url = reverse_lazy('course_gallery_dashboard')
+
+    def form_valid(self, form):
+        # Get the selected course from the form
+        selected_course = form.cleaned_data['course']
+
+        uploaded_files = self.request.FILES.getlist('photo')
+
+        for uploaded_file in uploaded_files:
+            Gallery.objects.create(photo=uploaded_file, course=selected_course)
+
+        messages.success(self.request, 'Şəkil uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
