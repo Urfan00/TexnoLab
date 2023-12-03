@@ -181,11 +181,22 @@ class ServiceEditForm(forms.ModelForm):
 
 
 class ServiceImageEditForm(forms.ModelForm):
-    photo = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
-
     class Meta:
         model = ServiceImage
-        fields = ['photo']
+        fields = ['photo', 'video_url', 'service']
+        widgets = {
+            'video_url' : forms.URLInput(
+                attrs={
+                    'placeholder' :"http://www",
+                    'class' : 'inpClass'
+                }
+            ),
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            )
+        }
 
 
 class RequestUsAdminCommentForm(forms.ModelForm):

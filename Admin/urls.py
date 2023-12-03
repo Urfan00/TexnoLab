@@ -61,15 +61,19 @@ from .views import (AdminAboutContactInfoListView,
                     AdminPartnerEditView,
                     AdminPartnerListView,
                     AdminPartnerUndeleteView,
-                    AdminServiceAddView, AdminServiceDeleteView, AdminServiceDetailView, AdminServiceHomeAddView,
+                    AdminServiceAddView,
+                    AdminServiceDeleteView,
+                    AdminServiceDetailView,
+                    AdminServiceHomeAddView,
                     AdminServiceHomeDeleteView,
-                    AdminServiceEditView, AdminServiceHomeEditView,
+                    AdminServiceEditView,
+                    AdminServiceHomeEditView,
                     AdminServiceImageAddView,
-                    AdminServiceImageDeleteAllView,
                     AdminServiceImageDeleteView,
                     AdminServiceListView,
                     AdminServiceHomeUndeleteView,
-                    AdminAllGalleryListView, AdminServiceUndeleteView,
+                    AdminAllGalleryListView,
+                    AdminServiceUndeleteView,
                     AdminSubscriberDeleteView,
                     AdminSubscriberView,
                     CourseStudentAddView,
@@ -146,10 +150,9 @@ urlpatterns = [
 
 
     # ************************************************************************************************************************
-
+    # Service Image
     path('service_image_add/', AdminServiceImageAddView.as_view(), name='service_image_add'),
     path('delete_service_image/<int:image_id>/', AdminServiceImageDeleteView.as_view(), name='delete_service_image'),
-    path('service_image_delete_all/', AdminServiceImageDeleteAllView.as_view(), name='service_image_delete_all'),
     # ************************************************************************************************************************
 
     # Course Statistic

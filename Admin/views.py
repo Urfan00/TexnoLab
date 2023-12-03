@@ -91,7 +91,7 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
 
         # Filter active courses
         active_courses = Course.objects.filter(status=True, is_delete=False).order_by('-start_date')
-        
+
         # Filter inactive courses
         deactive_courses = Course.objects.filter(status=False, is_delete=False).order_by('-start_date')
 
@@ -517,10 +517,11 @@ class AdminBlogCategoryUndeleteView(StaffRequiredMixin, View):
 # ********************************************************************************
 
 
-# Service & Service Home
+# Service & Service Home & Service Gallery
 class AdminServiceListView(StaffRequiredMixin, ListView):
     model = ServiceHome
     template_name = 'service/dshb-service.html'
+    paginate_by = 30
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -530,6 +531,7 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         as_query = self.request.GET.get('as', '')
         ds_query = self.request.GET.get('ds', '')
         ss_query = self.request.GET.get('ss', '')
+        g_query = self.request.GET.get('g', '')
 
         active_service_home = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')
         deactive_service_home = ServiceHome.objects.filter(status=False, is_delete=False).order_by('-created_at')
@@ -538,6 +540,8 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
         deactive_service = Service.objects.filter(status=False, is_delete=False).order_by('-created_at')
         delete_service = Service.objects.filter(is_delete=True).order_by('-created_at')
+
+        galleries = ServiceImage.objects.filter(service__status=True, service__is_delete=False).all()
 
         if a_query:
             active_service_home = active_service_home.filter(title__icontains=a_query)
@@ -551,6 +555,8 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
             delete_service_home = delete_service_home.filter(title__icontains=ds_query)
         elif ss_query:
             delete_service_home = delete_service_home.filter(title__icontains=ss_query)
+        elif g_query:
+            galleries = galleries.filter(service__title__icontains=g_query)
 
         context["active_services_home"] = active_service_home
         context["deactive_services_home"] = deactive_service_home
@@ -560,7 +566,18 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         context["deactive_services"] = deactive_service
         context["delete_services"] = delete_service
 
-        context['service_galleries'] = ServiceImage.objects.all()
+        # Pagination
+        page = self.request.GET.get('page')
+        paginator = Paginator(galleries, self.paginate_by)
+
+        try:
+            galleries = paginator.page(page)
+        except PageNotAnInteger:
+            galleries = paginator.page(1)
+        except EmptyPage:
+            galleries = paginator.page(paginator.num_pages)
+
+        context['galleries'] = galleries
 
         return context
 
@@ -700,25 +717,19 @@ class AdminServiceHomeUndeleteView(StaffRequiredMixin, View):
         return redirect('service_dashboard')
 
 
-
 # ********************************************************************************
-class AdminServiceImageAddView(StaffRequiredMixin, FormView):
+# Service Gallery
+class AdminServiceImageAddView(StaffRequiredMixin, CreateView):
     model = ServiceImage
-    template_name = 'service/dshb-service-image-add.html'
+    template_name = 'service/service-gallery/dshb-service-image-add.html'
     form_class = ServiceImageEditForm
     success_url = reverse_lazy('service_dashboard')
 
     def form_valid(self, form):
-        uploaded_files = self.request.FILES.getlist('photo')
-
-        for uploaded_file in uploaded_files:
-            ServiceImage.objects.create(photo=uploaded_file)
-
         messages.success(self.request, 'Şəkil uğurla əlavə edildi')
         return super().form_valid(form)
 
     def form_invalid(self, form):
-        # If the form has validation errors, display an error message
         messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
         return super().form_invalid(form)
 
@@ -736,15 +747,7 @@ class AdminServiceImageDeleteView(StaffRequiredMixin, DeleteView):
         return redirect('service_dashboard')
 
 
-class AdminServiceImageDeleteAllView(StaffRequiredMixin, View):
-    def post(self, request):
-        # Delete all images in the AllGalery model
-        ServiceImage.objects.all().delete()
-        messages.success(request, 'Bütün şəkillər uğurla silindi')
-        return redirect('service_dashboard')
-
 # ********************************************************************************
-
 # Course Statistic
 class AdminCourseStatisticListView(StaffRequiredMixin, ListView):
     model = CourseStatistic
@@ -1543,7 +1546,7 @@ class AdminAllCourseGalleryListView(StaffRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         a_query = self.request.GET.get('a', '')
 
-        galleries = Gallery.objects.all()
+        galleries = Gallery.objects.filter(course__status=True, course__is_delete=False, course__category__is_delete=False).all()
 
         if a_query:
             galleries = galleries.filter(course__title__icontains=a_query)
@@ -1599,4 +1602,3 @@ class AdminCourseGalleryAddView(StaffRequiredMixin, FormView):
         # If the form has validation errors, display an error message
         messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
         return super().form_invalid(form)
-
