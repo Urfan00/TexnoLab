@@ -38,15 +38,10 @@
               <div class="col-auto">
                 <div data-anim="slide-up delay-1">
 
-                  <h1 class="page-header__title pt-80">Servislər</h1>
+                  <h1 class="page-header__title pt-80">Servis</h1>
 
                 </div>
 
-                <div data-anim="slide-up delay-2">
-
-                  {% comment %} <p class="page-header__text">We’re on a mission to deliver engaging, curated courses at a reasonable price.</p> {% endcomment %}
-
-                </div>
               </div>
             </div>
           </div>
@@ -65,11 +60,15 @@
                 </div>
 
                 <div>
-                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-2" type="button">Görüntülər</button>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-2" type="button">Şəkillər</button>
                 </div>
 
                 <div>
-                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-3" type="button">Nəyi təmir edirik?</button>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-3" type="button">Videolar</button>
+                </div>
+
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-4" type="button">Nəyi təmir edirik?</button>
                 </div>
               
             </div>
@@ -83,12 +82,7 @@
                   
                     <div data-anim-child="slide-up delay-4" class="col-lg-12 col-md-12" data-category-id="1">
                       <div class="blogCard -type-1">
-                        {% comment %} <div class="blogCard__image">
-                          <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="#" alt="image">
-                        </div> {% endcomment %}
                         <div class="blogCard__content mt-20">
-                          <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ service.title }}</h4>
-                          {% comment %} <div class="blogCard__category">{{ service.description1|safe }}</div> {% endcomment %}
                           <div class="blogCard__date text-14 mt-5">{{ service.description1|safe }}</div>
                         </div>
                       </div>
@@ -101,24 +95,26 @@
                 <div class="row y-gap-30">
                  
                   {% for img in service_images %}
+                    {% if img.video_url is null %}
 
-                  <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
-                    <div class="blogCard -type-1">
-                      <div class="blogCard__image">
+                      <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
+                        <div class="blogCard -type-1">
+                          <div class="blogCard__image">
 
-                        <ul class="gallery__list">
-                          <li class="gallery__item" style="float: left;">
-                            <a href="{{ img.photo.url }}" data-lightbox="group1" data-title="">
-                              <img src="{{ img.photo.url }}" alt="">
-                            </a>
-                          </li>
-                        </ul>
+                            <ul class="gallery__list">
+                              <li class="gallery__item" style="float: left;">
+                                <a href="{{ img.photo.url }}" data-lightbox="group1" data-title="">
+                                  <img src="{{ img.photo.url }}" alt="">
+                                </a>
+                              </li>
+                            </ul>
 
-                        {% comment %} <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ img.photo.url }}" alt="image"> {% endcomment %}
+                            {% comment %} <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ img.photo.url }}" alt="image"> {% endcomment %}
+                          </div>
+                        </div>
                       </div>
-                    </div>
-                  </div>
 
+                    {% endif %}
                   {% endfor %}
                   
 
@@ -127,17 +123,50 @@
 
               <div class="tabs__pane -tab-item-3" id="category-3">
                 <div class="row y-gap-30">
+                 
+                  {% for img in service_images %}
+                    {% if img.video_url %}
+                      <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
+                        <div class="blogCard -type-1">
+                          <div class="blogCard__image">
+
+                            <ul class="gallery__list">
+                              <li class="gallery__item" style="float: left;">
+
+                                <div class="relative pt-40">
+                                  <img class="w-1/1" src="{{ img.photo.url }}" alt="image">
+                                  <div class="absolute-full-center d-flex justify-center items-center">
+                                    <a href="{{ img.video_url }}" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
+                                      <div class="icon-play text-18"></div>
+                                    </a>
+                                  </div>
+                                </div>
+
+                                {% comment %} <a href="{{ img.photo.url }}" data-lightbox="group1" data-title="">
+                                  <img src="{{ img.photo.url }}" alt="">
+                                </a> {% endcomment %}
+                              </li>
+                            </ul>
+
+                            {% comment %} <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ img.photo.url }}" alt="image"> {% endcomment %}
+                          </div>
+                        </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+                  
+
+                </div>
+              </div>
+
+              <div class="tabs__pane -tab-item-4" id="category-4">
+                <div class="row y-gap-30">
                
                  
                   
                     <div data-anim-child="slide-up delay-4" class="col-lg-12 col-md-12" data-category-id="3">
                       <div class="blogCard -type-1">
-                        {% comment %} <div class="blogCard__image">
-                          <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="#" alt="image">
-                        </div> {% endcomment %}
                         <div class="blogCard__content mt-20">
-                          {% comment %} <div class="blogCard__category">{{ blog.title }}</div>
-                          <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4> {% endcomment %}
                           <div class="blogCard__date text-14 mt-5">{{ service.description2|safe }}</div>
                         </div>
                       </div>
@@ -145,7 +174,7 @@
       
                 </div>
               </div>
-          
+
             </div>
           </div>
         </div>

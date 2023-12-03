@@ -88,18 +88,17 @@
                             <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ main.menu }}</a>
                           </li>
                           {% for sub in main.parent_menu.all %}
-                            <li {% if sub.parent_menu.all %} class="menu-item-has-children" {% endif %}>
-                              <a href="/{{ sub.url_link }}/">{{ sub.menu }} {% if sub.parent_menu.all %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
+                            <li {% if services and sub.url_link == "service" %} class="menu-item-has-children" {% endif %}>
+                              <a href="/{{ sub.url_link }}/">{{ sub.menu }} {% if services and sub.url_link == "service" %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
                             
-                            {% if sub.parent_menu.all %}
-
+                            {% if sub.url_link == "service" %}
                               <ul class="subnav">
                                 <li class="menu__backButton js-nav-list-back">
                                   <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ sub.menu }}</a>
                                 </li>
-                                {% for sub_in in sub.parent_menu.all %}
+                                {% for sub_in in services %}
                                   <li>
-                                    <a href="/{{ sub_in.url_link }}/">{{ sub_in.menu }} </a>
+                                    <a href="{% url "service" sub_in.slug %}">{{ sub_in.title }} </a>
                                   </li>
                                 {% endfor %}
                               </ul>

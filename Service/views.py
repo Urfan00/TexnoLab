@@ -6,18 +6,15 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 # Create your views here.
-class ServiceView(ListView):
+class ServiceView(DetailView):
     model = Service
     template_name = 'service-list-1.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-
-        context['service'] = Service.objects.filter(status=True, is_delete=False).first()
-        context['service_images'] = ServiceImage.objects.all()
+        context['service_images'] = ServiceImage.objects.filter(service=self.object).all()
 
         return context
-
 
 
 class ServiceGalery(ListView):

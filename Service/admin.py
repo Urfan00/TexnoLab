@@ -6,8 +6,9 @@ from .models import AllGalery, Service, ServiceHome, ServiceImage
 
 
 class ServiceImageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'photo', 'is_delete', 'created_at', 'updated_at']
+    list_display = ['id', 'photo', 'video_url', 'is_delete', 'service', 'created_at', 'updated_at']
     list_filter = ['is_delete']
+    search_fields = ['service__title']
     actions = ['delete_selected_with_images']
 
     def delete_selected_with_images(self, request, queryset):

@@ -136,15 +136,14 @@ class ServiceHomeEditForm(forms.ModelForm):
         model = ServiceHome
         fields = ['title', 'photo', 'status']
         labels = {
-            'title' : 'Servis adı',
-            'description1' : 'Servis haqqında 1',
-            'description2' : 'Servis haqqında 2',
+            'title' : 'Xidmət adı',
+            'photo' : 'Şəkil',
             'status' : 'Status',
         }
         widgets = {
             'title' : forms.TextInput(
                 attrs={
-                    'placeholder' :"Service adı"
+                    'placeholder' :"Xidmət adı"
                 }
             ),
         }

@@ -31,18 +31,24 @@
                     <div class="tabs -active-purple-2 js-tabs">
                       <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
-                          Aktiv servislər
+                          Aktiv Xidmətlər
                         </button>
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
-                          Deaktiv servislər
+                          Deaktiv Xidmətlər
                         </button>
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab3" data-tab-target=".-tab-item-3" type="button">
-                          Silinmiş servislər
+                          Silinmiş Xidmətlər
                         </button>
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
-                          Servislər Haqqında
+                          Aktiv Servislər
                         </button>
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
+                          Deaktiv Servislər
+                        </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab6" data-tab-target=".-tab-item-6" type="button">
+                          Silinmiş Servislər
+                        </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab7" data-tab-target=".-tab-item-7" type="button">
                           Şəkillər
                         </button>
                       </div>
@@ -53,7 +59,7 @@
 
                             <div class="col-auto">
                               <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="a" placeholder="servis axtar" value="{{ request.GET.a }}">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="a" placeholder="Xidmət axtar" value="{{ request.GET.a }}">
                                   <button class="" type="submit">
                                       <i class="icon-search text-light-1 text-20"></i>
                                   </button>
@@ -65,7 +71,7 @@
                                 <div>
                                 </div>
                                 <div>
-                                  <a href="{% url "service_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                  <a href="{% url "service_home_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
                                     Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
                                   </a>
                                 </div>
@@ -113,36 +119,28 @@
                                   <tr>
                                     <th>№</th>
                                     <th>Başlıq</th>
-                                    {% comment %} <th>Qısa məzmun 1</th>
-                                    <th>Qısa məzmun 2</th> {% endcomment %}
+                                    <th>Şəkil</th>
                                     <th>Əməliyyatlar</th>
                                   </tr>
                                 </thead>
                                 <tbody>
 
-                                  {% for a_service in active_services %}
+                                  {% for a_service in active_services_home %}
                                     <tr>
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ a_service.title }}</td>
-                                      {% comment %} <td>{{ a_service.description1 }}</td>
-                                      <td>{{ a_service.description2 }}</td> {% endcomment %}
+                                      <td><img width="50" height="50" src="{{ a_service.photo.url }}" alt=""></td>
                                       <td>
                                         <div class="menusuboper">
-                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                          </a> {% endcomment %}
-                                          <a href="{% url "service_edit" a_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                          <a href="{% url "service_home_edit" a_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
-                                          <form method="post" action="{% url "service_delete" a_service.pk %}" style="display: inline;">
+                                          <form method="post" action="{% url "service_home_delete" a_service.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
                                                 <i class="fa fa-trash c" aria-hidden="true"></i>
                                             </button>
                                           </form>
-                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
-                                            <div style="color:white" class="icon-bin"></div>
-                                          </a> {% endcomment %}
                                         </div>
                                       </td>
                                     </tr>
@@ -160,7 +158,7 @@
                             <div class="row y-gap-10 ">
                               <div class="col-auto">
                                 <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                                    <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="d" placeholder="servis axtar" value="{{ request.GET.d }}">
+                                    <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="d" placeholder="Xidmət axtar" value="{{ request.GET.d }}">
                                     <button class="" type="submit">
                                         <i class="icon-search text-light-1 text-20"></i>
                                     </button>
@@ -172,7 +170,7 @@
                                   <div>
                                   </div>
                                   <div>
-                                    <a href="{% url "service_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    <a href="{% url "service_home_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
                                       Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
                                     </a>
                                   </div>
@@ -187,36 +185,28 @@
                                     <tr>
                                       <th>№</th>
                                       <th>Başlıq</th>
-                                      {% comment %} <th>Qısa məzmun 1</th>
-                                      <th>Qısa məzmun 2</th> {% endcomment %}
+                                      <th>Şəkil</th>
                                       <th>Əməliyyatlar</th>
                                     </tr>
                                   </thead>
                                   <tbody>
 
-                                    {% for d_service in deactive_services %}
+                                    {% for d_service in deactive_services_home %}
                                       <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ d_service.title }}</td>
-                                        {% comment %} <td>{{ d_service.description1 }}</td>
-                                        <td>{{ d_service.description2 }}</td> {% endcomment %}
+                                        <td><img width="50" height="50" src="{{ d_service.photo.url }}" alt=""></td>
                                         <td>
                                           <div class="menusuboper">
-                                            {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
-                                              <i class="fa fa-eye" aria-hidden="true"></i>
-                                            </a> {% endcomment %}
-                                            <a href="{% url "service_edit" d_service.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                            <a href="{% url "service_home_edit" d_service.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                               <i class="fa fa-pencil" aria-hidden="true"></i>
                                             </a>
-                                            <form method="post" action="{% url "service_delete" d_service.pk %}" style="display: inline;">
+                                            <form method="post" action="{% url "service_home_delete" d_service.pk %}" style="display: inline;">
                                               {% csrf_token %}
                                               <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
                                                   <i class="fa fa-trash c" aria-hidden="true"></i>
                                               </button>
                                             </form>
-                                            {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
-                                              <div style="color:white" class="icon-bin"></div>
-                                            </a> {% endcomment %}
                                           </div>
                                         </td>
                                       </tr>
@@ -234,7 +224,7 @@
                           <div class="row y-gap-10 ">
                             <div class="col-auto">
                               <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="ss" placeholder="servis axtar" value="{{ request.GET.ss }}">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="sx" placeholder="Xidmət axtar" value="{{ request.GET.sx }}">
                                   <button class="" type="submit">
                                       <i class="icon-search text-light-1 text-20"></i>
                                   </button>
@@ -250,36 +240,28 @@
                                   <tr>
                                     <th>№</th>
                                     <th>Başlıq</th>
-                                    {% comment %} <th>Qısa məzmun 1</th>
-                                    <th>Qısa məzmun 2</th> {% endcomment %}
+                                    <th>Şəkil</th>
                                     <th>Əməliyyatlar</th>
                                   </tr>
                                 </thead>
                                 <tbody>
 
-                                  {% for d_service in delete_services %}
+                                  {% for d_service in delete_services_home %}
                                     <tr>
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ d_service.title }}</td>
-                                      {% comment %} <td>{{ d_service.description1 }}</td>
-                                      <td>{{ d_service.description2 }}</td> {% endcomment %}
+                                      <td><img width="50" height="50" src="{{ d_service.photo.url }}" alt=""></td>
                                       <td>
                                         <div class="menusuboper">
-                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
-                                            <i class="fa fa-eye" aria-hidden="true"></i>
-                                          </a> {% endcomment %}
-                                          <a href="{% url "service_edit" d_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                          <a href="{% url "service_home_edit" d_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
-                                          <form method="post" action="{% url "service_undelete" d_service.pk %}" style="display: inline;">
+                                          <form method="post" action="{% url "service_home_undelete" d_service.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et">
                                                 <i class="fa fa-undo" aria-hidden="true"></i> &nbsp; Bərpa et
                                             </button>
                                           </form>
-                                          {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
-                                            <div style="color:white" class="icon-bin"></div>
-                                          </a> {% endcomment %}
                                         </div>
                                       </td>
                                     </tr>
@@ -293,46 +275,208 @@
                         </div>
 
                         <div class="tabs__pane -tab-item-4" data-pane="tab4">
+
                           <div class="row y-gap-10 ">
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="as" placeholder="Servis axtar" value="{{ request.GET.as }}">
+                                  <button class="" type="submit">
+                                      <i class="icon-search text-light-1 text-20"></i>
+                                  </button>
+                              </form>
+                            </div>
+
                             <div class="col-auto">
                               <div class="d-flex flex-wrap y-gap-10 x-gap-20">
                                 <div>
                                 </div>
                                 <div>
-                                  <a href="{% url "service_main_edit" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
-                                    Redaktə et &nbsp;&nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>
+                                  <a href="{% url "service_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
                                   </a>
                                 </div>
                               </div>
                             </div>
-                            <div class="col-12">
-                              <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
-                                <div class="py-30 px-30">
-        
-                                  <table class="table table-bordered">
-                                    <tbody>
-                                      <tr>
-                                        <td><strong>Başlıq</strong></td>
-                                        <td>{{ main_service.title }}</td>
-                                      </tr>
-                                      <tr>
-                                        <td><strong>Məzmun 1</strong></td>
-                                        <td>{{ main_service.description1|safe }}</td>
-                                      </tr>
-                                      <tr>
-                                        <td><strong>Məzmun 2</strong></td>
-                                        <td>{{ main_service.description2|safe }}</td>
-                                      </tr>
-                                    </tbody>
-                                  </table>
-                                </div>
-                              </div>
-                            </div>
-        
                           </div>
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table" style="margin-top:25px; padding: 0px;">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Başlıq</th>
+                                    <th>Qısa məzmun 1</th>
+                                    <th>Qısa məzmun 2</th>
+                                    <th>Əməliyyatlar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for a_service in active_services %}
+                                    <tr>
+                                      <td>{{ forloop.counter }}</td>
+                                      <td>{{ a_service.title }}</td>
+                                      <td>{{ a_service.description1|safe|truncatewords:7 }}</td>
+                                      <td>{{ a_service.description2|safe|truncatewords:7 }}</td>
+                                      <td>
+                                        <div class="menusuboper">
+                                          <a href="{% url "service_look" a_service.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="{% url "service_edit" a_service.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                          </a>
+                                          <form method="post" action="{% url "service_delete" a_service.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                                <i class="fa fa-trash c" aria-hidden="true"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
                         </div>
 
                         <div class="tabs__pane -tab-item-5" data-pane="tab5">
+
+                          <div class="row y-gap-10 ">
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="ds" placeholder="Servis axtar" value="{{ request.GET.ds }}">
+                                  <button class="" type="submit">
+                                      <i class="icon-search text-light-1 text-20"></i>
+                                  </button>
+                              </form>
+                            </div>
+
+                            <div class="col-auto">
+                              <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                                <div>
+                                </div>
+                                <div>
+                                  <a href="{% url "service_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table" style="margin-top:25px; padding: 0px;">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Başlıq</th>
+                                    <th>Qısa məzmun 1</th>
+                                    <th>Qısa məzmun 2</th>
+                                    <th>Əməliyyatlar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for d_service in deactive_services %}
+                                    <tr>
+                                      <td>{{ forloop.counter }}</td>
+                                      <td>{{ d_service.title }}</td>
+                                      <td>{{ d_service.description1|safe|truncatewords:7 }}</td>
+                                      <td>{{ d_service.description2|safe|truncatewords:7 }}</td>
+                                      <td>
+                                        <div class="menusuboper">
+                                          <a href="{% url "service_look" d_service.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="{% url "service_edit" d_service.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                          </a>
+                                          <form method="post" action="{% url "service_delete" d_service.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                                <i class="fa fa-trash c" aria-hidden="true"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="tabs__pane -tab-item-6" data-pane="tab6">
+
+                          <div class="row y-gap-10 ">
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="ss" placeholder="Servis axtar" value="{{ request.GET.ss }}">
+                                  <button class="" type="submit">
+                                      <i class="icon-search text-light-1 text-20"></i>
+                                  </button>
+                              </form>
+                            </div>
+
+                          </div>
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table" style="margin-top:25px; padding: 0px;">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Başlıq</th>
+                                    <th>Qısa məzmun 1</th>
+                                    <th>Qısa məzmun 2</th>
+                                    <th>Əməliyyatlar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for s_service in delete_services %}
+                                    <tr>
+                                      <td>{{ forloop.counter }}</td>
+                                      <td>{{ s_service.title }}</td>
+                                      <td>{{ s_service.description1|safe|truncatewords:7 }}</td>
+                                      <td>{{ s_service.description2|safe|truncatewords:7 }}</td>
+                                      <td>
+                                        <div class="menusuboper">
+                                          <a href="{% url "service_look" s_service.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                            <i class="fa fa-eye" aria-hidden="true"></i>
+                                          </a>
+                                          <a href="{% url "service_edit" s_service.id %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                            <i class="fa fa-pencil" aria-hidden="true"></i>
+                                          </a>
+                                          <form method="post" action="{% url "service_undelete" s_service.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Bərpa et">
+                                                <i class="fa fa-undo" aria-hidden="true"></i> &nbsp; Bərpa et
+                                            </button>
+                                          </form>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="tabs__pane -tab-item-7" data-pane="tab7">
 
                           <div class="row y-gap-10 ">
 
@@ -415,9 +559,6 @@
                           </div>
 
                         </div>
-
-
-
 
                         </div>
                       </div>

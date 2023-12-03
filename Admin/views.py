@@ -517,7 +517,7 @@ class AdminBlogCategoryUndeleteView(StaffRequiredMixin, View):
 # ********************************************************************************
 
 
-# Service
+# Service & Service Home
 class AdminServiceListView(StaffRequiredMixin, ListView):
     model = ServiceHome
     template_name = 'service/dshb-service.html'
@@ -526,29 +526,182 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         context = super().get_context_data(**kwargs)
         a_query = self.request.GET.get('a', '')
         d_query = self.request.GET.get('d', '')
+        sx_query = self.request.GET.get('sx', '')
+        as_query = self.request.GET.get('as', '')
+        ds_query = self.request.GET.get('ds', '')
         ss_query = self.request.GET.get('ss', '')
 
-        active_service = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')
-        deactive_service = ServiceHome.objects.filter(status=False, is_delete=False).order_by('-created_at')
-        delete_service = ServiceHome.objects.filter(is_delete=True).order_by('-created_at')
+        active_service_home = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')
+        deactive_service_home = ServiceHome.objects.filter(status=False, is_delete=False).order_by('-created_at')
+        delete_service_home = ServiceHome.objects.filter(is_delete=True).order_by('-created_at')
+
+        active_service = Service.objects.filter(status=True, is_delete=False).order_by('-created_at')
+        deactive_service = Service.objects.filter(status=False, is_delete=False).order_by('-created_at')
+        delete_service = Service.objects.filter(is_delete=True).order_by('-created_at')
 
         if a_query:
-            active_service = active_service.filter(title__icontains=a_query)
+            active_service_home = active_service_home.filter(title__icontains=a_query)
         elif d_query:
-            deactive_service = deactive_service.filter(title__icontains=d_query)
+            deactive_service_home = deactive_service_home.filter(title__icontains=d_query)
+        elif sx_query:
+            delete_service_home = delete_service_home.filter(title__icontains=sx_query)
+        elif as_query:
+            delete_service_home = delete_service_home.filter(title__icontains=as_query)
+        elif ds_query:
+            delete_service_home = delete_service_home.filter(title__icontains=ds_query)
         elif ss_query:
-            delete_service = delete_service.filter(title__icontains=ss_query)
+            delete_service_home = delete_service_home.filter(title__icontains=ss_query)
+
+        context["active_services_home"] = active_service_home
+        context["deactive_services_home"] = deactive_service_home
+        context["delete_services_home"] = delete_service_home
 
         context["active_services"] = active_service
         context["deactive_services"] = deactive_service
         context["delete_services"] = delete_service
-        context['main_service'] = Service.objects.filter(status=True, is_delete=False).first()
 
         context['service_galleries'] = ServiceImage.objects.all()
 
         return context
 
 
+# Service
+class AdminServiceAddView(StaffRequiredMixin, CreateView):
+    model = Service
+    template_name = 'service/dshb-listing-add-service.html'
+    form_class = ServiceEditForm
+    success_url = reverse_lazy('service_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminServiceEditView(StaffRequiredMixin, CreateView):
+    model = Service
+    template_name = 'service/dshb-service-edit.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        service = get_object_or_404(Service, pk=pk)
+
+        form = ServiceEditForm(instance=service)
+        return render(request, 'service/dshb-service-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ServiceEditForm(request.POST, request.FILES, instance=get_object_or_404(Service, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            service = Service.objects.get(pk=kwargs.get('pk'))
+            service.title = form.cleaned_data.get('title')
+            service.description1 = form.cleaned_data.get('description1')
+            service.description2 = form.cleaned_data.get('description2')
+            service.status = form.cleaned_data.get('status')
+            service.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('service_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('service_dashboard')
+
+
+class AdminServiceDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        service_id = kwargs.get('pk')
+        service = get_object_or_404(Service, pk=service_id)
+        service.is_delete = True
+        service.save()
+        messages.success(request, 'Servis uğurla silindi')
+        return redirect('service_dashboard')
+
+
+class AdminServiceUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        service = get_object_or_404(Service, pk=pk)
+        service.is_delete = False  # Set is_delete to False to undelete
+        service.save()
+        messages.success(request, 'Servis uğurla bərpa olundu')
+        return redirect('service_dashboard')
+
+
+class AdminServiceDetailView(StaffRequiredMixin, DetailView):
+    model = Service
+    template_name = 'service/dshb-service-look.html'
+    context_object_name = 'service'
+
+
+# ********************************************************************************
+# Service Home
+class AdminServiceHomeAddView(StaffRequiredMixin, CreateView):
+    model = ServiceHome
+    template_name = 'service/service-home/dshb-listing-add-service-home.html'
+    form_class = ServiceHomeEditForm
+    success_url = reverse_lazy('service_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminServiceHomeEditView(StaffRequiredMixin, CreateView):
+    model = ServiceHome
+    template_name = 'service/service-home/dshb-listing-service-home.html'
+
+    def get(self, request, pk, *args, **kwargs):
+        service = get_object_or_404(ServiceHome, pk=pk)  # Retrieve the Course instance
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = ServiceHomeEditForm(instance=service)
+        return render(request, 'service/service-home/dshb-listing-service-home.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = ServiceHomeEditForm(request.POST, request.FILES, instance=get_object_or_404(ServiceHome, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            service = ServiceHome.objects.get(pk=kwargs.get('pk'))
+            service.title = form.cleaned_data.get('title')
+            service.photo = form.cleaned_data.get('photo')
+            service.status = form.cleaned_data.get('status')
+            service.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('service_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('service_dashboard')
+
+
+class AdminServiceHomeDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        service_id = kwargs.get('pk')
+        service = get_object_or_404(ServiceHome, pk=service_id)
+        service.is_delete = True
+        service.save()
+        messages.success(request, 'Xidmət uğurla silindi')
+        return redirect('service_dashboard')
+
+
+class AdminServiceHomeUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        service = get_object_or_404(ServiceHome, pk=pk)
+        service.is_delete = False  # Set is_delete to False to undelete
+        service.save()
+        messages.success(request, 'Xidmət uğurla bərpa olundu')
+        return redirect('service_dashboard')
+
+
+
+# ********************************************************************************
 class AdminServiceImageAddView(StaffRequiredMixin, FormView):
     model = ServiceImage
     template_name = 'service/dshb-service-image-add.html'
@@ -589,96 +742,6 @@ class AdminServiceImageDeleteAllView(StaffRequiredMixin, View):
         ServiceImage.objects.all().delete()
         messages.success(request, 'Bütün şəkillər uğurla silindi')
         return redirect('service_dashboard')
-
-
-class AdminServiceMainEditView(StaffRequiredMixin, CreateView):
-    model = Service
-    template_name = 'service/dshb-service-main-edit.html'
-
-    def get(self, request, *args, **kwargs):
-        about = Service.objects.filter(status=True, is_delete=False).first()
-
-        form = ServiceEditForm(instance=about)
-        return render(request, 'service/dshb-service-main-edit.html', {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = ServiceEditForm(request.POST, request.FILES, instance=Service.objects.filter(status=True, is_delete=False).first())
-
-        if form.is_valid():
-            service = Service.objects.filter(status=True, is_delete=False).first()
-            service.title = form.cleaned_data.get('title')
-            service.description1 = form.cleaned_data.get('description1')
-            service.description2 = form.cleaned_data.get('description2')
-            service.save()
-            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
-            return redirect('service_dashboard')
-        else:
-            messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect('service_dashboard')
-
-
-class AdminServiceAddView(StaffRequiredMixin, CreateView):
-    model = ServiceHome
-    template_name = 'service/dshb-listing-add-service.html'
-    form_class = ServiceHomeEditForm
-    success_url = reverse_lazy('service_dashboard')
-
-    def form_valid(self, form):
-        # If the form is valid, display a success message
-        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
-        return super().form_valid(form)
-
-    def form_invalid(self, form):
-        # If the form has validation errors, display an error message
-        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
-        return super().form_invalid(form)
-
-
-class AdminServiceEditView(StaffRequiredMixin, CreateView):
-    model = ServiceHome
-    template_name = 'service/dshb-listing-service.html'
-
-    def get(self, request, pk, *args, **kwargs):
-        service = get_object_or_404(ServiceHome, pk=pk)  # Retrieve the Course instance
-
-        # Create an instance of the CourseEditForm with the retrieved course
-        form = ServiceHomeEditForm(instance=service)
-        return render(request, 'service/dshb-listing-service.html', {'form': form})
-
-    def post(self, request, *args, **kwargs):
-        form = ServiceHomeEditForm(request.POST, request.FILES, instance=get_object_or_404(ServiceHome, pk=kwargs.get('pk')))
-
-        if form.is_valid():
-            service = ServiceHome.objects.get(pk=kwargs.get('pk'))
-            service.title = form.cleaned_data.get('title')
-            service.photo = form.cleaned_data.get('photo')
-            service.status = form.cleaned_data.get('status')
-            service.save()
-            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
-            return redirect('service_dashboard')
-        else:
-            messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect('service_dashboard')
-
-
-class AdminServiceDeleteView(StaffRequiredMixin, View):
-    def post(self, request, *args, **kwargs):
-        service_id = kwargs.get('pk')
-        service = get_object_or_404(ServiceHome, pk=service_id)
-        service.is_delete = True
-        service.save()
-        messages.success(request, 'Servis uğurla silindi')
-        return redirect('service_dashboard')
-
-
-class AdminServiceUndeleteView(StaffRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        service = get_object_or_404(ServiceHome, pk=pk)
-        service.is_delete = False  # Set is_delete to False to undelete
-        service.save()
-        messages.success(request, 'Servis uğurla bərpa olundu')
-        return redirect('service_dashboard')
-
 
 # ********************************************************************************
 

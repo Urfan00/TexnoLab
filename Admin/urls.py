@@ -61,16 +61,15 @@ from .views import (AdminAboutContactInfoListView,
                     AdminPartnerEditView,
                     AdminPartnerListView,
                     AdminPartnerUndeleteView,
-                    AdminServiceAddView,
-                    AdminServiceDeleteView,
-                    AdminServiceEditView,
+                    AdminServiceAddView, AdminServiceDeleteView, AdminServiceDetailView, AdminServiceHomeAddView,
+                    AdminServiceHomeDeleteView,
+                    AdminServiceEditView, AdminServiceHomeEditView,
                     AdminServiceImageAddView,
                     AdminServiceImageDeleteAllView,
                     AdminServiceImageDeleteView,
                     AdminServiceListView,
-                    AdminServiceMainEditView,
-                    AdminServiceUndeleteView,
-                    AdminAllGalleryListView,
+                    AdminServiceHomeUndeleteView,
+                    AdminAllGalleryListView, AdminServiceUndeleteView,
                     AdminSubscriberDeleteView,
                     AdminSubscriberView,
                     CourseStudentAddView,
@@ -128,15 +127,25 @@ urlpatterns = [
 
     # ************************************************************************************************************************
 
-    # Service
+    # Service & Service Home
     path('service_dashboard/', AdminServiceListView.as_view(), name='service_dashboard'),
 
-    path('service_main_edit/', AdminServiceMainEditView.as_view(), name='service_main_edit'),
-
+    # Service
     path('service_add/', AdminServiceAddView.as_view(), name='service_add'),
     path('service_edit/<int:pk>', AdminServiceEditView.as_view(), name='service_edit'),
     path('service/<int:pk>/delete/', AdminServiceDeleteView.as_view(), name='service_delete'),
     path('service/<int:pk>/undelete/', AdminServiceUndeleteView.as_view(), name='service_undelete'),
+    path('service_look/<int:pk>', AdminServiceDetailView.as_view(), name='service_look'),
+
+    # ************************************************************************************************************************
+    # Service Home
+    path('service_home_add/', AdminServiceHomeAddView.as_view(), name='service_home_add'),
+    path('service_home_edit/<int:pk>', AdminServiceHomeEditView.as_view(), name='service_home_edit'),
+    path('service_home/<int:pk>/delete/', AdminServiceHomeDeleteView.as_view(), name='service_home_delete'),
+    path('service_home/<int:pk>/undelete/', AdminServiceHomeUndeleteView.as_view(), name='service_home_undelete'),
+
+
+    # ************************************************************************************************************************
 
     path('service_image_add/', AdminServiceImageAddView.as_view(), name='service_image_add'),
     path('delete_service_image/<int:image_id>/', AdminServiceImageDeleteView.as_view(), name='delete_service_image'),
