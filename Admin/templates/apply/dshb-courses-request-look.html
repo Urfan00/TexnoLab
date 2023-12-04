@@ -30,20 +30,25 @@
                     <td><strong>Telefon nömrəsi</strong></td>
                     <td>{{ request.phone_number }}</td>
                   </tr>
-                  {% if request.is_view %}
-                    <tr>
-                      <td><strong>Admin Şərhi</strong></td>
-                      {% if request.admin_comment %}
-                        <td>{{ request.admin_comment }}</td>
-                      {% else %}
-                        <td>------</td>
-                      {% endif %}
-                    </tr>
-                  {% endif %}
+                  <tr>
+                    <td><strong>Admin Şərhi</strong></td>
+                    {% if request.admin_comment %}
+                      <td>{{ request.admin_comment }}</td>
+                    {% else %}
+                      <td>------</td>
+                    {% endif %}
+                  </tr>
+                  <tr>
+                    <td><strong>Status</strong></td>
+                    {% if request.select_option %}
+                      <td>{{ request.select_option }}</td>
+                    {% else %}
+                      <td>------</td>
+                    {% endif %}
+                  </tr>
                 </tbody>
               </table>
 
-              {% if request.is_view == False %}
               <div class="py-30 px-30">
                   <form method="post" class="contact-form row y-gap-30">
 
@@ -54,6 +59,11 @@
                       {{ form.admin_comment }}
                     </div>
 
+                    <div class="col-12">
+                      <label id="a2" for="id_select_option" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.select_option.label }} <span class="imp">*</span></label>
+                      {{ form.select_option }}
+                    </div>
+
                     <div class="row y-gap-20 justify-between pt-15">
                       <div class="col-auto">
                         <button class="button -md -purple-1 text-white">Təsdiq et</button>
@@ -61,7 +71,6 @@
                     </div>
                   </form>
                 </div>
-              {% endif %}
 
             </div>
           </div>

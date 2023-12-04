@@ -224,7 +224,7 @@
                   <div class="row y-gap-10 ">
                     <div class="col-auto">
                       <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="dcu" placeholder="Kurs müraciəti axtar" value="{{ request.GET.dcu }}">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="dcu" placeholder="Kontakt axtar" value="{{ request.GET.dcu }}">
                           <button class="" type="submit">
                               <i class="icon-search text-light-1 text-20"></i>
                           </button>
@@ -296,6 +296,8 @@
                             <th>Ad Soyad</th>
                             <th>Telefon nömrəsi</th>
                             <th>Kurs Adı</th>
+                            <th>Admin şərhi</th>
+                            <th>Status</th>
                             <th>Əməliyyatlar</th>
                           </tr>
                         </thead>
@@ -307,6 +309,16 @@
                               <td>{{ r_us.fullname }}</td>
                               <td>{{ r_us.phone_number }}</td>
                               <td>{{ r_us.course.title }}</td>
+                              {% if r_us.admin_comment %}
+                                <td>{{ r_us.admin_comment|truncatewords:7 }}</td>
+                                {% else %}
+                                <td>-----</td>
+                              {% endif %}
+                              {% if r_us.select_option %}
+                                <td>{{ r_us.select_option }}</td>
+                              {% else %}
+                                <td>-----</td>
+                              {% endif %}
                               <td>
                                 <div class="menusuboper">
                                   <a href="{% url "request_us_look" r_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
@@ -355,6 +367,8 @@
                             <th>Ad Soyad</th>
                             <th>Telefon nömrəsi</th>
                             <th>Kurs Adı</th>
+                            <th>Admin şərhi</th>
+                            <th>Status</th>
                             <th>Əməliyyatlar</th>
                           </tr>
                         </thead>
@@ -366,6 +380,16 @@
                               <td>{{ br_us.fullname }}</td>
                               <td>{{ br_us.phone_number }}</td>
                               <td>{{ br_us.course.title }}</td>
+                              {% if br_us.admin_comment %}
+                                <td>{{ br_us.admin_comment|truncatewords:7 }}</td>
+                                {% else %}
+                                <td>-----</td>
+                              {% endif %}
+                              {% if br_us.select_option %}
+                                <td>{{ br_us.select_option }}</td>
+                              {% else %}
+                                <td>-----</td>
+                              {% endif %}
                               <td>
                                 <div class="menusuboper">
                                   <a href="{% url "request_us_look" br_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
@@ -410,6 +434,8 @@
                             <th>Ad Soyad</th>
                             <th>Telefon nömrəsi</th>
                             <th>Kurs Adı</th>
+                            <th>Admin şərhi</th>
+                            <th>Status</th>
                             <th>Əməliyyatlar</th>
                           </tr>
                         </thead>
@@ -421,6 +447,16 @@
                               <td>{{ dr_us.fullname }}</td>
                               <td>{{ dr_us.phone_number }}</td>
                               <td>{{ dr_us.course.title }}</td>
+                              {% if dr_us.admin_comment %}
+                                <td>{{ dr_us.admin_comment|truncatewords:7 }}</td>
+                                {% else %}
+                                <td>-----</td>
+                              {% endif %}
+                              {% if dr_us.select_option %}
+                                <td>{{ dr_us.select_option }}</td>
+                              {% else %}
+                                <td>-----</td>
+                              {% endif %}
                               <td>
                                 <div class="menusuboper">
                                   <a href="{% url "request_us_look" dr_us.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">

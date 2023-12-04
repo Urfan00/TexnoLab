@@ -10,7 +10,7 @@ from .forms import ContactFormModel, SubscribeForm
 from .models import FAQ, AboutUs, ContactInfo, NavMenu, Partner
 from django.contrib import messages
 from Blog.models import Blog
-
+from django.db.models import Q
 
 
 def handler_not_found(request, exception):
@@ -26,8 +26,13 @@ class IndexView(View):
         context['blogs'] = Blog.objects.filter(status=True, blog_category__is_delete=False, is_delete=False).order_by('-date').all()[:4]
         context['courses'] = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-start_date').all()[:8]
         context['main_menus'] = NavMenu.objects.filter(sub_menu__isnull=True).all()
-        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False, is_superuser=False).order_by('?').all()[:5]
         context['sercice_home'] = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')[:10]
+        context['testimonials'] = Account.objects.filter(
+            is_delete=False,
+            is_superuser=False
+        ).filter(
+            Q(feedback__isnull=False) & ~Q(feedback="")
+        ).order_by('?')[:5]
         return context
 
     def get(self, request, *args, **kwargs):
@@ -52,7 +57,13 @@ class AboutView(ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['about'] = AboutUs.objects.first()
-        context['testimonials'] = Account.objects.filter(is_delete=False, feedback__isnull=False, is_superuser=False).order_by('?').all()[:5]
+        context['testimonials'] = Account.objects.filter(
+            is_delete=False,
+            is_superuser=False
+        ).filter(
+            Q(feedback__isnull=False) & ~Q(feedback="")
+        ).order_by('?')[:5]
+
         return context
 
 

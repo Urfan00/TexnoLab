@@ -98,9 +98,17 @@ class CourseFeedback(DateMixin):
 
 
 class RequestUs(DateMixin):
+    select_options = (
+        ('seçim 1', 'seçim 1'),
+        ('seçim 2', 'seçim 2'),
+        ('seçim 3', 'seçim 3'),
+        ('seçim 4', 'seçim 4'),
+        ('seçim 5', 'seçim 5')
+    )
+    select_option = models.CharField(choices=select_options, null=True, blank=True, max_length=255)
+    admin_comment = models.TextField(null=True, blank=True)
     fullname = models.CharField(max_length=255)
     phone_number = models.CharField(max_length=50)
-    admin_comment = models.TextField(null=True, blank=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='contact_us')
     is_view = models.BooleanField(default=False)
     is_delete = models.BooleanField(default=False)

@@ -202,16 +202,23 @@ class ServiceImageEditForm(forms.ModelForm):
 class RequestUsAdminCommentForm(forms.ModelForm):
     class Meta:
         model = RequestUs
-        fields = ['admin_comment']
+        fields = ['admin_comment', 'select_option']
         labels = {
-            'admin_comment' : 'Admin Şərhi'
+            'admin_comment': 'Admin Şərhi',
+            'select_option': 'Status'
         }
         widgets = {
-            'admin_comment' : forms.Textarea(
+            'admin_comment': forms.Textarea(
                 attrs={
-                    'class' : 'form-control',
-                    'placeholder' :"Şərh yazın",
-                    'row': 8
+                    'class': 'form-control',
+                    'placeholder': "Şərh yazın",
+                    'rows': 8
+                }
+            ),
+            'select_option': forms.Select(
+                attrs={
+                    'class': 'form-control',
+                    'placeholder' :"-seçin-"
                 }
             )
         }

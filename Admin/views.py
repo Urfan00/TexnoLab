@@ -1108,8 +1108,10 @@ class AdminRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
         if form.is_valid():
             # Your code to save the admin_comment here
             request_us = RequestUs.objects.get(pk=self.get_object().pk)
-            request_us.admin_comment = form.cleaned_data['admin_comment']
-            request_us.is_view = True
+            request_us.select_option = form.cleaned_data['select_option']
+            if form.cleaned_data['admin_comment']:
+                request_us.admin_comment = form.cleaned_data['admin_comment']
+                request_us.is_view = True
             request_us.save()
             messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
             return redirect("request_us_look", pk=self.kwargs.get('pk'))
