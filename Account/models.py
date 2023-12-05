@@ -50,6 +50,7 @@ class Account(AbstractUser):
     password = models.CharField(max_length=255)
     FIN = models.CharField(max_length=21, unique=True, null=True, blank=True)
     image = models.ImageField(upload_to=Uploader.user_image, null=True, blank=True, max_length=255)
+    cv = models.FileField(upload_to=Uploader.user_cv, null=True, blank=True, max_length=255)
     bio = models.TextField(null=True, blank=True)
     email = models.EmailField(max_length=254)
     number = models.CharField(max_length=20)
@@ -82,15 +83,20 @@ class Account(AbstractUser):
         if self.pk:
             old_instance = Account.objects.get(pk=self.pk)
 
-            # Check if the image field is cleared
-            if old_instance.image and not self.image:
-                # Delete the old photo file
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.image)))
+            image_fields = ['image', 'cv']
+            for field in image_fields:
+                old_image = getattr(old_instance, field)
+                new_image = getattr(self, field)
 
-            # Check if the image is changed
-            if self.image and self.image != old_instance.image:
-                # Delete old image file if it exists
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.image)))
+                # Check if the image field is cleared
+                if old_image and not new_image:
+                    # Delete the old photo file
+                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_image)))
+
+                # Check if the image is changed
+                if new_image and new_image != old_image:
+                    # Delete old image file if it exists
+                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_image)))
 
         super().save(*args, **kwargs)
 
@@ -113,3 +119,46 @@ class Account(AbstractUser):
     class Meta:
         verbose_name = 'Account'
         verbose_name_plural = 'Accounts'
+
+
+class Certificate(DateMixin):
+    certificate = models.FileField(upload_to=Uploader.user_certificate, max_length=255)
+    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_certificate')
+
+    def __str__(self):
+        return f"{self.student.first_name} {self.student.last_name}"
+
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = Certificate.objects.get(pk=self.pk)
+
+            # Check if the image field is cleared
+            if old_instance.certificate and not self.certificate:
+                # Delete the old photo file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
+
+            # Check if the image is changed
+            if self.certificate and self.certificate != old_instance.certificate:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.certificate))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        # Get the parent directory containing the image
+        image_parent_directory = os.path.dirname(image_path)
+
+        # Delete the immediate parent directory
+        if os.path.exists(image_parent_directory):
+            shutil.rmtree(image_parent_directory)
+
+        super(Certificate, self).delete(using, keep_parents)
+
+

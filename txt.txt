@@ -1,7 +1,7 @@
 Urfan
-1. telebe sertifikat & cv (profil)
+1. telebe sertifikat & cv (profil) +++ sertifikat gorsenmir
 2. video qaleriye elave et (kurs service)
-3. profile page status aktiv deaktiv and color red and green
+3. profile page status aktiv deaktiv and color red and green  ++++++
 4. admin kurs programi sildim silinmedi duzelt
 5. contact info tiktok & wp add
 6. TIM servic eyni olsun sadece ferq birdene olmasi

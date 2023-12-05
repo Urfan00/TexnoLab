@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from Account.models import Account
+from Account.models import Account, Certificate
 from Course.models import CourseStudent
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
@@ -77,6 +77,7 @@ class AccountInformationView(LoginRequiredMixin, View):
     def get_context_data(self):
         context = {}
         context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
+        context['certificates'] = Certificate.objects.filter(student = self.request.user)
         return context
 
     def get(self, request, *args, **kwargs):
@@ -95,6 +96,7 @@ class AccountInformationView(LoginRequiredMixin, View):
             user_account.feedback = form1.cleaned_data.get('feedback')
             user_account.bio = form1.cleaned_data.get('bio')
             user_account.image = form1.cleaned_data.get('image')
+            user_account.cv = form1.cleaned_data.get('cv')
             user_account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')

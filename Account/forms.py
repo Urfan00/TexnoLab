@@ -6,6 +6,8 @@ from django.contrib.auth.forms import (AuthenticationForm,
                                       PasswordChangeForm,
                                       SetPasswordForm)
 
+from Account.models import Certificate
+
 
 User = get_user_model()
 
@@ -82,13 +84,14 @@ class CustomSetPasswordForm(SetPasswordForm):
 class AccountInforrmationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['bio', 'email', "number", 'feedback', 'image']
+        fields = ['bio', 'email', "number", 'feedback', 'image', 'cv']
         labels = {
             'number' : 'Əlaqə nömrəsi',
             'email' : 'E-poçt',
             'image' : 'Profil şəkli',
             'feedback' : 'Kurs haqıında rəyiniz',
             'bio' : 'Haqqınızda məlumat',
+            'cv' : 'CV',
         }
         widgets = {
             'number' : forms.TextInput(
@@ -170,4 +173,17 @@ class SocialProfileForm(forms.ModelForm):
                     'placeholder' :""
                 }
             ),
+        }
+
+
+class CertificateForm(forms.ModelForm):
+    class Meta:
+        model = Certificate
+        fields = ['certificate', 'student']
+        widgets = {
+            'student' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            )
         }

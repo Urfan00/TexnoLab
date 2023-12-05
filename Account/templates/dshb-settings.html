@@ -168,6 +168,9 @@
                         <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
                           Mənim kurslarım
                         </button>
+                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-4" type="button">
+                          Mənim sertifikatlarım
+                        </button>
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active">
@@ -214,6 +217,10 @@
                                 <div class="col-md-12">
                                   <label for="id_bio" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.bio.label }}</label>
                                   {{ form1.bio }}
+                                </div>
+                                <div class="col-md-12">
+                                  <label for="id_cv" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.cv.label }}: </label>
+                                  {{ form1.cv }}
                                 </div>
 
                             <div class="col-12">
@@ -339,7 +346,13 @@
                                       <td>{{ course.payment }}</td>
                                       <td>{{ course.discount }}</td>
                                       <td>{{ course.rest }}</td>
-                                      <td>{{ course.is_active }}</td>
+                                      <td>
+                                        {% if course.is_active %}
+                                          <span style="color: green;">Aktiv</span>
+                                          {% else %}
+                                          <span style="color: red;">Deaktiv</span>
+                                        {% endif %}
+                                      </td>
                                       <td>{{ course.course.start_date }}</td>
                                       <td>{{ course.course.end_date }}</td>
                                     </tr>
@@ -352,6 +365,49 @@
 
                         </div>
 
+                        <div class="tabs__pane -tab-item-4">
+                          <div class="row y-gap-10 ">
+                            <div class="col-auto">
+                              <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                                <div>
+                                </div>
+                                <div>
+                                  <a href="{% url "service_image_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row y-gap-30 pt-30">
+
+                            {% for c in certificates %}
+
+                            <div class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
+
+                              <div class="relative">
+                                <embed class="rounded-8 w-1/1" src="{{ c.certificate.url }}" type="application/pdf" width="300" height="160">
+                                <img class="rounded-8 w-1/1" src="{{ c.certificate.url }}" alt="image" width="300px" style="height: 160px!important; object-fit: cover;">
+                                <div class="absolute-button  -dshb-more js-more-{{ c.pk }}-toggle">
+                                  <div class=" bg-white -dark-bg-dark-2 shadow-1 border-light rounded-8">
+                                    <form method="post" action="{% url 'delete_service_image' c.pk %}">
+                                      {% csrf_token %}
+                                      <button  class="rounded-8 delBut" type="submit" onclick="return confirm('Şəkili tam silmək istədiyinizə əminsiniz?');">
+                                        <i class="fa fa-trash c" aria-hidden="true"></i> 
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {% endfor %}
+
+                          </div>
+
+
+                        </div>
 
                       </div>
                     </div>
