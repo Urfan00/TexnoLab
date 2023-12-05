@@ -370,7 +370,7 @@ class AboutUsEditForm(forms.ModelForm):
 class ContactInfoEditForm(forms.ModelForm):
     class Meta:
         model = ContactInfo
-        fields = ['title', 'location', 'location_url', 'content', 'phone_number', 'email', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn']
+        fields = ['title', 'location', 'location_url', 'content', 'phone_number', 'email', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'tiktok', 'whatsapp']
         labels = {
             'title' : 'Başlıq',
             'location' : 'Ünvan',
@@ -384,6 +384,8 @@ class ContactInfoEditForm(forms.ModelForm):
             'github' : 'Github',
             'youtube' : 'YouTube',
             'linkedIn' : 'LinkedIn',
+            'tiktok': 'TikTok',
+            'whatsapp': 'WhatsApp'
         }
         widgets = {
             'title' : forms.TextInput(
@@ -454,6 +456,17 @@ class ContactInfoEditForm(forms.ModelForm):
                     'placeholder' :"linkedIn"
                 }
             ),
+            'tiktok' : forms.URLInput(
+                attrs={
+                    'class' : 'inpClass',
+                    'placeholder' :"tiktok"
+                }
+            ),
+            'whatsapp' : forms.TextInput(
+                attrs={
+                    'placeholder' :"+994-- --- -- --"
+                }
+            )
         }
 
 

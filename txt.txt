@@ -3,7 +3,7 @@ Urfan
 2. video qaleriye elave et (kurs+ service+)  +++++
 3. profile page status aktiv deaktiv and color red and green  ++++++
 4. admin kurs programi sildim silinmedi duzelt
-5. contact info tiktok & wp add
+5. contact info tiktok & wp add +++
 6. TIM servic eyni olsun sadece ferq birdene olmasi
 7. dashboard mezun ve rayting
 8. 

@@ -89,7 +89,7 @@ class ContactUsAdmin(admin.ModelAdmin):
 
 
 class ContactInfoAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'location', 'location_url', 'phone_number', 'email', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'is_delete', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'location', 'location_url', 'phone_number', 'email', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'tiktok', 'whatsapp', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     list_filter = ['is_delete']
     search_fields = ['title']

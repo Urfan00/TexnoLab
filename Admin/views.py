@@ -1232,6 +1232,8 @@ class AdminContactInfoEditView(StaffRequiredMixin, CreateView):
             contact_info.github = form.cleaned_data.get('github')
             contact_info.youtube = form.cleaned_data.get('youtube')
             contact_info.linkedIn = form.cleaned_data.get('linkedIn')
+            contact_info.tiktok = form.cleaned_data.get('tiktok')
+            contact_info.whatsapp = form.cleaned_data.get('whatsapp')
             contact_info.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('about_dashboard')
@@ -1522,7 +1524,6 @@ class AdminAllVideoGalleryAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-
 class AdminAllVideoGalleryDeleteView(StaffRequiredMixin, DeleteView):
     def post(self, request, image_id):
         try:
@@ -1534,7 +1535,6 @@ class AdminAllVideoGalleryDeleteView(StaffRequiredMixin, DeleteView):
         messages.success(request, 'Video uğurla silindi')
 
         return redirect('gallery_dashboard')
-
 
 
 # Subscriber

@@ -151,6 +151,8 @@ class ContactInfo(DateMixin):
     github = models.URLField(max_length=200, null=True, blank=True)
     youtube = models.URLField(max_length=200, null=True, blank=True)
     linkedIn = models.URLField(max_length=200, null=True, blank=True)
+    tiktok = models.URLField(max_length=200, null=True, blank=True)
+    whatsapp = models.CharField(max_length=50, null=True, blank=True)
     is_delete = models.BooleanField(default=False)
 
     def __str__(self):

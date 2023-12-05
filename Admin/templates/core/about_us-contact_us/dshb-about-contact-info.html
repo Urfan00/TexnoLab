@@ -163,6 +163,22 @@
                                   <td>-----</td>
                                 {% endif %}
                               </tr>
+                              <tr>
+                                <td><strong>TikTok</strong></td>
+                                {% if contact_info.tiktok %}
+                                  <td><a href="{{ contact_info.tiktok }}">{{ contact_info.tiktok }}</a></td>
+                                {% else %}
+                                  <td>-----</td>
+                                {% endif %}
+                              </tr>
+                              <tr>
+                                <td><strong>WhatsApp</strong></td>
+                                {% if contact_info.whatsapp %}
+                                  <td><a href="{{ contact_info.whatsapp }}">{{ contact_info.whatsapp }}</a></td>
+                                {% else %}
+                                  <td>-----</td>
+                                {% endif %}
+                              </tr>
                             </tbody>
                           </table>
                         </div>
