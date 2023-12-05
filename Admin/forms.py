@@ -475,7 +475,7 @@ class ContactInfoEditForm(forms.ModelForm):
 class AccountEditForm(forms.ModelForm):
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'id_code', 'balance']
+        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'id_code', 'balance', 'is_graduate']
         labels = {
             'first_name' : 'Ad',
             'last_name' : 'Soyad',
@@ -483,6 +483,7 @@ class AccountEditForm(forms.ModelForm):
             'birthday' : 'Doğum tarixi',
             'id_code' : 'İD Kod',
             'balance' : 'Balans',
+            'is_graduate' : 'Məzun'
         }
         widgets = {
             'first_name' : forms.TextInput(
@@ -655,4 +656,3 @@ class TIMVideoEditForm(forms.ModelForm):
                 }
             )
         }
-

@@ -12,7 +12,7 @@ class TIMView(ListView):
         context = super().get_context_data(**kwargs)
 
         context['tim'] = TIM.objects.filter(status=True, is_delete=False).first()
-        context['tim_images'] = TIMImage.objects.filter(tim=context['tim']).all()
-        context['tim_videos'] = TIMVideo.objects.filter(tim=context['tim']).all()
+        context['tim_images'] = TIMImage.objects.all()
+        context['tim_videos'] = TIMVideo.objects.all()
 
         return context

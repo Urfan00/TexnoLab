@@ -97,6 +97,7 @@ class AccountInformationView(LoginRequiredMixin, View):
             user_account.bio = form1.cleaned_data.get('bio')
             user_account.image = form1.cleaned_data.get('image')
             user_account.cv = form1.cleaned_data.get('cv')
+            user_account.is_graduate = form1.cleaned_data.get('is_graduate')
             user_account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')

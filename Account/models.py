@@ -160,5 +160,3 @@ class Certificate(DateMixin):
             shutil.rmtree(image_parent_directory)
 
         super(Certificate, self).delete(using, keep_parents)
-
-

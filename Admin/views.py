@@ -1328,6 +1328,7 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
             account.birthday = form.cleaned_data.get('birthday')
             account.id_code = form.cleaned_data.get('id_code')
             account.balance = form.cleaned_data.get('balance')
+            account.is_graduate = form.cleaned_data.get('is_graduate')
             account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('account_dashboard')
