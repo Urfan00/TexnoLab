@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
-from Service.models import AllGalery, Service, ServiceImage
+from Service.models import AllGalery, AllVideoGallery, Service, ServiceImage, ServiceVideo
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
@@ -13,6 +13,7 @@ class ServiceView(DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['service_images'] = ServiceImage.objects.filter(service=self.object).all()
+        context['service_videos'] = ServiceVideo.objects.filter(service=self.object).all()
 
         return context
 
@@ -29,6 +30,7 @@ class ServiceGalery(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        context['videos'] = AllVideoGallery.objects.all()
         galeries = self.get_queryset()
 
         # Pagination

@@ -226,3 +226,15 @@ class CourseStatistic(DateMixin):
 
     verbose_name = 'Course Statistic'
     verbose_name_plural = 'Course Statistic'
+
+
+class CourseVideo(DateMixin):
+    video_url = models.URLField(max_length=200, null=True, blank=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_video')
+
+    def __str__(self):
+        return f'Course Video {self.pk}'
+
+    class Meta:
+        verbose_name = 'Course Video'
+        verbose_name_plural = 'Course Video'

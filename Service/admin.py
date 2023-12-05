@@ -1,13 +1,21 @@
 import os
 import shutil
 from django.contrib import admin
-from .models import AllGalery, Service, ServiceHome, ServiceImage
+from .models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 
+
+
+class ServiceVideoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'video_url', 'service', 'created_at', 'updated_at']
+    search_fields = ['service__title']
+
+
+class AllVideoGalleryAdmin(admin.ModelAdmin):
+    list_display = ['id', 'video_url', 'created_at', 'updated_at']
 
 
 class ServiceImageAdmin(admin.ModelAdmin):
-    list_display = ['id', 'photo', 'video_url', 'is_delete', 'service', 'created_at', 'updated_at']
-    list_filter = ['is_delete']
+    list_display = ['id', 'photo', 'service', 'created_at', 'updated_at']
     search_fields = ['service__title']
     actions = ['delete_selected_with_images']
 
@@ -23,7 +31,7 @@ class ServiceImageAdmin(admin.ModelAdmin):
 
         self.message_user(request, "Selected blogs and their associated images have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected Service Image"
+    delete_selected_with_images.short_description = "Delete selected Service Video"
 
     def get_actions(self, request):
         actions = super(ServiceImageAdmin, self).get_actions(request)
@@ -132,5 +140,7 @@ class AllGaleryAdmin(admin.ModelAdmin):
 
 admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceImage, ServiceImageAdmin)
+admin.site.register(ServiceVideo, ServiceVideoAdmin)
 admin.site.register(ServiceHome, ServiceHomeAdmin)
 admin.site.register(AllGalery)
+admin.site.register(AllVideoGallery, AllVideoGalleryAdmin)

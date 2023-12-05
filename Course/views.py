@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import CourseFeedbackForm, RequestUsForm
-from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, Gallery
+from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
@@ -47,6 +47,7 @@ class CourseDetailView(View):
         context['related_course'] = Course.objects.filter(is_delete=False, category=self.object.category).exclude(slug=self.kwargs.get('slug'))[:8]
         context['reviews'] = CourseFeedback.objects.filter(is_delete=False, course__slug=self.kwargs.get('slug')).all()
         context['galleries'] = Gallery.objects.filter(course__slug=self.kwargs.get('slug')).all()
+        context['videos'] = CourseVideo.objects.filter(course__slug=self.kwargs.get('slug')).all()
 
         if self.request.user.is_authenticated:
             context['user_review'] = CourseStudent.objects.filter(course__slug=self.kwargs.get('slug'), is_active=True, student=self.request.user).first()

@@ -58,8 +58,6 @@ class Service(DateMixin):
 
 class ServiceImage(DateMixin):
     photo = models.ImageField(upload_to=Uploader.service_image, max_length=255)
-    video_url = models.URLField(max_length=200, null=True, blank=True)
-    is_delete = models.BooleanField(default=False)
     service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='service_image')
 
     def __str__(self):
@@ -94,6 +92,18 @@ class ServiceImage(DateMixin):
     class Meta:
         verbose_name = 'Service Image'
         verbose_name_plural = 'Service Images'
+
+
+class ServiceVideo(DateMixin):
+    video_url = models.URLField(max_length=200, null=True, blank=True)
+    service = models.ForeignKey(Service, on_delete=models.CASCADE, related_name='service_video')
+
+    def __str__(self):
+        return f'Service Video {self.pk}'
+
+    class Meta:
+        verbose_name = 'Service Video'
+        verbose_name_plural = 'Service Video'
 
 
 class ServiceHome(DateMixin):
@@ -172,3 +182,10 @@ class AllGalery(DateMixin):
             delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(self.img)))
 
         super(AllGalery, self).delete(using, keep_parents)
+
+
+class AllVideoGallery(DateMixin):
+    video_url = models.URLField(max_length=200, null=True, blank=True)
+
+    def __str__(self):
+        return f"img-{self.pk}"

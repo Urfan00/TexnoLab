@@ -4,18 +4,18 @@ from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from Account.models import Account, Group
 from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
-from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, Gallery, RequestUs
-from Service.models import AllGalery, Service, ServiceHome, ServiceImage
+from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery, RequestUs
+from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
-                    AllGaleryEditForm,
+                    AllGaleryEditForm, AllVideoGalleryEditForm,
                     BlogCategoryEditForm,
                     BlogEditForm,
                     ContactInfoEditForm,
                     CourseCategoryEditForm,
                     CourseEditForm,
                     CourseProgramEditForm,
-                    CourseStudentEditForm,
+                    CourseStudentEditForm, CourseVideoEditForm,
                     FAQEditForm,
                     GalLeryEditForm,
                     GroupEditForm,
@@ -23,7 +23,7 @@ from .forms import (AboutUsEditForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
                     ServiceHomeEditForm,
-                    ServiceImageEditForm)
+                    ServiceImageEditForm, ServiceVideoEditForm)
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
@@ -133,7 +133,6 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
         context["deleted_categories"] = deleted_categories
         context["programs"] = programs
         context["d_programs"] = d_programs
-
 
         return context
 
@@ -532,6 +531,7 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         ds_query = self.request.GET.get('ds', '')
         ss_query = self.request.GET.get('ss', '')
         g_query = self.request.GET.get('g', '')
+        v_query = self.request.GET.get('v', '')
 
         active_service_home = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')
         deactive_service_home = ServiceHome.objects.filter(status=False, is_delete=False).order_by('-created_at')
@@ -542,6 +542,7 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
         delete_service = Service.objects.filter(is_delete=True).order_by('-created_at')
 
         galleries = ServiceImage.objects.filter(service__status=True, service__is_delete=False).all()
+        videos = ServiceVideo.objects.filter(service__status=True, service__is_delete=False).all()
 
         if a_query:
             active_service_home = active_service_home.filter(title__icontains=a_query)
@@ -557,6 +558,8 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
             delete_service_home = delete_service_home.filter(title__icontains=ss_query)
         elif g_query:
             galleries = galleries.filter(service__title__icontains=g_query)
+        elif v_query:
+            videos = videos.filter(service__title__icontains=v_query)
 
         context["active_services_home"] = active_service_home
         context["deactive_services_home"] = deactive_service_home
@@ -578,6 +581,7 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
             galleries = paginator.page(paginator.num_pages)
 
         context['galleries'] = galleries
+        context['videos'] = videos
 
         return context
 
@@ -719,13 +723,21 @@ class AdminServiceHomeUndeleteView(StaffRequiredMixin, View):
 
 # ********************************************************************************
 # Service Gallery
-class AdminServiceImageAddView(StaffRequiredMixin, CreateView):
+class AdminServiceImageAddView(StaffRequiredMixin, FormView):
     model = ServiceImage
     template_name = 'service/service-gallery/dshb-service-image-add.html'
     form_class = ServiceImageEditForm
     success_url = reverse_lazy('service_dashboard')
 
     def form_valid(self, form):
+        # Get the selected course from the form
+        selected_course = form.cleaned_data['service']
+
+        uploaded_files = self.request.FILES.getlist('photo')
+
+        for uploaded_file in uploaded_files:
+            ServiceImage.objects.create(photo=uploaded_file, service=selected_course)
+
         messages.success(self.request, 'Şəkil uğurla əlavə edildi')
         return super().form_valid(form)
 
@@ -743,6 +755,36 @@ class AdminServiceImageDeleteView(StaffRequiredMixin, DeleteView):
             # Handle the case where the image does not exist
             pass
         messages.success(request, 'Şəkil uğurla silindi')
+
+        return redirect('service_dashboard')
+
+
+# ********************************************************************************
+# Service Video
+class AdminServiceVideoAddView(StaffRequiredMixin, CreateView):
+    model = ServiceVideo
+    template_name = 'service/service-gallery/dshb-service-video-add.html'
+    form_class = ServiceVideoEditForm
+    success_url = reverse_lazy('service_dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Video uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Video əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminServiceVideoDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = ServiceVideo.objects.get(pk=image_id)
+            image.delete()
+        except ServiceVideo.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Video uğurla silindi')
 
         return redirect('service_dashboard')
 
@@ -1405,6 +1447,7 @@ class AdminAllGalleryListView(StaffRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         galleries = AllGalery.objects.all()
+        context['videos'] = AllVideoGallery.objects.all()
 
         # Pagination
         page = self.request.GET.get('page')
@@ -1461,6 +1504,37 @@ class AdminAllGalleryDeleteAllView(StaffRequiredMixin, View):
         AllGalery.objects.all().delete()
         messages.success(request, 'Bütün şəkillər uğurla silindi')
         return redirect('gallery_dashboard')
+
+
+# All Video Gallery
+class AdminAllVideoGalleryAddView(StaffRequiredMixin, CreateView):
+    model = AllVideoGallery
+    template_name = 'gallery/dshb-gallery-video-add.html'
+    form_class = AllVideoGalleryEditForm
+    success_url = reverse_lazy('gallery_dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Video uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Video əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+
+class AdminAllVideoGalleryDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = AllVideoGallery.objects.get(pk=image_id)
+            image.delete()
+        except AllVideoGallery.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Video uğurla silindi')
+
+        return redirect('gallery_dashboard')
+
 
 
 # Subscriber
@@ -1547,11 +1621,17 @@ class AdminAllCourseGalleryListView(StaffRequiredMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         a_query = self.request.GET.get('a', '')
+        v_query = self.request.GET.get('v', '')
+
 
         galleries = Gallery.objects.filter(course__status=True, course__is_delete=False, course__category__is_delete=False).all()
+        videos = CourseVideo.objects.filter(course__status=True, course__is_delete=False).all()
 
         if a_query:
             galleries = galleries.filter(course__title__icontains=a_query)
+        elif v_query:
+            videos = videos.filter(course__title__icontains=v_query)
+        context['videos'] = videos
 
 
         # Pagination
@@ -1604,3 +1684,35 @@ class AdminCourseGalleryAddView(StaffRequiredMixin, FormView):
         # If the form has validation errors, display an error message
         messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
         return super().form_invalid(form)
+
+
+# ********************************************************************************
+# Course Video
+class AdminCourseVideoAddView(StaffRequiredMixin, CreateView):
+    model = CourseVideo
+    template_name = 'course-gallery/dshb-course-video-add.html'
+    form_class = CourseVideoEditForm
+    success_url = reverse_lazy('course_gallery_dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Video uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Video əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminCourseVideoDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = CourseVideo.objects.get(pk=image_id)
+            image.delete()
+        except CourseVideo.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Video uğurla silindi')
+
+        return redirect('course_gallery_dashboard')
+
+

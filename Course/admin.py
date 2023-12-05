@@ -1,7 +1,13 @@
 import os
 import shutil
 from django.contrib import admin
-from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, Gallery, RequestUs
+from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery, RequestUs
+
+
+
+class CourseVideoAdmin(admin.ModelAdmin):
+    list_display = ['id', 'video_url', 'course', 'created_at', 'updated_at']
+    search_fields = ['course__title']
 
 
 
@@ -134,3 +140,4 @@ admin.site.register(RequestUs, RequestUsAdmin)
 admin.site.register(Gallery, GalleryAdmin)
 admin.site.register(CourseProgram, CourseProgramAdmin)
 admin.site.register(CourseStudent, CourseStudentAdmin)
+admin.site.register(CourseVideo, CourseVideoAdmin)

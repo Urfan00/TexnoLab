@@ -2,8 +2,8 @@ from django import forms
 from Account.models import Account, Group
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
-from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, Gallery, RequestUs
-from Service.models import AllGalery, Service, ServiceHome, ServiceImage
+from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, CourseVideo, Gallery, RequestUs
+from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
 
 
@@ -181,9 +181,24 @@ class ServiceEditForm(forms.ModelForm):
 
 
 class ServiceImageEditForm(forms.ModelForm):
+    photo = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+
     class Meta:
         model = ServiceImage
-        fields = ['photo', 'video_url', 'service']
+        fields = ['photo', 'service']
+        widgets = {
+            'service' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            )
+        }
+
+
+class ServiceVideoEditForm(forms.ModelForm):
+    class Meta:
+        model = ServiceVideo
+        fields = ['video_url', 'service']
         widgets = {
             'video_url' : forms.URLInput(
                 attrs={
@@ -194,6 +209,39 @@ class ServiceImageEditForm(forms.ModelForm):
             'course' : forms.Select(
                 attrs={
                     'placeholder' :"-seçin-"
+                }
+            )
+        }
+
+
+class CourseVideoEditForm(forms.ModelForm):
+    class Meta:
+        model = CourseVideo
+        fields = ['video_url', 'course']
+        widgets = {
+            'video_url' : forms.URLInput(
+                attrs={
+                    'placeholder' :"http://www",
+                    'class' : 'inpClass'
+                }
+            ),
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            )
+        }
+
+
+class AllVideoGalleryEditForm(forms.ModelForm):
+    class Meta:
+        model = AllVideoGallery
+        fields = ['video_url']
+        widgets = {
+            'video_url' : forms.URLInput(
+                attrs={
+                    'placeholder' :"http://www",
+                    'class' : 'inpClass'
                 }
             )
         }

@@ -33,6 +33,9 @@
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
                           Şəkillər
                         </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
+                          Videolar
+                        </button>
                       </div>
 
                       <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -149,6 +152,64 @@
                           </div>
 
                         </div>
+
+                        <div class="tabs__pane -tab-item-2" data-pane="tab2">
+                          <div class="row y-gap-10 ">
+
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="v" placeholder="Kurs axtar" value="{{ request.GET.v }}">
+                                  <button class="" type="submit">
+                                      <i class="icon-search text-light-1 text-20"></i>
+                                  </button>
+                              </form>
+                            </div>
+
+                            <div class="col-auto">
+                              <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                                <div>
+                                </div>
+                                <div>
+                                  <a href="{% url "course_video_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                                    Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                                  </a>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+
+                          <div class="row y-gap-30 pt-30">
+
+                            {% for gallery in videos %}
+
+                            <div class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
+
+                              <div class="relative">
+
+                                  <div class="absolute-full-center d-flex justify-center items-center">
+                                    <a href="{{ gallery.video_url }}" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
+                                      <div class="icon-play text-18"></div>
+                                    </a>
+                                  </div>
+                                <div class="absolute-button  -dshb-more js-more-{{ gallery.pk }}-toggle">
+                                  <div class=" bg-white -dark-bg-dark-2 shadow-1 border-light rounded-8">
+                                    <form method="post" action="{% url 'delete_course_video' gallery.pk %}">
+                                      {% csrf_token %}
+                                      <button  class="rounded-8 delBut" type="submit" onclick="return confirm('Şəkili tam silmək istədiyinizə əminsiniz?');">
+                                        <i class="fa fa-trash c" aria-hidden="true"></i> 
+                                      </button>
+                                    </form>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+
+                            {% endfor %}
+
+                          </div>
+
+                        </div>
+
 
                         </div>
                       </div>

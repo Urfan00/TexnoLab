@@ -95,8 +95,6 @@
                 <div class="row y-gap-30">
                  
                   {% for img in service_images %}
-                    {% if img.video_url is null %}
-
                       <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
                         <div class="blogCard -type-1">
                           <div class="blogCard__image">
@@ -108,13 +106,9 @@
                                 </a>
                               </li>
                             </ul>
-
-                            {% comment %} <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ img.photo.url }}" alt="image"> {% endcomment %}
                           </div>
                         </div>
                       </div>
-
-                    {% endif %}
                   {% endfor %}
                   
 
@@ -124,8 +118,7 @@
               <div class="tabs__pane -tab-item-3" id="category-3">
                 <div class="row y-gap-30">
                  
-                  {% for img in service_images %}
-                    {% if img.video_url %}
+                  {% for img in service_videos %}
                       <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
                         <div class="blogCard -type-1">
                           <div class="blogCard__image">
@@ -141,18 +134,11 @@
                                     </a>
                                   </div>
                                 </div>
-
-                                {% comment %} <a href="{{ img.photo.url }}" data-lightbox="group1" data-title="">
-                                  <img src="{{ img.photo.url }}" alt="">
-                                </a> {% endcomment %}
                               </li>
                             </ul>
-
-                            {% comment %} <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ img.photo.url }}" alt="image"> {% endcomment %}
                           </div>
                         </div>
                       </div>
-                    {% endif %}
                   {% endfor %}
                   
 

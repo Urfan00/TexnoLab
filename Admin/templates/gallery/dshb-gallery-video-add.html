@@ -34,7 +34,7 @@
                 <div class="col-12">
                   <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
                     <div class="d-flex items-center py-20 px-30 border-bottom-light">
-                      <h2 class="text-17 lh-1 fw-500">Yeni şəkil əlavəsi</h2>
+                      <h2 class="text-17 lh-1 fw-500">Yeni kurs əlavəsi</h2>
                     </div>
 
                     <div class="py-30 px-30">
@@ -53,17 +53,9 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-md-6">
-                          <label for="course_img" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.photo.label }} <span class="imp">*</span>
-                          <br>
-                            <img width="50" style="margin-top:15px; cursor: pointer;" src="https://lordicon.com/icons/system/solid/49-upload-file.gif" alt="">
-                          </label>
-                          {{ form.photo }}
-                        </div>
-
                         <div class="col-md-12">
-                          <label id="a3" for="id_service" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.service.label }}</label>
-                          {{ form.service }}
+                          <label id="a4" for="id_video_url" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.video_url.label }} <span class="imp">*</span></label>
+                          {{ form.video_url }}
                         </div>
 
                         <div class="row y-gap-20 justify-between pt-15">

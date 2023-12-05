@@ -9,7 +9,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminAllCourseGalleryListView,
                     AdminAllGalleryAddView,
                     AdminAllGalleryDeleteAllView,
-                    AdminAllGalleryDeleteView,
+                    AdminAllGalleryDeleteView, AdminAllVideoGalleryAddView, AdminAllVideoGalleryDeleteView,
                     AdminBlogAddView,
                     AdminBlogCategoryAddView,
                     AdminBlogCategoryDeleteView,
@@ -41,7 +41,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseFeedbackDetailView,
                     AdminCourseFeedbackDeleteView,
                     AdminCourseFeedbackUndeleteView,
-                    AdminCourseStatisticListView,
+                    AdminCourseStatisticListView, AdminCourseVideoAddView, AdminCourseVideoDeleteView,
                     AdminGroupAddView,
                     AdminGroupEditView,
                     AdminKEBDeleteView,
@@ -73,7 +73,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminServiceListView,
                     AdminServiceHomeUndeleteView,
                     AdminAllGalleryListView,
-                    AdminServiceUndeleteView,
+                    AdminServiceUndeleteView, AdminServiceVideoAddView, AdminServiceVideoDeleteView,
                     AdminSubscriberDeleteView,
                     AdminSubscriberView,
                     CourseStudentAddView,
@@ -155,6 +155,12 @@ urlpatterns = [
     path('delete_service_image/<int:image_id>/', AdminServiceImageDeleteView.as_view(), name='delete_service_image'),
     # ************************************************************************************************************************
 
+    # ************************************************************************************************************************
+    # Service Video
+    path('service_video_add/', AdminServiceVideoAddView.as_view(), name='service_video_add'),
+    path('delete_service_video/<int:image_id>/', AdminServiceVideoDeleteView.as_view(), name='delete_service_video'),
+    # ************************************************************************************************************************
+
     # Course Statistic
     path('statistic_dashboard/', AdminCourseStatisticListView.as_view(), name='statistic_dashboard'),
 
@@ -226,6 +232,12 @@ urlpatterns = [
     path('gallery_add/', AdminAllGalleryAddView.as_view(), name='gallery_add'),
     path('gallery_delete_all/', AdminAllGalleryDeleteAllView.as_view(), name='gallery_delete_all'),
 
+ # ************************************************************************************************************************
+    # Gallery Video
+    path('gallery_video_add/', AdminAllVideoGalleryAddView.as_view(), name='gallery_video_add'),
+    path('delete_video/<int:image_id>/', AdminAllVideoGalleryDeleteView.as_view(), name='delete_video'),
+    # ************************************************************************************************************************
+
     # Subscriber
     path('subscribe_dashboard/', AdminSubscriberView.as_view(), name='subscribe_dashboard'),
     path('delete_email/<int:email_id>/', AdminSubscriberDeleteView.as_view(), name='delete_email'),
@@ -239,4 +251,11 @@ urlpatterns = [
     path('course_gallery_dashboard/', AdminAllCourseGalleryListView.as_view(), name='course_gallery_dashboard'),
     path('delete_course_gallery_image/<int:image_id>/', AdminAllCourseGalleryDeleteView.as_view(), name='delete_course_gallery_image'),
     path('course_gallery_add/', AdminCourseGalleryAddView.as_view(), name='course_gallery_add'),
+
+    # ************************************************************************************************************************
+    # Course Image
+    path('course_video_add/', AdminCourseVideoAddView.as_view(), name='course_video_add'),
+    path('delete_course_video/<int:image_id>/', AdminCourseVideoDeleteView.as_view(), name='delete_course_video'),
+    # ************************************************************************************************************************
+
 ]
