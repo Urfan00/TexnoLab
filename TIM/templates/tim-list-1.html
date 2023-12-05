@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+<style>
+  .gallery__list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  .gallery__item {
+    width: calc(95% / 2);
+  }
+  .gallery__item:not(:nth-child(-n+2)) {
+    margin-top: 20px;
+  }
+  .gallery__item img {
+    width: 100%;
+    height: auto;
+  }
+  .gallery__item a {
+    transition: .5s;
+  }
+  .gallery__item a:hover {
+    filter: opacity(0.7);
+  }
+  .gallery__item a:hover img {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  }
+</style>
+{% load static %}
+{% block content %}
+
+    <div class="content-wrapper  js-content-wrapper">
+
+      <section class="page-header -type-1">
+        <div class="container">
+          <div class="page-header__content">
+            <div class="row justify-center text-center">
+              <div class="col-auto">
+                <div data-anim="slide-up delay-1">
+
+                  <h1 class="page-header__title pt-80">TİM</h1>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+      <section class="layout-pt-sm layout-pb-lg">
+        <div data-anim-wrap class="container">
+          <div class="tabs -pills js-tabs">
+            <div data-anim-child="slide-up delay-3" class="tabs__controls d-flex justify-center x-gap-10 js-tabs-controls">
+             
+              
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">TİM mərkəzi</button>
+                </div>
+
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-2" type="button">Şəkillər</button>
+                </div>
+
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-3" type="button">Videolar</button>
+                </div>
+
+                <div>
+                  <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-4" type="button">Nəyi təmir edirik?</button>
+                </div>
+              
+            </div>
+
+            <div class="tabs__content pt-40 js-tabs-content">
+            
+              <div class="tabs__pane -tab-item-1 is-active" id="category-1">
+                <div class="row y-gap-30">
+               
+                 
+                  
+                    <div data-anim-child="slide-up delay-4" class="col-lg-12 col-md-12" data-category-id="1">
+                      <div class="blogCard -type-1">
+                        <div class="blogCard__content mt-20">
+                          <div class="blogCard__date text-14 mt-5">{{ tim.description1|safe }}</div>
+                        </div>
+                      </div>
+                    </div>
+      
+                </div>
+              </div>
+
+              <div class="tabs__pane -tab-item-2" id="category-2">
+                <div class="row y-gap-30">
+                 
+                  {% for img in tim_images %}
+                      <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
+                        <div class="blogCard -type-1">
+                          <div class="blogCard__image">
+
+                            <ul class="gallery__list">
+                              <li class="gallery__item" style="float: left;">
+                                <a href="{{ img.photo.url }}" data-lightbox="group1" data-title="">
+                                  <img src="{{ img.photo.url }}" alt="">
+                                </a>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                  {% endfor %}
+                  
+
+                </div>
+              </div>
+
+              <div class="tabs__pane -tab-item-3" id="category-3">
+                <div class="row y-gap-30">
+                 
+                  {% for img in tim_videos %}
+                      <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
+                        <div class="blogCard -type-1">
+                          <div class="blogCard__image">
+
+                            <ul class="gallery__list">
+                              <li class="gallery__item" style="float: left;">
+
+                                <div class="relative pt-40">
+                                  <img class="w-1/1" src="{{ img.photo.url }}" alt="image">
+                                  <div class="absolute-full-center d-flex justify-center items-center">
+                                    <a href="{{ img.video_url }}" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
+                                      <div class="icon-play text-18"></div>
+                                    </a>
+                                  </div>
+                                </div>
+                              </li>
+                            </ul>
+                          </div>
+                        </div>
+                      </div>
+                  {% endfor %}
+                  
+
+                </div>
+              </div>
+
+              <div class="tabs__pane -tab-item-4" id="category-4">
+                <div class="row y-gap-30">
+               
+                 
+                  
+                    <div data-anim-child="slide-up delay-4" class="col-lg-12 col-md-12" data-category-id="3">
+                      <div class="blogCard -type-1">
+                        <div class="blogCard__content mt-20">
+                          <div class="blogCard__date text-14 mt-5">{{ tim.description2|safe }}</div>
+                        </div>
+                      </div>
+                    </div>
+      
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+
+
+
+
+      
+      
+      
+      
+{% endblock %}

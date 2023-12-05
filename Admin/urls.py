@@ -75,7 +75,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminAllGalleryListView,
                     AdminServiceUndeleteView, AdminServiceVideoAddView, AdminServiceVideoDeleteView,
                     AdminSubscriberDeleteView,
-                    AdminSubscriberView,
+                    AdminSubscriberView, AdminTIMImageAddView, AdminTIMImageDeleteView, AdminTIMListView, AdminTIMMainEditView, AdminTIMVideoAddView, AdminTIMVideoDeleteView,
                     CourseStudentAddView,
                     CourseStudentDeleteView,
                     CourseStudentEditView,
@@ -257,5 +257,16 @@ urlpatterns = [
     path('course_video_add/', AdminCourseVideoAddView.as_view(), name='course_video_add'),
     path('delete_course_video/<int:image_id>/', AdminCourseVideoDeleteView.as_view(), name='delete_course_video'),
     # ************************************************************************************************************************
+
+    # TIM
+    path('tim_dashboard/', AdminTIMListView.as_view(), name='tim_dashboard'),
+    path('tim_main_edit/', AdminTIMMainEditView.as_view(), name='tim_main_edit'),
+
+    path('tim_image_add/', AdminTIMImageAddView.as_view(), name='tim_image_add'),
+    path('delete_tim_image/<int:image_id>/', AdminTIMImageDeleteView.as_view(), name='delete_tim_image'),
+
+    path('tim_video_add/', AdminTIMVideoAddView.as_view(), name='tim_video_add'),
+    path('delete_tim_video/<int:image_id>/', AdminTIMVideoDeleteView.as_view(), name='delete_tim_video'),
+
 
 ]

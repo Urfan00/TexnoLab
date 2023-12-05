@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'Course',
     'Service',
     'KEB',
+    'TIM',
 
     'ckeditor',
 

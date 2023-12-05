@@ -11,6 +11,10 @@ class Uploader:
         return f"Service/Service-Image/{filename}"
 
     @staticmethod
+    def tim_image(instance, filename):
+        return f"TIM/TIM-Image/{filename}"
+
+    @staticmethod
     def service_image_home(instance, filename):
         return f"Service-Home/{instance.title}/{filename}"
 

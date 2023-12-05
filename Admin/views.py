@@ -6,6 +6,7 @@ from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery, RequestUs
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
+from TIM.models import TIM, TIMImage, TIMVideo
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
                     AllGaleryEditForm, AllVideoGalleryEditForm,
@@ -23,7 +24,7 @@ from .forms import (AboutUsEditForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
                     ServiceHomeEditForm,
-                    ServiceImageEditForm, ServiceVideoEditForm)
+                    ServiceImageEditForm, ServiceVideoEditForm, TIMEditForm, TIMImageEditForm, TIMVideoEditForm)
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
@@ -1715,4 +1716,106 @@ class AdminCourseVideoDeleteView(StaffRequiredMixin, DeleteView):
 
         return redirect('course_gallery_dashboard')
 
+
+# TIM & TIM Image & TIM Video
+class AdminTIMListView(StaffRequiredMixin, ListView):
+    model = TIM
+    template_name = 'tim/dshb-tim.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['main_tim'] = TIM.objects.filter(status=True, is_delete=False).first()
+        context['tim_images'] = TIMImage.objects.all()
+        context['tim_videos'] = TIMVideo.objects.all()
+
+        return context
+
+
+class AdminTIMMainEditView(StaffRequiredMixin, CreateView):
+    model = TIM
+    template_name = 'tim/dshb-tim-main-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        about = TIM.objects.filter(status=True, is_delete=False).first()
+
+        form = TIMEditForm(instance=about)
+        return render(request, 'tim/dshb-tim-main-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = TIMEditForm(request.POST, request.FILES, instance=TIM.objects.filter(status=True, is_delete=False).first())
+
+        if form.is_valid():
+            tim = TIM.objects.filter(status=True, is_delete=False).first()
+            tim.title = form.cleaned_data.get('title')
+            tim.description1 = form.cleaned_data.get('description1')
+            tim.description2 = form.cleaned_data.get('description2')
+            tim.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('tim_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('tim_dashboard')
+
+
+class AdminTIMImageAddView(StaffRequiredMixin, FormView):
+    model = TIMImage
+    template_name = 'tim/tim-gallery/dshb-tim-image-add.html'
+    form_class = TIMImageEditForm
+    success_url = reverse_lazy('tim_dashboard')
+
+    def form_valid(self, form):
+        uploaded_files = self.request.FILES.getlist('photo')
+
+        for uploaded_file in uploaded_files:
+            TIMImage.objects.create(photo=uploaded_file)
+
+        messages.success(self.request, 'Şəkil uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Şəkil əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminTIMImageDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = TIMImage.objects.get(pk=image_id)
+            image.delete()
+        except TIMImage.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Şəkil uğurla silindi')
+
+        return redirect('tim_dashboard')
+
+
+class AdminTIMVideoAddView(StaffRequiredMixin, CreateView):
+    model = TIMVideo
+    template_name = 'tim/tim-gallery/dshb-tim-video-add.html'
+    form_class = TIMVideoEditForm
+    success_url = reverse_lazy('tim_dashboard')
+
+    def form_valid(self, form):
+        messages.success(self.request, 'Video uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        messages.error(self.request, 'Video əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminTIMVideoDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = TIMVideo.objects.get(pk=image_id)
+            image.delete()
+        except TIMVideo.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Video uğurla silindi')
+
+        return redirect('tim_dashboard')
 

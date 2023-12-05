@@ -190,6 +190,14 @@
                 </a>
               </div>
 
+              {% url 'tim_dashboard' as tim_dashboard %}
+              <div class="sidebar__item {% if request.path == tim_dashboard or request.path|slice:'/-' == tim_dashboard %}-is-active{% endif %}">
+                <a href="{% url "tim_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                  <i class="text-20 icon-message mr-15"></i>
+                  TİM
+                </a>
+              </div>
+
               {% url 'partner_dashboard' as partner_dashboard %}
               <div class="sidebar__item {% if request.path == partner_dashboard or request.path|slice:'/-' == partner_dashboard %}-is-active{% endif %}">
                 <a href="{% url "partner_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">

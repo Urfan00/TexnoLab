@@ -6,6 +6,8 @@ from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, 
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
 
+from TIM.models import TIMImage, TIMVideo
+
 
 class CourseEditForm(forms.ModelForm):
     class Meta:
@@ -600,3 +602,57 @@ class GalLeryEditForm(forms.ModelForm):
                 }
             )
         }
+
+
+class TIMEditForm(forms.ModelForm):
+    class Meta:
+        model = Service
+        fields = ['title', 'description1', 'description2', 'status']
+        labels = {
+            'title' : 'Servis adı',
+            'description1' : 'Servis haqqında 1',
+            'description2' : 'Servis haqqında 2',
+            'status' : 'Status',
+        }
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Service adı"
+                }
+            ),
+            'description1' : forms.Textarea(
+                attrs={
+                    'rows' : 8,
+                    'placeholder' :"Ətraflı məlumat"
+                }
+            ),
+            'description2' : forms.Textarea(
+                attrs={
+                    'rows' : 8,
+                    'placeholder' :"Ətraflı məlumat"
+                }
+            ),
+        }
+
+
+class TIMImageEditForm(forms.ModelForm):
+    photo = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+
+    class Meta:
+        model = TIMImage
+        fields = ['photo']
+
+
+class TIMVideoEditForm(forms.ModelForm):
+    class Meta:
+        model = TIMVideo
+        fields = ['video_url']
+        widgets = {
+            'video_url' : forms.URLInput(
+                attrs={
+                    'placeholder' :"http://www",
+                    'class' : 'inpClass'
+                }
+            )
+        }
+
