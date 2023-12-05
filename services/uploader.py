@@ -1,5 +1,8 @@
 
 
+import os
+
+
 class Uploader:
 
     @staticmethod
@@ -53,3 +56,8 @@ class Uploader:
     @staticmethod
     def all_galery(instance, filename):
         return f"Galery/{filename}"
+
+    @staticmethod
+    def get_file_extension(file_name):
+        _, file_extension = os.path.splitext(file_name)
+        return file_extension

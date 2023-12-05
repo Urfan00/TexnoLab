@@ -1,6 +1,7 @@
 from django.shortcuts import redirect, render
 from Account.models import Account, Certificate
 from Course.models import CourseStudent
+from services.uploader import Uploader
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -77,7 +78,23 @@ class AccountInformationView(LoginRequiredMixin, View):
     def get_context_data(self):
         context = {}
         context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
-        context['certificates'] = Certificate.objects.filter(student = self.request.user)
+        # context['certificates'] = Certificate.objects.filter(student = self.request.user)
+        certificates = Certificate.objects.filter(student=self.request.user)
+        updated_certificates = []
+
+        for certificate in certificates:
+            certificate_extension = Uploader.get_file_extension(certificate.certificate.name)
+            certificate_url = certificate.certificate.url  # Assuming file field is named 'file'
+            
+            updated_certificates.append({
+                'certificate': certificate,
+                'extension': certificate_extension,
+                'url': certificate_url,
+            })
+
+        context['certificates'] = updated_certificates
+        print('=======',context['certificates'])
+
         return context
 
     def get(self, request, *args, **kwargs):

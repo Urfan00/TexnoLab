@@ -12,10 +12,10 @@ Urfan
 ******************************************************************************************************************************************
 
 Rza
-1. telimler proqram goz duymesi
-2. cv & sertifikat yukle
-3. mail outlokka getsin
-4. mobil navbar
-5. sekil hundurluk
-6. search sil
-7. 
+1. telimler proqram goz duymesi +++
+2. cv & sertifikat yukle +++
+3. mail outlokka getsin +++
+4. mobil navbar +++
+5. sekil hundurluk +++
+6. search sil +++
+7. Mezunlar

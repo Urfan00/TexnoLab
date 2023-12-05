@@ -46,6 +46,15 @@ class Group(DateMixin):
 
 
 class Account(AbstractUser):
+    raytings = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5)
+    )
+    rayting = models.IntegerField(choices=raytings, null=True, blank=True)
+
     id_code = models.CharField(max_length=5, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255)
     FIN = models.CharField(max_length=21, unique=True, null=True, blank=True)

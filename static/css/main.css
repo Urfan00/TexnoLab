@@ -4485,7 +4485,8 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 60px;
+    /* height: 60px; */
+    height: 40px;
     padding: 0 20px;
     border-radius: 8px;
     color: var(--color-dark-1) !important;
