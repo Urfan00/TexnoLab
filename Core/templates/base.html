@@ -388,11 +388,25 @@
                 <div class="footer-header-socials">
                   <div class="footer-header-socials__title text-white">Follow us on social media</div>
                   <div class="footer-header-socials__list">
-                    <a href="#"><i class="icon-facebook"></i></a>
-                    <a href="#"><i class="icon-twitter"></i></a>
-                    <a href="#"><i class="icon-instagram"></i></a>
-                    <a href="#"><i class="icon-linkedin"></i></a>
+                    {% if contact.whatsapp  %}
+                    <a target="_blank" href="https://api.whatsapp.com/send?phone={{ contact.whatsapp }}">
+                     <i class="fa fa-whatsapp"></i>
+                   </a>
+                    {% endif %}
+                    {% if contact.facebook  %}
+                      <a target="_blank" href="{{ contact.facebook }}"><i class="icon-facebook"></i></a>
+                    {% endif %}
+                    {% if contact.twitter  %}
+                      <a target="_blank" href="{{ contact.twitter }}"><i class="icon-twitter"></i></a>
+                    {% endif %}
+                    {% if contact.instagram  %}
+                      <a target="_blank" href="{{ contact.instagram }}"><i class="icon-instagram"></i></a>
+                    {% endif %}
+                    {% if contact.linkedIn  %}
+                      <a target="_blank" href="{{ contact.linkedIn }}"><i class="icon-linkedin"></i></a>
+                    {% endif %}
                   </div>
+                  
                 </div>
               </div>
             </div>

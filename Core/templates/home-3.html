@@ -797,10 +797,23 @@
 
               <div class="footer-header-socials mt-30">
                 <div class="footer-header-socials__list d-flex items-center">
-                  <a href="#" class="size-40 d-flex justify-center items-center"><i class="icon-facebook"></i></a>
-                  <a href="#" class="size-40 d-flex justify-center items-center"><i class="icon-twitter"></i></a>
-                  <a href="#" class="size-40 d-flex justify-center items-center"><i class="icon-instagram"></i></a>
-                  <a href="#" class="size-40 d-flex justify-center items-center"><i class="icon-linkedin"></i></a>
+                  {% if contact.whatsapp  %}
+                    <a target="_blank" href="https://api.whatsapp.com/send?phone={{ contact.whatsapp }}" class="size-40 d-flex justify-center items-center">
+                     <i class="fa fa-whatsapp"></i>
+                   </a>
+                    {% endif %}
+                    {% if contact.facebook  %}
+                      <a target="_blank" href="{{ contact.facebook }}" class="size-40 d-flex justify-center items-center"><i class="icon-facebook"></i></a>
+                    {% endif %}
+                    {% if contact.twitter  %}
+                      <a target="_blank" href="{{ contact.twitter }}" class="size-40 d-flex justify-center items-center"><i class="icon-twitter"></i></a>
+                    {% endif %}
+                    {% if contact.instagram  %}
+                      <a target="_blank" href="{{ contact.instagram }}" class="size-40 d-flex justify-center items-center"><i class="icon-instagram"></i></a>
+                    {% endif %}
+                    {% if contact.linkedIn  %}
+                      <a target="_blank" href="{{ contact.linkedIn }}" class="size-40 d-flex justify-center items-center"><i class="icon-linkedin"></i></a>
+                    {% endif %}
                 </div>
               </div>
             </div>
