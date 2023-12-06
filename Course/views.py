@@ -3,20 +3,37 @@ from django.views.generic import ListView, DetailView, CreateView
 from .forms import CourseFeedbackForm, RequestUsForm
 from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
 from django.views import View
-
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 
 class CourseListView(ListView):
     model = Course
     template_name = 'courses-list-5.html'
+    paginate_by = 15
+
+    def get_queryset(self):
+        queryset = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-start_date').all()
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["course_category"] = CourseCategory.objects.filter(is_delete=False).all()
-        context["courses"] = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-start_date').all()
+        courses = self.get_queryset()
+
+        # Pagination
+        page = self.request.GET.get('page')
+        paginator = Paginator(courses, self.paginate_by)
+
+        try:
+            courses = paginator.page(page)
+        except PageNotAnInteger:
+            courses = paginator.page(1)
+        except EmptyPage:
+            courses = paginator.page(paginator.num_pages)
+
+        context["courses"] = courses
         return context
 
 

@@ -23,23 +23,23 @@
       <section class="layout-pt-sm layout-pb-lg">
         <div data-anim-wrap class="container">
           <div class="tabs -pills js-tabs">
-            <div data-anim-child="slide-up delay-3" class="tabs__controls d-flex justify-center x-gap-10 js-tabs-controls">
+            {% comment %} <div data-anim-child="slide-up delay-3" class="tabs__controls d-flex justify-center x-gap-10 js-tabs-controls">
 
               {% for cat in course_category %}
                 <div>
                   <button class="tabs__button px-15 py-8 rounded-8 js-tabs-button " data-tab-target=".-tab-item-{{ cat.id }}" type="button">{{ cat.name }}</button>
                 </div>
               {% endfor %}
-            </div>
+            </div> {% endcomment %}
 
             <div class="tabs__content pt-40 js-tabs-content">
-              {% for cat in course_category %}
-              <div class="tabs__pane -tab-item-{{cat.id}} {% if forloop.first %} is-active{% endif %}" id="category-{{cat.id}}">
+              {% comment %} {% for cat in course_category %} {% endcomment %}
+              {% comment %} <div class="tabs__pane -tab-item-{{cat.id}} {% if forloop.first %} is-active{% endif %}" id="category-{{cat.id}}"> {% endcomment %}
                 <div class="row y-gap-30">
 
                   {% for blog in courses %}
 
-                    <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ blog.category.id }}">
+                    <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
                       <a href="{% url 'course' blog.slug %}" class="blogCard -type-1">
                         <div class="blogCard__image">
                           <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ blog.main_photo.url }}" alt="image">
@@ -52,15 +52,43 @@
                       </a>
                     </div>
                   {% endfor %}
+
+                  <div class="row justify-center pt-90 lg:pt-50">
+                    <div class="col-auto">
+                      <div class="pagination -buttons">
+                        {% if courses.has_previous %}
+                          <a href="?page=1" class="pagination__button -prev tW">
+                            <i class="icon icon-chevron-left"></i>
+                          </a>
+                        {% endif %}
+                  
+                        <div class="pagination__count">
+                          {% for num in courses.paginator.page_range %}
+                            <a href="?page={{ num }}"
+                               {% if courses.number == num %}class="-count-is-active"{% endif %}>
+                              {{ num }}
+                            </a>
+                          {% endfor %}
+                        </div>
+                  
+                        {% if courses.has_next %}
+                          <a href="?page={{ courses.next_page_number }}" class="pagination__button -next tW">
+                            <i class="icon icon-chevron-right"></i>
+                          </a>
+                        {% endif %}
+                      </div>
+                    </div>
+                  </div>
+
                 </div>
-              </div>
-              {% endfor %}
+              {% comment %} </div> {% endcomment %}
+              {% comment %} {% endfor %} {% endcomment %}
             </div>
           </div>
         </div>
       </section>
 
-      <script>
+      {% comment %} <script>
         // Get all category buttons and category sections
         const categoryButtons = document.querySelectorAll('.js-tabs-button');
         const categorySections = document.querySelectorAll('.tabs__pane');
@@ -103,6 +131,6 @@
             });
           });
         });
-      </script>
+      </script> {% endcomment %}
 
 {% endblock %}
