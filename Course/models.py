@@ -198,7 +198,15 @@ class CourseProgram(DateMixin):
 
 
 class CourseStudent(DateMixin):
-    is_active = models.BooleanField(default=False)
+    ratings = (
+        (1, 1),
+        (2, 2),
+        (3, 3),
+        (4, 4),
+        (5, 5)
+    )
+    rating = models.IntegerField(choices=ratings, null=True, blank=True)
+    is_active = models.BooleanField(default=False)  # mezun true // telebe false
     is_deleted = models.BooleanField(default=False)
     average = models.FloatField(default=0)
     payment = models.FloatField(default=0)

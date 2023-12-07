@@ -6,11 +6,11 @@ from .models import Account, Certificate, Group
 
 
 class AccountAdmin(BaseUserAdmin):
-    list_display = ("id_code", "first_name", "last_name", 'FIN', "email", "number", "image", 'cv', "birthday", "balance", 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'rayting', 'first_time_login', "is_graduate", 'is_keb', 'is_delete', "is_active", "is_superuser")
-    list_filter = ("is_active", 'is_staff', 'is_delete', "is_superuser", "is_graduate", 'is_keb', 'first_time_login')
+    list_display = ("id_code", "first_name", "last_name", 'FIN', "email", "number", "image", 'cv', "birthday", "balance", 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'rayting', 'first_time_login', 'is_keb', 'is_delete', "is_active", "is_superuser")
+    list_filter = ("is_active", 'is_staff', 'is_delete', "is_superuser", 'is_keb', 'first_time_login')
     fieldsets = (
         ("Credential", {'fields': ('id_code', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'number', 'bio', 'image', 'birthday', 'balance', 'group', 'rayting', 'first_time_login', 'is_delete', 'is_graduate', 'is_keb', 'feedback', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'number', 'bio', 'image', 'cv', 'birthday', 'balance', 'group', 'rayting', 'first_time_login', 'is_delete',  'is_keb', 'feedback', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),

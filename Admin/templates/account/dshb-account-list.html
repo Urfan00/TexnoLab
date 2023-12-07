@@ -177,6 +177,14 @@
                             <div class="col-auto">
                               <div class="d-flex flex-wrap y-gap-10 x-gap-20">
                                 <div>
+                                  <form method="post" action="{% url 'account_dashboard' %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="selected_students" value="{% for cs in c_students %}{{ cs.id }}{% if not forloop.last %},{% endif %}{% endfor %}">
+                                    <button type="submit" class="button -icon -purple-3 h-50 text-purple-1" title="Tələbələri aktivləşdir">
+                                        Məzun et &nbsp;&nbsp; &nbsp;<i class="fa fa-check" aria-hidden="true"></i>
+                                    </button>
+                                    <!-- rest of the table -->
+                                </form>
                                 </div>
                                 <div>
                                   <a href="{% url "course_student_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
@@ -200,7 +208,8 @@
                                     <th>Ödəniş</th>
                                     <th>Endrim faizi</th>
                                     <th>Qalıq</th>
-                                    <th>Aktiv</th>
+                                    <th>Status</th>
+                                    <th>Reytinq</th>
                                     <th>Əməliyyatlar</th>
                                   </tr>
                                 </thead>
@@ -216,7 +225,18 @@
                                       <td>{{ cs.payment }}</td>
                                       <td>{{ cs.discount }}</td>
                                       <td>{{ cs.rest }}</td>
-                                      <td>{{ cs.is_active }}</td>
+                                      {% if cs.is_active %}
+                                        <td style="color: lime;">Məzun</td>
+                                      {% else %}
+                                        <td style="color: red;">Tələbə</td>
+                                      {% endif %}
+                                      <td>
+                                        <div class="d-flex x-gap-5 items-center">
+                                        {% for _ in ''|ljust:cs.rating %}
+                                            <div class="icon-star text-9 text-yellow-1"></div>
+                                        {% endfor %}
+                                        </div>
+                                      </td>
 
                                       <td>
                                         <div class="menusuboper">

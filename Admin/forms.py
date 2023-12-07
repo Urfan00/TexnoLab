@@ -546,7 +546,7 @@ class AllGaleryEditForm(forms.ModelForm):
 class CourseStudentEditForm(forms.ModelForm):
     class Meta:
         model = CourseStudent
-        fields = ['student', 'group', 'course', 'average', 'payment', 'rest', 'is_active']
+        fields = ['student', 'group', 'course', 'average', 'payment', 'rest', 'rating', 'is_active']
         labels = {
             'student': 'Ad Soyad',
             'group': 'Qrup',
@@ -554,7 +554,8 @@ class CourseStudentEditForm(forms.ModelForm):
             'average': 'Ortalama',
             'payment': 'Ödəniş',
             'rest': 'Qalıq',
-            'is_active' : 'Aktiv'
+            'is_active' : 'Məzun',
+            'rating' : 'Reytinq'
         }
         widgets = {
             'student' : forms.Select(

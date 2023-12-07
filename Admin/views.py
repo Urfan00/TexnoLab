@@ -1255,7 +1255,7 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
         g_query = self.request.GET.get('g', '')
 
         students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False).order_by('-date_joined')
-        c_students = CourseStudent.objects.filter(is_deleted=False).all()
+        c_students = CourseStudent.objects.filter(is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False).all()
         groups = Group.objects.all()
 
         if s_query:
@@ -1264,7 +1264,7 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
             )
         elif cs_query:
             c_students = c_students.filter(
-                Q(student__first_name__icontains=cs_query) | Q(student__last_name__icontains=cs_query)
+                Q(student__first_name__icontains=cs_query) | Q(student__last_name__icontains=cs_query) | Q(group__name__icontains=cs_query) | Q(course__title__icontains=cs_query)
             )
         elif g_query:
             groups = groups.filter(
@@ -1276,6 +1276,14 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
         context["groups"] = groups
 
         return context
+
+    def post(self, request, *args, **kwargs):
+        if 'selected_students' in request.POST:
+            selected_student_ids = request.POST.get('selected_students').split(',')
+            CourseStudent.objects.filter(id__in=selected_student_ids).update(is_active=True)
+            return redirect('account_dashboard')
+
+        return super().post(request, *args, **kwargs)
 
 
 class AdminAccountDetailView(StaffRequiredMixin, DetailView):
@@ -1416,6 +1424,7 @@ class CourseStudentEditView(StaffRequiredMixin, CreateView):
 
         if form.is_valid():
             student = CourseStudent.objects.get(pk=kwargs.get('pk'))
+            student.rating = form.cleaned_data.get('rating')
             student.is_active = form.cleaned_data.get('is_active')
             student.average = form.cleaned_data.get('average')
             student.payment = form.cleaned_data.get('payment')
@@ -1819,4 +1828,3 @@ class AdminTIMVideoDeleteView(StaffRequiredMixin, DeleteView):
         messages.success(request, 'Video uğurla silindi')
 
         return redirect('tim_dashboard')
-

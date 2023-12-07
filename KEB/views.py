@@ -1,15 +1,108 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from Account.models import Account
+from Course.models import Course, CourseStudent
+from django.db.models import Count, Case, When, IntegerField
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+
 
 
 class KEBView(ListView):
-    model = Account
+    model = CourseStudent
     template_name = 'keb-list.html'
+    paginate_by = 12
+
+    def get_queryset(self):
+        course_slug  = self.request.GET.get('c')
+        rating = self.request.GET.get('r')
+        sort = self.request.GET.get('sort')
+
+        if course_slug and rating:
+            queryset = CourseStudent.objects.filter(
+                    is_deleted=False,
+                    is_active=True,
+                    student__is_keb=True,
+                    student__is_delete=False,
+                    student__is_superuser=False,
+                    course__slug = course_slug,
+                    rating = rating
+                ).order_by('?').all()
+        elif course_slug:
+            queryset = CourseStudent.objects.filter(
+                    is_deleted=False,
+                    is_active=True,
+                    student__is_keb=True,
+                    student__is_delete=False,
+                    student__is_superuser=False,
+                    course__slug = course_slug
+                ).order_by('?').all()
+        elif rating:
+            queryset = CourseStudent.objects.filter(
+                    is_deleted=False,
+                    is_active=True,
+                    student__is_keb=True,
+                    student__is_delete=False,
+                    student__is_superuser=False,
+                    rating = rating
+                ).order_by('?').all()
+        elif sort:
+            if sort=='A-Z':
+                queryset = CourseStudent.objects.filter(
+                        is_deleted=False,
+                        is_active=True,
+                        student__is_keb=True,
+                        student__is_delete=False,
+                        student__is_superuser=False,
+                    ).order_by('student__first_name').all()
+            elif sort == 'Z-A':
+                queryset = CourseStudent.objects.filter(
+                        is_deleted=False,
+                        is_active=True,
+                        student__is_keb=True,
+                        student__is_delete=False,
+                        student__is_superuser=False,
+                    ).order_by('-student__first_name').all()
+        else:
+            queryset = CourseStudent.objects.filter(
+                    is_deleted=False,
+                    is_active=True,
+                    student__is_keb=True,
+                    student__is_delete=False,
+                    student__is_superuser=False,
+                ).all()
+        return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["keb"] = Account.objects.filter(is_graduate=True, is_keb=True, is_delete=False, is_superuser=False).all()
-        return context
-    
+        keb = self.get_queryset()
+        context['total_count'] = keb.count()
+        context["all_total_count"] = CourseStudent.objects.filter(is_deleted=False, is_active=True, student__is_keb=True, student__is_delete=False, student__is_superuser=False).count()
+        context['courses'] = Course.objects.annotate(
+            num_students=Count(
+                Case(
+                    When(
+                        student_course__student__is_keb=True,
+                        student_course__is_deleted=False,
+                        student_course__is_active=True,
+                        student_course__student__is_delete=False,
+                        student_course__student__is_superuser=False,
+                        then=1
+                        ),
+                    output_field=IntegerField()
+                )
+            )
+        )
 
+        # Pagination
+        page = self.request.GET.get('page')
+        paginator = Paginator(keb, self.paginate_by)
+
+        try:
+            keb = paginator.page(page)
+        except PageNotAnInteger:
+            keb = paginator.page(1)
+        except EmptyPage:
+            keb = paginator.page(paginator.num_pages)
+
+        context["keb"] = keb
+        return context

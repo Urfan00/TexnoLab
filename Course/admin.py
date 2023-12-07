@@ -10,7 +10,6 @@ class CourseVideoAdmin(admin.ModelAdmin):
     search_fields = ['course__title']
 
 
-
 class CourseCategoryAdmin(admin.ModelAdmin):
     list_display = ['id', 'name', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'name']
@@ -120,10 +119,10 @@ class CourseProgramAdmin(admin.ModelAdmin):
 
 
 class CourseStudentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'group', 'course', 'average', 'payment', 'discount', 'rest', 'is_active', 'is_deleted', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'group', 'course', 'average', 'payment', 'discount', 'rest', 'rating', 'is_active', 'is_deleted', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__id_code', 'group__name', 'course__title']
-    list_filter = ['is_active', 'is_deleted']
+    list_filter = ['rating', 'is_active', 'is_deleted']
 
 
 class CourseStatisticAdmin(admin.ModelAdmin):
