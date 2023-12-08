@@ -1253,9 +1253,11 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
         s_query = self.request.GET.get('s', '')
         cs_query = self.request.GET.get('cs', '')
         g_query = self.request.GET.get('g', '')
+        k_query = self.request.GET.get('k', '')
 
         students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False).order_by('-date_joined')
         c_students = CourseStudent.objects.filter(is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False).all()
+        k_students = CourseStudent.objects.filter(is_keb=True, is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False).all()
         groups = Group.objects.all()
 
         if s_query:
@@ -1266,6 +1268,10 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
             c_students = c_students.filter(
                 Q(student__first_name__icontains=cs_query) | Q(student__last_name__icontains=cs_query) | Q(group__name__icontains=cs_query) | Q(course__title__icontains=cs_query)
             )
+        elif k_query:
+            k_students = k_students.filter(
+                Q(student__first_name__icontains=k_query) | Q(student__last_name__icontains=k_query) | Q(group__name__icontains=k_query) | Q(course__title__icontains=k_query)
+            )
         elif g_query:
             groups = groups.filter(
                 Q(name__icontains=g_query) | Q(name__icontains=g_query)
@@ -1273,6 +1279,7 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
 
         context["students"] = students
         context["c_students"] = c_students
+        context["k_students"] = k_students
         context["groups"] = groups
 
         return context
@@ -1284,6 +1291,24 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
             return redirect('account_dashboard')
 
         return super().post(request, *args, **kwargs)
+
+
+class AdminKEBDeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        keb = get_object_or_404(CourseStudent, pk=pk)
+        keb.is_keb = False
+        keb.save()
+        messages.success(request, 'Məzun uğurla kadr ehtiyat bazasından silindi')
+        return redirect('account_dashboard')
+
+
+class AdminKEBUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        keb = get_object_or_404(CourseStudent, pk=pk)
+        keb.is_keb = True  # Set is_delete to False to undelete
+        keb.save()
+        messages.success(request, 'Məzun uğurla kadr ehtiyat bazasına əlavə olundu')
+        return redirect('account_dashboard')
 
 
 class AdminAccountDetailView(StaffRequiredMixin, DetailView):
@@ -1336,7 +1361,6 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
             account.birthday = form.cleaned_data.get('birthday')
             account.id_code = form.cleaned_data.get('id_code')
             account.balance = form.cleaned_data.get('balance')
-            account.is_graduate = form.cleaned_data.get('is_graduate')
             account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('account_dashboard')
@@ -1581,45 +1605,27 @@ class AdminSubscriberDeleteView(StaffRequiredMixin, DeleteView):
         return redirect('subscribe_dashboard')
 
 
-class AdminKEBListView(StaffRequiredMixin, ListView):
-    model = Account
-    template_name = 'keb/dshb-keb.html'
+# class AdminKEBListView(StaffRequiredMixin, ListView):
+#     model = Account
+#     template_name = 'keb/dshb-keb.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        p_query = self.request.GET.get('p', '')
-        sp_query = self.request.GET.get('sp', '')
+#     def get_context_data(self, **kwargs):
+#         context = super().get_context_data(**kwargs)
+#         p_query = self.request.GET.get('p', '')
+#         sp_query = self.request.GET.get('sp', '')
 
-        keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=True, is_delete=False, is_superuser=False)
-        not_keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=False, is_delete=False, is_superuser=False)
+#         keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=True, is_delete=False, is_superuser=False)
+#         not_keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=False, is_delete=False, is_superuser=False)
 
-        if p_query:
-            keb_graduated_student = keb_graduated_student.filter( Q(first_name__icontains=p_query) | Q(last_name__icontains=p_query))
-        elif sp_query:
-            not_keb_graduated_student = not_keb_graduated_student.filter( Q(first_name__icontains=sp_query) | Q(last_name__icontains=sp_query))
+#         if p_query:
+#             keb_graduated_student = keb_graduated_student.filter( Q(first_name__icontains=p_query) | Q(last_name__icontains=p_query))
+#         elif sp_query:
+#             not_keb_graduated_student = not_keb_graduated_student.filter( Q(first_name__icontains=sp_query) | Q(last_name__icontains=sp_query))
 
-        context["keb"] = keb_graduated_student
-        context["not_keb"] = not_keb_graduated_student
+#         context["keb"] = keb_graduated_student
+#         context["not_keb"] = not_keb_graduated_student
 
-        return context
-
-
-class AdminKEBDeleteView(StaffRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        course = get_object_or_404(Account, pk=pk)
-        course.is_keb = False
-        course.save()
-        messages.success(request, 'Məzun uğurla kadr ehtiyat bazasından silindi')
-        return redirect('keb_dashboard')
-
-
-class AdminKEBUndeleteView(StaffRequiredMixin, View):
-    def post(self, request, pk, *args, **kwargs):
-        course = get_object_or_404(Account, pk=pk)
-        course.is_keb = True  # Set is_delete to False to undelete
-        course.save()
-        messages.success(request, 'Məzun uğurla kadr ehtiyat bazasına əlavə olundu')
-        return redirect('keb_dashboard')
+#         return context
 
 
 # Course Gallery

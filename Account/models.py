@@ -46,15 +46,6 @@ class Group(DateMixin):
 
 
 class Account(AbstractUser):
-    raytings = (
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 4),
-        (5, 5)
-    )
-    rayting = models.IntegerField(choices=raytings, null=True, blank=True)
-
     id_code = models.CharField(max_length=5, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255)
     FIN = models.CharField(max_length=21, unique=True, null=True, blank=True)
@@ -66,7 +57,6 @@ class Account(AbstractUser):
     birthday = models.DateField(null=True, blank=True)
     balance = models.FloatField(default=0)
     is_graduate = models.BooleanField(default=False)
-    is_keb = models.BooleanField(default=False)
     feedback = models.TextField(max_length=255, null=True, blank=True)
     instagram = models.URLField(max_length=200, null=True, blank=True)
     twitter = models.URLField(max_length=200, null=True, blank=True)
@@ -130,42 +120,42 @@ class Account(AbstractUser):
         verbose_name_plural = 'Accounts'
 
 
-class Certificate(DateMixin):
-    certificate = models.FileField(upload_to=Uploader.user_certificate, max_length=255)
-    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_certificate')
+# class Certificate(DateMixin):
+#     certificate = models.FileField(upload_to=Uploader.user_certificate, max_length=255)
+#     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_certificate')
 
-    def __str__(self):
-        return f"{self.student.first_name} {self.student.last_name}"
+#     def __str__(self):
+#         return f"{self.student.first_name} {self.student.last_name}"
 
-    def save(self, *args, **kwargs):
-        # Check if the instance already exists
-        if self.pk:
-            old_instance = Certificate.objects.get(pk=self.pk)
+#     def save(self, *args, **kwargs):
+#         # Check if the instance already exists
+#         if self.pk:
+#             old_instance = Certificate.objects.get(pk=self.pk)
 
-            # Check if the image field is cleared
-            if old_instance.certificate and not self.certificate:
-                # Delete the old photo file
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
+#             # Check if the image field is cleared
+#             if old_instance.certificate and not self.certificate:
+#                 # Delete the old photo file
+#                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
 
-            # Check if the image is changed
-            if self.certificate and self.certificate != old_instance.certificate:
-                # Delete old image file if it exists
-                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
+#             # Check if the image is changed
+#             if self.certificate and self.certificate != old_instance.certificate:
+#                 # Delete old image file if it exists
+#                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
 
-        super().save(*args, **kwargs)
+#         super().save(*args, **kwargs)
 
-    def delete(self, using=None, keep_parents=False):
-        # Get the path to the image file
-        image_path = os.path.join(settings.MEDIA_ROOT, str(self.certificate))
+#     def delete(self, using=None, keep_parents=False):
+#         # Get the path to the image file
+#         image_path = os.path.join(settings.MEDIA_ROOT, str(self.certificate))
 
-        # Delete the image file if it exists
-        delete_file_if_exists(image_path)
+#         # Delete the image file if it exists
+#         delete_file_if_exists(image_path)
 
-        # Get the parent directory containing the image
-        image_parent_directory = os.path.dirname(image_path)
+#         # Get the parent directory containing the image
+#         image_parent_directory = os.path.dirname(image_path)
 
-        # Delete the immediate parent directory
-        if os.path.exists(image_parent_directory):
-            shutil.rmtree(image_parent_directory)
+#         # Delete the immediate parent directory
+#         if os.path.exists(image_parent_directory):
+#             shutil.rmtree(image_parent_directory)
 
-        super(Certificate, self).delete(using, keep_parents)
+#         super(Certificate, self).delete(using, keep_parents)

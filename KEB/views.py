@@ -21,7 +21,7 @@ class KEBView(ListView):
             queryset = CourseStudent.objects.filter(
                     is_deleted=False,
                     is_active=True,
-                    student__is_keb=True,
+                    is_keb=True,
                     student__is_delete=False,
                     student__is_superuser=False,
                     course__slug = course_slug,
@@ -31,7 +31,7 @@ class KEBView(ListView):
             queryset = CourseStudent.objects.filter(
                     is_deleted=False,
                     is_active=True,
-                    student__is_keb=True,
+                    is_keb=True,
                     student__is_delete=False,
                     student__is_superuser=False,
                     course__slug = course_slug
@@ -40,7 +40,7 @@ class KEBView(ListView):
             queryset = CourseStudent.objects.filter(
                     is_deleted=False,
                     is_active=True,
-                    student__is_keb=True,
+                    is_keb=True,
                     student__is_delete=False,
                     student__is_superuser=False,
                     rating = rating
@@ -50,7 +50,7 @@ class KEBView(ListView):
                 queryset = CourseStudent.objects.filter(
                         is_deleted=False,
                         is_active=True,
-                        student__is_keb=True,
+                        is_keb=True,
                         student__is_delete=False,
                         student__is_superuser=False,
                     ).order_by('student__first_name').all()
@@ -58,7 +58,7 @@ class KEBView(ListView):
                 queryset = CourseStudent.objects.filter(
                         is_deleted=False,
                         is_active=True,
-                        student__is_keb=True,
+                        is_keb=True,
                         student__is_delete=False,
                         student__is_superuser=False,
                     ).order_by('-student__first_name').all()
@@ -66,7 +66,7 @@ class KEBView(ListView):
             queryset = CourseStudent.objects.filter(
                     is_deleted=False,
                     is_active=True,
-                    student__is_keb=True,
+                    is_keb=True,
                     student__is_delete=False,
                     student__is_superuser=False,
                 ).all()
@@ -76,12 +76,12 @@ class KEBView(ListView):
         context = super().get_context_data(**kwargs)
         keb = self.get_queryset()
         context['total_count'] = keb.count()
-        context["all_total_count"] = CourseStudent.objects.filter(is_deleted=False, is_active=True, student__is_keb=True, student__is_delete=False, student__is_superuser=False).count()
+        context["all_total_count"] = CourseStudent.objects.filter(is_deleted=False, is_active=True, is_keb=True, student__is_delete=False, student__is_superuser=False).count()
         context['courses'] = Course.objects.annotate(
             num_students=Count(
                 Case(
                     When(
-                        student_course__student__is_keb=True,
+                        student_course__is_keb=True,
                         student_course__is_deleted=False,
                         student_course__is_active=True,
                         student_course__student__is_delete=False,

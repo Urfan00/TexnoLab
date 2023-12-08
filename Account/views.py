@@ -1,5 +1,5 @@
 from django.shortcuts import redirect, render
-from Account.models import Account, Certificate
+from Account.models import Account
 from Course.models import CourseStudent
 from services.uploader import Uploader
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
@@ -79,21 +79,21 @@ class AccountInformationView(LoginRequiredMixin, View):
         context = {}
         context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
         # context['certificates'] = Certificate.objects.filter(student = self.request.user)
-        certificates = Certificate.objects.filter(student=self.request.user)
-        updated_certificates = []
+        # certificates = Certificate.objects.filter(student=self.request.user)
+        # updated_certificates = []
 
-        for certificate in certificates:
-            certificate_extension = Uploader.get_file_extension(certificate.certificate.name)
-            certificate_url = certificate.certificate.url  # Assuming file field is named 'file'
+        # for certificate in certificates:
+        #     certificate_extension = Uploader.get_file_extension(certificate.certificate.name)
+        #     certificate_url = certificate.certificate.url  # Assuming file field is named 'file'
             
-            updated_certificates.append({
-                'certificate': certificate,
-                'extension': certificate_extension,
-                'url': certificate_url,
-            })
+        #     updated_certificates.append({
+        #         'certificate': certificate,
+        #         'extension': certificate_extension,
+        #         'url': certificate_url,
+        #     })
 
-        context['certificates'] = updated_certificates
-        print('=======',context['certificates'])
+        # context['certificates'] = updated_certificates
+        # print('=======',context['certificates'])
 
         return context
 
@@ -114,7 +114,6 @@ class AccountInformationView(LoginRequiredMixin, View):
             user_account.bio = form1.cleaned_data.get('bio')
             user_account.image = form1.cleaned_data.get('image')
             user_account.cv = form1.cleaned_data.get('cv')
-            user_account.is_graduate = form1.cleaned_data.get('is_graduate')
             user_account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')

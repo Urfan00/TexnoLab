@@ -93,7 +93,7 @@ class BlogEditForm(forms.ModelForm):
         widgets = {
             'title' : forms.TextInput(
                 attrs={
-                    'placeholder' :"Kursun başlığı"
+                    'placeholder' :"Xəbər başlığı"
                 }
             ),
             'description' : forms.Textarea(
@@ -475,7 +475,7 @@ class ContactInfoEditForm(forms.ModelForm):
 class AccountEditForm(forms.ModelForm):
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'id_code', 'balance', 'is_graduate']
+        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'id_code', 'balance']
         labels = {
             'first_name' : 'Ad',
             'last_name' : 'Soyad',
@@ -483,7 +483,6 @@ class AccountEditForm(forms.ModelForm):
             'birthday' : 'Doğum tarixi',
             'id_code' : 'İD Kod',
             'balance' : 'Balans',
-            'is_graduate' : 'Məzun'
         }
         widgets = {
             'first_name' : forms.TextInput(

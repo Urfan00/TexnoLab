@@ -67,7 +67,7 @@ class CourseDetailView(View):
         context['videos'] = CourseVideo.objects.filter(course__slug=self.kwargs.get('slug')).all()
 
         if self.request.user.is_authenticated:
-            context['user_review'] = CourseStudent.objects.filter(course__slug=self.kwargs.get('slug'), is_active=True, student=self.request.user).first()
+            context['user_review'] = CourseStudent.objects.filter(course__slug=self.kwargs.get('slug'), student=self.request.user).first()
 
         context['feedback_form'] = CourseFeedbackForm()
         context['request_form'] = RequestUsForm(initial={'course': self.object})

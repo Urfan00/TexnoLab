@@ -6,7 +6,7 @@ from django.contrib.auth.forms import (AuthenticationForm,
                                       PasswordChangeForm,
                                       SetPasswordForm)
 
-from Account.models import Certificate
+# from Account.models import Certificate
 
 
 User = get_user_model()
@@ -176,14 +176,14 @@ class SocialProfileForm(forms.ModelForm):
         }
 
 
-class CertificateForm(forms.ModelForm):
-    class Meta:
-        model = Certificate
-        fields = ['certificate', 'student']
-        widgets = {
-            'student' : forms.Select(
-                attrs={
-                    'placeholder' :"-seçin-"
-                }
-            )
-        }
+# class CertificateForm(forms.ModelForm):
+#     class Meta:
+#         model = Certificate
+#         fields = ['certificate', 'student']
+#         widgets = {
+#             'student' : forms.Select(
+#                 attrs={
+#                     'placeholder' :"-seçin-"
+#                 }
+#             )
+#         }

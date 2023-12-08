@@ -25,9 +25,9 @@ class Uploader:
     def user_cv(instance, filename):
         return f"User_Image/{instance.id_code}/CV/{filename}"
 
-    @staticmethod
-    def user_certificate(instance, filename):
-        return f"User_Image/{instance.student.id_code}/Certificate/{filename}"
+    # @staticmethod
+    # def user_certificate(instance, filename):
+    #     return f"User_Image/{instance.student.id_code}/Certificate/{filename}"
 
     @staticmethod
     def user_image(instance, filename):

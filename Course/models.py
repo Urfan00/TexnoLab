@@ -206,6 +206,7 @@ class CourseStudent(DateMixin):
         (5, 5)
     )
     rating = models.IntegerField(choices=ratings, null=True, blank=True)
+    is_keb = models.BooleanField(default=False)
     is_active = models.BooleanField(default=False)  # mezun true // telebe false
     is_deleted = models.BooleanField(default=False)
     average = models.FloatField(default=0)
