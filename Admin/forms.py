@@ -549,7 +549,7 @@ class CourseStudentEditForm(forms.ModelForm):
         labels = {
             'student': 'Ad Soyad',
             'group': 'Qrup',
-            'course': 'Kurs',
+            'course': 'Təlim növü',
             'average': 'Ortalama',
             'payment': 'Ödəniş',
             'rest': 'Qalıq',

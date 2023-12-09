@@ -27,7 +27,7 @@ class RequestUsForm(forms.ModelForm):
         labels = {
             'fullname' : 'Ad, soyad',
             'phone_number' : 'Əlaqə nömrəniz',
-            'course' : 'Kurs seçin'
+            'course' : 'Təlim seçin'
         }
         widgets = {
             'fullname' : forms.TextInput(
