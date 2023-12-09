@@ -1,3 +1,4 @@
+from random import shuffle
 from django.shortcuts import render
 from django.views.generic import ListView, DetailView, CreateView
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceImage, ServiceVideo
@@ -46,3 +47,13 @@ class ServiceGalery(ListView):
 
         context['galeries'] = galeries
         return context
+
+
+def servicecoursetim(request):
+    return render(request, 'service-course-tim.html')
+
+
+class ServiceListView(ListView):
+    model = Service
+    template_name = 'service-in.html'
+    context_object_name = 'services'

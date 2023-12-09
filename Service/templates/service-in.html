@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+    <div class="content-wrapper  js-content-wrapper">
+      <section class="page-header -type-1">
+        <div class="container">
+          <div class="page-header__content">
+            <div class="row justify-center text-center">
+              <div class="col-auto">
+                <div data-anim="slide-up delay-1">
+                  <h1 class="page-header__title pt-80">Servislər</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="layout-pt-sm layout-pb-lg">
+        <div data-anim-wrap class="container">
+          <div class="tabs -pills js-tabs">
+            <div class="tabs__content pt-40 js-tabs-content">
+                <div class="row y-gap-30">
+
+                  {% for blog in services %}
+
+                    <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6">
+                        <a href="{% url 'service' blog.slug %}" class="blogCard -type-1">
+                            <div class="blogCard__image">
+                                {% if blog.service_image.exists %}
+                                    {% with random_image=blog.service_image.all|random %}
+                                        <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ random_image.photo.url }}" alt="{{ blog.title }}">
+                                    {% endwith %}
+                                {% comment %} {% else %}
+                                    {# Display a default image or placeholder if no image is available #}
+                                    <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{% static 'path/to/default/image.jpg' %}" alt="{{ blog.title }}"> {% endcomment %}
+                                {% endif %}
+                                {% comment %} <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ blog.service_image.first.photo.url }}" alt="image"> {% endcomment %}
+                            </div>
+                            <div class="blogCard__content mt-20">
+                                <div class="blogCard__category">{{ blog.title }}</div>
+                                <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description1|safe|truncatewords:4 }}</h4>
+                                <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description2|safe|truncatewords:4 }}</h4>
+                            </div>
+                        </a>
+                    </div>
+                  {% endfor %}
+
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+{% endblock %}
