@@ -11,7 +11,7 @@ class Uploader:
 
     @staticmethod
     def service_image(instance, filename):
-        return f"Service/Service-Image/{filename}"
+        return f"Service/{instance.service.title}/{filename}"
 
     @staticmethod
     def tim_image(instance, filename):
@@ -47,7 +47,7 @@ class Uploader:
 
     @staticmethod
     def about_us(instance, filename):
-        return f"About_US/{instance.title}/{filename}"
+        return f"About_US/{filename}"
 
     @staticmethod
     def course_program(instance, filename):

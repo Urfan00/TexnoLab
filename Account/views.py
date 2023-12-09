@@ -95,8 +95,10 @@ class AccountInformationView(LoginRequiredMixin, View):
             user_account.email = form1.cleaned_data.get('email')
             user_account.feedback = form1.cleaned_data.get('feedback')
             user_account.bio = form1.cleaned_data.get('bio')
-            user_account.image = form1.cleaned_data.get('image')
-            user_account.cv = form1.cleaned_data.get('cv')
+            if form1.cleaned_data.get('image'):
+                user_account.image = form1.cleaned_data.get('image')
+            if form1.cleaned_data.get('cv'):
+                user_account.cv = form1.cleaned_data.get('cv')
             user_account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')

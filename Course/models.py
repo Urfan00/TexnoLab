@@ -179,6 +179,9 @@ class CourseProgram(DateMixin):
                 # Delete the old file file
                 delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.file)))
 
+                # Set the file field to None
+                self.file = None
+
             # Check if the file is changed
             if self.file and self.file != old_instance.file:
                 # Delete old file file if it exists

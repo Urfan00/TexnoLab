@@ -84,6 +84,7 @@ class ServiceAdmin(admin.ModelAdmin):
 
 class ServiceHomeAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'photo', 'status', 'is_delete', 'created_at', 'updated_at']
+    list_display_links = ['id', 'title']
     search_fields = ['title']
     list_filter = ['status', 'is_delete']
     actions = ['delete_selected_with_images']
@@ -142,5 +143,5 @@ admin.site.register(Service, ServiceAdmin)
 admin.site.register(ServiceImage, ServiceImageAdmin)
 admin.site.register(ServiceVideo, ServiceVideoAdmin)
 admin.site.register(ServiceHome, ServiceHomeAdmin)
-admin.site.register(AllGalery)
+admin.site.register(AllGalery, AllGaleryAdmin)
 admin.site.register(AllVideoGallery, AllVideoGalleryAdmin)

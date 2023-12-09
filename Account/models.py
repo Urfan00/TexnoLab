@@ -82,20 +82,23 @@ class Account(AbstractUser):
         if self.pk:
             old_instance = Account.objects.get(pk=self.pk)
 
-            image_fields = ['image', 'cv']
-            for field in image_fields:
-                old_image = getattr(old_instance, field)
-                new_image = getattr(self, field)
+            file_fields = ['image', 'cv']
+            for field in file_fields:
+                old_file = getattr(old_instance, field)
+                new_file = getattr(self, field)
 
-                # Check if the image field is cleared
-                if old_image and not new_image:
-                    # Delete the old photo file
-                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_image)))
+                # Check if the file field is cleared
+                if old_file and not new_file:
+                    # Delete the old file file
+                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_file)))
 
-                # Check if the image is changed
-                if new_image and new_image != old_image:
-                    # Delete old image file if it exists
-                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_image)))
+                    # Set the file field to None
+                    setattr(self, field, None)
+
+                # Check if the file is changed
+                if new_file and new_file != old_file:
+                    # Delete old file file if it exists
+                    delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_file)))
 
         super().save(*args, **kwargs)
 

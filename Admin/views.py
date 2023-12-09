@@ -270,7 +270,7 @@ class AdminCourseCategoryUndeleteView(StaffRequiredMixin, View):
         return redirect('course_dashboard')
 
 
-# Program
+# Course Program
 class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
     model = CourseProgram
     template_name = 'course/dshb-listing-course-program-add.html'
