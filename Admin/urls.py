@@ -20,7 +20,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminBlogDeleteView,
                     AdminBlogEditView,
                     AdminBlogListView,
-                    AdminBlogUndeleteView,
+                    AdminBlogUndeleteView, AdminCertificateAddView, AdminCertificateDeleteView, AdminCertificateListView,
                     AdminContactInfoEditView,
                     AdminContactUSListView,
                     AdminContactUsDeleteView,
@@ -254,7 +254,6 @@ urlpatterns = [
     path('delete_email/<int:email_id>/', AdminSubscriberDeleteView.as_view(), name='delete_email'),
 
     # # KEB
-    # path('keb_dashboard/', AdminKEBListView.as_view(), name='keb_dashboard'),
     path('keb/<int:pk>/delete/', AdminKEBDeleteView.as_view(), name='keb_delete'),
     path('keb/<int:pk>/undelete/', AdminKEBUndeleteView.as_view(), name='keb_undelete'),
 
@@ -279,5 +278,10 @@ urlpatterns = [
     path('tim_video_add/', AdminTIMVideoAddView.as_view(), name='tim_video_add'),
     path('delete_tim_video/<int:image_id>/', AdminTIMVideoDeleteView.as_view(), name='delete_tim_video'),
 
+
+    # Certificate
+    path('certificate_dashboard/', AdminCertificateListView.as_view(), name='certificate_dashboard'),
+    path('delete_certificate_image/<int:image_id>/', AdminCertificateDeleteView.as_view(), name='delete_certificate_image'),
+    path('certificate_add/', AdminCertificateAddView.as_view(), name='certificate_add'),
 
 ]

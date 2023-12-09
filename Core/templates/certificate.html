@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  .gallery__list {
+    list-style-type: none;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
+  {% comment %} .gallery__item {
+    width: calc(95% / 2);
+  } {% endcomment %}
+
+  .gallery__item:not(:nth-child(-n+2)) {
+    margin-top: 20px;
+  }
+  .gallery__item img {
+    width: 100%;
+    height: auto;
+  }
+  .gallery__item a {
+    transition: .5s;
+  }
+  .gallery__item a:hover {
+    filter: opacity(0.7);
+  }
+  .gallery__item a:hover img {
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.15);
+  }
+</style>
+
+    <div class="content-wrapper  js-content-wrapper">
+      <section class="page-header -type-1">
+        <div class="container">
+          <div class="page-header__content">
+            <div class="row justify-center text-center">
+              <div class="col-auto">
+                <div data-anim="slide-up delay-1">
+                  <h1 class="page-header__title pt-80">Sertifikat</h1>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section class="layout-pt-sm layout-pb-lg">
+        <div data-anim-wrap class="container">
+          <div class="tabs -pills js-tabs">
+            <div class="tabs__content pt-40 js-tabs-content">
+                <div class="row y-gap-30">
+
+                  {% for certificate in certificates %}
+
+                  <div data-anim-child="slide-up delay-4" class="col-lg-4 col-md-6" data-category-id="{{ forloop.counter }}">
+                    <div class="blogCard -type-1">
+                      <div class="blogCard__image">
+                        
+                        <ul class="gallery__list">
+                          <li class="gallery__item" style="float: left;">
+                            <a href="{{ certificate.certificate.url }}" data-lightbox="group1" data-title="">
+                              <img src="{{ certificate.certificate.url }}" style="height: 240px; object-fit: cover;" alt="">
+                            </a>
+                          </li>
+                        </ul>
+
+                      </div>
+                    </div>
+                  </div>
+
+                  {% endfor %}
+
+                </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+
+{% endblock %}

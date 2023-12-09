@@ -1,3 +1,4 @@
+import os
 import shutil
 from django.db import models
 from services.mixins import DateMixin
@@ -5,7 +6,6 @@ from services.uploader import Uploader
 from ckeditor.fields import RichTextField
 from django.conf import settings
 from services.utils import delete_file_if_exists
-import os
 
 
 
@@ -185,3 +185,36 @@ class Subscribe(DateMixin):
     class Meta:
         verbose_name = 'Subscribe'
         verbose_name_plural = 'Subscribe'
+
+
+class Certificate(DateMixin):
+    certificate = models.FileField(upload_to=Uploader.certificate, max_length=255)
+
+    def __str__(self):
+        return f"Sertifikat - {self.pk}"
+
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = Certificate.objects.get(pk=self.pk)
+
+            # Check if the image field is cleared
+            if old_instance.certificate and not self.certificate:
+                # Delete the old photo file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
+
+            # Check if the image is changed
+            if self.certificate and self.certificate != old_instance.certificate:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.certificate)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.certificate))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        super(Certificate, self).delete(using, keep_parents)

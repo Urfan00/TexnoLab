@@ -5,7 +5,6 @@ from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, CourseVideo, Gallery, RequestUs
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
-
 from TIM.models import TIMImage, TIMVideo
 
 

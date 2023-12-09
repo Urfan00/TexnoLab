@@ -7,7 +7,7 @@ from Course.forms import RequestUsForm
 from Course.models import Course, CourseStatistic
 from Service.models import ServiceHome
 from .forms import ContactFormModel, SubscribeForm
-from .models import FAQ, AboutUs, ContactInfo, NavMenu, Partner
+from .models import FAQ, AboutUs, Certificate, ContactInfo, NavMenu, Partner
 from django.contrib import messages
 from Blog.models import Blog
 from django.db.models import Q
@@ -81,6 +81,12 @@ class ContactUsView(CreateView):
     def form_valid(self, form):
         messages.success(self.request, 'Müraciətiniz uğurla göndərildi.')
         return super().form_valid(form)
+
+
+class CertificateView(ListView):
+    model = Certificate
+    template_name = 'certificate.html'
+    context_object_name = 'certificates'
 
 
 def subscribe_view(request):

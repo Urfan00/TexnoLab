@@ -1,5 +1,6 @@
 from django import forms
-from .models import ContactUs, Subscribe
+from .models import Certificate, ContactUs, Subscribe
+from multiupload.fields import MultiFileField
 
 
 class ContactFormModel(forms.ModelForm):
@@ -49,3 +50,11 @@ class SubscribeForm(forms.ModelForm):
                 }
             )
         }
+
+
+class CertificateEditForm(forms.ModelForm):
+    certificate = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+
+    class Meta:
+        model = Certificate
+        fields = ['certificate']

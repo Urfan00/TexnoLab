@@ -254,13 +254,13 @@
                 </a>
               </div>
 
-              {% comment %} {% url 'keb_dashboard' as keb_dashboard %}
-              <div class="sidebar__item {% if request.path == keb_dashboard or request.path|slice:'/-' == keb_dashboard %}-is-active{% endif %}">
-                <a href="{% url "keb_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+              {% url 'certificate_dashboard' as certificate_dashboard %}
+              <div class="sidebar__item {% if request.path == certificate_dashboard or request.path|slice:'/-' == certificate_dashboard %}-is-active{% endif %}">
+                <a href="{% url "certificate_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-power mr-15"></i>
-                  Kadr ehtiyat bazası
+                  Sertifikatlar
                 </a>
-              </div> {% endcomment %}
+              </div>
 
               {% url 'gallery_dashboard' as gallery_dashboard %}
               <div class="sidebar__item {% if request.path == gallery_dashboard or request.path|slice:'/-' == gallery_dashboard %}-is-active{% endif %}">

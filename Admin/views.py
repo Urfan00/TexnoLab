@@ -2,7 +2,8 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from Account.models import Account, Group
-from Core.models import FAQ, AboutUs, ContactInfo, ContactUs, Partner, Subscribe
+from Core.forms import CertificateEditForm
+from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery, RequestUs
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
@@ -1605,29 +1606,6 @@ class AdminSubscriberDeleteView(StaffRequiredMixin, DeleteView):
         return redirect('subscribe_dashboard')
 
 
-# class AdminKEBListView(StaffRequiredMixin, ListView):
-#     model = Account
-#     template_name = 'keb/dshb-keb.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-#         p_query = self.request.GET.get('p', '')
-#         sp_query = self.request.GET.get('sp', '')
-
-#         keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=True, is_delete=False, is_superuser=False)
-#         not_keb_graduated_student = Account.objects.filter(is_graduate=True, is_keb=False, is_delete=False, is_superuser=False)
-
-#         if p_query:
-#             keb_graduated_student = keb_graduated_student.filter( Q(first_name__icontains=p_query) | Q(last_name__icontains=p_query))
-#         elif sp_query:
-#             not_keb_graduated_student = not_keb_graduated_student.filter( Q(first_name__icontains=sp_query) | Q(last_name__icontains=sp_query))
-
-#         context["keb"] = keb_graduated_student
-#         context["not_keb"] = not_keb_graduated_student
-
-#         return context
-
-
 # Course Gallery
 class AdminAllCourseGalleryListView(StaffRequiredMixin, ListView):
     model = Gallery
@@ -1834,3 +1812,44 @@ class AdminTIMVideoDeleteView(StaffRequiredMixin, DeleteView):
         messages.success(request, 'Video uğurla silindi')
 
         return redirect('tim_dashboard')
+
+
+# ***************************************************************************
+# Certificate
+class AdminCertificateListView(StaffRequiredMixin, ListView):
+    model = Certificate
+    template_name = 'certificate/dshb-certificate.html'
+    context_object_name = 'certificates'
+
+
+class AdminCertificateDeleteView(StaffRequiredMixin, DeleteView):
+    def post(self, request, image_id):
+        try:
+            image = Certificate.objects.get(pk=image_id)
+            image.delete()
+        except Certificate.DoesNotExist:
+            pass
+        messages.success(request, 'Sertifikat uğurla silindi')
+
+        return redirect('certificate_dashboard')
+
+
+class AdminCertificateAddView(StaffRequiredMixin, FormView):
+    model = Certificate
+    template_name = 'certificate/dshb-certificate-add.html'
+    form_class = CertificateEditForm
+    success_url = reverse_lazy('certificate_dashboard')
+
+    def form_valid(self, form):
+        uploaded_files = self.request.FILES.getlist('certificate')
+
+        for uploaded_file in uploaded_files:
+            Certificate.objects.create(certificate=uploaded_file)
+
+        messages.success(self.request, 'Sertifikat uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Sertifikat əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)

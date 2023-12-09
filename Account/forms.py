@@ -174,16 +174,3 @@ class SocialProfileForm(forms.ModelForm):
                 }
             ),
         }
-
-
-# class CertificateForm(forms.ModelForm):
-#     class Meta:
-#         model = Certificate
-#         fields = ['certificate', 'student']
-#         widgets = {
-#             'student' : forms.Select(
-#                 attrs={
-#                     'placeholder' :"-seçin-"
-#                 }
-#             )
-#         }
