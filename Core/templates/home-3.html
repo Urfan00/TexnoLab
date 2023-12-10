@@ -204,9 +204,12 @@
                                     <li class="menu__backButton js-nav-list-back">
                                       <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ sub.menu }}</a>
                                     </li>
+                                    <li>
+                                      <a href="{% url "service"%}">Bütün servislər</a>
+                                    </li>
                                     {% for sub_in in services %}
                                       <li>
-                                        <a href="{% url "service" sub_in.slug %}">{{ sub_in.title }} </a>
+                                        <a href="{% url "service" sub_in.slug %}">{{ sub_in.title }}</a>
                                       </li>
                                     {% endfor %}
                                   </ul>

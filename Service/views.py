@@ -23,7 +23,7 @@ class ServiceGalery(ListView):
     model = AllGalery
     template_name = 'gallery.html'
     context_object_name = 'galeries'
-    paginate_by = 20
+    paginate_by = 30
 
     def get_queryset(self):
         queryset = AllGalery.objects.all()

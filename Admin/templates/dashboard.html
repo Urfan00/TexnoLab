@@ -8,7 +8,7 @@
                 <div class="col-auto">
 
                   <h1 class="text-30 lh-12 fw-700">Dashboard</h1>
-                  <div class="mt-10">Lorem ipsum dolor sit amet, consectetur.</div>
+                  {% comment %} <div class="mt-10">Lorem ipsum dolor sit amet, consectetur.</div> {% endcomment %}
 
                 </div>
               </div>
@@ -30,7 +30,7 @@
                 <div class="col-xl-3 col-md-6">
                   <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
                     <div>
-                      <div class="lh-1 fw-500">Kurs sayı</div>
+                      <div class="lh-1 fw-500">Təlim sayı</div>
                       <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ course_count }}</div>
                     </div>
 
@@ -66,7 +66,7 @@
                 <div class="col-xl-4 col-md-6">
                   <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
                     <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
-                      <h2 class="text-17 fw-500">Kurslar</h2>
+                      <h2 class="text-17 fw-500">Təlimlər</h2>
                       <a href="{% url "course_dashboard" %}" class="text-14 text-purple-1 underline">Hamısı</a>
                     </div>
                     <div class="py-30 px-30">
