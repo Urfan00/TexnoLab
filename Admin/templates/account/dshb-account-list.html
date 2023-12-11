@@ -32,6 +32,12 @@
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
                           Məzunlar (KEB)
                         </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
+                          Tələbələrin rəyi (icazə verilən)
+                        </button>
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab6" data-tab-target=".-tab-item-6" type="button">
+                          Tələbələrin rəyi
+                        </button>
                       </div>
 
                       <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -425,7 +431,117 @@
   
 
 
-                      </div>
+                        </div>
+
+                        <div class="tabs__pane -tab-item-5" data-pane="tab5">
+                          <div class="row y-gap-10 ">
+
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="af" placeholder="Tələbə axtar" value="{{ request.GET.af }}">
+                                  <button class="" type="submit">
+                                      <i class="icon-search text-light-1 text-20"></i>
+                                  </button>
+                              </form>
+                            </div>
+
+                            <div class="col-auto">
+
+                            </div>
+                          </div>
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table" style="margin-top:25px; padding: 0px;">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Rəy</th>
+                                    <th>Əməliyyatlar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for cs in allow_feedback %}
+                                    <tr>
+                                      <td>{{ forloop.counter }}</td>
+                                      <td>{{ cs.first_name }} {{ cs.last_name }}</td>
+                                      <td>{{ cs.feedback }}</td>
+                                      <td>
+                                        <div class="menusuboper">
+                                          <form method="post" action="{% url "student_feedback_delete" cs.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="color:white" title="kebdən çıxart et">
+                                              <i class="fa fa-minus" aria-hidden="true"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+                        <div class="tabs__pane -tab-item-6" data-pane="tab6">
+                          <div class="row y-gap-10 ">
+
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="df" placeholder="Tələbə axtar" value="{{ request.GET.df }}">
+                                  <button class="" type="submit">
+                                      <i class="icon-search text-light-1 text-20"></i>
+                                  </button>
+                              </form>
+                            </div>
+
+                            <div class="col-auto">
+
+                            </div>
+                          </div>
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table" style="margin-top:25px; padding: 0px;">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Rəy</th>
+                                    <th>Əməliyyatlar</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for cs in dont_allow_feedback %}
+                                    <tr>
+                                      <td>{{ forloop.counter }}</td>
+                                      <td>{{ cs.first_name }} {{ cs.last_name }}</td>
+                                      <td>{{ cs.feedback }}</td>
+                                      <td>
+                                        <div class="menusuboper">
+                                          <form method="post" action="{% url "student_feedback_undelete" cs.pk %}" style="display: inline;">
+                                            {% csrf_token %}
+                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="color:white" title="kebdən çıxart et">
+                                              <i class="fa fa-plus" aria-hidden="true"></i>
+                                            </button>
+                                          </form>
+                                        </div>
+                                      </td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+                        </div>
+
+
                     </div>
                   </div>
                 </div>

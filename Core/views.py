@@ -29,7 +29,8 @@ class IndexView(View):
         context['sercice_home'] = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')[:10]
         context['testimonials'] = Account.objects.filter(
             is_delete=False,
-            is_superuser=False
+            is_superuser=False,
+            feedback_status=True
         ).filter(
             Q(feedback__isnull=False) & ~Q(feedback="")
         ).order_by('?')[:5]
@@ -59,7 +60,8 @@ class AboutView(ListView):
         context['about'] = AboutUs.objects.first()
         context['testimonials'] = Account.objects.filter(
             is_delete=False,
-            is_superuser=False
+            is_superuser=False,
+            feedback_status=True
         ).filter(
             Q(feedback__isnull=False) & ~Q(feedback="")
         ).order_by('?')[:5]

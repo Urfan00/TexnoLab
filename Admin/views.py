@@ -1255,11 +1255,28 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
         cs_query = self.request.GET.get('cs', '')
         g_query = self.request.GET.get('g', '')
         k_query = self.request.GET.get('k', '')
+        af_query = self.request.GET.get('af', '')
+        df_query = self.request.GET.get('df', '')
+
 
         students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False).order_by('-date_joined')
         c_students = CourseStudent.objects.filter(is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False).all()
         k_students = CourseStudent.objects.filter(is_keb=True, is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False).all()
         groups = Group.objects.all()
+        allow_feedback = Account.objects.filter(
+            is_delete=False,
+            is_superuser=False,
+            feedback_status=True
+        ).filter(
+            Q(feedback__isnull=False) & ~Q(feedback="")
+        ).all()
+        dont_allow_feedback = Account.objects.filter(
+            is_delete=False,
+            is_superuser=False,
+            feedback_status=False
+        ).filter(
+            Q(feedback__isnull=False) & ~Q(feedback="")
+        ).all()
 
         if s_query:
             students = students.filter(
@@ -1277,11 +1294,21 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
             groups = groups.filter(
                 Q(name__icontains=g_query) | Q(name__icontains=g_query)
             )
+        elif af_query:
+            allow_feedback = allow_feedback.filter(
+                Q(first_name__icontains=af_query) | Q(last_name__icontains=af_query)
+            )
+        elif df_query:
+            dont_allow_feedback = dont_allow_feedback.filter(
+                Q(first_name__icontains=df_query) | Q(last_name__icontains=df_query)
+            )
 
         context["students"] = students
         context["c_students"] = c_students
         context["k_students"] = k_students
         context["groups"] = groups
+        context["allow_feedback"] = allow_feedback
+        context["dont_allow_feedback"] = dont_allow_feedback
 
         return context
 
@@ -1292,6 +1319,25 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
             return redirect('account_dashboard')
 
         return super().post(request, *args, **kwargs)
+
+
+class AdminFEEDBACKDeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        feedback = get_object_or_404(Account, pk=pk)
+        feedback.feedback_status = False
+        feedback.save()
+        messages.success(request, 'Tələbənin rəyinin statusu uğurla dəyişildi.')
+        return redirect('account_dashboard')
+
+
+class AdminFEEDBACKUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        feedback = get_object_or_404(Account, pk=pk)
+        feedback.feedback_status = True  # Set is_delete to False to undelete
+        feedback.save()
+        messages.success(request, 'Tələbənin rəyinin statusu uğurla dəyişildi.')
+        return redirect('account_dashboard')
+
 
 
 class AdminKEBDeleteView(StaffRequiredMixin, View):

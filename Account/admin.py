@@ -6,11 +6,11 @@ from .models import Account, Group
 
 
 class AccountAdmin(BaseUserAdmin):
-    list_display = ("id_code", "first_name", "last_name", 'FIN', "email", "number", "image", 'cv', "birthday", "balance", 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'first_time_login', 'is_delete', "is_active", "is_superuser")
-    list_filter = ("is_active", 'is_staff', 'is_delete', "is_superuser", 'first_time_login')
+    list_display = ("id_code", "first_name", "last_name", 'FIN', "email", "number", "image", 'cv', "birthday", "balance", 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'feedback_status', 'first_time_login', 'is_delete', "is_active", "is_superuser")
+    list_filter = ("is_active", 'is_staff', 'is_delete', "is_superuser", 'first_time_login', 'feedback_status')
     fieldsets = (
         ("Credential", {'fields': ('id_code', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'number', 'bio', 'image', 'cv', 'birthday', 'balance', 'group', 'first_time_login', 'is_delete', 'feedback', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'number', 'bio', 'image', 'cv', 'birthday', 'balance', 'group', 'first_time_login', 'feedback_status', 'is_delete', 'feedback', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),

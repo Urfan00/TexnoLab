@@ -58,6 +58,7 @@ class Account(AbstractUser):
     balance = models.FloatField(default=0)
     is_graduate = models.BooleanField(default=False)
     feedback = models.TextField(max_length=255, null=True, blank=True)
+    feedback_status = models.BooleanField(default=False)
     instagram = models.URLField(max_length=200, null=True, blank=True)
     twitter = models.URLField(max_length=200, null=True, blank=True)
     facebook = models.URLField(max_length=200, null=True, blank=True)
