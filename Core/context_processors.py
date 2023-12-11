@@ -1,4 +1,5 @@
 from Core.forms import SubscribeForm
+from Course.models import Course
 from Service.models import Service
 from .models import ContactInfo, NavMenu
 
@@ -9,4 +10,5 @@ def base_data(request):
     data['services'] = Service.objects.filter(status=True, is_delete=False).all()
     data['contact'] = ContactInfo.objects.first()
     data['subscribe_form'] = SubscribeForm()
+    data['b_t'] = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-start_date').all()[:5]
     return data

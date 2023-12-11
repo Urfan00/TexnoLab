@@ -56,4 +56,9 @@ def servicecoursetim(request):
 class ServiceListView(ListView):
     model = Service
     template_name = 'service-in.html'
-    context_object_name = 'services'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["services"] = Service.objects.filter(status=True, is_delete=False).all()
+        return context
+
