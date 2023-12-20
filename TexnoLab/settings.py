@@ -24,9 +24,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-49q9t6-=4-s)j@y6#yf#qv*ubbk(69!ck4_sdyab+!+((1(l0k'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['167.99.141.20', 'texnolab.az']
 
 
 # Application definition
@@ -88,10 +88,21 @@ WSGI_APPLICATION = 'TexnoLab.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'texnolab',
+        'USER': 'texnolabuser',
+        'PASSWORD': 'texn0lab2023',
+        'HOST': 'localhost',
+        'PORT': '',
     }
 }
 

@@ -7,6 +7,8 @@ from django.utils.crypto import get_random_string
 from services.utils import delete_file_if_exists
 import os
 from django.conf import settings
+from datetime import date
+
 
 
 class CustomUserManager(BaseUserManager):
@@ -118,6 +120,14 @@ class Account(AbstractUser):
             shutil.rmtree(image_parent_directory)
 
         super(Account, self).delete(using, keep_parents)
+
+    # Your custom function to calculate age
+    def calculate_age(self):
+        if self.birthday:
+            today = date.today()
+            age = today.year - self.birthday.year - ((today.month, today.day) < (self.birthday.month, self.birthday.day))
+            return age
+        return None
 
     class Meta:
         verbose_name = 'Account'

@@ -59,7 +59,7 @@
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio-2" checked="checked">
+                                    <input type="radio" name="radio99" {% if not request.GET.c %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -73,7 +73,10 @@
                                 <div class="sidebar-checkbox__item">
                                   <div class="form-radio mr-10">
                                     <div class="radio">
-                                      <input type="radio" name="radio-2" checked="checked">
+                                      {% with new_slug=course.slug %}
+                                        <input type="radio" name="radio99" {% if request.GET.c == new_slug %}checked="checked"{% endif %}>
+                                      {% endwith %}
+                                      {% comment %} <input type="radio" name="radio-2" {% if request.GET.c == {{course.slug}} %}checked="checked"{% endif %}> {% endcomment %}
                                       <div class="radio__mark">
                                         <div class="radio__icon"></div>
                                       </div>
@@ -110,7 +113,7 @@
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio1" {% if request.GET.r == '5' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -124,15 +127,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  5
                                 </a>
-                                <div class="sidebar-checkbox__count">(1991)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(1991)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio1" {% if request.GET.r == '4' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -145,15 +147,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  4 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(200)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(200)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio1" {% if request.GET.r == '3' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -165,15 +166,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  3 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(300)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(300)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio1" {% if request.GET.r == '2' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -184,15 +184,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  2 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(500)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(500)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio1" {% if request.GET.r == '1' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -202,9 +201,8 @@
                                   <div class="d-flex x-gap-5 pr-10">
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  1 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(500)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(500)</div> {% endcomment %}
                               </div>
 
                             </div>
@@ -279,7 +277,7 @@
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio-2" checked="checked">
+                                    <input type="radio" name="radio88" {% if not request.GET.c %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -292,7 +290,9 @@
                                 <div class="sidebar-checkbox__item">
                                   <div class="form-radio mr-10">
                                     <div class="radio">
-                                      <input type="radio" name="radio-2" checked="checked">
+                                      {% with nnew_slug=course.slug %}
+                                        <input type="radio" name="radio88" {% if request.GET.c == nnew_slug %}checked="checked"{% endif %}>
+                                      {% endwith %}
                                       <div class="radio__mark">
                                         <div class="radio__icon"></div>
                                       </div>
@@ -315,7 +315,7 @@
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio" {% if request.GET.r == '5' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -329,15 +329,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  5 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(1991)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(1991)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio" {% if request.GET.r == '4' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -350,15 +349,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  4 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(200)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(200)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio" {% if request.GET.r == '3' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -370,15 +368,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  3 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(300)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(300)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio" {% if request.GET.r == '2' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -389,15 +386,14 @@
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  2 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(500)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(500)</div> {% endcomment %}
                               </div>
 
                               <div class="sidebar-checkbox__item">
                                 <div class="form-radio mr-10">
                                   <div class="radio">
-                                    <input type="radio" name="radio" checked="checked">
+                                    <input type="radio" name="radio" {% if request.GET.r == '1' %}checked="checked"{% endif %}>
                                     <div class="radio__mark">
                                       <div class="radio__icon"></div>
                                     </div>
@@ -407,9 +403,8 @@
                                   <div class="d-flex x-gap-5 pr-10">
                                     <div class="icon-star text-11 text-yellow-1"></div>
                                   </div>
-                                  1 &amp; yuxarı
                                 </a>
-                                <div class="sidebar-checkbox__count">(500)</div>
+                                {% comment %} <div class="sidebar-checkbox__count">(500)</div> {% endcomment %}
                               </div>
 
                             </div>
@@ -561,7 +556,7 @@
                                 <div class="icon-check text-6"></div>
                               </div>
                               <div class="ml-10">
-                                Yaş: {{ s.student.birthday }} !!!
+                                Yaş: {{ s.student.calculate_age }}
                               </div>
                             </div>
                           </div>
