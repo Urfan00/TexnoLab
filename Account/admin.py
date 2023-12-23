@@ -61,7 +61,7 @@ class AccountAdmin(BaseUserAdmin):
         return actions
 
 class GroupAdmin(admin.ModelAdmin):
-    list_display = ['id', 'name']
+    list_display = ['id', 'name', 'start_date', 'end_date']
     search_fields = ['name']
 
 

@@ -18,7 +18,7 @@ class CourseCategoryAdmin(admin.ModelAdmin):
 
 
 class CourseAdmin(admin.ModelAdmin):
-    list_display = ['id', 'title', 'slug', 'main_photo', 'video_link', 'start_date', 'end_date', 'category', 'status', 'is_delete', 'created_at', 'updated_at']
+    list_display = ['id', 'title', 'slug', 'main_photo', 'video_link', 'category', 'status', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     list_filter = ['status', 'is_delete']
     search_fields = ['title', 'slug', 'category__name']

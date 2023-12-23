@@ -329,6 +329,8 @@
                                   <tr>
                                     <th>№</th>
                                     <th>Qrup adı</th>
+                                    <th>Başlama vaxtı</th>
+                                    <th>Bitmə vaxtı</th>
                                     <th>Əməliyyatlar</th>
                                   </tr>
                                 </thead>
@@ -338,7 +340,8 @@
                                     <tr>
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ group.name }}</td>
-
+                                      <td>{{ group.start_date|date:"M j, Y, H:i" }}</td>
+                                      <td>{{ group.end_date|date:"M j, Y, H:i" }}</td>
                                       <td>
                                         <div class="menusuboper">
          

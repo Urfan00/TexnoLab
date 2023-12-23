@@ -14,7 +14,7 @@ class CourseListView(ListView):
     paginate_by = 15
 
     def get_queryset(self):
-        queryset = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-start_date').all()
+        queryset = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-created_at').all()
         return queryset
 
     def get_context_data(self, **kwargs):

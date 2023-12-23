@@ -92,12 +92,12 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
         sp_query = self.request.GET.get('sp', '')
 
         # Filter active courses
-        active_courses = Course.objects.filter(status=True, is_delete=False).order_by('-start_date')
+        active_courses = Course.objects.filter(status=True, is_delete=False).order_by('-created_at')
 
         # Filter inactive courses
-        deactive_courses = Course.objects.filter(status=False, is_delete=False).order_by('-start_date')
+        deactive_courses = Course.objects.filter(status=False, is_delete=False).order_by('-created_at')
 
-        delete_courses = Course.objects.filter(is_delete=True).order_by('-start_date')
+        delete_courses = Course.objects.filter(is_delete=True).order_by('-created_at')
 
         categories = CourseCategory.objects.filter(is_delete=False).order_by('-created_at')
 
@@ -161,9 +161,7 @@ class AdminCourseEditView(StaffRequiredMixin, CreateView):
             course.description = form.cleaned_data.get('description')
             course.main_photo = form.cleaned_data.get('main_photo')
             course.video_link = form.cleaned_data.get('video_link')
-            course.start_date = form.cleaned_data.get('start_date')
             course.status = form.cleaned_data.get('status')
-            course.end_date = form.cleaned_data.get('end_date')
             course.category = form.cleaned_data.get('category')
             course.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
@@ -1452,6 +1450,8 @@ class AdminGroupEditView(StaffRequiredMixin, CreateView):
         if form.is_valid():
             group = Group.objects.get(pk=kwargs.get('pk'))
             group.name = form.cleaned_data.get('name')
+            group.start_date = form.cleaned_data.get('start_date')
+            group.end_date = form.cleaned_data.get('end_date')
             group.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('account_dashboard')

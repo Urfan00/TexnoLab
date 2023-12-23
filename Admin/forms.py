@@ -15,10 +15,8 @@ class CourseEditForm(forms.ModelForm):
         labels = {
             'title' : 'Təlimin başlığı',
             'description' : 'Təlim haqqında',
-            'main_photo' : 'Tılimin əsas şəkili',
+            'main_photo' : 'Təlimin əsas şəkili',
             'video_link' : 'Video linki',
-            'start_date' : 'Başlama tarixi',
-            'end_date' : 'Bitmə tarixi',
             'category' : 'Kateqoriya'
         }
         widgets = {
@@ -44,20 +42,6 @@ class CourseEditForm(forms.ModelForm):
                     'placeholder' :"-seçin-"
                 }
             ),
-            'start_date' : forms.DateTimeInput(
-                attrs={
-                    'type': 'datetime-local',
-                    'placeholder' :"yyyy-dd-mm",
-                    'class' : 'inpClass'
-                }
-            ),
-            'end_date' : forms.DateTimeInput(
-                attrs={
-                    'type': 'datetime-local',
-                    'placeholder' :"yyyy-dd-mm",
-                    'class' : 'inpClass'
-                }
-            )
         }
 
 
@@ -524,7 +508,7 @@ class AccountEditForm(forms.ModelForm):
 class GroupEditForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['name']
+        fields = ['name', 'start_date', 'end_date']
         labels = {
             'name' : 'Qrup adı'
         }
@@ -532,6 +516,20 @@ class GroupEditForm(forms.ModelForm):
             'name' : forms.TextInput(
                 attrs={
                     'placeholder' :"Qrup adı"
+                }
+            ),
+            'start_date' : forms.DateTimeInput(
+                attrs={
+                    'type': 'datetime-local',
+                    'placeholder' :"yyyy-dd-mm",
+                    'class' : 'inpClass'
+                }
+            ),
+            'end_date' : forms.DateTimeInput(
+                attrs={
+                    'type': 'datetime-local',
+                    'placeholder' :"yyyy-dd-mm",
+                    'class' : 'inpClass'
                 }
             )
         }
