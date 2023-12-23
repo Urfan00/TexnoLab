@@ -9,7 +9,7 @@
             <div class="row justify-center text-center">
               <div class="col-auto">
                 <div data-anim="slide-up delay-1">
-                  <h1 class="page-header__title pt-80">Kurslar</h1>
+                  <h1 class="page-header__title pt-80">Təlimlər</h1>
                 </div>
                 <div data-anim="slide-up delay-2">
 
@@ -53,33 +53,34 @@
                     </div>
                   {% endfor %}
 
-                  <div class="row justify-center pt-90 lg:pt-50">
-                    <div class="col-auto">
-                      <div class="pagination -buttons">
-                        {% if courses.has_previous %}
-                          <a href="?page=1" class="pagination__button -prev tW">
-                            <i class="icon icon-chevron-left"></i>
-                          </a>
-                        {% endif %}
-                  
-                        <div class="pagination__count">
-                          {% for num in courses.paginator.page_range %}
-                            <a href="?page={{ num }}"
-                               {% if courses.number == num %}class="-count-is-active"{% endif %}>
-                              {{ num }}
+                  {% if courses.paginator.num_pages > 1 %}
+                    <div class="row justify-center pt-90 lg:pt-50">
+                      <div class="col-auto">
+                        <div class="pagination -buttons">
+                          {% if courses.has_previous %}
+                            <a href="?page=1" class="pagination__button -prev tW">
+                              <i class="icon icon-chevron-left"></i>
                             </a>
-                          {% endfor %}
+                          {% endif %}
+                    
+                          <div class="pagination__count">
+                            {% for num in courses.paginator.page_range %}
+                              <a href="?page={{ num }}"
+                                {% if courses.number == num %}class="-count-is-active"{% endif %}>
+                                {{ num }}
+                              </a>
+                            {% endfor %}
+                          </div>
+                    
+                          {% if courses.has_next %}
+                            <a href="?page={{ courses.next_page_number }}" class="pagination__button -next tW">
+                              <i class="icon icon-chevron-right"></i>
+                            </a>
+                          {% endif %}
                         </div>
-                  
-                        {% if courses.has_next %}
-                          <a href="?page={{ courses.next_page_number }}" class="pagination__button -next tW">
-                            <i class="icon icon-chevron-right"></i>
-                          </a>
-                        {% endif %}
                       </div>
                     </div>
-                  </div>
-
+                  {% endif %}
                 </div>
               {% comment %} </div> {% endcomment %}
               {% comment %} {% endfor %} {% endcomment %}

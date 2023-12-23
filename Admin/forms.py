@@ -13,9 +13,9 @@ class CourseEditForm(forms.ModelForm):
         model = Course
         exclude = ['slug']
         labels = {
-            'title' : 'Kursun başlığı',
-            'description' : 'Kurs haqqında',
-            'main_photo' : 'Kursun əsas şəkili',
+            'title' : 'Təlimin başlığı',
+            'description' : 'Təlim haqqında',
+            'main_photo' : 'Tılimin əsas şəkili',
             'video_link' : 'Video linki',
             'start_date' : 'Başlama tarixi',
             'end_date' : 'Bitmə tarixi',
@@ -24,7 +24,7 @@ class CourseEditForm(forms.ModelForm):
         widgets = {
             'title' : forms.TextInput(
                 attrs={
-                    'placeholder' :"Kursun başlığı"
+                    'placeholder' :"Təlimin başlığı"
                 }
             ),
             'description' : forms.Textarea(
@@ -219,6 +219,10 @@ class CourseVideoEditForm(forms.ModelForm):
     class Meta:
         model = CourseVideo
         fields = ['video_url', 'course']
+        labels = {
+            'video_url' : 'Video Url',
+            'course' : 'Təlim',
+        }
         widgets = {
             'video_url' : forms.URLInput(
                 attrs={
@@ -278,15 +282,15 @@ class CourseProgramEditForm(forms.ModelForm):
         model = CourseProgram
         fields = ['program_name', 'description', 'file', 'course']
         labels = {
-            'program_name' : 'Program başlığı',
-            'description' : 'Program haqqında',
+            'program_name' : 'Proqram başlığı',
+            'description' : 'Proqram haqqında',
             'file' : 'Fayl',
-            'course' : 'Kurs'
+            'course' : 'Təlim'
         }
         widgets = {
             'program_name' : forms.TextInput(
                 attrs={
-                    'placeholder' :"Kursun başlığı"
+                    'placeholder' :"Proqram başlığı"
                 }
             ),
             'description' : forms.Textarea(
@@ -595,6 +599,10 @@ class GalLeryEditForm(forms.ModelForm):
     class Meta:
         model = Gallery
         fields = ['photo', 'course']
+        labels = {
+            'photo' : 'Şəkil',
+            'course' : 'Təlim',
+        }
         widgets = {
             'course' : forms.Select(
                 attrs={
@@ -609,15 +617,15 @@ class TIMEditForm(forms.ModelForm):
         model = Service
         fields = ['title', 'description1', 'description2', 'status']
         labels = {
-            'title' : 'Servis adı',
-            'description1' : 'Servis haqqında 1',
-            'description2' : 'Servis haqqında 2',
+            'title' : 'TİM adı',
+            'description1' : 'TİM haqqında 1',
+            'description2' : 'TİM haqqında 2',
             'status' : 'Status',
         }
         widgets = {
             'title' : forms.TextInput(
                 attrs={
-                    'placeholder' :"Service adı"
+                    'placeholder' :"TİM adı"
                 }
             ),
             'description1' : forms.Textarea(

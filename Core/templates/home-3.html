@@ -187,42 +187,63 @@
                       <ul class="menu__nav text-dark-1 -is-active">
 
                         {% for main in main_menus %}
-                        <li {% if main.parent_menu.all %} class="menu-item-has-children" {% endif %}>
-                          <a data-barba href="{% if main.url_link == "index" %}{% url 'index' %}{% else %}/{{ main.url_link }}/{% endif %}">{{ main.menu }} {% if main.parent_menu.all %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
-                          {% if main.parent_menu.all %}
-    
-                            <ul class="subnav">
-                              <li class="menu__backButton js-nav-list-back">
-                                <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ main.menu }}</a>
-                              </li>
-                              {% for sub in main.parent_menu.all %}
-                                <li {% if services and sub.url_link == "service" %} class="menu-item-has-children" {% endif %}>
-                                  <a href="/{{ sub.url_link }}/">{{ sub.menu }} {% if services and sub.url_link == "service" %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
-                                
-                                {% if sub.url_link == "service" %}
-                                  <ul class="subnav">
-                                    <li class="menu__backButton js-nav-list-back">
-                                      <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ sub.menu }}</a>
-                                    </li>
-                                    <li>
-                                      <a href="{% url "service"%}">Bütün servislər</a>
-                                    </li>
-                                    {% for sub_in in services %}
-                                      <li>
-                                        <a href="{% url "service" sub_in.slug %}">{{ sub_in.title }}</a>
-                                      </li>
-                                    {% endfor %}
-                                  </ul>
-                                {% endif %}
+                          <li {% if main.parent_menu.all %} class="menu-item-has-children" {% endif %}>
+                            <a data-barba href="{% if main.url_link == "index" %}{% url 'index' %}{% else %}/{{ main.url_link }}/{% endif %}">{{ main.menu }} {% if main.parent_menu.all %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
+                            {% if main.parent_menu.all %}
+      
+                              <ul class="subnav">
+                                <li class="menu__backButton js-nav-list-back">
+                                  <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ main.menu }}</a>
                                 </li>
-                              {% endfor %}
-                            </ul>
-    
-                          {% endif %}
-                        </li>
-    
-    
-                      {% endfor %}
+                                {% for sub in main.parent_menu.all %}
+                                  <li {% if services and sub.url_link == "service" %} class="menu-item-has-children" {% elif b_t and sub.url_link == "course" %} class="menu-item-has-children" {% endif %}>
+                                    {% if not services and sub.url_link == "service" %}
+                                      <a href="/service">{{ sub.menu }}</a>
+                                    {% elif not b_t and sub.url_link == "course" %}
+                                      <a href="/course">{{ sub.menu }}</a>
+                                    {% else %}
+                                      <a href="/{{ sub.url_link }}/">{{ sub.menu }} {% if services and sub.url_link == "service" %} <i class="icon-chevron-right text-13 ml-10"></i> {% elif b_t and sub.url_link == "course" %} <i class="icon-chevron-right text-13 ml-10"></i> {% endif %}</a>
+                                    {% endif %}
+                                  
+                                  {% if services and sub.url_link == "service" %}
+                                    <ul class="subnav">
+                                      <li class="menu__backButton js-nav-list-back">
+                                        <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ sub.menu }}</a>
+                                      </li>
+                                      <li>
+                                        <a href="{% url "service"%}">Bütün servislər</a>
+                                      </li>
+                                      {% for sub_in in services %}
+                                        <li>
+                                          <a href="{% url "service" sub_in.slug %}">{{ sub_in.title }} </a>
+                                        </li>
+                                      {% endfor %}
+                                    </ul>
+                                  {% elif b_t and sub.url_link == "course" %}
+                                    <ul class="subnav">
+                                      <li class="menu__backButton js-nav-list-back">
+                                        <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ sub.menu }}</a>
+                                      </li>
+                                      <li>
+                                        <a href="{% url "course"%}">Bütün Təlimlər</a>
+                                      </li>
+                                      {% for sub_in in b_t %}
+                                        <li>
+                                          <a href="{% url "course" sub_in.slug %}">{{ sub_in.title }} </a>
+                                        </li>
+                                      {% endfor %}
+                                    </ul>
+                                  {% endif %}
+                                  </li>
+                                {% endfor %}
+                              </ul>
+      
+                            {% endif %}
+                          </li>
+      
+      
+                        {% endfor %}
+
                       </ul>
                     </div>
                    
@@ -398,7 +419,7 @@
                   </div>
 
                   <div class="masthead-form__desc">
-                    Bizim kurslarda iştirak etmək üçün bu formu dolduraraq bizə müraciət etmiş olursunuz. Qısa zamanda əməkdaşlarımız sizinlə əlaqə saxlayaraq sizə ətraflı məlumat almaqda köməkçi olacaqlar.
+                    Bizim təlimlərdə iştirak etmək üçün bu formu dolduraraq bizə müraciət etmiş olursunuz. Qısa zamanda əməkdaşlarımız sizinlə əlaqə saxlayaraq sizə ətraflı məlumat almaqda köməkçi olacaqlar.
                   </div>
                 </form>
               </div>
@@ -568,9 +589,9 @@
 
               <div class="sectionTitle ">
 
-                <h2 class="sectionTitle__title text-center">Kurslar</h2>
+                <h2 class="sectionTitle__title text-center">Təlimlər</h2>
 
-                <p class="sectionTitle__text text-center">Yeni kurslarımız</p>
+                <p class="sectionTitle__text text-center">Yeni təlimlərimiz</p>
 
               </div>
 
@@ -613,7 +634,7 @@
             <div class="col-auto">
 
               <a href="{% url "course" %}" class="button -icon -purple-3 text-purple-1">
-                Bütün kurslar
+                Bütün təlimlər
                 <i class="icon-arrow-top-right text-13 ml-10"></i>
               </a>
 
@@ -633,7 +654,7 @@
 
                 <h2 class="sectionTitle__title ">Rəylər</h2>
 
-                <p class="sectionTitle__text ">Tələbələrimizin kursumuz haqqında rəyləri</p>
+                <p class="sectionTitle__text ">Tələbələrimizin təlimlər haqqında rəyləri</p>
 
               </div>
 

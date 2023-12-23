@@ -45,7 +45,7 @@ class RequestUsForm(forms.ModelForm):
             'course' : forms.Select(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"Kurs seçin"
+                    'placeholder' :"Təlim seçin"
                 }
             ),
         }

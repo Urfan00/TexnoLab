@@ -89,7 +89,7 @@ class AccountInforrmationForm(forms.ModelForm):
             'number' : 'Əlaqə nömrəsi',
             'email' : 'E-poçt',
             'image' : 'Profil şəkli',
-            'feedback' : 'Kurs haqıında rəyiniz',
+            'feedback' : 'Təlim haqqında rəyiniz',
             'bio' : 'Haqqınızda məlumat',
             'cv' : 'CV',
         }
