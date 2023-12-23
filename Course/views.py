@@ -37,38 +37,36 @@ class CourseListView(ListView):
         return context
 
 
-class CourseDetailView(View):
+class CourseDetailView(DetailView):
+    model = Course
     template_name = 'courses-single-5.html'
+    context_object_name = 'course'
 
     def get_object(self, queryset=None):
-        # Retrieve the Course object based on the slug in the URL
-        return Course.objects.get(slug=self.kwargs['slug'])
+        obj = super().get_object(queryset=queryset)
+        self.update_read_count(obj)
+        return obj
 
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        try:
-            course_stats = CourseStatistic.objects.get(course=self.object)
-            course_stats.read_count += 1
-            course_stats.save()
-        except ObjectDoesNotExist:
-            # Create a new CourseStatistic object if it doesn't exist
-            CourseStatistic.objects.create(course=self.object, read_count=1)
+    def update_read_count(self, course):
+        course_stats, created = CourseStatistic.objects.get_or_create(course=course)
+        course_stats.read_count += 1
+        course_stats.save()
 
-        context = self.get_context_data(object=self.object)
-        return render(request, self.template_name, context)
+    def update_review_count(self, course):
+        course_stats, created = CourseStatistic.objects.get_or_create(course=course)
+        course_stats.review_count += 1
+        course_stats.save()
 
     def get_context_data(self, **kwargs):
-        context = {}
-        context['course'] = self.get_object()
-        context['course_programs'] = CourseProgram.objects.filter(is_delete=False, course__slug=self.kwargs.get('slug')).all()
-        context['related_course'] = Course.objects.filter(is_delete=False, category=self.object.category).exclude(slug=self.kwargs.get('slug'))[:8]
-        context['reviews'] = CourseFeedback.objects.filter(is_delete=False, course__slug=self.kwargs.get('slug')).all()
-        context['galleries'] = Gallery.objects.filter(course__slug=self.kwargs.get('slug')).all()
-        context['videos'] = CourseVideo.objects.filter(course__slug=self.kwargs.get('slug')).all()
+        context = super().get_context_data(**kwargs)
+        context['course_programs'] = CourseProgram.objects.filter(is_delete=False, course__slug=self.object.slug).all()
+        context['related_course'] = Course.objects.filter(is_delete=False, category=self.object.category).exclude(slug=self.object.slug)[:8]
+        context['reviews'] = CourseFeedback.objects.filter(is_delete=False, course__slug=self.object.slug).all()
+        context['galleries'] = Gallery.objects.filter(course__slug=self.object.slug).all()
+        context['videos'] = CourseVideo.objects.filter(course__slug=self.object.slug).all()
 
         if self.request.user.is_authenticated:
-            context['user_review'] = CourseStudent.objects.filter(course__slug=self.kwargs.get('slug'), student=self.request.user).first()
-
+            context['user_review'] = CourseStudent.objects.filter(course__slug=self.object.slug, student=self.request.user).first()
         context['feedback_form'] = CourseFeedbackForm()
         context['request_form'] = RequestUsForm(initial={'course': self.object})
 
@@ -76,11 +74,9 @@ class CourseDetailView(View):
 
     def post(self, request, *args, **kwargs):
         try:
-            course = CourseStatistic.objects.get(course=self.get_object())
-            course.review_count += 1
-            course.save()
+            self.update_review_count(self.get_object())
         except ObjectDoesNotExist:
-            CourseStatistic.objects.create(course=self.get_object(), review_count=1)
+            CourseStatistic.objects.create(course=self.object, review_count=1)
 
         # Process the feedback form
         feedback_form = CourseFeedbackForm(request.POST)
@@ -88,14 +84,14 @@ class CourseDetailView(View):
         if request_form.is_valid():
             request_form.save()
             messages.success(request, 'Müraciətiniz uğurla edildi')
-            return redirect("course", slug=self.kwargs.get('slug'))
+            return redirect("course", slug=self.object.slug)
         elif feedback_form.is_valid():
             feedback = feedback_form.save(commit=False)
             feedback.course = self.get_object()
             feedback.student = request.user
             feedback.save()
             messages.success(request, 'Məlumatlarınız uğurla əlavə edildi')
-            return redirect("course", slug=self.kwargs.get('slug'))
+            return redirect("course", slug=self.get_object().slug)
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect("course", slug=self.kwargs.get('slug'))
+            return redirect("course", slug=self.object.slug)
