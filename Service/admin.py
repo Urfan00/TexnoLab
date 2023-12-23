@@ -49,10 +49,10 @@ class ServiceAdmin(admin.ModelAdmin):
     def delete_selected_with_images(self, request, queryset):
         for obj in queryset:
             # Collect the paths of associated images
-            image_paths = [image.photo.path for image in obj.service_images.all()]
+            image_paths = [image.photo.path for image in obj.service_image.all()]
 
             # Delete associated images
-            for image in obj.service_images.all():
+            for image in obj.service_image.all():
                 # Get the path to the image file
                 image_path = image.photo.path
 
