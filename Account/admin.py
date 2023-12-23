@@ -34,16 +34,19 @@ class AccountAdmin(BaseUserAdmin):
             image_fields = ['image', 'cv']
             # Loop through image fields and delete associated images
             for field in image_fields:
-                image_path = getattr(obj, field).path
-                image_parent_directory = os.path.dirname(image_path)
+                image_file = getattr(obj, field)
+                
+                if image_file and image_file.name:
+                    image_path = image_file.path
 
-                # Delete the associated image from the media folder
-                if os.path.exists(image_path):
-                    os.remove(image_path)
+                    # Delete the associated image from the media folder
+                    if os.path.exists(image_path):
+                        os.remove(image_path)
 
-                # Delete the immediate parent directory
-                if os.path.exists(image_parent_directory):
-                    shutil.rmtree(image_parent_directory)
+                    # Delete the immediate parent directory
+                    image_parent_directory = os.path.dirname(image_path)
+                    if os.path.exists(image_parent_directory):
+                        shutil.rmtree(image_parent_directory)
 
             # Delete the object
             obj.delete()

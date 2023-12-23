@@ -34,7 +34,7 @@ class Service(DateMixin):
 
     def delete(self, using=None, keep_parents=False):
         # Delete associated images and their parent folders
-        for image in self.service_images.all():
+        for image in self.service_image.all():
             # Get the path to the image file
             image_path = os.path.join(settings.MEDIA_ROOT, str(image.photo))
 

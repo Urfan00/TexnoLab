@@ -120,9 +120,13 @@
                           </li>
                           {% for sub in main.parent_menu.all %}
                             <li {% if services and sub.url_link == "service" %} class="menu-item-has-children" {% endif %}>
-                              <a href="/{{ sub.url_link }}/">{{ sub.menu }} {% if services and sub.url_link == "service" %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
+                              {% if not services and sub.url_link == "service" %}
+                                  <a href="/service">{{ sub.menu }}</a>
+                              {% else %}
+                                <a href="/{{ sub.url_link }}/">{{ sub.menu }} {% if services and sub.url_link == "service" %} <i class="icon-chevron-right text-13 ml-10"></i>{% endif %}</a>
+                              {% endif %}
                             
-                            {% if sub.url_link == "service" %}
+                            {% if services and sub.url_link == "service" %}
                               <ul class="subnav">
                                 <li class="menu__backButton js-nav-list-back">
                                   <a href="#"><i class="icon-chevron-left text-13 mr-10"></i> {{ sub.menu }}</a>
