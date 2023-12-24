@@ -165,9 +165,11 @@
                         <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-2" type="button">
                           Sosial şəbəkələr
                         </button>
-                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
-                          Mənim təlimlərim
-                        </button>
+                        {% if user.is_staff == False and user.is_superuser == False %}
+                          <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
+                            Mənim təlimlərim
+                          </button>
+                        {% endif %}
                         {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-4" type="button">
                           Mənim sertifikatlarım
                         </button> {% endcomment %}
@@ -209,11 +211,12 @@
                                   {{ form1.image }}
                                 </div>
   
+                                {% if user.is_staff == False and user.is_superuser == False %}
                                 <div class="col-md-12">
                                   <label for="id_feedback" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.feedback.label }}</label>
                                   {{ form1.feedback }}
                                 </div>
-  
+                                {% endif %}
                                 <div class="col-md-12">
                                   <label for="id_bio" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.bio.label }}</label>
                                   {{ form1.bio }}
@@ -282,86 +285,87 @@
                           </form>
                         </div>
 
-                        <div class="tabs__pane -tab-item-3">
+                        {% if user.is_staff == False and user.is_superuser == False %}
+                          <div class="tabs__pane -tab-item-3">
 
-                                                    <style>
-                            .tDiv{
-                              width:100%;
-                              overflow-x:scroll;
-                            }
+                                                      <style>
+                              .tDiv{
+                                width:100%;
+                                overflow-x:scroll;
+                              }
 
-                            {% comment %} .dif{
-                              display:block!important;
-                            } {% endcomment %}
+                              {% comment %} .dif{
+                                display:block!important;
+                              } {% endcomment %}
 
-                            .wt{
-                              min-width:30px!important;
-                              height:30px!important;
-                              padding:8px!important;
-                              float:left!important;
-                              margin:5px;
-                            }
+                              .wt{
+                                min-width:30px!important;
+                                height:30px!important;
+                                padding:8px!important;
+                                float:left!important;
+                                margin:5px;
+                              }
 
-                            .menusuboper{
-                              width: 195px;
-                              height:40px;
-                              float: left;
-                            }
+                              .menusuboper{
+                                width: 195px;
+                                height:40px;
+                                float: left;
+                              }
 
-                            .c{
-                              color: white!important;
-                            }
+                              .c{
+                                color: white!important;
+                              }
 
-                            table.table td{
-                              padding: 10px;
-                            }
-                          </style>
+                              table.table td{
+                                padding: 10px;
+                              }
+                            </style>
 
-                          <div class="tDiv">
-                            <div class="table-responsive">
-                              <table class="table" style="margin-top:25px; padding: 0px;">
-                                <thead>
-                                  <tr>
-                                    <th>№</th>
-                                    <th>Təlimlər</th>
-                                    <th>Təlim şəkili</th>
-                                    <th>Qruplar</th>
-                                    <th>Ortalama balı</th>
-                                    <th>Ödəniş</th>
-                                    <th>Endirim</th>
-                                    <th>Qalıq</th>
-                                    <th>Status</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-
-                                  {% for course in my_course %}
+                            <div class="tDiv">
+                              <div class="table-responsive">
+                                <table class="table" style="margin-top:25px; padding: 0px;">
+                                  <thead>
                                     <tr>
-                                      <td>{{ forloop.counter }}</td>
-                                      <td>{{ course.course.title }}</td>
-                                      <td><img width="50" height="50" src="{{ course.course.main_photo.url }}" alt=""></td>
-                                      <td>{{ course.group.name }}</td>
-                                      <td>{{ course.average }}</td>
-                                      <td>{{ course.payment }}</td>
-                                      <td>{{ course.discount }}</td>
-                                      <td>{{ course.rest }}</td>
-                                      <td>
-                                        {% if course.is_active %}
-                                          <span style="color: green;">Aktiv</span>
-                                          {% else %}
-                                          <span style="color: red;">Deaktiv</span>
-                                        {% endif %}
-                                      </td>
+                                      <th>№</th>
+                                      <th>Təlimlər</th>
+                                      <th>Təlim şəkili</th>
+                                      <th>Qruplar</th>
+                                      <th>Ortalama balı</th>
+                                      <th>Ödəniş</th>
+                                      <th>Endirim</th>
+                                      <th>Qalıq</th>
+                                      <th>Status</th>
                                     </tr>
-                                  {% endfor %}
+                                  </thead>
+                                  <tbody>
 
-                                </tbody>
-                              </table>
+                                    {% for course in my_course %}
+                                      <tr>
+                                        <td>{{ forloop.counter }}</td>
+                                        <td>{{ course.course.title }}</td>
+                                        <td><img width="50" height="50" src="{{ course.course.main_photo.url }}" alt=""></td>
+                                        <td>{{ course.group.name }}</td>
+                                        <td>{{ course.average }}</td>
+                                        <td>{{ course.payment }}</td>
+                                        <td>{{ course.discount }}</td>
+                                        <td>{{ course.rest }}</td>
+                                        <td>
+                                          {% if course.is_active %}
+                                            <span style="color: green;">Aktiv</span>
+                                            {% else %}
+                                            <span style="color: red;">Deaktiv</span>
+                                          {% endif %}
+                                        </td>
+                                      </tr>
+                                    {% endfor %}
+
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
+
                           </div>
-
-                        </div>
-
+                        {% endif %}
                         {% comment %} <div class="tabs__pane -tab-item-4">
                           <div class="row y-gap-10 ">
                             <div class="col-auto">
