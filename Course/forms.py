@@ -21,6 +21,10 @@ class CourseFeedbackForm(forms.ModelForm):
 
 
 class RequestUsForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(RequestUsForm, self).__init__(*args, **kwargs)
+        self.fields['course'].empty_label = "- təlim seçin -"  # Set default value
+
     class Meta:
         model = RequestUs
         fields = ['fullname', 'phone_number', 'course']
@@ -45,7 +49,6 @@ class RequestUsForm(forms.ModelForm):
             'course' : forms.Select(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"Təlim seçin"
                 }
             ),
         }

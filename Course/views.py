@@ -59,16 +59,16 @@ class CourseDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['course_programs'] = CourseProgram.objects.filter(is_delete=False, course__slug=self.object.slug).all()
-        context['related_course'] = Course.objects.filter(is_delete=False, category=self.object.category).exclude(slug=self.object.slug)[:8]
-        context['reviews'] = CourseFeedback.objects.filter(is_delete=False, course__slug=self.object.slug).all()
-        context['galleries'] = Gallery.objects.filter(course__slug=self.object.slug).all()
-        context['videos'] = CourseVideo.objects.filter(course__slug=self.object.slug).all()
+        context['course_programs'] = CourseProgram.objects.filter(is_delete=False, course__slug=self.get_object().slug).all()
+        context['related_course'] = Course.objects.filter(is_delete=False, category=self.get_object().category).exclude(slug=self.get_object().slug)[:8]
+        context['reviews'] = CourseFeedback.objects.filter(is_delete=False, course__slug=self.get_object().slug).all()
+        context['galleries'] = Gallery.objects.filter(course__slug=self.get_object().slug).all()
+        context['videos'] = CourseVideo.objects.filter(course__slug=self.get_object().slug).all()
 
         if self.request.user.is_authenticated:
-            context['user_review'] = CourseStudent.objects.filter(course__slug=self.object.slug, student=self.request.user).first()
+            context['user_review'] = CourseStudent.objects.filter(course__slug=self.get_object().slug, student=self.request.user).first()
         context['feedback_form'] = CourseFeedbackForm()
-        context['request_form'] = RequestUsForm(initial={'course': self.object})
+        context['request_form'] = RequestUsForm(initial={'course': self.get_object()})
 
         return context
 
@@ -76,7 +76,7 @@ class CourseDetailView(DetailView):
         try:
             self.update_review_count(self.get_object())
         except ObjectDoesNotExist:
-            CourseStatistic.objects.create(course=self.object, review_count=1)
+            CourseStatistic.objects.create(course=self.get_object(), review_count=1)
 
         # Process the feedback form
         feedback_form = CourseFeedbackForm(request.POST)
@@ -84,7 +84,7 @@ class CourseDetailView(DetailView):
         if request_form.is_valid():
             request_form.save()
             messages.success(request, 'Müraciətiniz uğurla edildi')
-            return redirect("course", slug=self.object.slug)
+            return redirect("course", slug=self.get_object().slug)
         elif feedback_form.is_valid():
             feedback = feedback_form.save(commit=False)
             feedback.course = self.get_object()
@@ -94,4 +94,4 @@ class CourseDetailView(DetailView):
             return redirect("course", slug=self.get_object().slug)
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect("course", slug=self.object.slug)
+            return redirect("course", slug=self.get_object().slug)
