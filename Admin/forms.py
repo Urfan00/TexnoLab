@@ -333,13 +333,13 @@ class FAQEditForm(forms.ModelForm):
 class AboutUsEditForm(forms.ModelForm):
     class Meta:
         model = AboutUs
-        fields = ['title', 'content', 'img1', 'img2', 'img3']
+        fields = ['title', 'content', 'img1']
         labels = {
             'title' : 'Başlıq',
             'content' : 'Məzmun',
             'img1' : 'Şəkil 1',
-            'img2' : 'Şəkil 2',
-            'img3' : 'Şəkil 3',
+            # 'img2' : 'Şəkil 2',
+            # 'img3' : 'Şəkil 3',
         }
         widgets = {
             'title' : forms.TextInput(

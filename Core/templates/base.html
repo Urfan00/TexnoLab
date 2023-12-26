@@ -29,7 +29,39 @@
   <!-- Stylesheets -->
   <link rel="stylesheet" href="{% static 'css/vendors.css' %}">
   <link rel="stylesheet" href="{% static 'css/main.css' %}">
+<style>
+  /* width */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 5px;
+}
 
+
+/* Track */
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: var(--color-dark-1);
+}
+
+/* Handle on hover */
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.sss{
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+@media only screen and (max-width: 1209px) {
+  .sss{
+    overflow-x: scroll;
+  }
+}
+</style>
   <title>Educrat</title>
 </head>
 

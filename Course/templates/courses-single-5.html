@@ -103,7 +103,7 @@
               <div class="col-lg-8">
                 <div class="pt-25 pb-30 px-30 bg-white shadow-2 rounded-8 border-light">
                   <div class="tabs -active-purple-2 js-tabs pt-0">
-                    <div class="tabs__controls d-flex js-tabs-controls">
+                    <div class="tabs__controls d-flex js-tabs-controls sss">
                       <button class="tabs__button js-tabs-button js-update-pin-scene is-active" data-tab-target=".-tab-item-1" type="button">
                         Ümumi baxış
                       </button>
@@ -133,9 +133,18 @@
                             <p class="">{{ course.description }}</p>
                           </div>
 
-                          <button class="show-more__button text-purple-1 fw-500 underline mt-30">Daha çox</button>
+                          <button id="more_" onclick="changeText()" class="show-more__button text-purple-1 fw-500 underline mt-30">Daha çox</button>
                         </div>
-
+                        <script>
+                          function changeText(){
+                            let button = document.getElementById("more_")
+                            if (button.innerHTML === "Daha çox") {
+                              button.innerHTML = "Gizlət";
+                            } else {
+                              button.innerHTML = "Daha çox";
+                            }
+                          }
+                        </script>
                       </div>
 
                       <div class="tabs__pane -tab-item-2">
@@ -325,9 +334,7 @@
                                 </div>
                             {% endfor %}
                             </div>
-                          </div>
-
-                      
+                      </div>
 
                       <div class="tabs__pane -tab-item-6">
 
