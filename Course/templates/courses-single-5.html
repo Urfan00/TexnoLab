@@ -83,11 +83,13 @@
                 <div class="col-lg-8">
                   <div class="relative pt-40">
                     <img class="w-1/1" src="{{ course.main_photo.url }}" alt="image">
-                    <div class="absolute-full-center d-flex justify-center items-center">
-                      <a href="{{ course.video_link }}" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
-                        <div class="icon-play text-18"></div>
-                      </a>
-                    </div>
+                    {% if course.video_link %}
+                      <div class="absolute-full-center d-flex justify-center items-center">
+                        <a href="{{ course.video_link }}" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
+                          <div class="icon-play text-18"></div>
+                        </a>
+                      </div>
+                    {% endif %}
                   </div>
                 </div>
                 <div class="courses-single-info js-pin-content">
