@@ -30,5 +30,7 @@ urlpatterns = [
     path('', include('Service.urls')),
     path('', include('KEB.urls')),
     path('', include('TIM.urls')),
+    path('', include('Exam.urls')),
+    path('', include('ExamResult.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

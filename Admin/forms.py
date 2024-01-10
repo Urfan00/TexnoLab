@@ -1,8 +1,9 @@
 from django import forms
-from Account.models import Account, Group
+from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
-from Course.models import Course, CourseCategory, CourseProgram, CourseStudent, CourseVideo, Gallery, RequestUs
+from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs
+from ExamResult.models import Group, CourseStudent
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
 from TIM.models import TIMImage, TIMVideo
@@ -546,7 +547,7 @@ class AllGaleryEditForm(forms.ModelForm):
 class CourseStudentEditForm(forms.ModelForm):
     class Meta:
         model = CourseStudent
-        fields = ['student', 'group', 'course', 'average', 'payment', 'rest', 'rating', 'is_active']
+        fields = ['student', 'group', 'average', 'payment', 'rest', 'rating', 'is_active']
         labels = {
             'student': 'Ad Soyad',
             'group': 'Qrup',

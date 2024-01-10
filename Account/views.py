@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from Account.models import Account
-from Course.models import CourseStudent
+from ExamResult.models import CourseStudent
 from services.uploader import Uploader
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView

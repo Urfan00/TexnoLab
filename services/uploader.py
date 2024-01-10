@@ -58,6 +58,10 @@ class Uploader:
         return f"Galery/{filename}"
 
     @staticmethod
+    def question_image(instance, filename):
+        return f"Question_Image/{instance.course_topic.course.title}/{instance.course_topic.topic_title}/{instance.pk}/{filename}"
+
+    @staticmethod
     def get_file_extension(file_name):
         _, file_extension = os.path.splitext(file_name)
         return file_extension

@@ -1,7 +1,8 @@
 from django.shortcuts import render, get_object_or_404
 from django.views.generic import ListView
 from Account.models import Account
-from Course.models import Course, CourseStudent
+from Course.models import Course
+from ExamResult.models import CourseStudent
 from django.db.models import Count, Case, When, IntegerField
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 

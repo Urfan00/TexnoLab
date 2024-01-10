@@ -1,11 +1,12 @@
 from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
-from Account.models import Account, Group
+from Account.models import Account
+from ExamResult.models import Group, CourseStudent
 from Core.forms import CertificateEditForm
 from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
-from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery, RequestUs
+from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from TIM.models import TIM, TIMImage, TIMVideo
 from .forms import (AboutUsEditForm,

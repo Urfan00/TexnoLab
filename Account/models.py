@@ -36,19 +36,6 @@ class CustomUserManager(BaseUserManager):
         return self.create_user(id_code, email, FIN, number, password, **extra_fields)
 
 
-class Group(DateMixin):
-    name = models.CharField(max_length=50)
-    start_date = models.DateTimeField()
-    end_date = models.DateTimeField()
-
-    def __str__(self):
-        return self.name
-
-    class Meta:
-        verbose_name = 'Group'
-        verbose_name_plural = 'Groups'
-
-
 class Account(AbstractUser):
     id_code = models.CharField(max_length=7, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255)
@@ -69,9 +56,11 @@ class Account(AbstractUser):
     github = models.URLField(max_length=200, null=True, blank=True)
     youtube = models.URLField(max_length=200, null=True, blank=True)
     linkedIn = models.URLField(max_length=200, null=True, blank=True)
-    group = models.ManyToManyField(Group, blank=True)
+    # group = models.ManyToManyField(Group, blank=True)
     first_time_login = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
+    exam_status = models.BooleanField(default=True)
+
     username = None
 
     USERNAME_FIELD = 'id_code'
@@ -123,7 +112,6 @@ class Account(AbstractUser):
 
         super(Account, self).delete(using, keep_parents)
 
-    # Your custom function to calculate age
     def calculate_age(self):
         if self.birthday:
             today = date.today()

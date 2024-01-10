@@ -1,6 +1,6 @@
 import shutil
 from django.db import models
-from Account.models import Account, Group
+from Account.models import Account
 from services.mixins import DateMixin
 from services.uploader import Uploader
 from django.template.defaultfilters import slugify
@@ -196,34 +196,6 @@ class CourseProgram(DateMixin):
     class Meta:
         verbose_name = 'Course Program'
         verbose_name_plural = 'Course Programs'
-
-
-class CourseStudent(DateMixin):
-    ratings = (
-        (1, 1),
-        (2, 2),
-        (3, 3),
-        (4, 4),
-        (5, 5)
-    )
-    rating = models.IntegerField(choices=ratings, null=True, blank=True)
-    is_keb = models.BooleanField(default=False)
-    is_active = models.BooleanField(default=False)  # mezun true // telebe false
-    is_deleted = models.BooleanField(default=False)
-    average = models.FloatField(default=0)
-    payment = models.FloatField(default=0)
-    discount = models.FloatField(default=0)
-    rest = models.FloatField(default=0)
-    group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='student_group')
-    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='learner')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='student_course')
-
-    def __str__(self):
-        return f"{self.student.first_name} {self.student.last_name}"
-
-    class Meta:
-        verbose_name = 'Course Student'
-        verbose_name_plural = 'Course Students'
 
 
 class CourseStatistic(DateMixin):

@@ -1,7 +1,8 @@
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, CreateView
 from .forms import CourseFeedbackForm, RequestUsForm
-from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery
+from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery
+from ExamResult.models import CourseStudent
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib import messages
 from django.views import View

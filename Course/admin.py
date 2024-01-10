@@ -1,7 +1,7 @@
 import os
 import shutil
 from django.contrib import admin
-from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseStudent, CourseVideo, Gallery, RequestUs
+from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs
 
 
 
@@ -118,13 +118,6 @@ class CourseProgramAdmin(admin.ModelAdmin):
         return actions
 
 
-class CourseStudentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'group', 'course', 'average', 'payment', 'discount', 'rest', 'rating', 'is_keb', 'is_active', 'is_deleted', 'created_at', 'updated_at']
-    list_display_links = ['id', 'student']
-    search_fields = ['student__first_name', 'student__last_name', 'student__id_code', 'group__name', 'course__title']
-    list_filter = ['rating', 'is_active', 'is_deleted', 'is_keb']
-
-
 class CourseStatisticAdmin(admin.ModelAdmin):
     list_display = ['id', 'course', 'read_count', 'review_count', 'created_at', 'updated_at']
     list_display_links = ['id', 'course']
@@ -138,5 +131,4 @@ admin.site.register(CourseFeedback, CourseFeedbackAdmin)
 admin.site.register(RequestUs, RequestUsAdmin)
 admin.site.register(Gallery, GalleryAdmin)
 admin.site.register(CourseProgram, CourseProgramAdmin)
-admin.site.register(CourseStudent, CourseStudentAdmin)
 admin.site.register(CourseVideo, CourseVideoAdmin)

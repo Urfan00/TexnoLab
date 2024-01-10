@@ -25,6 +25,7 @@ SECRET_KEY = 'django-insecure-49q9t6-=4-s)j@y6#yf#qv*ubbk(69!ck4_sdyab+!+((1(l0k
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+# DEBUG = False
 
 ALLOWED_HOSTS = ['167.99.141.20', 'texnolab.az', '*']
 
@@ -47,6 +48,8 @@ INSTALLED_APPS = [
     'Service',
     'KEB',
     'TIM',
+    'Exam',
+    'ExamResult',
 
     'ckeditor',
 
