@@ -52,6 +52,7 @@ INSTALLED_APPS = [
     'ExamResult',
 
     'ckeditor',
+    'import_export',
 
 ]
 
