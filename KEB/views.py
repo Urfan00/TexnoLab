@@ -25,7 +25,7 @@ class KEBView(ListView):
                     is_keb=True,
                     student__is_delete=False,
                     student__is_superuser=False,
-                    course__slug = course_slug,
+                    group__course__slug = course_slug,
                     rating = rating
                 ).order_by('?').all()
         elif course_slug:
@@ -35,7 +35,7 @@ class KEBView(ListView):
                     is_keb=True,
                     student__is_delete=False,
                     student__is_superuser=False,
-                    course__slug = course_slug
+                    group__course__slug = course_slug
                 ).order_by('?').all()
         elif rating:
             queryset = CourseStudent.objects.filter(
@@ -82,17 +82,18 @@ class KEBView(ListView):
             num_students=Count(
                 Case(
                     When(
-                        student_course__is_keb=True,
-                        student_course__is_deleted=False,
-                        student_course__is_active=True,
-                        student_course__student__is_delete=False,
-                        student_course__student__is_superuser=False,
+                        course_group__student_group__is_keb=True,
+                        course_group__student_group__is_deleted=False,
+                        course_group__student_group__is_active=True,
+                        course_group__student_group__student__is_delete=False,
+                        course_group__student_group__student__is_superuser=False,
                         then=1
                         ),
                     output_field=IntegerField()
                 )
             )
         )
+        print(context['courses'])
 
         # Pagination
         page = self.request.GET.get('page')

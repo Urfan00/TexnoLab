@@ -68,7 +68,7 @@ class DashboardView(StaffRequiredMixin, ListView):
         context['service_count'] = ServiceHome.objects.filter(is_delete=False, status=True).count()
         context["courses"] = Course.objects.filter(category__is_delete=False, is_delete=False, status=True).annotate(
                 review_count=Count('course_feedback__id', distinct=True),
-                student_count=Count('student_course__id', distinct=True),
+                student_count=Count('course_group__student_group__id', distinct=True),
                 program_count=Count('course_program__id', distinct=True)
             ).order_by('-created_at').all()[:5]
         context["blogs"] = Blog.objects.filter(blog_category__is_delete=False, is_delete=False, status=True).order_by('-created_at').all()[:5]
@@ -1451,8 +1451,10 @@ class AdminGroupEditView(StaffRequiredMixin, CreateView):
         if form.is_valid():
             group = Group.objects.get(pk=kwargs.get('pk'))
             group.name = form.cleaned_data.get('name')
+            group.course = form.cleaned_data.get('course')
             group.start_date = form.cleaned_data.get('start_date')
             group.end_date = form.cleaned_data.get('end_date')
+            group.is_active = form.cleaned_data.get('is_active')
             group.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('account_dashboard')
@@ -1503,7 +1505,6 @@ class CourseStudentEditView(StaffRequiredMixin, CreateView):
             student.rest = form.cleaned_data.get('rest')
             student.group = form.cleaned_data.get('group')
             student.student = form.cleaned_data.get('student')
-            student.course = form.cleaned_data.get('course')
             student.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('account_dashboard')

@@ -9,10 +9,10 @@ class GroupAdmin(admin.ModelAdmin):
 
 
 class CourseStudentAdmin(admin.ModelAdmin):
-    list_display = ['id', 'student', 'group', 'average', 'payment', 'discount', 'rest', 'rating', 'is_keb', 'is_active', 'is_deleted', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'group', 'average', 'payment', 'discount', 'rest', 'rating', 'is_keb', 'is_active', 'group_student_is_active', 'is_deleted', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__id_code', 'group__name', 'course__title']
-    list_filter = ['rating', 'is_active', 'is_deleted', 'is_keb']
+    list_filter = ['rating', 'is_active', 'group_student_is_active', 'is_deleted', 'is_keb']
 
 
 

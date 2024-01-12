@@ -10,7 +10,7 @@ class AccountAdmin(BaseUserAdmin):
     list_filter = ("is_active", 'is_staff', 'is_delete', 'exam_status', "is_superuser", 'first_time_login', 'feedback_status')
     fieldsets = (
         ("Credential", {'fields': ('id_code', 'password')}),
-        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'number', 'bio', 'image', 'cv', 'birthday', 'balance', 'group', 'first_time_login', 'exam_status', 'feedback_status', 'is_delete', 'feedback', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn')}),
+        ('Personal info', {'fields': ('first_name', 'last_name', 'email', 'number', 'bio', 'image', 'cv', 'birthday', 'balance', 'first_time_login', 'exam_status', 'feedback_status', 'is_delete', 'feedback', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn')}),
         ('Permissions', {
             'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions'),
         }),

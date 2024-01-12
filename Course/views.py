@@ -67,7 +67,7 @@ class CourseDetailView(DetailView):
         context['videos'] = CourseVideo.objects.filter(course__slug=self.get_object().slug).all()
 
         if self.request.user.is_authenticated:
-            context['user_review'] = CourseStudent.objects.filter(course__slug=self.get_object().slug, student=self.request.user).first()
+            context['user_review'] = CourseStudent.objects.filter(group__course__slug=self.get_object().slug, student=self.request.user).first()
         context['feedback_form'] = CourseFeedbackForm()
         context['request_form'] = RequestUsForm(initial={'course': self.get_object()})
 

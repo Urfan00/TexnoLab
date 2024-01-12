@@ -230,9 +230,9 @@
                                   {% for cs in c_students %}
                                     <tr>
                                       <td>{{ forloop.counter }}</td>
-                                      <td>{{ cs.student.first_name }} {{ cs.student.last_name }}</td>
+                                      <td>{{ cs.student.get_full_name|capfirst }}</td>
                                       <td>{{ cs.group.name }}</td>
-                                      <td>{{ cs.course.title }}</td>
+                                      <td>{{ cs.group.course.title }}</td>
                                       <td>{{ cs.average }}</td>
                                       <td>{{ cs.payment }}</td>
                                       <td>{{ cs.discount }}</td>
@@ -329,8 +329,10 @@
                                   <tr>
                                     <th>№</th>
                                     <th>Qrup adı</th>
+                                    <th>Təlim adı</th>
                                     <th>Başlama vaxtı</th>
                                     <th>Bitmə vaxtı</th>
+                                    <th>Status</th>
                                     <th>Əməliyyatlar</th>
                                   </tr>
                                 </thead>
@@ -340,8 +342,16 @@
                                     <tr>
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ group.name }}</td>
+                                      <td>{{ group.course.title }}</td>
                                       <td>{{ group.start_date|date:"M j, Y, H:i" }}</td>
                                       <td>{{ group.end_date|date:"M j, Y, H:i" }}</td>
+                                      <td>
+                                        {% if group.is_active %}
+                                          Aktiv
+                                        {% elif not group.is_active %}
+                                          Deaktiv
+                                        {% endif %}
+                                      </td>
                                       <td>
                                         <div class="menusuboper">
          

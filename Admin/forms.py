@@ -509,14 +509,23 @@ class AccountEditForm(forms.ModelForm):
 class GroupEditForm(forms.ModelForm):
     class Meta:
         model = Group
-        fields = ['name', 'start_date', 'end_date']
+        fields = ['name', 'course', 'start_date', 'end_date', 'is_active']
         labels = {
-            'name' : 'Qrup adı'
+            'name' : 'Qrup adı',
+            'course' : 'Təlim adı',
+            'start_date' : 'Başlama tarixi',
+            'end_date' : 'Bitmə tarixi',
+            'is_active' : 'Status',
         }
         widgets = {
             'name' : forms.TextInput(
                 attrs={
                     'placeholder' :"Qrup adı"
+                }
+            ),
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
                 }
             ),
             'start_date' : forms.DateTimeInput(
