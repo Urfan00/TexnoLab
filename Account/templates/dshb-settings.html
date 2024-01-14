@@ -101,7 +101,7 @@
                 </a>
               </div>
               <div class="sidebar__item ">
-                <a href="{% url 'course' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                <a href="{% url 'quiz_rule' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-bookmark mr-15"></i>
                   İmtahan
                 </a>
@@ -155,6 +155,9 @@
                         {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-4" type="button">
                           Mənim sertifikatlarım
                         </button> {% endcomment %}
+                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-5" type="button">
+                          İmtahan Nəticələrim
+                        </button>
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active">
@@ -215,6 +218,7 @@
                           </form>
                           </div>
                         </div>
+
                         <div class="tabs__pane -tab-item-2">
                           <form method="post" class="contact-form row y-gap-30">
 
@@ -301,6 +305,9 @@
                               table.table td{
                                 padding: 10px;
                               }
+                              .tc {
+                                text-align: center!important;
+                              }
                             </style>
 
                             <div class="tDiv">
@@ -321,18 +328,18 @@
                                   </thead>
                                   <tbody>
 
-                                    {% for course in my_course %}
+                                    {% for my_c in my_course %}
                                       <tr>
-                                        <td>{{ forloop.counter }}</td>
-                                        <td>{{ course.course.title }}</td>
-                                        <td><img width="50" height="50" src="{{ course.course.main_photo.url }}" alt=""></td>
-                                        <td>{{ course.group.name }}</td>
-                                        <td>{{ course.average }}</td>
-                                        <td>{{ course.payment }}</td>
-                                        <td>{{ course.discount }}</td>
-                                        <td>{{ course.rest }}</td>
-                                        <td>
-                                          {% if course.is_active %}
+                                        <td class="tc">{{ forloop.counter }}</td>
+                                        <td class="tc">{{ my_c.group.course.title }}</td>
+                                        <td class="tc"><img width="50" height="50" src="{{ my_c.group.course.main_photo.url }}" alt=""></td>
+                                        <td class="tc">{{ my_c.group.name }}</td>
+                                        <td class="tc">{{ my_c.average }}</td>
+                                        <td class="tc">{{ my_c.payment }}</td>
+                                        <td class="tc">{{ my_c.discount }}</td>
+                                        <td class="tc">{{ my_c.rest }}</td>
+                                        <td class="tc">
+                                          {% if my_c.is_active %}
                                             <span style="color: green;">Aktiv</span>
                                             {% else %}
                                             <span style="color: red;">Deaktiv</span>
@@ -348,6 +355,7 @@
 
                           </div>
                         {% endif %}
+
                         {% comment %} <div class="tabs__pane -tab-item-4">
                           <div class="row y-gap-10 ">
                             <div class="col-auto">
@@ -408,6 +416,39 @@
 
 
                         </div> {% endcomment %}
+
+                        <div class="tabs__pane -tab-item-5">
+
+                          <div class="tDiv">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Təlim</th>
+                                    <th>Mövzu</th>
+                                    <th>Nəticə</th>
+                                    <th>Tarix</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for result in results %}
+                                    <tr>
+                                      <td class="tc">{{ forloop.counter }}</td>
+                                      <td class="tc">{{ result.exam_topics.course.title|capfirst }}</td>
+                                      <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
+                                      <td class="tc">{{ result.percent_point }} %</td>
+                                      <td class="tc">{{ result.created_at }}</td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
 
                       </div>
                     </div>

@@ -3,8 +3,6 @@ from Course.models import Course
 from ckeditor.fields import RichTextField
 from services.mixins import DateMixin
 from services.uploader import Uploader
-from django.utils import timezone
-
 
 
 
@@ -22,7 +20,7 @@ class CourseTopicsTest(DateMixin):
 class CourseTopic(DateMixin):
     topic_title = models.CharField(max_length=255)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_topic')
-    course_topic_test = models.ManyToManyField(CourseTopicsTest, blank=True)
+    course_topic_test = models.ManyToManyField(CourseTopicsTest, blank=True, related_name='course_topics_test')
 
     def __str__(self):
         return self.topic_title

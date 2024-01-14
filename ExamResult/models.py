@@ -10,7 +10,7 @@ from services.mixins import DateMixin
 class Group(DateMixin):
     name = models.CharField(max_length=100, unique=True)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_group')
-    course_topic = models.ManyToManyField(CourseTopic, blank=True)
+    course_topic = models.ForeignKey(CourseTopic, on_delete=models.CASCADE, null=True, blank=True)
     is_active = models.BooleanField(default=True)
     exam_durations = models.PositiveIntegerField(default=0)
     is_checked = models.BooleanField(default=False)
@@ -24,7 +24,7 @@ class Group(DateMixin):
 
     def save(self, *args, **kwargs):
         if self.exam_durations:
-            self.end_time = timezone.now() + timezone.timedelta(minutes=self.exam_durations)
+            self.exam_end_time = self.exam_start_time + timezone.timedelta(minutes=self.exam_durations)
         super().save(*args, **kwargs)
 
     class Meta:
@@ -105,7 +105,7 @@ class StudentResult(DateMixin):
     point_3 = models.PositiveIntegerField(default=0)
     total_point = models.PositiveIntegerField()
     status = models.BooleanField(default=True)
-    exam_topics = models.ManyToManyField(CourseTopic)
+    exam_topics = models.ForeignKey(CourseTopic, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         self.total_point = self.point_1 + self.point_2 + self.point_3

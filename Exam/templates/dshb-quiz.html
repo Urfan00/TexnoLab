@@ -1,0 +1,291 @@
+{% extends "base3.html" %}
+{% load static %}
+{% block content %}
+
+  <div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+
+      <div class="row y-gap-30">
+        <div class="col-xl-9">
+          <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+            <div class="d-flex items-center py-20 px-30 border-bottom-light">
+              <h2 class="text-17 lh-1 fw-500 text-20">İmtahan sualları</h2>
+            </div>
+             <div class="py-30 px-30">
+              <form id="quiz_form" method="post">
+                {% csrf_token %}
+
+                {% for question in student_questions.point_1_question.all %}
+
+                  <div id="sual_{{ forloop.counter }}" class="border-light overflow-hidden rounded-8 mb-30">
+
+                    <div class="py-15 px-15 bg-dark-5">
+                      <div class="d-flex justify-between">
+                        <h4 class="d-flex text-20 lh-1 fw-500 text-white">{{ forloop.counter }}) &nbsp; {{ question.question|safe }}</h4>
+                        {% comment %} <div class="d-flex x-gap-50">
+                          <div class="d-flex items-center text-white">
+                            <div class="icon-flag mr-10"></div>
+                            <div>Flag Question</div>
+                          </div>
+                        </div> {% endcomment %}
+                      </div>
+
+                      {% if question.question_image %}
+                        <img class="mt-10" src="{{ question.question_image.url }}" alt="">
+                      {% endif %}
+                    </div>
+
+                    <div class="px-15 py-15">
+
+                      {% for answer in question.question_answer.all %}
+
+                        <div class="form-radio d-flex items-center {% if forloop.counter != 1 %}mt-20{% endif %}">
+                          
+                          <div class="radio">
+                            <input id="{{ question.id }}_{{ forloop.counter }}" type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">
+                            <div class="radio__mark">
+                              <div class="radio__icon"></div>
+                            </div>
+                          </div>
+                          <label for="{{ question.id }}_{{ forloop.counter }}"><div class="fw-500 ml-12">{{ answer.answer|capfirst }}</div></label>
+                        </div>
+
+                      {% endfor %}
+
+                    </div>
+                  </div>
+
+                {% endfor %}
+
+                {% for question in student_questions.point_2_question.all %}
+
+                  <div id="sual_{{ forloop.counter0|add:4 }}" class="border-light overflow-hidden rounded-8 mb-30">
+
+                    <div class="py-15 px-15 bg-dark-5">
+                      <div class="d-flex justify-between">
+                        <h4 class="d-flex text-20 lh-1 fw-500 text-white">{{ forloop.counter0|add:4 }}) &nbsp; {{ question.question|safe }}</h4>
+                      </div>
+
+                      {% if question.question_image %}
+                        <img class="mt-10" src="{{ question.question_image.url }}" alt="">
+                      {% endif %}
+                    </div>
+
+                    <div class="px-15 py-15">
+
+                      {% for answer in question.question_answer.all %}
+
+                        <div class="form-radio d-flex items-center {% if forloop.counter != 1 %}mt-20{% endif %}">
+                          <div class="radio">
+                            <input id="{{ question.id }}_{{ forloop.counter }}" type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">
+                            <div class="radio__mark">
+                              <div class="radio__icon"></div>
+                            </div>
+                          </div>
+                          <label for="{{ question.id }}_{{ forloop.counter }}"><div class="fw-500 ml-12">{{ answer.answer|capfirst }}</div></label>
+                        </div>
+
+                      {% endfor %}
+
+                    </div>
+                  </div>
+
+                {% endfor %}
+
+                {% for question in student_questions.point_3_question.all %}
+
+                  <div id="sual_{{ forloop.counter0|add:8 }}" class="border-light overflow-hidden rounded-8 mb-30">
+
+                    <div class="py-15 px-15 bg-dark-5">
+                      <div class="d-flex justify-between">
+                        <h4 class="d-flex text-18 lh-1 fw-500 text-white">{{ forloop.counter0|add:8 }}) &nbsp; {{ question.question|safe }}</h4>
+                      </div>
+
+                      {% if question.question_image %}
+                        <img class="mt-10" src="{{ question.question_image.url }}" alt="">
+                      {% endif %}
+                    </div>
+
+                    <div class="px-15 py-15">
+
+                      {% for answer in question.question_answer.all %}
+
+                        <div class="form-radio d-flex items-center {% if forloop.counter != 1 %}mt-20{% endif %}">
+                          <div class="radio">
+                            <input id="{{ question.id }}_{{ forloop.counter }}" type="radio" name="question_{{ question.id }}" value="{{ answer.id }}">
+                            <div class="radio__mark">
+                              <div class="radio__icon"></div>
+                            </div>
+                          </div>
+                          <label for="{{ question.id }}_{{ forloop.counter }}"><div class="fw-500 ml-12">{{ answer.answer|capfirst }}</div></label>
+                        </div>
+
+                      {% endfor %}
+
+                    </div>
+                  </div>
+
+                {% endfor %}
+
+                <div class="d-flex justify-end">
+                  <button class="button -md -dark-1 text-white -dark-button-white mt-40" onclick="return confirm('İmtahanı bitirmək istədiyinizə əminsiniz?');">Bitir</button>
+                </div>
+
+              </form>
+            </div>
+          </div>
+        </div>
+
+
+        <style>
+          .abc {
+            position: fixed;
+            right: 30px;
+            width: 300px;
+          }
+          @media only screen and (max-width: 1400px) {
+            .abc {
+              position: static;
+              width: 100%;
+            }
+          }
+        </style>
+
+        <div class="col-xl-3 col-lg-3 abc">
+          <div class="row y-gap-30">
+            <div class="col-12">
+              <div class="pt-20 pb-20 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+                
+                <style>
+                  #exam_date{
+                    font-size: 40px;
+                  }
+                </style>
+                {% comment %} <div class="d-flex justify-center items-center"> {% endcomment %}
+                  {% comment %} <div class="progress-bar w-1/1"> {% endcomment %}
+                    {% comment %} <div class="progress-bar__bg bg-light-3"></div>
+                    <div class="progress-bar__bar bg-purple-1 w-1/4"></div> {% endcomment %}
+                  {% comment %} </div> {% endcomment %}
+                  <p class="text-center text-20">Bitmə tarixi</p>
+                  <div class="d-flex justify-center items-center ">
+                    <div id="exam_date"></div>
+                    
+                  </div>
+                  
+                {% comment %} </div> {% endcomment %}
+              </div>
+            </div>
+
+            <div class="col-12">
+              <div class="pt-20 pb-30 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+                <h5 class="text-17 fw-500 mb-30">Suallar</h5>
+
+                <div class="row x-gap-10 y-gap-10">
+
+                  <div class="col-auto">
+                    <a href="#sual_1" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">1</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_2" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">2</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_3" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">3</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_4" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">4</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_5" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">5</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_6" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">6</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_7" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">7</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_8" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">8</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_9" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">9</div>
+                    </a>
+                  </div>
+
+                  <div class="col-auto">
+                    <a href="#sual_10" class="button -single-icon -light-3 text-dark-1 size-35 rounded-8">
+                      <div class="text-15 lh-1 fw-500">10</div>
+                    </a>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+
+<script>
+  let urls = '/exam_result/'
+  
+  var countDownDate = new Date('{{ endTime|date:"D M d Y H:i:s" }}').getTime()
+
+  var x = setInterval(function() {
+    var now = new Date().getTime(); // Update the current time in each iteration
+    
+    var distance = countDownDate - now;
+
+    // Time calculations for days, hours, minutes and seconds
+    var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+    // Display the result in the element with id="demo"
+    const hoursa   = String(hours).padStart(2, '0');
+    const minutesa = String(minutes).padStart(2, '0');
+    const secondsa = String(seconds).padStart(2, '0');
+
+    document.getElementById("exam_date").innerHTML =  hoursa + ":" + minutesa + ":" + secondsa;
+
+    // If the count down is finished, write some text
+    if (distance < 1000) {
+      document.getElementById("quiz_form").submit();
+    }
+    if (distance < 0) {
+      clearInterval(x);
+      window.location.href = urls;
+    }
+  }, 1000);
+</script>
+
+
+{% endblock %}

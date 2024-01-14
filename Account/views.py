@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from Account.models import Account
-from ExamResult.models import CourseStudent
+from ExamResult.models import CourseStudent, StudentResult
 from services.uploader import Uploader
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
@@ -10,7 +10,7 @@ from django.views.generic import CreateView
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
-
+from django.db.models import F
 
 
 class LogInView(LoginView, UserPassesTestMixin):
@@ -78,6 +78,9 @@ class AccountInformationView(LoginRequiredMixin, View):
     def get_context_data(self):
         context = {}
         context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
+        context["results"] = StudentResult.objects.filter(student=self.request.user).annotate(
+            percent_point = F('total_point') * 5
+        ).all()
         return context
 
     def get(self, request, *args, **kwargs):
