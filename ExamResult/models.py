@@ -105,7 +105,7 @@ class StudentResult(DateMixin):
     point_3 = models.PositiveIntegerField(default=0)
     total_point = models.PositiveIntegerField()
     status = models.BooleanField(default=True)
-    exam_topics = models.ForeignKey(CourseTopic, on_delete=models.CASCADE)
+    exam_topics = models.ForeignKey(CourseTopic, on_delete=models.CASCADE, null=True, blank=True)
 
     def save(self, *args, **kwargs):
         self.total_point = self.point_1 + self.point_2 + self.point_3

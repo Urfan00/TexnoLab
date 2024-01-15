@@ -147,7 +147,7 @@
                         <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-2" type="button">
                           Sosial şəbəkələr
                         </button>
-                        {% if user.is_staff == False and user.is_superuser == False %}
+                        {% if user.staff_status == 'Tələbə' %}
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
                             Mənim təlimlərim
                           </button>
@@ -155,9 +155,16 @@
                         {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-4" type="button">
                           Mənim sertifikatlarım
                         </button> {% endcomment %}
-                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-5" type="button">
-                          İmtahan Nəticələrim
-                        </button>
+                        {% if user.staff_status == 'Tələbə' %}
+                          <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-5" type="button">
+                            İmtahan Nəticələrim
+                          </button>
+                        {% endif %}
+                        {% if user.staff_status == 'Müəllim' %}
+                          <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-6" type="button">
+                            Nəticələr
+                          </button>
+                        {% endif %}
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active">

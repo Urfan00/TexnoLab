@@ -4,10 +4,30 @@ from .models import Answer, Question
 from Account.models import Account
 from ExamResult.models import CourseStudent, RandomQuestion, StudentAnswer, StudentResult
 from django.db.models import F
+from django.utils import timezone
 
 
 
-class RuleView(ListView):
+class AuthStudentMixin:
+    def dispatch(self, request, *args, **kwargs):
+        if request.user.is_authenticated:
+            if request.user.staff_status == 'Tələbə':
+                account_group = CourseStudent.objects.filter(student=request.user, group_student_is_active=True).first()
+                if account_group.group.is_active and request.user.exam_status:
+                    current_time = timezone.now()
+                    if account_group.group.exam_start_time < current_time:
+                        return super().dispatch(request, *args, **kwargs)
+                    else:
+                        return redirect('profile')
+                else:
+                    return redirect('profile')
+            else:
+                return render(request, '404.html')
+        else:
+            return redirect('login')
+
+
+class RuleView(AuthStudentMixin, ListView):
     model = Account
     template_name = 'quiz-rule.html'
 
@@ -34,7 +54,7 @@ class RuleView(ListView):
         return context
 
 
-class QuizView(ListView):
+class QuizView(AuthStudentMixin, ListView):
     model = RandomQuestion
     template_name = 'dshb-quiz.html'
 
@@ -85,6 +105,8 @@ class QuizView(ListView):
 
         account_group = CourseStudent.objects.filter(student=self.request.user, group_student_is_active=True).first()
         topics = account_group.group.course_topic.course_topic_test.all()
+
+        print('==========>>', account_group.group.course_topic)
 
         # Create or update StudentResult
         student_result, created = StudentResult.objects.get_or_create(student=self.request.user, status=True)

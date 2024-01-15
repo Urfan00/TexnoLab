@@ -37,6 +37,13 @@ class CustomUserManager(BaseUserManager):
 
 
 class Account(AbstractUser):
+    staffs_status = (
+        ('Koordinator', 'Koordinator'),
+        ('Müəllim', 'Müəllim'),
+        ('SuperUser', 'SuperUser'),
+        ('Tələbə', 'Tələbə')
+    )
+    staff_status = models.CharField(choices=staffs_status, null=True, blank=True, max_length=255)
     id_code = models.CharField(max_length=7, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255)
     FIN = models.CharField(max_length=21, unique=True, null=True, blank=True)

@@ -80,7 +80,7 @@ class AccountInformationView(LoginRequiredMixin, View):
         context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
         context["results"] = StudentResult.objects.filter(student=self.request.user).annotate(
             percent_point = F('total_point') * 5
-        ).all()
+        ).order_by('-created_at').all()
         return context
 
     def get(self, request, *args, **kwargs):

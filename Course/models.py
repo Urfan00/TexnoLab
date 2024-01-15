@@ -81,6 +81,14 @@ class Course(DateMixin):
         verbose_name_plural = 'Courses'
 
 
+class TeacherCourse(DateMixin):
+    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, limit_choices_to={'staff_status': 'Müəllim'})
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.teacher.id_code} - {self.course.title}"
+
+
 class CourseFeedback(DateMixin):
     message = models.TextField()
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_course_feedback')

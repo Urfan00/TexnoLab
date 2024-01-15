@@ -1,126 +1,110 @@
 {% extends "base3.html" %}
 {% load static %}
 {% block content %}
+
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 
-      <div class="content-wrapper js-content-wrapper">
-        <div class="dashboard -home-9 js-dashboard-home-9">
+<div class="dashboard__main">
+  <div class="dashboard__content bg-light-4">
+    <div class="row pb-50 mb-10">
+      <div class="col-auto">
 
-          <div class="dashboard__main">
-            <div class="dashboard__content bg-light-4">
+        {% comment %} <h1 class="text-30 lh-12 fw-700">İmtahan Qaydaları - <i>{{ student.get_full_name|capfirst }}</i></h1> {% endcomment %}
+        <h1 class="text-30 lh-12 fw-700">İmtahan</h1>
 
+      </div>
+    </div>
+    <div class="row y-gap-30">
+      <div class="col-xl-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div class="d-flex items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 lh-1 fw-500">İmtahan üçün mövzüların seçilməsi, imtahan müddətinin əlavə edilməsi və imtahanın başlamasına icazə verilməsi səhifəsi.</h2>
+          </div>
 
-              <div class="row">
-                <div class="col-12 ">
-                  <div class="rounded-16 bg-white shadow-4 h-100">
-
-                    <div class="py-30 px-30">
-                      <h4 class="text-24 lh-12 fw-500 w-100">İmtahan</h4>
-                      <div class="mt-15 text-20">İmtahan üçün mövzüların seçilməsi, imtahan müddətinin əlavə edilməsi və imtahanın başlamasına icazə verilməsi səhifəsi.</div>
-                      {% comment %} <button class="button h-50 px-30 -purple-1 text-white mt-30">Add a New Discussion Topic</button> {% endcomment %}
-
-                      <div class="mt-40">
-                        <div class="px-30 py-20 bg-light-7 rounded-8">
-                          <div class="row x-gap-10">
-                            <div class="col-lg-2">
-                              <div class="text-purple-1">Qrup adı</div>
-                            </div>
-                            <div class="col-lg-3">
-                              <div class="text-purple-1">Təlim adı</div>
-                            </div>
-                            <div class="col-lg-2">
-                              <div class="text-purple-1">Mövzu adları</div>
-                            </div>
-                            <div class="col-lg-3">
-                              <div class="text-purple-1">Başlama tarixi</div>
-                            </div>
-                            <div class="col-lg-1">
-                              <div class="text-purple-1">İmtahan Müddəti</div>
-                            </div>
-                            <div class="col-lg-1">
-                              <div class="text-purple-1">Status</div>
-                            </div>
-                          </div>
-                        </div>
-
-                        {% for group in groups %}
-
-                          <form id="examForm-{{ group.id }}" method="post" action="{% url 'save_exam' %}">
-                            {% csrf_token %}
-                            <div class="px-30 border-bottom-light">
-                              <div class="row x-gap-10 items-center py-25">
-                                <div class="col-lg-2">
-                                  <div class="text-purple-1">{{ group.name|capfirst }}</div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                  <div class="d-flex items-center">
-                                    <div class="text-dark-1 lh-12 fw-500">{{ group.course.title|capfirst }}</div>
-                                  </div>
-                                </div>
-
-                                <div class="col-lg-2">
-                                  <div class="d-flex items-center">
-                                    <select class="js-example-basic-single" name="state" style="width: 100%;">
-                                      <option value="" >------</option>
-                                      {% for topic in group.course.course_topic.all %}
-                                        <option value="{{ topic.id }}" {% if group.course_topic == topic %}selected{% endif %}>{{ topic.topic_title|capfirst }}</option>
-                                      {% endfor %}
-                                    </select>
-                                  </div>
-                                </div>
-
-                                <div class="col-lg-3">
-                                  <input type="datetime-local" name="startdate" class="px-5 py-5"style="width: 100%; border: 1px solid #aaa; border-radius: 5px;">
-                                </div>
-
-                                <div class="col-lg-1">
-                                  <input type="number" name="examDuration" class="px-5 py-5" onkeydown="return false" style="width: 100%; border: 1px solid #aaa; border-radius: 5px;" min="0" step="5">
-                                  {% comment %} <select name="examDuration" class="px-5 py-5" style="width: 100%; border: 1px solid #aaa; border-radius: 5px;">
-                                    <option>------</option>
-                                    <option value="5" {% if group.exam_durations == 5 %}selected{% endif %}>5 dəq</option>
-                                    <option value="10" {% if group.exam_durations == 10 %}selected{% endif %}>10 dəq</option>
-                                    <option value="15" {% if group.exam_durations == 15 %}selected{% endif %}>15 dəq</option>
-                                    <option value="20" {% if group.exam_durations == 20 %}selected{% endif %}>20 dəq</option>
-                                    <option value="25" {% if group.exam_durations == 25 %}selected{% endif %}>25 dəq</option>
-                                    <option value="30" {% if group.exam_durations == 30 %}selected{% endif %}>30 dəq</option>
-                                    <option value="35" {% if group.exam_durations == 35 %}selected{% endif %}>35 dəq</option>
-                                    <option value="40" {% if group.exam_durations == 40 %}selected{% endif %}>40 dəq</option>
-                                    <option value="45" {% if group.exam_durations == 45 %}selected{% endif %}>45 dəq</option>
-                                    <option value="50" {% if group.exam_durations == 50 %}selected{% endif %}>50 dəq</option>
-                                    <option value="55" {% if group.exam_durations == 55 %}selected{% endif %}>55 dəq</option>
-                                    <option value="60" {% if group.exam_durations == 60 %}selected{% endif %}>60 dəq</option>
-                                  </select> {% endcomment %}
-                                </div>
-
-                                <div class="col-lg-1">
-                                  <div class="d-flex items-center">
-                                    <div class="form-switch pr-10">
-                                      <div class="switch" data-switch=".js-switch-content">
-                                        <input name="startEnd" type="checkbox" {% if group.is_checked %}checked{% endif %}>
-                                        <span class="switch__slider"></span>
-                                      </div>
-                                    </div>
-                                    {% comment %} <div class="icon-bin"></div> {% endcomment %}
-                                  </div>
-                                </div>
-                              </div>
-                            </div>
-
-                          </form>
-                        {% endfor %}
-
-                      </div>
-
-                    </div>
+          <div class="py-5 px-5">
+            <div class="mt-40">
+              <div class="px-30 py-20 bg-light-7 rounded-8">
+                <div class="row x-gap-10">
+                  <div class="col-lg-2">
+                    <div class="text-purple-1">Qrup adı</div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="text-purple-1">Təlim adı</div>
+                  </div>
+                  <div class="col-lg-2">
+                    <div class="text-purple-1">Mövzu adları</div>
+                  </div>
+                  <div class="col-lg-3">
+                    <div class="text-purple-1">Başlama tarixi</div>
+                  </div>
+                  <div class="col-lg-1">
+                    <div class="text-purple-1">İmtahan Müddəti</div>
+                  </div>
+                  <div class="col-lg-1">
+                    <div class="text-purple-1">Status</div>
                   </div>
                 </div>
-
               </div>
 
+              {% for group in groups %}
+
+                <form id="examForm-{{ group.id }}" method="post" action="{% url 'save_exam' %}">
+                  {% csrf_token %}
+                  <div class="px-30 border-bottom-light">
+                    <div class="row x-gap-10 items-center py-25">
+                      <div class="col-lg-2">
+                        <div class="text-purple-1">{{ group.name|capfirst }}</div>
+                      </div>
+
+                      <div class="col-lg-3">
+                        <div class="d-flex items-center">
+                          <div class="text-dark-1 lh-12 fw-500">{{ group.course.title|capfirst }}</div>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-2">
+                        <div class="d-flex items-center">
+                          <select class="js-example-basic-single" name="state" style="width: 100%;">
+                            <option value="" >------</option>
+                            {% for topic in group.course.course_topic.all %}
+                              <option value="{{ topic.id }}" {% if group.course_topic == topic %}selected{% endif %}>{{ topic.topic_title|capfirst }}</option>
+                            {% endfor %}
+                          </select>
+                        </div>
+                      </div>
+
+                      <div class="col-lg-3">
+                        <input type="datetime-local" value="{{ group.exam_start_time|date:"Y-m-d\TH:i" }}" name="startdate" class="px-5 py-5"style="width: 100%; border: 1px solid #aaa; border-radius: 5px;">
+                      </div>
+
+                      <div class="col-lg-1">
+                        <input type="number" name="examDuration" value="{{ group.exam_durations }}" class="px-5 py-5" onkeydown="return false" style="width: 100%; border: 1px solid #aaa; border-radius: 5px;" min="0" step="5">
+                      </div>
+
+                      <div class="col-lg-1">
+                        <div class="d-flex items-center">
+                          <div class="form-switch pr-10">
+                            <div class="switch" data-switch=".js-switch-content">
+                              <input name="startEnd" type="checkbox" {% if group.is_checked %}checked{% endif %}>
+                              <span class="switch__slider"></span>
+                            </div>
+                          </div>
+                          {% comment %} <div class="icon-bin"></div> {% endcomment %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              {% endfor %}
+
             </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
 
   <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
