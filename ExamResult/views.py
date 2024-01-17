@@ -25,7 +25,6 @@ class AuthTeacherMixin:
             return redirect('login')
 
 
-
 class SaveExamView(View):
     def post(self, request, *args, **kwargs):
         # Assuming the form data is submitted with the group ID (groupId)

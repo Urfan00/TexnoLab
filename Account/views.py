@@ -1,6 +1,6 @@
 from django.shortcuts import redirect, render
 from Account.models import Account
-from ExamResult.models import CourseStudent, StudentResult
+from ExamResult.models import CourseStudent, Group, StudentResult
 from services.uploader import Uploader
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
@@ -77,10 +77,25 @@ class AccountInformationView(LoginRequiredMixin, View):
 
     def get_context_data(self):
         context = {}
+        g_query = self.request.GET.get('state', '')
+
         context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
         context["results"] = StudentResult.objects.filter(student=self.request.user).annotate(
             percent_point = F('total_point') * 5
         ).order_by('-created_at').all()
+
+        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
+        if user_account:
+            teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+            groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
+            context['groups'] = groups
+            if g_query:
+                course_students = CourseStudent.objects.filter(group=g_query, group_student_is_active=True)
+
+                context['group_result'] = StudentResult.objects.filter(student__in=course_students.values_list('student', flat=True), status=True).annotate(
+                    percent_point = F('total_point') * 5
+                ).order_by('-percent_point').all()
+
         return context
 
     def get(self, request, *args, **kwargs):

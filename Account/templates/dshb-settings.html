@@ -141,33 +141,33 @@
                   <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
                     <div class="tabs -active-purple-2 js-tabs pt-0">
                       <div class="tabs__controls d-flex x-gap-30 items-center pt-20 px-30 border-bottom-light js-tabs-controls">
-                        <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab-target=".-tab-item-1" type="button">
+                        <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
                           Profili yenilə
                         </button>
-                        <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-2" type="button">
+                        <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
                           Sosial şəbəkələr
                         </button>
                         {% if user.staff_status == 'Tələbə' %}
-                          <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-3" type="button">
+                          <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab3" data-tab-target=".-tab-item-3" type="button">
                             Mənim təlimlərim
                           </button>
                         {% endif %}
-                        {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-4" type="button">
+                        {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
                           Mənim sertifikatlarım
                         </button> {% endcomment %}
                         {% if user.staff_status == 'Tələbə' %}
-                          <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-5" type="button">
+                          <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
                             İmtahan Nəticələrim
                           </button>
                         {% endif %}
                         {% if user.staff_status == 'Müəllim' %}
-                          <button class="tabs__button text-light-1 js-tabs-button" data-tab-target=".-tab-item-6" type="button">
+                          <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab6" data-tab-target=".-tab-item-6" type="button">
                             Nəticələr
                           </button>
                         {% endif %}
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
-                        <div class="tabs__pane -tab-item-1 is-active">
+                        <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
                           <div class="row y-gap-20 x-gap-20 items-center">
                             <div class="col-auto">
                               <img class="size-100" style="border-radius: 50%;"src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'img/avatars/user-default.png' %}{% endif %}" alt="image">
@@ -226,7 +226,7 @@
                           </div>
                         </div>
 
-                        <div class="tabs__pane -tab-item-2">
+                        <div class="tabs__pane -tab-item-2" data-pane="tab2">
                           <form method="post" class="contact-form row y-gap-30">
 
                             {% csrf_token %}
@@ -278,10 +278,10 @@
                           </form>
                         </div>
 
-                        {% if user.is_staff == False and user.is_superuser == False %}
-                          <div class="tabs__pane -tab-item-3">
+                        {% if user.staff_status == 'Tələbə' %}
+                          <div class="tabs__pane -tab-item-3" data-pane="tab3">
 
-                                                      <style>
+                            <style>
                               .tDiv{
                                 width:100%;
                                 overflow-x:scroll;
@@ -330,6 +330,7 @@
                                       <th>Ödəniş</th>
                                       <th>Endirim</th>
                                       <th>Qalıq</th>
+                                      <th>Məzun</th>
                                       <th>Status</th>
                                     </tr>
                                   </thead>
@@ -347,6 +348,13 @@
                                         <td class="tc">{{ my_c.rest }}</td>
                                         <td class="tc">
                                           {% if my_c.is_active %}
+                                            <span style="color: green;">Məzun</span>
+                                            {% else %}
+                                            <span style="color: red;">Tələbə</span>
+                                          {% endif %}
+                                        </td>
+                                        <td class="tc">
+                                          {% if my_c.group_student_is_active %}
                                             <span style="color: green;">Aktiv</span>
                                             {% else %}
                                             <span style="color: red;">Deaktiv</span>
@@ -363,7 +371,7 @@
                           </div>
                         {% endif %}
 
-                        {% comment %} <div class="tabs__pane -tab-item-4">
+                        {% comment %} <div class="tabs__pane -tab-item-4" data-pane="tab4">
                           <div class="row y-gap-10 ">
                             <div class="col-auto">
                               <div class="d-flex flex-wrap y-gap-10 x-gap-20">
@@ -424,7 +432,7 @@
 
                         </div> {% endcomment %}
 
-                        <div class="tabs__pane -tab-item-5">
+                        <div class="tabs__pane -tab-item-5" data-pane="tab5">
 
                           <div class="tDiv">
                             <div class="table-responsive">
@@ -445,6 +453,49 @@
                                       <td class="tc">{{ forloop.counter }}</td>
                                       <td class="tc">{{ result.exam_topics.course.title|capfirst }}</td>
                                       <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
+                                      <td class="tc">{{ result.percent_point }} %</td>
+                                      <td class="tc">{{ result.created_at }}</td>
+                                    </tr>
+                                  {% endfor %}
+
+                                </tbody>
+                              </table>
+                            </div>
+                          </div>
+
+                        </div>
+
+                        <div class="tabs__pane -tab-item-6" data-pane="tab6">
+                          <div class="row y-gap-10 ">
+                            <div class="col-auto">
+                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                <select class="js-example-basic-single" name="state" onchange="this.form.submit()" style="min-width: 200px;">
+                                  <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
+                                  {% for topic in groups %}
+                                    <option value="{{ topic.id }}" {% if topic.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ topic.name|capfirst }}</option>
+                                  {% endfor %}
+                                </select>
+                              </form>
+                            </div>
+                          </div>
+
+                          <div class="tDiv py-30">
+                            <div class="table-responsive">
+                              <table class="table">
+                                <thead>
+                                  <tr>
+                                    <th>№</th>
+                                    <th>Ad Soyad</th>
+                                    <th>Nəticə</th>
+                                    <th>Tarix</th>
+                                  </tr>
+                                </thead>
+                                <tbody>
+
+                                  {% for result in group_result %}
+                                    <tr style="background-color: {% if result.percent_point >= 60 %}lime{% elif result.percent_point > 30 %}yellow{% elif result.percent_point <= 30 %}red{% endif %};">
+                                      <td class="tc">{{ forloop.counter }}</td>
+                                      <td class="tc">{{ result.student.get_full_name|capfirst }}</td>
                                       <td class="tc">{{ result.percent_point }} %</td>
                                       <td class="tc">{{ result.created_at }}</td>
                                     </tr>
@@ -481,10 +532,89 @@
   <!-- barba container end -->
 
   <!-- JavaScript -->
+  <script>
+    document.addEventListener("DOMContentLoaded", function() {
+      
+      const tabs = document.querySelectorAll('.tabs__button');
+      const panes = document.querySelectorAll('.tabs__pane');
+    
+      function showTab(tabId) {
+        panes.forEach(pane => {
+          if (pane.getAttribute('data-pane') === tabId) {
+            pane.style.display = 'block';
+            pane.classList.add('is-active');
+          } else {
+            pane.style.display = 'none';
+            pane.classList.remove('is-active');
+          }
+        });
+      }
+      
+      function setActiveTab(tabId) {
+        tabs.forEach(tab => {
+          if (tab.getAttribute('data-tab') === tabId) {
+            tab.classList.add('is-active');
+          } else {
+            tab.classList.remove('is-active');
+          }
+        });
+      }
+
+      function handleTabClick(event) {
+
+        const clickedTab = event.target;
+        const tabId = clickedTab.getAttribute('data-tab');
+
+        showTab(tabId);
+        setActiveTab(tabId);
+
+        // Save selected tab to localStorage
+        localStorage.setItem('selectedTab', tabId);
+        localStorage.setItem('current_segment', window.location.pathname);
+      }
+
+      tabs.forEach(tab => {
+        tab.addEventListener('click', handleTabClick);
+      });
+
+      // Check localStorage for previously selected tab
+      const selectedTab = localStorage.getItem('selectedTab');
+      const current_segment = localStorage.getItem('current_segment');
+
+      if(current_segment != window.location.pathname){
+        localStorage.removeItem('selectedTab');
+      }else{
+        if (selectedTab) {
+          showTab(selectedTab);
+          setActiveTab(selectedTab);
+        } else {
+          // If no tab was previously selected, open the first tab and pane by default
+          showTab(tabs[0].getAttribute('data-tab'));
+          setActiveTab(tabs[0].getAttribute('data-tab'));
+        }
+      }
+    });
+
+    console.log(window.location.pathname)
+
+  </script>
+
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
   <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
   <script src="{% static '' %}js/vendors.js"></script>
   <script src="{% static '' %}js/main.js"></script>
+
+  <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+  <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+  <script>
+    $(document).ready(function () {
+      $('.js-example-basic-single').select2();
+    })
+  </script>
 </body>
 
 </html>

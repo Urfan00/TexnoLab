@@ -50,7 +50,7 @@ class CourseStudent(DateMixin):
     rest = models.FloatField(default=0)
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='student_group')
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='learner')
-    group_student_is_active = models.BooleanField(default=True)
+    group_student_is_active = models.BooleanField(default=True) # tələbə bu qrupda aktiv // deaktiv.
 
     # course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='student_course')
 
