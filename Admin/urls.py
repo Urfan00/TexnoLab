@@ -47,10 +47,14 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseFeedbackDeleteView,
                     AdminCourseFeedbackUndeleteView,
                     AdminCourseStatisticListView,
-                    AdminCourseTopicAddView, AdminCourseTopicDeleteView,
+                    AdminCourseTopicAddView,
+                    AdminCourseTopicDeleteView,
                     AdminCourseTopicDetailView,
                     AdminCourseTopicEditView,
-                    AdminCourseTopicTestListView, AdminCourseTopicUndeleteView,
+                    AdminCourseTopicTestListView,
+                    AdminCourseTopicUndeleteView,
+                    AdminCourseTopicsTestAddView, AdminCourseTopicsTestDeleteView,
+                    AdminCourseTopicsTestEditView, AdminCourseTopicsTestUndeleteView,
                     AdminCourseVideoAddView,
                     AdminCourseVideoDeleteView,
                     AdminFEEDBACKDeleteView,
@@ -308,6 +312,10 @@ urlpatterns = [
     path('topic/<int:pk>/delete/', AdminCourseTopicDeleteView.as_view(), name='topic_delete'),
     path('topic/<int:pk>/undelete/', AdminCourseTopicUndeleteView.as_view(), name='topic_undelete'),
 
+    path('topic_test_add/', AdminCourseTopicsTestAddView.as_view(), name='topic_test_add'),
+    path('topic_test_edit/<int:pk>', AdminCourseTopicsTestEditView.as_view(), name='topic_test_edit'),
+    path('topic_test/<int:pk>/delete/', AdminCourseTopicsTestDeleteView.as_view(), name='topic_test_delete'),
+    path('topic_test/<int:pk>/undelete/', AdminCourseTopicsTestUndeleteView.as_view(), name='topic_test_undelete'),
 
 
 

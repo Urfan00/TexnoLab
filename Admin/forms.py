@@ -3,7 +3,7 @@ from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs
-from Exam.models import CourseTopic
+from Exam.models import CourseTopic, CourseTopicsTest
 from ExamResult.models import Group, CourseStudent
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
@@ -685,6 +685,22 @@ class CourseTopicEditForm(forms.ModelForm):
             'topic_title' : forms.TextInput(
                 attrs={
                     'placeholder' :"Mövzu başlığı"
+                }
+            )
+        }
+
+
+class CourseTopicTestEditForm(forms.ModelForm):
+    class Meta:
+        model = CourseTopicsTest
+        fields = ['name']
+        labels = {
+            'name' : 'Test başlığı'
+        }
+        widgets = {
+            'name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Test başlığı"
                 }
             )
         }

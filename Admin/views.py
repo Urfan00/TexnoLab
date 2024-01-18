@@ -12,14 +12,18 @@ from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, Ser
 from TIM.models import TIM, TIMImage, TIMVideo
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
-                    AllGaleryEditForm, AllVideoGalleryEditForm,
+                    AllGaleryEditForm,
+                    AllVideoGalleryEditForm,
                     BlogCategoryEditForm,
                     BlogEditForm,
                     ContactInfoEditForm,
                     CourseCategoryEditForm,
                     CourseEditForm,
                     CourseProgramEditForm,
-                    CourseStudentEditForm, CourseTopicEditForm, CourseVideoEditForm,
+                    CourseStudentEditForm,
+                    CourseTopicEditForm,
+                    CourseTopicTestEditForm,
+                    CourseVideoEditForm,
                     FAQEditForm,
                     GalLeryEditForm,
                     GroupEditForm,
@@ -27,7 +31,11 @@ from .forms import (AboutUsEditForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
                     ServiceHomeEditForm,
-                    ServiceImageEditForm, ServiceVideoEditForm, TIMEditForm, TIMImageEditForm, TIMVideoEditForm)
+                    ServiceImageEditForm,
+                    ServiceVideoEditForm,
+                    TIMEditForm,
+                    TIMImageEditForm,
+                    TIMVideoEditForm)
 from django.db.models import Count
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
@@ -1340,7 +1348,6 @@ class AdminFEEDBACKUndeleteView(StaffRequiredMixin, View):
         return redirect('account_dashboard')
 
 
-
 class AdminKEBDeleteView(StaffRequiredMixin, View):
     def post(self, request, pk, *args, **kwargs):
         keb = get_object_or_404(CourseStudent, pk=pk)
@@ -1915,10 +1922,12 @@ class AdminCourseTopicTestListView(StaffRequiredMixin, ListView):
         t_query = self.request.GET.get('t', '')
         st_query = self.request.GET.get('st', '')
         tt_query = self.request.GET.get('tt', '')
+        stt_query = self.request.GET.get('stt', '')
 
         topics = CourseTopic.objects.filter(is_deleted=False).order_by('-created_at').all()
         d_topics = CourseTopic.objects.filter(is_deleted=True).order_by('-created_at').all()
         topic_tests = CourseTopicsTest.objects.filter(is_deleted=False).order_by('-created_at').all()
+        d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True).order_by('-created_at').all()
 
         if t_query:
             topics = topics.filter(
@@ -1930,12 +1939,17 @@ class AdminCourseTopicTestListView(StaffRequiredMixin, ListView):
             )
         elif tt_query:
             topic_tests = topic_tests.filter(
-                Q(name__icontains=t_query) | Q(course_topics_test__topic_title__icontains=t_query)
+                Q(name__icontains=tt_query) | Q(course__title__icontains=tt_query)
+            )
+        elif stt_query:
+            d_topic_tests = d_topic_tests.filter(
+                Q(name__icontains=stt_query) | Q(course__title__icontains=stt_query)
             )
 
         context["topics"] = topics
         context["d_topics"] = d_topics
         context["topic_tests"] = topic_tests
+        context["d_topic_tests"] = d_topic_tests
 
         return context
 
@@ -2051,3 +2065,88 @@ class AdminCourseTopicUndeleteView(StaffRequiredMixin, View):
         topic.save()
         messages.success(request, 'Təlim mövzusu uğurla bərpa olundu')
         return redirect('topic_dashboard')
+
+
+class AdminCourseTopicsTestAddView(StaffRequiredMixin, CreateView):
+    model = CourseTopicsTest
+    template_name = 'course-topics-course-topic-test/dshb-course-topics-test-add.html'
+    form_class = CourseTopicTestEditForm
+    success_url = reverse_lazy('topic_dashboard')
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context["courses"] = Course.objects.all()
+        return context
+
+    def form_valid(self, form):
+        course = self.request.POST.get('state')
+        if course:
+            course_instance = get_object_or_404(Course, pk=course)
+            form.instance.course = course_instance
+            form.instance.save()
+
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminCourseTopicsTestEditView(StaffRequiredMixin, CreateView):
+    model = CourseTopicsTest
+    template_name = 'course-topics-course-topic-test/dshb-course-topics-test-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        test_pk = kwargs.get('pk')
+        topic_test = get_object_or_404(CourseTopicsTest, pk=test_pk)
+
+        form = CourseTopicTestEditForm(instance=topic_test)
+        context = {
+            'form': form,
+            'courses': Course.objects.all(),
+            'topic_test': topic_test,
+        }
+        return render(request, 'course-topics-course-topic-test/dshb-course-topics-test-edit.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = CourseTopicTestEditForm(request.POST, instance=get_object_or_404(CourseTopicsTest, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            topic_test = CourseTopicsTest.objects.get(pk=kwargs.get('pk'))
+            topic_test.name = form.cleaned_data.get('name')
+
+            course = self.request.POST.get('state')
+            if course:
+                course_instance = get_object_or_404(Course, pk=course)
+                topic_test.course = course_instance
+
+            topic_test.save()
+
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('topic_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('topic_dashboard')
+
+
+class AdminCourseTopicsTestDeleteView(StaffRequiredMixin, View):
+    def post(self, request, *args, **kwargs):
+        topic_test_id = kwargs.get('pk')
+        topic_test = get_object_or_404(CourseTopicsTest, pk=topic_test_id)
+        topic_test.is_deleted = True
+        topic_test.save()
+        messages.success(request, 'Mövzu testi uğurla silindi')
+        return redirect('topic_dashboard')
+
+
+class AdminCourseTopicsTestUndeleteView(StaffRequiredMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        topic_test = get_object_or_404(CourseTopicsTest, pk=pk)
+        topic_test.is_deleted = False
+        topic_test.save()
+        messages.success(request, 'Mövzu testi uğurla bərpa olundu')
+        return redirect('topic_dashboard')
+
