@@ -3,6 +3,7 @@ from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs
+from Exam.models import CourseTopic
 from ExamResult.models import Group, CourseStudent
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
@@ -668,6 +669,22 @@ class TIMVideoEditForm(forms.ModelForm):
                 attrs={
                     'placeholder' :"http://www",
                     'class' : 'inpClass'
+                }
+            )
+        }
+
+
+class CourseTopicEditForm(forms.ModelForm):
+    class Meta:
+        model = CourseTopic
+        fields = ['topic_title']
+        labels = {
+            'topic_title' : 'Mövzu başlığı'
+        }
+        widgets = {
+            'topic_title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Mövzu başlığı"
                 }
             )
         }

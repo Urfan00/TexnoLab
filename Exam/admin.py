@@ -4,14 +4,16 @@ from import_export.admin import ImportExportModelAdmin
 
 
 class CourseTopicsTestAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'name', 'created_at', 'updated_at']
+    list_display = ['id', 'name', 'course', 'is_deleted', 'created_at', 'updated_at']
     list_display_links = ['id', 'name']
-    search_fields = ['name']
+    list_filter = ['is_deleted']
+    search_fields = ['name', 'course__title']
 
 
 class CourseTopicAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'topic_title', 'course', 'created_at', 'updated_at']
+    list_display = ['id', 'topic_title', 'course', 'is_deleted', 'created_at', 'updated_at']
     list_display_links = ['id', 'topic_title']
+    list_filter = ['is_deleted']
     search_fields = ['topic_title', 'course__title']
 
 

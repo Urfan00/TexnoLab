@@ -47,6 +47,10 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseFeedbackDeleteView,
                     AdminCourseFeedbackUndeleteView,
                     AdminCourseStatisticListView,
+                    AdminCourseTopicAddView, AdminCourseTopicDeleteView,
+                    AdminCourseTopicDetailView,
+                    AdminCourseTopicEditView,
+                    AdminCourseTopicTestListView, AdminCourseTopicUndeleteView,
                     AdminCourseVideoAddView,
                     AdminCourseVideoDeleteView,
                     AdminFEEDBACKDeleteView,
@@ -95,7 +99,8 @@ from .views import (AdminAboutContactInfoListView,
                     CourseStudentAddView,
                     CourseStudentDeleteView,
                     CourseStudentEditView,
-                    DashboardView)
+                    DashboardView,
+                    get_course_topic_test_options)
 
 
 urlpatterns = [
@@ -292,5 +297,18 @@ urlpatterns = [
     path('certificate_dashboard/', AdminCertificateListView.as_view(), name='certificate_dashboard'),
     path('delete_certificate_image/<int:image_id>/', AdminCertificateDeleteView.as_view(), name='delete_certificate_image'),
     path('certificate_add/', AdminCertificateAddView.as_view(), name='certificate_add'),
+
+
+    # COURSE TOPIC & COURSE TOPIC TEST
+    path('topic_dashboard/', AdminCourseTopicTestListView.as_view(), name='topic_dashboard'),
+    path('course_topic_look/<int:pk>', AdminCourseTopicDetailView.as_view(), name='course_topic_look'),
+    path('topic_add/', AdminCourseTopicAddView.as_view(), name='topic_add'),
+    path('topic_edit/<int:pk>', AdminCourseTopicEditView.as_view(), name='topic_edit'),
+    path('get_course_topic_test_options/', get_course_topic_test_options, name='get_course_topic_test_options'),
+    path('topic/<int:pk>/delete/', AdminCourseTopicDeleteView.as_view(), name='topic_delete'),
+    path('topic/<int:pk>/undelete/', AdminCourseTopicUndeleteView.as_view(), name='topic_undelete'),
+
+
+
 
 ]

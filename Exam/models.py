@@ -8,6 +8,8 @@ from services.uploader import Uploader
 
 class CourseTopicsTest(DateMixin):
     name = models.CharField(max_length=255)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_test')
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name
@@ -21,6 +23,7 @@ class CourseTopic(DateMixin):
     topic_title = models.CharField(max_length=255)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='course_topic')
     course_topic_test = models.ManyToManyField(CourseTopicsTest, blank=True, related_name='course_topics_test')
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.topic_title
