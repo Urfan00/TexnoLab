@@ -1,0 +1,150 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .imp {
+    color: red;
+  }
+
+  .inpClass {
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 8px;
+    border: 1px solid #DDDDDD;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 15px 22px;
+    transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+</style>
+<div class="dashboard__main">
+  <div class="dashboard__content bg-light-4">
+    <div class="row pb-50 mb-10">
+      <div class="col-auto">
+        <h1 class="text-30 lh-12 fw-700">Xəbər əlavə et</h1>
+        <div class="mt-10">Bu bölmədə yeni xəbər əlavə edə bilərsiniz.</div>
+      </div>
+    </div>
+
+    <div class="row y-gap-60">
+      <div class="col-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+          <div class="d-flex items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 lh-1 fw-500">Yeni xəbər əlavəsi</h2>
+          </div>
+
+          <div class="py-30 px-30">
+            <form method="post" class="contact-form row y-gap-30" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.media }}
+
+              {% if form.errors %}
+                <div class="alert alert-danger alert-dismissible" role="alert">
+                  <div id="form_errors">
+                    {% for key, value in form.errors.items %}
+                      <strong>{{ key }}-{{ value }}</strong>
+                    {% endfor %}
+                  </div>
+                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+              {% endif %}
+
+              <div class="col-12">
+                <label for="{{ form.question.id_for_label }}" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.question.label }} <span class="imp">*</span></label>
+                <br>
+                {{ form.question }}
+              </div>
+
+              <div class="col-12">
+                <label for="{{ form.course_topic_test.id_for_label }}" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.course_topic_test.label }} <span class="imp">*</span></label>
+                <br>
+                {{ form.course_topic_test }}
+              </div>
+
+              <div class="col-md-6">
+                <label for="id_question_image" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.question_image.label }} <span class="imp">*</span>
+                <br>
+                  <img width="50" style="margin-top:15px; cursor: pointer;" src="https://lordicon.com/icons/system/solid/49-upload-file.gif" alt="">
+                </label>
+                {{ form.question_image }}
+              </div>
+
+              <div class="col-12">
+                <label for="{{ form.point.id_for_label }}" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.point.label }} <span class="imp">*</span></label>
+                {{ form.point }}
+              </div>
+
+              <div class="col-12">
+                <fieldset>
+                    <legend>Answers</legend>
+                    <div id="answers-container">
+                        {{ form.answers.management_form }}
+                        {% for answer_form in form.answers %}
+                            <div class="row y-gap-10 answer-form" style="align-items: center;">
+                                <div class="col-8">
+                                    {{ answer_form.answer.label_tag }} {{ answer_form.answer }}
+                                </div>
+                                <div class="col-2">
+                                    {{ answer_form.is_correct.label_tag }} {{ answer_form.is_correct }}
+                                </div>
+                                <div class="col-2">
+                                    {{ answer_form.is_active.label_tag }} {{ answer_form.is_active }}
+                                </div>
+                            </div>
+                        {% endfor %}
+                    </div>
+                    <button type="button" class="btn btn-primary" id="add-answer">Add Another Answer</button>
+                </fieldset>
+              </div>
+
+              <div class="row y-gap-20 justify-between pt-15">
+                <div class="col-auto">
+                  <button class="button -md -purple-1 text-white">Təsdiq et</button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    // Function to add a new answer form
+    function addAnswerForm() {
+      // Clone the hidden answer form
+      var newForm = $('#answers-container .answer-form:first').clone();
+
+      // Update the form's IDs and names
+      var answerFormCount = $('#answers-container .answer-form').length;
+      newForm.find(':input').each(function () {
+        var name = $(this).attr('name').replace('-empty-', '-' + answerFormCount + '-');
+        var id = 'id_' + name;
+        var prefix = 'answers-' + answerFormCount;
+        $(this).attr({ 'name': prefix + '-' + name, 'id': id }).val('').removeAttr('checked');
+      });
+
+      // Append the new form to the answers container
+      $('#answers-container').append(newForm);
+      newForm.show();
+
+      // Update the management form to reflect the new form count
+      var formsetPrefix = 'answers';
+      $('#id_' + formsetPrefix + '-TOTAL_FORMS').val(answerFormCount + 1);
+    }
+
+    // Event handler for the "Add Another Answer" button
+    $('#add-answer').click(function () {
+      addAnswerForm();
+    });
+  });
+</script>
+
+
+
+{% endblock %}

@@ -3,7 +3,7 @@ from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, Partner
 from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs
-from Exam.models import CourseTopic, CourseTopicsTest
+from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
 from ExamResult.models import Group, CourseStudent
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
@@ -704,3 +704,36 @@ class CourseTopicTestEditForm(forms.ModelForm):
                 }
             )
         }
+
+
+from django.forms import inlineformset_factory
+
+class AnswerForm(forms.ModelForm):
+    class Meta:
+        model = Answer
+        fields = ['answer', 'is_correct', 'is_active']
+
+AnswerFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, extra=3, can_delete=True)
+
+class QuestionForm(forms.ModelForm):
+    class Meta:
+        model = Question
+        fields = ['question', 'question_image', 'point', 'course_topic_test']
+
+    answers = AnswerFormSet(queryset=Answer.objects.none(), prefix='answers')
+
+    def __init__(self, *args, **kwargs):
+        super(QuestionForm, self).__init__(*args, **kwargs)
+        if self.instance.pk:
+            # If the instance already exists, populate the formset with existing answers
+            self.fields['answers'].queryset = Answer.objects.filter(question=self.instance)
+
+    def save(self, commit=True):
+        question = super(QuestionForm, self).save(commit)
+        if commit and 'answers' in self.cleaned_data:
+            answers_formset = self.cleaned_data['answers']
+            for answer_form in answers_formset.forms:
+                answer = answer_form.save(commit=False)
+                answer.question = question
+                answer.save()
+        return question

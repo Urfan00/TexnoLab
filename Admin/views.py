@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView
 from Account.models import Account
-from Exam.models import CourseTopic, CourseTopicsTest
+from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
 from ExamResult.models import Group, CourseStudent
 from Core.forms import CertificateEditForm
 from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, Partner, Subscribe
@@ -13,7 +13,7 @@ from TIM.models import TIM, TIMImage, TIMVideo
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
                     AllGaleryEditForm,
-                    AllVideoGalleryEditForm,
+                    AllVideoGalleryEditForm, AnswerFormSet,
                     BlogCategoryEditForm,
                     BlogEditForm,
                     ContactInfoEditForm,
@@ -27,7 +27,7 @@ from .forms import (AboutUsEditForm,
                     FAQEditForm,
                     GalLeryEditForm,
                     GroupEditForm,
-                    PartnerEditForm,
+                    PartnerEditForm, QuestionForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
                     ServiceHomeEditForm,
@@ -2150,3 +2150,62 @@ class AdminCourseTopicsTestUndeleteView(StaffRequiredMixin, View):
         messages.success(request, 'Mövzu testi uğurla bərpa olundu')
         return redirect('topic_dashboard')
 
+
+# QUESTION & ANSWER
+class AdminQuestionAnswerListView(StaffRequiredMixin, ListView):
+    model = Question
+    template_name = 'question/dshb-question.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        q_query = self.request.GET.get('q', '')
+        d_query = self.request.GET.get('d', '')
+
+        a_questions = Question.objects.filter(is_active=True).order_by('-created_at').all()
+        d_questions = Question.objects.filter(is_active=False).order_by('-created_at').all()
+
+        if q_query:
+            a_questions = a_questions.filter(
+                Q(question__icontains=q_query) | Q(course_topic_test__name__icontains=q_query)
+            )
+        elif d_query:
+            d_questions = d_questions.filter(
+                Q(question__icontains=d_query) | Q(course_topic_test__name__icontains=d_query)
+            )
+
+        context["a_questions"] = a_questions
+        context["d_questions"] = d_questions
+
+        return context
+
+
+class QuestionCreateView(CreateView):
+    model = Question
+    form_class = QuestionForm
+    template_name = 'question/dshb-question-add.html'
+    success_url = reverse_lazy('question_dashboard')
+
+    def form_valid(self, form):
+        context = self.get_context_data()
+        answers_formset = context['answers_formset']
+
+        if form.is_valid() and answers_formset.is_valid():
+            self.object = form.save()
+            answers_formset.instance = self.object
+            answers_formset.save()
+            return super().form_valid(form)
+        else:
+            return self.form_invalid(form, answers_formset)
+
+    def form_invalid(self, form, answers_formset=None, **kwargs):
+        context = self.get_context_data(form=form, answers_formset=answers_formset, **kwargs)
+        return self.render_to_response(context)
+
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        if self.request.POST:
+            context['answers_formset'] = AnswerFormSet(self.request.POST, instance=self.object, prefix='answers')
+        else:
+            context['answers_formset'] = AnswerFormSet(instance=self.object, queryset=Answer.objects.none(), prefix='answers')
+        return context

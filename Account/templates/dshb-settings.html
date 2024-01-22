@@ -493,7 +493,7 @@
                                 <tbody>
 
                                   {% for result in group_result %}
-                                    <tr style="background-color: {% if result.percent_point >= 60 %}lime{% elif result.percent_point > 30 %}yellow{% elif result.percent_point <= 30 %}red{% endif %};">
+                                    <tr style="background-color: {% if result.percent_point == 100 %}lime{% elif result.percent_point >= 90 %}yellow{% elif result.percent_point >= 80 %}#e88030{% endif %};">
                                       <td class="tc">{{ forloop.counter }}</td>
                                       <td class="tc">{{ result.student.get_full_name|capfirst }}</td>
                                       <td class="tc">{{ result.percent_point }} %</td>

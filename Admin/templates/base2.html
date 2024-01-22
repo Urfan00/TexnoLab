@@ -183,9 +183,9 @@
                 </a>
               </div>
 
-              {% url 'tim_dashboard' as tim_dashboard %}
-              <div class="sidebar__item {% if request.path == tim_dashboard or request.path|slice:'/-' == tim_dashboard %}-is-active{% endif %}">
-                <a href="{% url "tim_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+              {% url 'question_dashboard' as question_dashboard %}
+              <div class="sidebar__item {% if request.path == question_dashboard or request.path|slice:'/-' == question_dashboard %}-is-active{% endif %}">
+                <a href="{% url "question_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-list mr-15"></i>
                   Suallar
                 </a>

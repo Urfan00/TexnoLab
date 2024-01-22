@@ -110,7 +110,7 @@
                         Ümumi baxış
                       </button>
                       <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-2" type="button">
-                        Təlimin məzmunu
+                        Təlim proqramı
                       </button>
                       <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-3" type="button">
                         Rəylər
@@ -150,7 +150,7 @@
                       </div>
 
                       <div class="tabs__pane -tab-item-2">
-                        <h2 class="text-20 fw-500">Təlimin məzmunu</h2>
+                        <h2 class="text-20 fw-500">Mövzular</h2>
 
                         <div class="d-flex justify-between items-center mt-30">
                           {% comment %} <div class="">27 sections • 95 lectures</div> {% endcomment %}
@@ -286,11 +286,11 @@
 
                               {% csrf_token %}
                               {{ request_form.as_hidden }}
-                              <div class="col-12">
+                              <div class="col-md-6">
                                 <label for="id_fullname" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.fullname.label }}</label>
                                 {{ request_form.fullname }}
                               </div>
-                              <div class="col-12">
+                              <div class="col-md-6">
                                 <label for="id_phone_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.phone_number.label }}</label>
                                 {{ request_form.phone_number }}
                               </div>

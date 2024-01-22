@@ -62,7 +62,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminGroupAddView,
                     AdminGroupEditView,
                     AdminKEBDeleteView,
-                    AdminKEBUndeleteView,
+                    AdminKEBUndeleteView, AdminQuestionAnswerListView,
                     AdminRequestUsDeleteView,
                     AdminRequestUsDetailView,
                     AdminRequestUsUndeleteView,
@@ -104,6 +104,7 @@ from .views import (AdminAboutContactInfoListView,
                     CourseStudentDeleteView,
                     CourseStudentEditView,
                     DashboardView,
+                    QuestionCreateView,
                     get_course_topic_test_options)
 
 
@@ -317,6 +318,9 @@ urlpatterns = [
     path('topic_test/<int:pk>/delete/', AdminCourseTopicsTestDeleteView.as_view(), name='topic_test_delete'),
     path('topic_test/<int:pk>/undelete/', AdminCourseTopicsTestUndeleteView.as_view(), name='topic_test_undelete'),
 
+    # Question & Answer
+    path('question_dashboard/', AdminQuestionAnswerListView.as_view(), name='question_dashboard'),
+    path('question_add/', QuestionCreateView.as_view(), name='question_add'),
 
 
 ]

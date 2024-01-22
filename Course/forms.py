@@ -43,7 +43,8 @@ class RequestUsForm(forms.ModelForm):
             'phone_number' : forms.TextInput(
                 attrs={
                     'class' : 'form-control',
-                    'placeholder' :"+994-- --- -- --"
+                    'placeholder' :"+994-- --- -- --",
+                    'value': '+994'
                 }
             ),
             'course' : forms.Select(
