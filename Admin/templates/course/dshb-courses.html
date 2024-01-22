@@ -29,12 +29,12 @@
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab3" data-tab-target=".-tab-item-3" type="button">
                           Silinmiş təlimlər
                         </button>
-                        <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
+                        {% comment %} <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
                           Təlim Kateqoriyaları
                         </button>
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
                           Silinmiş təlim kateqoriyaları
-                        </button>
+                        </button> {% endcomment %}
                         <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab6" data-tab-target=".-tab-item-6" type="button">
                           Təlim proqramları
                         </button>
@@ -109,7 +109,7 @@
                                   <tr>
                                     <th>№</th>
                                     <th>Başlıq</th>
-                                    <th>Kateqoriya</th>
+                                    {% comment %} <th>Kateqoriya</th> {% endcomment %}
                                     <th>Video link</th>
                                     <th>Şəkil</th>
                                     <th>Əməliyyatlar</th>
@@ -121,7 +121,7 @@
                                     <tr>
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ a_course.title }}</td>
-                                      <td>{{ a_course.category.name }}</td>
+                                      {% comment %} <td>{{ a_course.category.name }}</td> {% endcomment %}
                                       <td><a href="{{ a_course.video_link }}">{{ a_course.video_link }}</a></td>
                                       <td><img width="50" height="50" src="{{ a_course.main_photo.url }}" alt=""></td>
                                       <td>
@@ -185,7 +185,7 @@
                                     <tr>
                                       <th>№</th>
                                       <th>Başlıq</th>
-                                      <th>Kateqoriya</th>
+                                      {% comment %} <th>Kateqoriya</th> {% endcomment %}
                                       <th>Video link</th>
                                       <th>Şəkil</th>
                                       <th>Əməliyyatlar</th>
@@ -197,7 +197,7 @@
                                       <tr>
                                         <td>{{ forloop.counter }}</td>
                                         <td>{{ d_course.title }}</td>
-                                        <td>{{ d_course.category.name }}</td>
+                                        {% comment %} <td>{{ d_course.category.name }}</td> {% endcomment %}
                                         <td><a href="{{ d_course.video_link }}">{{ d_course.video_link }}</a></td>
                                         <td><img width="50" height="50" src="{{ d_course.main_photo.url }}" alt=""></td>
                                         <td>
@@ -249,7 +249,7 @@
                                   <tr>
                                     <th>№</th>
                                     <th>Başlıq</th>
-                                    <th>Kateqoriya</th>
+                                    {% comment %} <th>Kateqoriya</th> {% endcomment %}
                                     <th>Video link</th>
                                     <th>Şəkil</th>
                                     <th>Əməliyyatlar</th>
@@ -261,7 +261,7 @@
                                     <tr>
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ sc_course.title }}</td>
-                                      <td>{{ sc_course.category.name }}</td>
+                                      {% comment %} <td>{{ sc_course.category.name }}</td> {% endcomment %}
                                       <td><a href="{{ sc_course.video_link }}">{{ sc_course.video_link }}</a></td>
                                       <td><img width="50" height="50" src="{{ sc_course.main_photo.url }}" alt=""></td>
                                       <td>
@@ -292,6 +292,7 @@
                           </div>
 
                         </div>
+<!-- category kommette alindi
 
                         <div class="tabs__pane -tab-item-4" data-pane="tab4">
 
@@ -421,6 +422,7 @@
 
                         </div>
 
+-->
                         <div class="tabs__pane -tab-item-6" data-pane="tab6">
 
                           <div class="row y-gap-10 ">

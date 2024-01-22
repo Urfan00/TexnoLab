@@ -42,6 +42,8 @@
 
                         {% csrf_token %}
 
+                        {{ form.media }}
+
                         {% if form.errors %}
                           <div class="alert alert-danger alert-dismissible" role="alert">
                             <div id="form_errors">
@@ -61,6 +63,7 @@
 
                         <div class="col-12">
                           <label id="a2" for="id_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.description.label }} <span class="imp">*</span></label>
+                          <br>
                           {{ form.description }}
                         </div>
 
@@ -78,10 +81,10 @@
                           {{ form.main_photo }}
                         </div>
 
-                        <div class="col-md-4">
+                        {% comment %} <div class="col-md-4">
                           <label id="a4" for="id_category" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.category.label }} <span class="imp">*</span></label>
                           {{ form.category }}
-                        </div>
+                        </div> {% endcomment %}
 
                         <div class="col-md-4">
                           <label id="a6" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.status.label }} <span class="imp">*</span></label>

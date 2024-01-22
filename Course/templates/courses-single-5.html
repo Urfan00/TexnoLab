@@ -61,7 +61,7 @@
       <div class="js-pin-container">
         <section class="page-header -type-5">
           <div class="page-header__bg">
-            <div class="bg-image js-lazy" data-bg="img/event-single/bg.png"></div>
+            <div class="bg-image js-lazy" data-bg="{% static 'img/event-single/bg.png' %}"></div>
           </div>
 
           <div class="container">
@@ -70,7 +70,7 @@
                 <div class="col-xl-7 col-lg-8">
                   <div class="d-flex x-gap-15 y-gap-10 pb-20">
                     <div>
-                      <div class="badge px-15 py-8 text-11 bg-purple-1 text-white fw-400">{{course.category.name}}</div>
+                      {% comment %} <div class="badge px-15 py-8 text-11 bg-purple-1 text-white fw-400">{{course.category.name}}</div> {% endcomment %}
                     </div>
                   </div>
 
@@ -230,7 +230,7 @@
                                       <div class="comments__header">
                                         <h4 class="text-17 fw-500 lh-15">
                                           {{ review.student.first_name }} {{ review.student.last_name }}
-                                          <span class="text-13 text-light-1 fw-400">{{ review.created_at }}</span>
+                                          {% comment %} <span class="text-13 text-light-1 fw-400">{{ review.created_at }}</span> {% endcomment %}
                                         </h4>
                                       </div>
 

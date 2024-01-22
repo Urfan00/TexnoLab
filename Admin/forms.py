@@ -13,13 +13,14 @@ from TIM.models import TIMImage, TIMVideo
 class CourseEditForm(forms.ModelForm):
     class Meta:
         model = Course
-        exclude = ['slug']
+        # exclude = ['slug']
+        exclude = ['slug', "category"]
         labels = {
             'title' : 'Təlimin başlığı',
             'description' : 'Təlim haqqında',
             'main_photo' : 'Təlimin əsas şəkili',
             'video_link' : 'Video linki',
-            'category' : 'Kateqoriya'
+            # 'category' : 'Kateqoriya'
         }
         widgets = {
             'title' : forms.TextInput(
@@ -39,11 +40,11 @@ class CourseEditForm(forms.ModelForm):
                     'class' : 'inpClass'
                 }
             ),
-            'category' : forms.Select(
-                attrs={
-                    'placeholder' :"-seçin-"
-                }
-            ),
+            # 'category' : forms.Select(
+            #     attrs={
+            #         'placeholder' :"-seçin-"
+            #     }
+            # ),
         }
 
 

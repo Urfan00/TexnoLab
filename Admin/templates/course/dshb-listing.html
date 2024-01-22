@@ -42,6 +42,8 @@
 
                         {% csrf_token %}
 
+                        {{ form.media }}
+
                         {% if form.errors %}
                           <div class="alert alert-danger alert-dismissible" role="alert">
                             <div id="form_errors">
@@ -61,6 +63,7 @@
 
                         <div class="col-12">
                           <label id="a2" for="id_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.description.label }} <span class="imp">*</span></label>
+                          <br>
                           {{ form.description }}
                         </div>
 

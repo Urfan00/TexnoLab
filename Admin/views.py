@@ -189,6 +189,11 @@ class AdminCourseAddView(StaffRequiredMixin, CreateView):
     success_url = reverse_lazy('course_dashboard')
 
     def form_valid(self, form):
+        # Get the first CourseCategory instance
+        first_category = CourseCategory.objects.first()
+
+        # Set the category field of the Course instance to the first category
+        form.instance.category = first_category
         # If the form is valid, display a success message
         messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
         return super().form_valid(form)

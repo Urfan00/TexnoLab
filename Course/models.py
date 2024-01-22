@@ -26,7 +26,7 @@ class CourseCategory(DateMixin):
 class Course(DateMixin):
     title = models.CharField(max_length=255)
     slug = models.SlugField(null=True, blank=True, unique=True)
-    description = models.TextField()
+    description = RichTextField()
     main_photo = models.ImageField(upload_to=Uploader.course_main_photo, max_length=255)
     video_link = models.URLField(null=True, blank=True)
     status = models.BooleanField(default=True)

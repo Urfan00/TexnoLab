@@ -45,8 +45,9 @@
                           <img class="w-1/1 rounded-8" style="height: 240px; object-fit: cover;" src="{{ blog.main_photo.url }}" alt="image">
                         </div>
                         <div class="blogCard__content mt-20">
-                          <div class="blogCard__category">{{ blog.title }}</div>
-                          <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
+                          {% comment %} <div class="blogCard__category">{{ blog.title }}</div> {% endcomment %}
+                          <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.title }}</h4>
+                          {% comment %} <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4> {% endcomment %}
 
                         </div>
                       </a>
