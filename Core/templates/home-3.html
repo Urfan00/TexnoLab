@@ -355,21 +355,19 @@
 
 
       <section data-anim-wrap class="masthead -type-2">
-        <div class="masthead__bg">
-          <div class="bg-image js-lazy" data-bg="img/home-3/masthead/bg.png"></div>
+        <div class="masthead__bg" >
+          <div class="bg-image js-lazy" data-bg="{% if slider.img %}{{ slider.img.url }}{% endif %}"></div>
         </div>
 
         <div class="container">
           <div class="row y-gap-50 justify-center items-center">
             <div class="col-xl-6 col-lg-11">
               <div class="masthead__content">
-                <div data-anim-child="slide-up delay-2" class="masthead__subtitle fw-500 text-green-1 text-17 lh-15">
+                {% comment %} <div data-anim-child="slide-up delay-2" class="masthead__subtitle fw-500 text-green-1 text-17 lh-15">
                   Start learning for free
-                </div>
-                <h1 data-anim-child="slide-up delay-3" class="masthead__title text-white mt-10">
-                  Explore your creativity
-                  with thousands of
-                  online classes.
+                </div> {% endcomment %}
+                <h1 data-anim-child="slide-up delay-3" class="masthead__title text-white">
+                  {{ slider.text }}
                 </h1>
                 <div data-anim-child="slide-up delay-4" class="masthead__button mt-20">
                   <a href="{% url "all_service" %}" class="button -md -white text-dark-1">Bütün Xidmətlər</a>
@@ -752,7 +750,7 @@
                     <div class="blogCard__content mt-20">
                       <a href="{% url "blog" blog.slug %}" class="blogCard__category">{{ blog.title }}</a>
                       <h4 class="blogCard__title text-17 lh-15 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
-                      <div class="blogCard__date text-14 mt-5">{{ blog.date|date:"F j, Y" }}</div>
+                      <div class="blogCard__date text-14 mt-5">{{ blog.date|date:"d.m.Y" }}</div>
                     </div>
                   </div>
                 </a>

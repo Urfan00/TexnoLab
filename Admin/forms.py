@@ -1,7 +1,7 @@
 from django import forms
 from Account.models import Account
 from Blog.models import Blog, BlogCategory
-from Core.models import FAQ, AboutUs, ContactInfo, Partner
+from Core.models import FAQ, AboutUs, ContactInfo, HomePageSliderTextIMG, Partner
 from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
 from ExamResult.models import Group, CourseStudent
@@ -701,6 +701,23 @@ class CourseTopicTestEditForm(forms.ModelForm):
             'name' : forms.TextInput(
                 attrs={
                     'placeholder' :"Test başlığı"
+                }
+            )
+        }
+
+
+class HomePageSliderTextIMGForm(forms.ModelForm):
+    class Meta:
+        model = HomePageSliderTextIMG
+        fields = ['text', 'img']
+        labels = {
+            'Text' : 'Mətn',
+            'img1' : 'Şəkil',
+        }
+        widgets = {
+            'text' : forms.TextInput(
+                attrs={
+                    'placeholder' : "Mətn"
                 }
             )
         }

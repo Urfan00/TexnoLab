@@ -7,7 +7,7 @@ from Course.forms import RequestUsForm
 from Course.models import Course, CourseStatistic
 from Service.models import ServiceHome
 from .forms import ContactFormModel, SubscribeForm
-from .models import FAQ, AboutUs, Certificate, ContactInfo, NavMenu, Partner
+from .models import FAQ, AboutUs, Certificate, ContactInfo, HomePageSliderTextIMG, NavMenu, Partner
 from django.contrib import messages
 from Blog.models import Blog
 from django.db.models import Q
@@ -27,6 +27,7 @@ class IndexView(View):
         context['courses'] = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-created_at').all()[:8]
         context['main_menus'] = NavMenu.objects.filter(sub_menu__isnull=True).all()
         context['sercice_home'] = ServiceHome.objects.filter(status=True, is_delete=False).order_by('-created_at')[:10]
+        context['slider'] = HomePageSliderTextIMG.objects.last()
         context['testimonials'] = Account.objects.filter(
             is_delete=False,
             is_superuser=False,

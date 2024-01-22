@@ -25,6 +25,9 @@
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
                   Əlaqə məlumatları
                 </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab3" data-tab-target=".-tab-item-3" type="button">
+                  Ana səhifə slider
+                </button>
               </div>
 
               <div class="tabs__content py-30 px-30 js-tabs-content">
@@ -187,6 +190,41 @@
                   </div>
                 </div>
 
+                <div class="tabs__pane -tab-item-3" data-pane="tab3">
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                        <div>
+                        </div>
+                        <div>
+                          <a href="{% url "slider_edit" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                            Redaktə et &nbsp;&nbsp; &nbsp;<i class="fa fa-pencil" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-12">
+                      <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                        <div class="py-30 px-30">
+
+                          <table class="table table-bordered">
+                            <tbody>
+                              <tr>
+                                <td><strong>Mətn: </strong></td>
+                                <td>{{ slider.text|capfirst }}</td>
+                              </tr>
+                              <tr>
+                                <td><strong>Şəkil: </strong></td>
+                                <td><img src="{{ slider.img.url }}" alt="{{ slider.pk }}"></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                </div>
 
               </div>
             </div>

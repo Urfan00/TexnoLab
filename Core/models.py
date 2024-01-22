@@ -218,3 +218,41 @@ class Certificate(DateMixin):
         delete_file_if_exists(image_path)
 
         super(Certificate, self).delete(using, keep_parents)
+
+
+class HomePageSliderTextIMG(DateMixin):
+    img = models.ImageField(upload_to=Uploader.home_page_silder_image, max_length=255)
+    text = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"home page slider text img {self.pk}"
+
+    def save(self, *args, **kwargs):
+        # Check if the instance already exists
+        if self.pk:
+            old_instance = HomePageSliderTextIMG.objects.get(pk=self.pk)
+
+            # Check if the image field is cleared
+            if old_instance.img and not self.img:
+                # Delete the old photo file
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
+
+            # Check if the image is changed
+            if self.img and self.img != old_instance.img:
+                # Delete old image file if it exists
+                delete_file_if_exists(os.path.join(settings.MEDIA_ROOT, str(old_instance.img)))
+
+        super().save(*args, **kwargs)
+
+    def delete(self, using=None, keep_parents=False):
+        # Get the path to the image file
+        image_path = os.path.join(settings.MEDIA_ROOT, str(self.img))
+
+        # Delete the image file if it exists
+        delete_file_if_exists(image_path)
+
+        super(HomePageSliderTextIMG, self).delete(using, keep_parents)
+
+    class Meta:
+        verbose_name = 'Home Page Slider'
+        verbose_name_plural = 'Home Page Slider'

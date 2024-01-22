@@ -5,7 +5,7 @@ from Account.models import Account
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
 from ExamResult.models import Group, CourseStudent
 from Core.forms import CertificateEditForm
-from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, Partner, Subscribe
+from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomePageSliderTextIMG, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
@@ -26,7 +26,7 @@ from .forms import (AboutUsEditForm,
                     CourseVideoEditForm,
                     FAQEditForm,
                     GalLeryEditForm,
-                    GroupEditForm,
+                    GroupEditForm, HomePageSliderTextIMGForm,
                     PartnerEditForm, QuestionForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
@@ -1174,7 +1174,7 @@ class AdminRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
 
 
 # ********************************************************************************
-# About Us & Contact Info
+# About Us & Contact Info & Home page text Img
 class AdminAboutContactInfoListView(StaffRequiredMixin, View):
     template_name = 'core/about_us-contact_us/dshb-about-contact-info.html'
 
@@ -1182,6 +1182,7 @@ class AdminAboutContactInfoListView(StaffRequiredMixin, View):
         context = {}
         context["about"] = AboutUs.objects.first()
         context["contact_info"] = ContactInfo.objects.first()
+        context["slider"] = HomePageSliderTextIMG.objects.last()
         return context
 
     def get(self, request, *args, **kwargs):
@@ -1246,6 +1247,31 @@ class AdminContactInfoEditView(StaffRequiredMixin, CreateView):
             contact_info.tiktok = form.cleaned_data.get('tiktok')
             contact_info.whatsapp = form.cleaned_data.get('whatsapp')
             contact_info.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('about_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('about_dashboard')
+
+
+class AdminHomePageSliderTextIMGEditView(StaffRequiredMixin, CreateView):
+    model = HomePageSliderTextIMG
+    template_name = 'core/home-page-slider/dshb-homepage-slider-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        slider = HomePageSliderTextIMG.objects.last()
+
+        form = HomePageSliderTextIMGForm(instance=slider)
+        return render(request, 'core/home-page-slider/dshb-homepage-slider-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = HomePageSliderTextIMGForm(request.POST, request.FILES, instance=HomePageSliderTextIMG.objects.last())
+
+        if form.is_valid():
+            slider = HomePageSliderTextIMG.objects.last()
+            slider.text = form.cleaned_data.get('text')
+            slider.img = form.cleaned_data.get('img')
+            slider.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('about_dashboard')
         else:

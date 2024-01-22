@@ -1,7 +1,7 @@
 import os
 import shutil
 from django.contrib import admin
-from .models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, NavMenu, Partner, Subscribe
+from .models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomePageSliderTextIMG, NavMenu, Partner, Subscribe
 
 
 
@@ -132,7 +132,33 @@ class CertificateAdmin(admin.ModelAdmin):
         return actions
 
 
+class HomePageSliderTextIMGAdmin(admin.ModelAdmin):
+    list_display = ['id', 'text', 'img']
+    list_display_links = ['id', 'text']
+    actions = ['delete_selected_with_images']
 
+    def delete_selected_with_images(self, request, queryset):
+        for obj in queryset:
+            # Delete the associated image from the media folder
+            image_path = obj.img.path
+            if os.path.exists(image_path):
+                os.remove(image_path)
+
+            # Delete the object
+            obj.delete()
+
+        self.message_user(request, "Selected img have been deleted.")
+
+    delete_selected_with_images.short_description = "Delete selected IMG"
+
+    def get_actions(self, request):
+        actions = super(HomePageSliderTextIMGAdmin, self).get_actions(request)
+        del actions['delete_selected']
+        return actions
+
+
+
+admin.site.register(HomePageSliderTextIMG, HomePageSliderTextIMGAdmin)
 admin.site.register(Certificate, CertificateAdmin)
 admin.site.register(Partner, PartnerAdmin)
 admin.site.register(NavMenu, NavMenuAdmin)

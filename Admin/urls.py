@@ -60,7 +60,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminFEEDBACKDeleteView,
                     AdminFEEDBACKUndeleteView,
                     AdminGroupAddView,
-                    AdminGroupEditView,
+                    AdminGroupEditView, AdminHomePageSliderTextIMGEditView,
                     AdminKEBDeleteView,
                     AdminKEBUndeleteView, AdminQuestionAnswerListView,
                     AdminRequestUsDeleteView,
@@ -238,6 +238,7 @@ urlpatterns = [
 
     path('about_us_edit', AdminAboutUsEditView.as_view(), name='about_us_edit'),
     path('contact_info_edit', AdminContactInfoEditView.as_view(), name='contact_info_edit'),
+    path('slider_edit', AdminHomePageSliderTextIMGEditView.as_view(), name='slider_edit'),
 
     # Account & Register & Group
     path('account_dashboard/', AdminAccountListView.as_view(), name='account_dashboard'),

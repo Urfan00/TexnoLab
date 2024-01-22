@@ -61,6 +61,9 @@ class Uploader:
     def question_image(instance, filename):
         return f"Question_Image/{instance.course_topic_test.name}/{instance.pk}/{filename}"
 
+    def home_page_silder_image(instance, filename):
+        return f"Home-Page-Slider-image/{filename}"
+
     @staticmethod
     def get_file_extension(file_name):
         _, file_extension = os.path.splitext(file_name)
