@@ -287,13 +287,13 @@
                 </a>
               </div>
 
-              {% url 'subscribe_dashboard' as subscribe_dashboard %}
+              {% comment %} {% url 'subscribe_dashboard' as subscribe_dashboard %}
               <div class="sidebar__item {% if request.path == subscribe_dashboard or request.path|slice:'/-' == subscribe_dashboard %}-is-active{% endif %}">
                 <a href="{% url "subscribe_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                   <i class="text-20 icon-power mr-15"></i>
                   Abunələr
                 </a>
-              </div>
+              </div> {% endcomment %}
 
               {% url 'logout' as logout %}
               <div class="sidebar__item {% if request.path == logout or request.path|slice:'/-' == logout %}-is-active{% endif %}">
