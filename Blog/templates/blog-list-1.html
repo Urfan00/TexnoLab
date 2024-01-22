@@ -33,6 +33,7 @@
           <div class="tabs -pills js-tabs">
             <div data-anim-child="slide-up delay-3" class="tabs__controls d-flex justify-center x-gap-10 js-tabs-controls">
              
+              <button><a href="{% url 'blog' %}" class="tabs__button px-15 py-8 rounded-8 js-tabs-button is-active" data-tab-target=".-tab-item-all" type="button">Hamısı</a></button>
               {% for cat in categories %}
                 <div>
                   {% comment %} {% if forloop.first %} is-active{% endif %} {% endcomment %}
@@ -56,7 +57,7 @@
                         <div class="blogCard__content mt-20">
                           <div class="blogCard__category">{{ blog.title }}</div>
                           <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description|safe|truncatewords:4 }}</h4>
-                          <div class="blogCard__date text-14 mt-5">{{ blog.date }}</div>
+                          <div class="blogCard__date text-14 mt-5">{{ blog.date|date:"d.m.y" }}</div>
                         </div>
                       </a>
                     </div>
@@ -93,12 +94,6 @@
         </div>
       </section>
 
-
-
-
-
-
-      
       <script>
         // Get all category buttons and category sections
         const categoryButtons = document.querySelectorAll('.js-tabs-button');
