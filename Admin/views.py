@@ -1831,7 +1831,7 @@ class AdminTIMMainEditView(StaffRequiredMixin, CreateView):
             tim = TIM.objects.filter(status=True, is_delete=False).first()
             tim.title = form.cleaned_data.get('title')
             tim.description1 = form.cleaned_data.get('description1')
-            tim.description2 = form.cleaned_data.get('description2')
+            # tim.description2 = form.cleaned_data.get('description2')
             tim.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('tim_dashboard')

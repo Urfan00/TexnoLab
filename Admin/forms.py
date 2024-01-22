@@ -625,10 +625,11 @@ class GalLeryEditForm(forms.ModelForm):
 class TIMEditForm(forms.ModelForm):
     class Meta:
         model = Service
-        fields = ['title', 'description1', 'description2', 'status']
+        # fields = ['title', 'description1', 'description2', 'status']
+        fields = ['title', 'description1', 'status']
         labels = {
             'title' : 'TİM adı',
-            'description1' : 'TİM haqqında 1',
+            'description1' : 'TİM haqqında',
             'description2' : 'TİM haqqında 2',
             'status' : 'Status',
         }
@@ -644,12 +645,12 @@ class TIMEditForm(forms.ModelForm):
                     'placeholder' :"Ətraflı məlumat"
                 }
             ),
-            'description2' : forms.Textarea(
-                attrs={
-                    'rows' : 8,
-                    'placeholder' :"Ətraflı məlumat"
-                }
-            ),
+            # 'description2' : forms.Textarea(
+            #     attrs={
+            #         'rows' : 8,
+            #         'placeholder' :"Ətraflı məlumat"
+            #     }
+            # ),
         }
 
 

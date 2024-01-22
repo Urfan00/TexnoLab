@@ -40,8 +40,8 @@
                             </div>
                             <div class="blogCard__content mt-20">
                                 <div class="blogCard__category">{{ blog.title }}</div>
-                                <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description1|safe|truncatewords:4 }}</h4>
-                                <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description2|safe|truncatewords:4 }}</h4>
+                                {% comment %} <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description1|safe|truncatewords:4 }}</h4>
+                                <h4 class="blogCard__title text-20 lh-15 fw-500 mt-5">{{ blog.description2|safe|truncatewords:4 }}</h4> {% endcomment %}
                             </div>
                         </a>
                     </div>
