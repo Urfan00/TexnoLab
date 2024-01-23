@@ -132,7 +132,7 @@
 
                         <div class="show-more mt-30 js-show-more">
                           <div class="show-more__content">
-                            <p class="">{{ course.description }}</p>
+                            <p class="">{{ course.description|safe }}</p>
                           </div>
 
                           <button id="more_" onclick="changeText()" class="show-more__button text-purple-1 fw-500 underline mt-30">Daha çox</button>

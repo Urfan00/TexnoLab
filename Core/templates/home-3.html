@@ -54,7 +54,7 @@
     
 
     <header data-anim="fade" data-add-bg="" class="header -type-3 js-header">
-      <div class="d-flex items-center bg-purple-1 py-10">
+      <div class="d-flex items-center bg-dark-1 py-10">
         <div class="container-fluid">
           <div class="row y-gap-5 justify-center items-center">
             <div class="col-auto">
@@ -174,8 +174,9 @@
                     <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
 
                       {% if user.is_authenticated %}
-                        
-                      &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="text-dark-1 prof">Profil</a>
+                      {% comment %} <a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a> {% endcomment %}
+
+                      &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a>
                         <a href="{% url 'logout' %}" class="text-dark-1 ml-30  cix -purple-1 text-white">Çıxış</a>
                       {% else %}
                         <a href="{% url 'login' %}" class="text-dark-1">Giriş</a>
@@ -413,7 +414,7 @@
                   </div>
 
                   <div class="masthead-form__group">
-                    <button type="submit" class="button -md -purple-1 text-white">Göndər</button>
+                    <button type="submit" class="button -md -dark-1 text-white">Göndər</button>
                   </div>
 
                   <div class="masthead-form__desc">
@@ -631,7 +632,7 @@
           <div class="row justify-center pt-60 lg:pt-40">
             <div class="col-auto">
 
-              <a href="{% url "course" %}" class="button -icon -purple-3 text-purple-1">
+              <a href="{% url "course" %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">
                 Bütün təlimlər
                 <i class="icon-arrow-top-right text-13 ml-10"></i>
               </a>
@@ -730,7 +731,7 @@
 
             <div class="col-auto">
 
-              <a href="{% url "blog" %}" class="button -icon -purple-3 text-purple-1">
+              <a href="{% url "blog" %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">
                 Bütün xəbərlər
                 <i class="icon-arrow-top-right text-13 ml-10"></i>
               </a>
