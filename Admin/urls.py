@@ -53,16 +53,20 @@ from .views import (AdminAboutContactInfoListView,
                     AdminCourseTopicEditView,
                     AdminCourseTopicTestListView,
                     AdminCourseTopicUndeleteView,
-                    AdminCourseTopicsTestAddView, AdminCourseTopicsTestDeleteView,
-                    AdminCourseTopicsTestEditView, AdminCourseTopicsTestUndeleteView,
+                    AdminCourseTopicsTestAddView,
+                    AdminCourseTopicsTestDeleteView,
+                    AdminCourseTopicsTestEditView,
+                    AdminCourseTopicsTestUndeleteView,
                     AdminCourseVideoAddView,
                     AdminCourseVideoDeleteView,
                     AdminFEEDBACKDeleteView,
                     AdminFEEDBACKUndeleteView,
                     AdminGroupAddView,
-                    AdminGroupEditView, AdminHomePageSliderTextIMGEditView,
+                    AdminGroupEditView,
+                    AdminHomePageSliderTextIMGEditView,
                     AdminKEBDeleteView,
-                    AdminKEBUndeleteView, AdminQuestionAnswerListView,
+                    AdminKEBUndeleteView,
+                    AdminQuestionAnswerListView,
                     AdminRequestUsDeleteView,
                     AdminRequestUsDetailView,
                     AdminRequestUsUndeleteView,
@@ -104,7 +108,7 @@ from .views import (AdminAboutContactInfoListView,
                     CourseStudentDeleteView,
                     CourseStudentEditView,
                     DashboardView,
-                    QuestionCreateView,
+                    TopicTestDetailView,
                     get_course_topic_test_options)
 
 
@@ -321,7 +325,7 @@ urlpatterns = [
 
     # Question & Answer
     path('question_dashboard/', AdminQuestionAnswerListView.as_view(), name='question_dashboard'),
-    path('question_add/', QuestionCreateView.as_view(), name='question_add'),
+    path('topic_test_question/<int:pk>', TopicTestDetailView.as_view(), name='topic_test_question'),
 
 
 ]

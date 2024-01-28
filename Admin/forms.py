@@ -724,35 +724,3 @@ class HomePageSliderTextIMGForm(forms.ModelForm):
             )
         }
 
-
-from django.forms import inlineformset_factory
-
-class AnswerForm(forms.ModelForm):
-    class Meta:
-        model = Answer
-        fields = ['answer', 'is_correct', 'is_active']
-
-AnswerFormSet = inlineformset_factory(Question, Answer, form=AnswerForm, extra=3, can_delete=True)
-
-class QuestionForm(forms.ModelForm):
-    class Meta:
-        model = Question
-        fields = ['question', 'question_image', 'point', 'course_topic_test']
-
-    answers = AnswerFormSet(queryset=Answer.objects.none(), prefix='answers')
-
-    def __init__(self, *args, **kwargs):
-        super(QuestionForm, self).__init__(*args, **kwargs)
-        if self.instance.pk:
-            # If the instance already exists, populate the formset with existing answers
-            self.fields['answers'].queryset = Answer.objects.filter(question=self.instance)
-
-    def save(self, commit=True):
-        question = super(QuestionForm, self).save(commit)
-        if commit and 'answers' in self.cleaned_data:
-            answers_formset = self.cleaned_data['answers']
-            for answer_form in answers_formset.forms:
-                answer = answer_form.save(commit=False)
-                answer.question = question
-                answer.save()
-        return question

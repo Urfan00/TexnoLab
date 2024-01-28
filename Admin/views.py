@@ -1,19 +1,20 @@
 from django.shortcuts import render, redirect
+from django.urls import reverse
 from django.views import View
-from django.views.generic import ListView, DetailView, CreateView, DeleteView
+from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from Account.models import Account
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
 from ExamResult.models import Group, CourseStudent
 from Core.forms import CertificateEditForm
 from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomePageSliderTextIMG, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
-from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs
+from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from TIM.models import TIM, TIMImage, TIMVideo
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
                     AllGaleryEditForm,
-                    AllVideoGalleryEditForm, AnswerFormSet,
+                    AllVideoGalleryEditForm,
                     BlogCategoryEditForm,
                     BlogEditForm,
                     ContactInfoEditForm,
@@ -26,8 +27,9 @@ from .forms import (AboutUsEditForm,
                     CourseVideoEditForm,
                     FAQEditForm,
                     GalLeryEditForm,
-                    GroupEditForm, HomePageSliderTextIMGForm,
-                    PartnerEditForm, QuestionForm,
+                    GroupEditForm,
+                    HomePageSliderTextIMGForm,
+                    PartnerEditForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
                     ServiceHomeEditForm,
@@ -2184,59 +2186,89 @@ class AdminCourseTopicsTestUndeleteView(StaffRequiredMixin, View):
 
 # QUESTION & ANSWER
 class AdminQuestionAnswerListView(StaffRequiredMixin, ListView):
-    model = Question
+    model = CourseTopicsTest
     template_name = 'question/dshb-question.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        q_query = self.request.GET.get('q', '')
-        d_query = self.request.GET.get('d', '')
 
-        a_questions = Question.objects.filter(is_active=True).order_by('-created_at').all()
-        d_questions = Question.objects.filter(is_active=False).order_by('-created_at').all()
+        teacher_course = TeacherCourse.objects.filter(teacher=self.request.user)
+        course_ids = teacher_course.values_list('course__id', flat=True)
 
-        if q_query:
-            a_questions = a_questions.filter(
-                Q(question__icontains=q_query) | Q(course_topic_test__name__icontains=q_query)
-            )
-        elif d_query:
-            d_questions = d_questions.filter(
-                Q(question__icontains=d_query) | Q(course_topic_test__name__icontains=d_query)
-            )
-
-        context["a_questions"] = a_questions
-        context["d_questions"] = d_questions
+        if self.request.user.staff_status == 'SuperUser':
+            context['tests'] = CourseTopicsTest.objects.all()
+        else:
+            context['tests'] = CourseTopicsTest.objects.filter(course__id__in=course_ids)
 
         return context
 
 
-class QuestionCreateView(CreateView):
-    model = Question
-    form_class = QuestionForm
+class TopicTestDetailView(DetailView):
+    model = CourseTopicsTest
     template_name = 'question/dshb-question-add.html'
-    success_url = reverse_lazy('question_dashboard')
-
-    def form_valid(self, form):
-        context = self.get_context_data()
-        answers_formset = context['answers_formset']
-
-        if form.is_valid() and answers_formset.is_valid():
-            self.object = form.save()
-            answers_formset.instance = self.object
-            answers_formset.save()
-            return super().form_valid(form)
-        else:
-            return self.form_invalid(form, answers_formset)
-
-    def form_invalid(self, form, answers_formset=None, **kwargs):
-        context = self.get_context_data(form=form, answers_formset=answers_formset, **kwargs)
-        return self.render_to_response(context)
-
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        if self.request.POST:
-            context['answers_formset'] = AnswerFormSet(self.request.POST, instance=self.object, prefix='answers')
-        else:
-            context['answers_formset'] = AnswerFormSet(instance=self.object, queryset=Answer.objects.none(), prefix='answers')
+        questions = Question.objects.filter(course_topic_test=self.object)
+        context['questions'] = questions
         return context
+
+    def post(self, request, *args, **kwargs):
+
+        for key, value in request.POST.items():
+            if key.startswith('title_'):
+                q_id = key.split('_')[1]
+                question = Question.objects.get(pk=q_id)
+                question.question = value
+                question.point = request.POST.get(f'point_{q_id}')
+                question.save()
+
+        for key, value in request.POST.items():
+            if key.startswith('question_answer_'):
+                q_id = key.split('_')[2]
+                a_id = key.split('_')[3]
+                answer = Answer.objects.get(question_id=q_id, id=a_id)
+                answer.answer = value
+                answer.is_correct = a_id == request.POST.get(f'answer_{q_id}')
+                answer.save()
+
+        for key, uploaded_file in request.FILES.items():
+            if key.startswith('file_'):
+                q_id = key.split('_')[1]
+                question = Question.objects.get(pk=q_id)
+                question.question_image = uploaded_file
+                question.save()
+
+        for key, value in request.POST.items():
+            if key.startswith('delete_image_'):
+                q_id = key.split('_')[2]
+                question = Question.objects.get(pk=q_id)
+                # Check if the checkbox is selected
+                if value:
+                    # Delete the image and clear the question_image field
+                    question.question_image.delete()
+                    question.question_image = None
+                    question.save()
+
+        # Create New Question
+        for key, value in request.POST.items():
+            if key.startswith('new_title_'):
+                q_id = key.split('_')[2]
+                question = Question.objects.create(
+                    question=value,
+                    point=request.POST.get(f'new_point_{q_id}'),
+                    question_image = request.FILES.get(f'new_file_{q_id}'),
+                    course_topic_test=self.get_object()
+                )
+
+                # Process new answers for the created question
+                for sub_key, sub_value in request.POST.items():
+                    if sub_key.startswith(f'new_question_answer_{q_id}_'):
+                        a_id = sub_key.split('_')[-1]
+                        answer = Answer.objects.create(
+                            question=question,
+                            answer=sub_value,
+                            is_correct = a_id == request.POST.get(f'new_answer_{q_id}')
+                        )
+
+        return redirect(reverse('topic_test_question', kwargs={'pk': self.get_object().pk}))
