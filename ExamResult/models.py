@@ -18,6 +18,7 @@ class Group(DateMixin):
     exam_end_time = models.DateTimeField(null=True, blank=True)
     start_date = models.DateTimeField()
     end_date = models.DateTimeField()
+    all_course_topics = models.ManyToManyField(CourseTopic, blank=True, related_name='all_course_topics')
 
     def __str__(self):
         return self.name

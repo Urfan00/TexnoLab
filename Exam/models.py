@@ -35,7 +35,7 @@ class Question(DateMixin):
         (2, 2),
         (3, 3)
     )
-    question = RichTextField()
+    question = models.CharField(max_length=500)
     question_image = models.ImageField(upload_to=Uploader.question_image, max_length=255, null=True, blank=True)
     point = models.IntegerField(choices=question_point)
     course_topic_test = models.ForeignKey(CourseTopicsTest, on_delete=models.CASCADE, related_name='course_topic_test_question')

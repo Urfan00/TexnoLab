@@ -1,0 +1,190 @@
+{% extends "base3.html" %}
+{% load static %}
+{% block content %}
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+
+<div class="dashboard__main">
+  <div class="dashboard__content bg-light-4">
+    <div class="row pb-50 mb-10">
+      <div class="col-auto">
+
+        {% comment %} <h1 class="text-30 lh-12 fw-700">İmtahan Qaydaları - <i>{{ student.get_full_name|capfirst }}</i></h1> {% endcomment %}
+        <h1 class="text-30 lh-12 fw-700">İmtahan</h1>
+
+      </div>
+    </div>
+    <div class="row y-gap-30">
+      <div class="col-xl-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div class="d-flex items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 lh-1 fw-500">İmtahan üçün mövzüların seçilməsi, imtahan müddətinin əlavə edilməsi və imtahanın başlamasına icazə verilməsi səhifəsi.</h2>
+          </div>
+
+          <div class="py-5 px-5">
+            <div class="mt-10">
+
+              <div class="px-30 border-bottom-light">
+                  {% csrf_token %}
+                  <div class="row x-gap-10 items-center py-25">
+
+                    <div class="col-lg-2">
+                      <div class="d-flex items-center">
+                        <form class="" action="." method="get" style="width: 100%;">
+                          <select class="js-example-basic-single" name="state" onchange="this.form.submit()" id="groupSelect" style="width: 100%;">
+                            <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
+                            {% for group in groups %}
+                              <option value="{{ group.id }}" {% if group.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ group.name|capfirst }}</option>
+                            {% endfor %}
+                          </select>
+                        </form>
+                      </div>
+                    </div>
+
+                    <div class="col-lg-3">
+                      <input type="datetime-local" value="{% if all_topics and all_topics.is_checked %}{{ all_topics.exam_start_time|date:"Y-m-d\TH:i" }}{% else %}{{ current_time|date:"Y-m-d\TH:i" }}{% endif %}" name="startdate" class="px-5 py-5"style="width: 100%; border: 1px solid #aaa; border-radius: 5px;">
+                    </div>
+
+                    <div class="col-lg-1">
+                      <input type="number" name="examDuration" value="{% if all_topics and all_topics.is_checked %}{{ all_topics.exam_durations }}{% else %}0{% endif %}" class="px-5 py-5" onkeydown="return false" style="width: 100%; border: 1px solid #aaa; border-radius: 5px;" min="0" step="5">
+                    </div>
+
+                    <div class="col-lg-2">
+                      <input type="text" disabled name="disabledTopic" value="{% if all_topics and all_topics.is_checked %}{{ all_topics.course_topic|capfirst }}{% endif %}" class="px-5 py-5" style="width: 100%; border: 1px solid #aaa; border-radius: 5px;">
+                    </div>
+
+                    <div class="col-lg-1">
+                      <div class="d-flex items-center">
+                        <div class="form-switch pr-10">
+                          <div class="switch" data-switch=".js-switch-content">
+                            <input name="startEnd" type="checkbox" {% if all_topics.is_checked %}checked{% endif %}>
+                            <span class="switch__slider"></span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+              </div>
+
+              <div class="px-30 border-bottom-light">
+                <div class="row x-gap-10 items-center py-25">
+
+                  {% for topic in topics %}
+                    <div class="col-lg-2 mt-10">
+                      <input type="button" value="{{ topic.topic_title|capfirst }}" data-value="false" data-color="{% if topic in all_topics.all_course_topics.all %}green{% else %}red{% endif %}" name="topicButton-{{ topic.id }}" class="text-white px-10 py-10" style="width: 100%; border: 1px solid #aaa; border-radius: 5px; {% if topic in all_topics.all_course_topics.all %}background-color: green;{% else %}background-color: red;{% endif %}">
+                    </div>
+                  {% endfor %}
+
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+
+
+<script>
+  $(document).ready(function () {
+    // Initialize select2
+    $('.js-example-basic-single').select2();
+
+    // Function to update the disabledTopic input based on selected topics
+    function updateDisabledTopic() {
+      var selectedTopics = $('input[name^="topicButton-"][data-value="true"]');
+      var disabledTopicValue = "";
+
+      selectedTopics.each(function () {
+        // Append the selected topic titles to the disabledTopicValue
+        disabledTopicValue += $(this).attr('value') + " ";
+      });
+
+      // Update the value of the disabledTopic input
+      $('input[name="disabledTopic"]').val(disabledTopicValue.trim());
+    }
+
+    // Add click event listener to topic buttons
+    $('input[name^="topicButton-"]').on('click', function () {
+      var clickedButton = $(this);
+
+      // Toggle the data-value of the clicked button
+      var currentValue = clickedButton.attr('data-value');
+      var newValue = currentValue === 'true' ? 'false' : 'true';
+
+      // Reset data-value for all buttons to false
+      $('input[name^="topicButton-"]').attr('data-value', 'false');
+
+      // Reset background color for all buttons to data-color value
+      $('input[name^="topicButton-"]').css('background-color', function () {
+        return $(this).attr('data-color');
+      });
+
+      // Update background color based on data-value
+      if (newValue === 'true') {
+        // Topic is selected, set color to green
+        clickedButton.css('background-color', 'blue');
+      } else {
+        // Topic is unselected, set color to data-color value
+        clickedButton.css('background-color', clickedButton.attr('data-color'));
+      }
+
+      // Update data-value for the clicked button
+      clickedButton.attr('data-value', newValue);
+
+      // Update the disabledTopic input based on selected topics
+      updateDisabledTopic();
+    });
+
+    // Add change event listener to startEnd checkbox
+    $('input[name="startEnd"]').on('change', function () {
+      // Get the values of group id, startdate, examDuration, and disabledTopic
+      var groupId = $('#groupSelect').val();
+      var startdate = $('input[name="startdate"]').val();
+      var examDuration = $('input[name="examDuration"]').val();
+      var disabledTopic = $('input[name="disabledTopic"]').val();
+      var startEnd = $(this).prop('checked');
+
+      // Prepare data to send back
+      var sendData = {
+        groupId: groupId,
+        startdate: startdate,
+        examDuration: examDuration,
+        disabledTopic: disabledTopic,
+        startEnd: startEnd
+      };
+
+      sendData['csrfmiddlewaretoken'] = $('[name="csrfmiddlewaretoken"]').val();
+
+      console.log('==> ', sendData)
+      
+      // Assuming you have an API endpoint to send the data to (adjust the URL accordingly)
+      var apiUrl = '/save_exam/';
+      
+      // Use AJAX to send data back to the server
+      $.ajax({
+        type: 'POST',
+        url: apiUrl,
+        data: sendData,
+        success: function (response) {
+          // Handle success if needed
+          console.log(response);
+        },
+        error: function (error) {
+          // Handle error if needed
+          console.error(error);
+        }
+      });
+    });
+  });
+</script>
+
+
+{% endblock %}
