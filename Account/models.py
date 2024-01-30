@@ -41,7 +41,8 @@ class Account(AbstractUser):
         ('Koordinator', 'Koordinator'),
         ('Müəllim', 'Müəllim'),
         ('SuperUser', 'SuperUser'),
-        ('Tələbə', 'Tələbə')
+        ('Tələbə', 'Tələbə'),
+        ('Mentor', 'Mentor'),
     )
     staff_status = models.CharField(choices=staffs_status, null=True, blank=True, max_length=255)
     id_code = models.CharField(max_length=7, unique=True, null=True, blank=True)

@@ -9,6 +9,7 @@ from django.conf import settings
 from services.utils import delete_file_if_exists
 import os
 from django.utils.crypto import get_random_string
+from django.db.models import Q
 
 
 class CourseCategory(DateMixin):
@@ -82,7 +83,7 @@ class Course(DateMixin):
 
 
 class TeacherCourse(DateMixin):
-    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, limit_choices_to={'staff_status': 'Müəllim'})
+    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, limit_choices_to=Q(staff_status='Müəllim') | Q(staff_status='Mentor'))
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):

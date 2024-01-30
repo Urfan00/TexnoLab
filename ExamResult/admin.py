@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CourseStudent, Group, RandomQuestion, StudentAnswer, StudentResult
+from .models import CourseStudent, Group, RandomQuestion, StudentAnswer, StudentResult, TeacherEvaluation
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -33,10 +33,16 @@ class StudentAnswerAdmin(ImportExportModelAdmin):
 
 
 class StudentResultAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'student', 'point_1', 'point_2', 'point_3', 'total_point', 'status', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'point_1', 'point_2', 'point_3', 'total_point', 'status', 'exam_topics', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__email']
     list_filter = ['status']
+
+
+class TeacherEvaluationAdmin(ImportExportModelAdmin):
+    list_display = ['id', 'student', 'point', 'teacher', 'created_at', 'updated_at']
+    list_display_links = ['id', 'student']
+    search_fields = ['student__first_name', 'student__last_name', 'student__email']
 
 
 
@@ -45,3 +51,4 @@ admin.site.register(StudentAnswer, StudentAnswerAdmin)
 admin.site.register(RandomQuestion, RandomQuestionAdmin)
 admin.site.register(Group, GroupAdmin)
 admin.site.register(CourseStudent, CourseStudentAdmin)
+admin.site.register(TeacherEvaluation, TeacherEvaluationAdmin)

@@ -3,10 +3,12 @@ from django.views import View
 from django.views.generic import ListView
 from Account.models import Account
 from Exam.models import CourseTopic
-from .models import Group, RandomQuestion, StudentResult
+from .models import CourseStudent, Group, RandomQuestion, StudentResult, TeacherEvaluation
 from django.utils import timezone
 from django.http import JsonResponse
 from datetime import datetime
+from django.db.models import OuterRef, Exists
+
 
 
 
@@ -19,6 +21,21 @@ class AuthTeacherMixin:
                 return super().dispatch(request, *args, **kwargs)
             else:
                 # User is authenticated but not teacher, redirect to 404 page
+                return render(request, '404.html')
+        else:
+            # User is not authenticated, redirect to login page
+            return redirect('login')
+
+
+class AuthMentorMixin:
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user is authenticated
+        if request.user.is_authenticated:
+            # Check if the user is mentor
+            if request.user.staff_status == 'Mentor':
+                return super().dispatch(request, *args, **kwargs)
+            else:
+                # User is authenticated but not mentor, redirect to 404 page
                 return render(request, '404.html')
         else:
             # User is not authenticated, redirect to login page
@@ -137,3 +154,60 @@ class ExamStart(AuthTeacherMixin, ListView):
             context['all_topics'] = Group.objects.filter(id=g_query, is_active=True).first()
 
         return context
+
+
+class TeacherEvaluationView(AuthTeacherMixin, ListView):
+    model = Account
+    template_name = "dshb-evaluation.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
+        if user_account:
+            teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+            groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
+
+            context['groups'] = groups
+
+        state = self.request.GET.get('state', '')
+        if state:
+            today = timezone.now().date()
+
+            context['students'] = CourseStudent.objects.filter(
+                group__id=state,
+                is_active=False,
+                is_deleted=False,
+                group_student_is_active=True,
+                is_keb=False
+            ).annotate(
+                new_active=Exists(
+                    TeacherEvaluation.objects.filter(
+                        student=OuterRef('student'),
+                        teacher=self.request.user,
+                        updated_at__date=today
+                    ).values('id')[:1]
+                )
+            ).all()
+
+
+        return context
+
+
+class GivePointView(View):
+    def post(self, request, student_id):
+        # Check if the teacher has already given a point to the student today
+        today = timezone.now().date()
+        teacher = request.user  # Assuming the teacher is the current user
+        existing_evaluation = TeacherEvaluation.objects.filter(
+            student__id=student_id,
+            teacher=teacher,
+            updated_at__date=today
+        ).first()
+
+        if not existing_evaluation:
+            # Create a new evaluation and give 1 point to the student
+            evaluation = TeacherEvaluation(student_id=student_id, point=1, teacher=teacher)
+            evaluation.save()
+
+        return redirect(request.META.get('HTTP_REFERER'))
+

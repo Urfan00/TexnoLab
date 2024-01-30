@@ -118,3 +118,16 @@ class StudentResult(DateMixin):
     class Meta:
         verbose_name = 'Student Result'
         verbose_name_plural = 'Student Result'
+
+
+class TeacherEvaluation(DateMixin):
+    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_evaluation')
+    point = models.PositiveIntegerField(default=0)
+    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='teacher_evaluation')
+
+    def __str__(self):
+        return self.student.get_full_name()
+
+    class Meta:
+        verbose_name = 'Teacher Evaluation'
+        verbose_name_plural = 'Teacher Evaluation'
