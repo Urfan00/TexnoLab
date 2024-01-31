@@ -131,3 +131,25 @@ class TeacherEvaluation(DateMixin):
     class Meta:
         verbose_name = 'Teacher Evaluation'
         verbose_name_plural = 'Teacher Evaluation'
+
+
+class LAB(DateMixin):
+    name = models.CharField(max_length=255)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lab_course')
+
+    def __str__(self):
+        return self.name
+
+
+class MentorLabEvaluation(DateMixin):
+    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_lab_evaluation')
+    lab = models.ForeignKey(LAB, on_delete=models.CASCADE, related_name='student_lab')
+    point = models.FloatField(default=0)
+    mentor = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='mentor_lab_evaluation')
+
+    def __str__(self):
+        return self.student.get_full_name()
+
+    class Meta:
+        verbose_name = 'Mentor Lab Evaluation'
+        verbose_name_plural = 'Mentor Lab Evaluation'

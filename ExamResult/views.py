@@ -3,12 +3,12 @@ from django.views import View
 from django.views.generic import ListView
 from Account.models import Account
 from Exam.models import CourseTopic
-from .models import CourseStudent, Group, RandomQuestion, StudentResult, TeacherEvaluation
+from .models import LAB, CourseStudent, Group, MentorLabEvaluation, RandomQuestion, StudentResult, TeacherEvaluation
 from django.utils import timezone
 from django.http import JsonResponse
 from datetime import datetime
-from django.db.models import OuterRef, Exists
-
+from django.db.models import OuterRef, Exists, FloatField, Value, Subquery
+from django.db.models.functions import Coalesce
 
 
 
@@ -211,3 +211,79 @@ class GivePointView(View):
 
         return redirect(request.META.get('HTTP_REFERER'))
 
+
+class MentorLabEvaluationView(AuthMentorMixin, ListView):
+    model = Account
+    template_name = "dshb-lab-evaluation.html"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Mentor').first()
+        if user_account:
+            teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+            groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
+
+            context['groups'] = groups
+            state = self.request.GET.get('state', '')
+            lab = self.request.GET.get('lab', '')
+            st = self.request.GET.get('student', '')
+
+            if state:
+                students = CourseStudent.objects.filter(
+                    group__id=state,
+                    is_active=False,
+                    is_deleted=False,
+                    group_student_is_active=True,
+                    is_keb=False
+                ).annotate(
+                    has_lab_evaluation=Coalesce(
+                        Subquery(
+                            MentorLabEvaluation.objects.filter(
+                                student__id=OuterRef('student__id'),
+                                lab__id=lab
+                            ).values('point')[:1]
+                        ),
+                        Value(0),
+                        output_field=FloatField()
+                    )
+                ).all()
+
+                context['students'] = students
+
+                labs = LAB.objects.filter(course__course_group__id=state).annotate(
+                    lab_points=Coalesce(
+                        Subquery(
+                            MentorLabEvaluation.objects.filter(
+                                lab=OuterRef('pk'), student__id=st
+                            ).values('point')[:1]
+                        ),
+                        Value(0),
+                        output_field=FloatField()
+                    )
+                ).all()
+
+                context['labs'] = labs
+
+            return context
+
+
+class GiveLabPointView(View):
+    def post(self, request):
+        student_id = request.POST.get('studentId')
+        lab_id = request.POST.get('labId')
+        give_points = request.POST.get('give_points')
+
+        student = get_object_or_404(Account, id=student_id)
+        lab = get_object_or_404(LAB, id=lab_id)
+
+        existing_entry = MentorLabEvaluation.objects.filter(student=student, lab=lab).first()
+
+        if not existing_entry:
+            MentorLabEvaluation.objects.create(
+                student=student,
+                lab=lab,
+                point=give_points,
+                mentor=self.request.user,
+            )
+
+        return redirect(request.META.get('HTTP_REFERER'))
