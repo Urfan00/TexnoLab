@@ -130,8 +130,16 @@
 
               <div class="d-none xl:d-flex items-center px-20 py-20 border-bottom-light">
                 {% if user.is_authenticated %}
-                  
-                &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="text-dark-1 prof">Profil</a>
+                  {% if user.staff_status == 'Tələbə' %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="text-dark-1 prof">Profil</a>
+                  {% elif user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'dashboard' %}" class="text-dark-1 prof">Dashboard</a>
+                  {% elif user.staff_status == 'Müəllim' %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'evaluation' %}" class="text-dark-1 prof">Qiymətləndirmə</a>
+                  {% elif user.staff_status == 'Mentor' %}
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'lab_evaluation' %}" class="text-dark-1 prof">Lab Qiymətləndirmə</a>
+                  {% endif %}
+                {% comment %} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="text-dark-1 prof">Profil</a> {% endcomment %}
                   <a href="{% url 'logout' %}" class="text-dark-1 ml-30 cix">Çıxış</a>
                 {% else %}
                   <a href="{% url 'login' %}" class="text-dark-1">Giriş</a>
@@ -411,7 +419,15 @@
               <div class="header-right__buttons d-flex items-center ml-30 md:d-none">
                 {% if user.is_authenticated %}
                   <a href="{% url 'logout' %}" class="button -underline text-white">Çıxış</a>
-                  <a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a>
+                  {% if user.staff_status == 'Tələbə' %}
+                    <a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a>
+                  {% elif user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+                    <a href="{% url 'dashboard' %}" class="button -sm -white text-dark-1 ml-30">Dashboard</a>
+                  {% elif user.staff_status == 'Müəllim' %}
+                    <a href="{% url 'evaluation' %}" class="button -sm -white text-dark-1 ml-30">Qiymətləndirmə</a>
+                  {% elif user.staff_status == 'Mentor' %}
+                    <a href="{% url 'lab_evaluation' %}" class="button -sm -white text-dark-1 ml-30">Lab Qiymətləndirmə</a>
+                  {% endif %}
                 {% else %}
                   <a href="{% url 'login' %}" class="button -underline text-white">Giriş</a>
                 {% endif %}

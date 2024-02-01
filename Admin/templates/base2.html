@@ -151,149 +151,269 @@
 
             <div class="sidebar -dashboard">
 
-              {% url 'dashboard' as dashboard %}
-              <div class="sidebar__item {% if request.path == dashboard or request.path|slice:'/-' == dashboard %}-is-active{% endif %} -dark-bg-dark-2">
-                <a href="{% url "dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
-                  <i class="text-20 icon-discovery mr-15"></i>
-                  Dashboard
-                </a>
-              </div>
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
 
-              {% url 'course_dashboard' as course_dashboard %}
-              <div class="sidebar__item {% if request.path == course_dashboard or request.path|slice:'/-' == course_dashboard %}-is-active{% endif %}">
-                <a href="{% url "course_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-play-button mr-15"></i>
-                  Təlimlər
-                </a>
-              </div>
+                {% url 'dashboard' as dashboard %}
+                <div class="sidebar__item {% if request.path == dashboard or request.path|slice:'/-' == dashboard %}-is-active{% endif %} -dark-bg-dark-2">
+                  <a href="{% url "dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
+                    <i class="text-20 icon-discovery mr-15"></i>
+                    Dashboard
+                  </a>
+                </div>
 
-              {% url 'course_gallery_dashboard' as course_gallery_dashboard %}
-              <div class="sidebar__item {% if request.path == course_gallery_dashboard or request.path|slice:'/-' == course_gallery_dashboard %}-is-active{% endif %}">
-                <a href="{% url "course_gallery_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-play-button mr-15"></i>
-                  Təlimlər Qaleriyası
-                </a>
-              </div>
+              {% endif %}
 
-              {% url 'topic_dashboard' as topic_dashboard %}
-              <div class="sidebar__item {% if request.path == topic_dashboard or request.path|slice:'/-' == topic_dashboard %}-is-active{% endif %}">
-                <a href="{% url "topic_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-list mr-15"></i>
-                  Təlim Mövzuları
-                </a>
-              </div>
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
 
-              {% url 'question_dashboard' as question_dashboard %}
-              <div class="sidebar__item {% if request.path == question_dashboard or request.path|slice:'/-' == question_dashboard %}-is-active{% endif %}">
-                <a href="{% url "question_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-list mr-15"></i>
-                  Suallar
-                </a>
-              </div>
+                {% url 'course_dashboard' as course_dashboard %}
+                <div class="sidebar__item {% if request.path == course_dashboard or request.path|slice:'/-' == course_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "course_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-play-button mr-15"></i>
+                    Təlimlər
+                  </a>
+                </div>
 
-              {% url 'blog_dashboard' as blog_dashboard %}
-              <div class="sidebar__item {% if request.path == blog_dashboard or request.path|slice:'/-' == blog_dashboard %}-is-active{% endif %}">
-                <a href="{% url "blog_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-bookmark mr-15"></i>
-                  Xəbərlər
-                </a>
-              </div>
+              {% endif %}
 
-              {% url 'service_dashboard' as service_dashboard %}
-              <div class="sidebar__item {% if request.path == service_dashboard or request.path|slice:'/-' == service_dashboard %}-is-active{% endif %}">
-                <a href="{% url "service_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-message mr-15"></i>
-                  Servislər
-                </a>
-              </div>
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
 
-              {% url 'tim_dashboard' as tim_dashboard %}
-              <div class="sidebar__item {% if request.path == tim_dashboard or request.path|slice:'/-' == tim_dashboard %}-is-active{% endif %}">
-                <a href="{% url "tim_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-message mr-15"></i>
-                  TİM
-                </a>
-              </div>
+                {% url 'course_gallery_dashboard' as course_gallery_dashboard %}
+                <div class="sidebar__item {% if request.path == course_gallery_dashboard or request.path|slice:'/-' == course_gallery_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "course_gallery_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-play-button mr-15"></i>
+                    Təlimlər Qaleriyası
+                  </a>
+                </div>
 
-              {% url 'partner_dashboard' as partner_dashboard %}
-              <div class="sidebar__item {% if request.path == partner_dashboard or request.path|slice:'/-' == partner_dashboard %}-is-active{% endif %}">
-                <a href="{% url "partner_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-message mr-15"></i>
-                  Partnerlər
-                </a>
-              </div>
+              {% endif %}
 
-              {% url 'faq_dashboard' as faq_dashboard %}
-              <div class="sidebar__item {% if request.path == faq_dashboard or request.path|slice:'/-' == faq_dashboard %}-is-active{% endif %}">
-                <a href="{% url "faq_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-message mr-15"></i>
-                  FAQ
-                </a>
-              </div>
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
 
-              {% url 'apply_dashboard' as apply_dashboard %}
-              <div class="sidebar__item {% if request.path == apply_dashboard or request.path|slice:'/-' == apply_dashboard %}-is-active{% endif %}">
-                <a href="{% url "apply_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-comment mr-15"></i>
-                  Müraciətlər {% if total_count != 0 %}<span class="count_badge"> {% if total_count > 99 %}99+{% else %}{{ total_count }}{% endif %} </span>{% endif %}
-                </a>
-              </div>
+                {% url 'topic_dashboard' as topic_dashboard %}
+                <div class="sidebar__item {% if request.path == topic_dashboard or request.path|slice:'/-' == topic_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "topic_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Təlim Mövzuları
+                  </a>
+                </div>
 
-              {% url 'feedback_dashboard' as feedback_dashboard %}
-              <div class="sidebar__item {% if request.path == feedback_dashboard or request.path|slice:'/-' == feedback_dashboard %}-is-active{% endif %}">
-                <a href="{% url "feedback_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-message mr-15"></i>
-                  Şərhlər
-                </a>
-              </div>
+              {% endif %}
 
-              {% url 'statistic_dashboard' as statistic_dashboard %}
-              <div class="sidebar__item {% if request.path == statistic_dashboard or request.path|slice:'/-' == statistic_dashboard %}-is-active{% endif %}">
-                <a href="{% url "statistic_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-list mr-15"></i>
-                  Statistika
-                </a>
-              </div>
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
 
-              {% url 'about_dashboard' as about_dashboard %}
-              <div class="sidebar__item {% if request.path == about_dashboard or request.path|slice:'/-' == about_dashboard %}-is-active{% endif %}">
-                <a href="{% url "about_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-setting mr-15"></i>
-                  Haqqımızda
-                </a>
-              </div>
+                {% url 'question_dashboard' as question_dashboard %}
+                <div class="sidebar__item {% if request.path == question_dashboard or request.path|slice:'/-' == question_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "question_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Suallar
+                  </a>
+                </div>
 
-              {% url 'account_dashboard' as account_dashboard %}
-              <div class="sidebar__item {% if request.path == account_dashboard or request.path|slice:'/-' == account_dashboard %}-is-active{% endif %}">
-                <a href="{% url "account_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-power mr-15"></i>
-                  Tələbələr
-                </a>
-              </div>
+              {% endif %}
 
-              {% url 'certificate_dashboard' as certificate_dashboard %}
-              <div class="sidebar__item {% if request.path == certificate_dashboard or request.path|slice:'/-' == certificate_dashboard %}-is-active{% endif %}">
-                <a href="{% url "certificate_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-power mr-15"></i>
-                  Sertifikatlar
-                </a>
-              </div>
+              {% if user.staff_status == 'Müəllim' %}
 
-              {% url 'gallery_dashboard' as gallery_dashboard %}
-              <div class="sidebar__item {% if request.path == gallery_dashboard or request.path|slice:'/-' == gallery_dashboard %}-is-active{% endif %}">
-                <a href="{% url "gallery_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-power mr-15"></i>
-                  Qaleriya
-                </a>
-              </div>
+                {% url 'exam_start' as exam_start %}
+                <div class="sidebar__item {% if request.path == exam_start or request.path|slice:'/-' == exam_start %}-is-active{% endif %}">
+                  <a href="{% url "exam_start" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    İmtahan başlat
+                  </a>
+                </div>
 
-              {% comment %} {% url 'subscribe_dashboard' as subscribe_dashboard %}
-              <div class="sidebar__item {% if request.path == subscribe_dashboard or request.path|slice:'/-' == subscribe_dashboard %}-is-active{% endif %}">
-                <a href="{% url "subscribe_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-power mr-15"></i>
-                  Abunələr
-                </a>
-              </div> {% endcomment %}
+              {% endif %}
+
+              {% if user.staff_status == 'Müəllim' %}
+
+                {% url 'evaluation' as evaluation %}
+                <div class="sidebar__item {% if request.path == evaluation or request.path|slice:'/-' == evaluation %}-is-active{% endif %}">
+                  <a href="{% url "evaluation" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Qiymətləndirmə
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'Müəllim' %}
+
+                {% url 'result' as result %}
+                <div class="sidebar__item {% if request.path == result or request.path|slice:'/-' == result %}-is-active{% endif %}">
+                  <a href="{% url "result" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Nəticələr
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'Mentor' %}
+
+                {% url 'lab_evaluation' as lab_evaluation %}
+                <div class="sidebar__item {% if request.path == lab_evaluation or request.path|slice:'/-' == lab_evaluation %}-is-active{% endif %}">
+                  <a href="{% url "lab_evaluation" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Lab Qiymətləndirməsi
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'blog_dashboard' as blog_dashboard %}
+                <div class="sidebar__item {% if request.path == blog_dashboard or request.path|slice:'/-' == blog_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "blog_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-bookmark mr-15"></i>
+                    Xəbərlər
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'service_dashboard' as service_dashboard %}
+                <div class="sidebar__item {% if request.path == service_dashboard or request.path|slice:'/-' == service_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "service_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-message mr-15"></i>
+                    Servislər
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'tim_dashboard' as tim_dashboard %}
+                <div class="sidebar__item {% if request.path == tim_dashboard or request.path|slice:'/-' == tim_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "tim_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-message mr-15"></i>
+                    TİM
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'partner_dashboard' as partner_dashboard %}
+                <div class="sidebar__item {% if request.path == partner_dashboard or request.path|slice:'/-' == partner_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "partner_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-message mr-15"></i>
+                    Partnerlər
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'faq_dashboard' as faq_dashboard %}
+                <div class="sidebar__item {% if request.path == faq_dashboard or request.path|slice:'/-' == faq_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "faq_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-message mr-15"></i>
+                    FAQ
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'apply_dashboard' as apply_dashboard %}
+                <div class="sidebar__item {% if request.path == apply_dashboard or request.path|slice:'/-' == apply_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "apply_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-comment mr-15"></i>
+                    Müraciətlər {% if total_count != 0 %}<span class="count_badge"> {% if total_count > 99 %}99+{% else %}{{ total_count }}{% endif %} </span>{% endif %}
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'feedback_dashboard' as feedback_dashboard %}
+                <div class="sidebar__item {% if request.path == feedback_dashboard or request.path|slice:'/-' == feedback_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "feedback_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-message mr-15"></i>
+                    Şərhlər
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'statistic_dashboard' as statistic_dashboard %}
+                <div class="sidebar__item {% if request.path == statistic_dashboard or request.path|slice:'/-' == statistic_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "statistic_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Statistika
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'about_dashboard' as about_dashboard %}
+                <div class="sidebar__item {% if request.path == about_dashboard or request.path|slice:'/-' == about_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "about_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-setting mr-15"></i>
+                    Haqqımızda
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'account_dashboard' as account_dashboard %}
+                <div class="sidebar__item {% if request.path == account_dashboard or request.path|slice:'/-' == account_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "account_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-power mr-15"></i>
+                    Tələbələr
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'certificate_dashboard' as certificate_dashboard %}
+                <div class="sidebar__item {% if request.path == certificate_dashboard or request.path|slice:'/-' == certificate_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "certificate_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-power mr-15"></i>
+                    Sertifikatlar
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'gallery_dashboard' as gallery_dashboard %}
+                <div class="sidebar__item {% if request.path == gallery_dashboard or request.path|slice:'/-' == gallery_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "gallery_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-power mr-15"></i>
+                    Qaleriya
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% comment %} {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
+                {% url 'subscribe_dashboard' as subscribe_dashboard %}
+                <div class="sidebar__item {% if request.path == subscribe_dashboard or request.path|slice:'/-' == subscribe_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "subscribe_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-power mr-15"></i>
+                    Abunələr
+                  </a>
+                </div>
+
+              {% endif %} {% endcomment %}
 
               {% url 'logout' as logout %}
               <div class="sidebar__item {% if request.path == logout or request.path|slice:'/-' == logout %}-is-active{% endif %}">

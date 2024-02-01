@@ -17,6 +17,36 @@
     margin-top:15px!important;
   }
 </style>
+<style>
+  .prof{
+    background-color: var(--color-dark-1);
+    padding: 3px 13px;
+    border-radius: 4px;
+    color: white!important;
+    border: 2px solid transparent;
+  }
+
+  .prof:hover{
+    background-color: transparent;
+    color: var(--color-dark-1)!important;
+    border: 2px solid var(--color-dark-1);
+  }
+
+  .cix{
+    background-color: #F01E00;
+    padding: 3px 13px;
+    border-radius: 4px;
+    color: white!important;
+    border: 2px solid #F01E00;
+  }
+
+  .cix:hover{
+    background-color: transparent;
+    color: #F01E00!important;
+    border: 2px solid #F01E00;
+  }
+
+</style>
 <head>
   <!-- Required meta tags -->
   <meta charset="UTF-8">
@@ -175,9 +205,17 @@
 
                       {% if user.is_authenticated %}
                       {% comment %} <a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a> {% endcomment %}
-
-                      &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a>
-                        <a href="{% url 'logout' %}" class="text-dark-1 ml-30  cix -purple-1 text-white">Çıxış</a>
+                        {% if user.staff_status == 'Tələbə' %}
+                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="text-white prof">Profil</a>
+                        {% elif user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'dashboard' %}" class="text-white prof">Dashboard</a>
+                        {% elif user.staff_status == 'Müəllim' %}
+                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'evaluation' %}" class="text-white prof">Qiymətləndirmə</a>
+                        {% elif user.staff_status == 'Mentor' %}
+                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'lab_evaluation' %}" class="text-white prof">Lab Qiymətləndirmə</a>
+                        {% endif %}
+                      {% comment %} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a> {% endcomment %}
+                        <a href="{% url 'logout' %}" class="text-white ml-30 cix">Çıxış</a>
                       {% else %}
                         <a href="{% url 'login' %}" class="text-dark-1">Giriş</a>
                       {% endif %}
@@ -339,10 +377,25 @@
               <div class="header-right__buttons d-flex items-center ml-30 xl:ml-20 md:d-none">
                 {% if user.is_authenticated %}
                   <a href="{% url 'logout' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Çıxış</a>
-                  <a href="{% url 'profile' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Profil</a>
+                  {% if user.staff_status == 'Tələbə' %}
+                    <a href="{% url 'profile' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Profil</a>
+                  {% elif user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+                    <a href="{% url 'dashboard' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Dashboard</a>
+                  {% elif user.staff_status == 'Müəllim' %}
+                    <a href="{% url 'evaluation' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Qiymətləndirmə</a>
+                  {% elif user.staff_status == 'Mentor' %}
+                    <a href="{% url 'lab_evaluation' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Lab Qiymətləndirmə</a>
+                  {% endif %}
                 {% else %}
                   <a href="{% url 'login' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Giriş</a>
                 {% endif %}
+
+                {% comment %} {% if user.is_authenticated %}
+                  <a href="{% url 'logout' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Çıxış</a>
+                  <a href="{% url 'profile' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Profil</a>
+                {% else %}
+                  <a href="{% url 'login' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Giriş</a>
+                {% endif %} {% endcomment %}
               </div>
             </div>
           </div>
