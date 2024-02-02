@@ -87,14 +87,17 @@ class SaveExamView(View):
                         w.save()
 
                 # Set the status of all students in the group to True
-                for account_group in group.student_group.filter(is_active=True):
-                    account_group.student.exam_status = True
-                    account_group.student.save()
+                for account_group in group.student_group.filter(group_student_is_active=True, is_active=False):
+                    if not StudentResult.objects.filter(student=account_group.student, exam_topics=course_topic).exists():
+                        account_group.student.exam_status = True
+                        account_group.student.save()
+                    else:
+                        print('nono')
             elif start_end_checkbox == 'false':
                 group.is_checked=False
 
                 # Set the status of all students in the group to False
-                for account_group in group.student_group.filter(is_active=True):
+                for account_group in group.student_group.filter(group_student_is_active=True, is_active=False):
                     account_group.student.exam_status = False
                     account_group.student.save()
 

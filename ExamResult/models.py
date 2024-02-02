@@ -100,7 +100,7 @@ class StudentAnswer(DateMixin):
 
 
 class StudentResult(DateMixin):
-    student = models.ForeignKey(Account, on_delete=models.CASCADE)
+    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='result_student')
     point_1 = models.PositiveIntegerField(default=0)
     point_2 = models.PositiveIntegerField(default=0)
     point_3 = models.PositiveIntegerField(default=0)
