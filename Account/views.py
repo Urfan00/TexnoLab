@@ -6,11 +6,11 @@ from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswor
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView
+from django.views.generic import CreateView, ListView
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
-from django.db.models import F
+from django.db.models import F, Avg, Max
 
 
 class LogInView(LoginView, UserPassesTestMixin):
@@ -92,9 +92,15 @@ class AccountInformationView(LoginRequiredMixin, View):
             if g_query:
                 course_students = CourseStudent.objects.filter(group=g_query, group_student_is_active=True)
 
+                context['topics'] = Group.objects.filter(id=g_query).first()
+
                 context['group_result'] = StudentResult.objects.filter(student__in=course_students.values_list('student', flat=True), status=True).annotate(
                     percent_point = F('total_point') * 5
                 ).order_by('-percent_point').all()
+
+                context['old_group_result'] = StudentResult.objects.filter(student__in=course_students.values_list('student', flat=True), status=False).annotate(
+                    percent_point = F('total_point') * 5
+                ).order_by('exam_topics__id').all()
 
         return context
 
@@ -134,3 +140,54 @@ class AccountInformationView(LoginRequiredMixin, View):
         else:
             messages.error(request, 'Məlumatlarınız yenilənmədi')
             return redirect('profile')
+
+
+class ResultView(LoginRequiredMixin, ListView):
+    model = StudentResult
+    template_name = 'dshb-results.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        g_query = self.request.GET.get('state', '')
+
+        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
+        super_user = Account.objects.filter(id=self.request.user.id, staff_status='SuperUser').first()
+
+        if user_account or super_user:
+            if user_account:
+                teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+                groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
+            elif super_user:
+                groups = Group.objects.filter(is_active=True).all()
+
+            context['groups'] = groups
+
+            if g_query:
+                course_students = CourseStudent.objects.filter(group=g_query, group_student_is_active=True)
+
+                context['topics'] = Group.objects.filter(id=g_query).first()
+
+                group_results = StudentResult.objects.filter(
+                    student__in=course_students.values_list('student', flat=True), status=True
+                ).annotate(
+                    true_percent_point = F('total_point') * 5
+                ).order_by('-true_percent_point').all()
+
+                context['group_results'] = group_results
+
+                context['old_group_result'] = StudentResult.objects.filter(
+                    student__in=course_students.values_list('student', flat=True), status=False
+                ).annotate(
+                    percent_point = F('total_point') * 5
+                ).order_by('exam_topics__id').all()
+
+                context['average_total_point'] = StudentResult.objects.filter(
+                    student__in=course_students.values_list('student', flat=True)
+                ).values('student').annotate(
+                    average_total_point=Avg('total_point') * 5
+                ).all()
+                
+                print('==>', context['average_total_point'])
+
+        return context

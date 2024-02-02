@@ -51,7 +51,7 @@
                       <div class="d-flex align-items-center">
                         <form method="post" action="{% url 'give_point' student.student.id %}">
                           {% csrf_token %}
-                          <button type="submit" onclick="return confirm('Tələbəyə bal vermək istədiyinizə əminsiniz?')"
+                          <button {% if student.new_active %}type="button"{% else %}type="submit" onclick="return confirm('Tələbəyə bal vermək istədiyinizə əminsiniz?')"{% endif %}
                                   class="text-dark px-10 py-10"
                                   style="border: 1px solid #aaa; border-radius: 5px;{% if student.new_active %} background-color: green; {% endif %}">
                               {{ student.student.get_full_name|capfirst }}
