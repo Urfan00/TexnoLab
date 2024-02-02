@@ -459,15 +459,17 @@ function lineChart() {
   const ctx = document.getElementById('lineChart');
   if (!ctx) return;
 
+  var chartDataLabelsString = ctx.getAttribute('data-chart');
+  chartDataLabelsString = chartDataLabelsString.replace(/'/g, '"');
+  var chartDataLabels = JSON.parse(chartDataLabelsString);
+
   const myChart = new Chart(ctx, {
     type: 'line',
     data: {
-      labels: [
-        'Jan', 'Feb', 'Marc', 'April', 'May', 'Jun', 'July', 'Agust', 'Sept', 'Oct', 'Now', 'Dec',
-      ],
+      labels: chartDataLabels.labels,
       datasets: [{
         label: '#',
-        data: [148, 100, 205, 110, 165, 145, 180, 156, 148, 220, 180, 245],
+        data: chartDataLabels.data,
         tension: 0.4,
         backgroundColor: '#336CFB',
         borderColor: '#336CFB',
@@ -484,9 +486,9 @@ function lineChart() {
       scales: {
         y: {
           min: 0,
-          max: 300,
+          max: 100,
           ticks: {
-            stepSize: 50
+            stepSize: 10
           }
         }
       },

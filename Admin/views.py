@@ -4,7 +4,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from Account.models import Account
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
-from ExamResult.models import Group, CourseStudent
+from ExamResult.models import Group, CourseStudent, MentorLabEvaluation, StudentResult, TeacherEvaluation
 from Core.forms import CertificateEditForm
 from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomePageSliderTextIMG, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
@@ -38,7 +38,7 @@ from .forms import (AboutUsEditForm,
                     TIMEditForm,
                     TIMImageEditForm,
                     TIMVideoEditForm)
-from django.db.models import Count
+from django.db.models import Count, Sum, Avg, Max
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -66,6 +66,36 @@ class StaffRequiredMixin(UserPassesTestMixin):
             return redirect('login')  # Replace 'login' with the actual name or URL of your login page
 
 # **********************************************************************************
+
+
+class StudentDashboard(ListView):
+    model = Account
+    template_name = 'student-dashboard/dashboard.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['teacher_point'] = TeacherEvaluation.objects.filter(student=self.request.user).aggregate(Sum('point'))['point__sum'] or 0
+        context['lab_point'] = MentorLabEvaluation.objects.filter(student=self.request.user).aggregate(Sum('point'))['point__sum'] or 0
+
+        average_total_point = StudentResult.objects.filter(student=self.request.user).values('exam_topics').annotate(
+            max_total_point=Max('total_point')
+            ).aggregate(
+                Avg('max_total_point')
+                )['max_total_point__avg'] or 0
+
+        context['average_total_point'] = average_total_point * 5
+
+        student_results = StudentResult.objects.filter(student=self.request.user, status=False)
+        labels = [result.exam_topics.topic_title for result in student_results]
+        data = [result.total_point * 5 for result in student_results]
+
+        context['labels'] = labels
+        context['chart_data'] = {
+            'labels': labels,
+            'data': data,
+        }
+
+        return context
 
 
 class DashboardView(StaffRequiredMixin, ListView):
@@ -2203,6 +2233,7 @@ class AdminQuestionAnswerListView(StaffRequiredMixin, ListView):
         return context
 
 
+# Question add page
 class TopicTestDetailView(DetailView):
     model = CourseTopicsTest
     template_name = 'question/dshb-question-add.html'

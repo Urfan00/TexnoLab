@@ -1,28 +1,6 @@
+{% extends 'base2.html' %}
 {% load static %}
-
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <!-- Required meta tags -->
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-
-  <!-- Google fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Work+Sans:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-
-  <link href="https://fonts.googleapis.com/css2?family=Material+Icons+Outlined" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" integrity="sha512-xodZBNTC5n17Xt2atTPuE1HxjVMSvLVW9ocqUKLsCC5CXdbqCmblAshOMAS6/keqq/sMZMZ19scR4PsZChSR7A==" crossorigin="" />
-
-  <!-- Stylesheets -->
-  <link rel="stylesheet" href="{% static "css/vendors.css" %}">
-  <link rel="stylesheet" href="{% static "css/main.css" %}">
-
-  <title>Texnolab</title>
-</head>
+{% block content %}
 
 <style>
   .s{
@@ -39,93 +17,6 @@
   }
 </style>
 
-<body class="preloader-visible" data-barba="wrapper">
-  <div class="preloader js-preloader">
-    <div class="preloader__bg"></div>
-  </div>
-  <div class="barba-container" data-barba="container">
-    <main class="main-content">
-      <header class="header -dashboard -dark-bg-dark-1 js-header">
-        <div class="header__container py-20 px-30">
-          <div class="row justify-between items-center">
-            <div class="col-auto">
-              <div class="d-flex items-center">
-                <div class="header__explore text-dark-1">
-                  <button class="d-flex items-center js-dashboard-home-9-sidebar-toggle">
-                    <i class="icon -dark-text-white icon-explore"></i>
-                  </button>
-                </div>
-
-                <div class="header__logo ml-30 md:ml-20">
-                  <a data-barba href="{% url "index" %}">
-                    <img class="-light-d-none" src="{% static 'img/_texno_imgs/base_logo.png' %}" width="175px" height="50px" alt="logo">
-                    <img class="-dark-d-none" src="{% static 'img/_texno_imgs/home_logo.png' %}" width="175px" height="50px" alt="logo">
-                  </a>
-                </div>
-              </div>
-            </div>
-
-            <div class="col-auto">
-              <div class="d-flex items-center">
-                
-
-                {% comment %} <div class="d-flex items-center sm:d-none">
-                  <div class="relative">
-                    <button class="js-darkmode-toggle text-light-1 d-flex items-center justify-center size-50 rounded-16 -hover-dshb-header-light">
-                      <i class="text-24 icon icon-night"></i>
-                    </button>
-                  </div>
-                </div> {% endcomment %}
-
-                <div class="relative d-flex items-center ml-10">
-                  <a href="#" data-el-toggle=".js-profile-toggle">
-                    <img class="size-50" style="border-radius: 50%;" src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'img/avatars/user-default.png' %}{% endif %}" alt="image">
-                  </a>
-                  <div class="toggle-element js-profile-toggle">
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div class="content-wrapper js-content-wrapper">
-        <div class="dashboard -home-9 js-dashboard-home-9">
-          <div class="dashboard__sidebar scroll-bar-1">
-            <div class="sidebar -dashboard">
-              <div class="sidebar__item">
-                <a href="{% url 'index' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-discovery mr-15"></i>
-                  Ana səhifə
-                </a>
-              </div>
-              <div class="sidebar__item ">
-                <a href="{% url 'quiz_rule' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-bookmark mr-15"></i>
-                  İmtahan
-                </a>
-              </div>
-              <div class="sidebar__item ">
-                <a href="{% url 'change_password' %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-list mr-15"></i>
-                  Şifrəni dəyiş
-                </a>
-              </div>
-              <div class="sidebar__item -is-active -dark-bg-dark-2">
-                <a href="{% url 'profile' %}" class="d-flex items-center text-17 lh-1 fw-500 -dark-text-white">
-                  <i class="text-20 icon-setting mr-15"></i>
-                  Profil
-                </a>
-              </div>
-              <div class="sidebar__item ">
-                <a href="{% url "logout" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
-                  <i class="text-20 icon-power mr-15"></i>
-                  Çıxış
-                </a>
-              </div>
-            </div>
-          </div>
           <div class="dashboard__main">
             <div class="dashboard__content bg-light-4">
               <div class="row pb-50 mb-10">
@@ -144,9 +35,11 @@
                         <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
                           Profili yenilə
                         </button>
-                        <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
-                          Sosial şəbəkələr
-                        </button>
+                        {% if user.staff_status == 'Tələbə' %}
+                          <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
+                            Sosial şəbəkələr
+                          </button>
+                        {% endif %}
                         {% if user.staff_status == 'Tələbə' %}
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab3" data-tab-target=".-tab-item-3" type="button">
                             Mənim təlimlərim
@@ -160,11 +53,11 @@
                             İmtahan Nəticələrim
                           </button>
                         {% endif %}
-                        {% if user.staff_status == 'Müəllim' %}
+                        {% comment %} {% if user.staff_status == 'Müəllim' %}
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab6" data-tab-target=".-tab-item-6" type="button">
                             Nəticələr
                           </button>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
@@ -226,57 +119,59 @@
                           </div>
                         </div>
 
-                        <div class="tabs__pane -tab-item-2" data-pane="tab2">
-                          <form method="post" class="contact-form row y-gap-30">
+                        {% if user.staff_status == 'Tələbə' %}
+                          <div class="tabs__pane -tab-item-2" data-pane="tab2">
+                            <form method="post" class="contact-form row y-gap-30">
 
-                            {% csrf_token %}
+                              {% csrf_token %}
 
-                            {% if form2.errors %}
-                              <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div id="form_errors">
-                                  {% for key, value in form2.errors.items %}
-                                    <strong>{{ value }}{{ key }}</strong>
-                                  {% endfor %}
+                              {% if form2.errors %}
+                                <div class="alert alert-danger alert-dismissible" role="alert">
+                                  <div id="form_errors">
+                                    {% for key, value in form2.errors.items %}
+                                      <strong>{{ value }}{{ key }}</strong>
+                                    {% endfor %}
+                                  </div>
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                                 </div>
-                                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                              </div>
-                            {% endif %}
-
-                            <div class="col-md-6">
-                                <label for="id_instagram" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.instagram.label }}</label>
-                                {{ form2.instagram }}
-                              </div>
+                              {% endif %}
 
                               <div class="col-md-6">
-                                <label for="id_twitter" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.twitter.label }}</label>
-                                {{ form2.twitter }}
-                              </div>
+                                  <label for="id_instagram" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.instagram.label }}</label>
+                                  {{ form2.instagram }}
+                                </div>
 
-                              <div class="col-md-6">
-                                <label for="id_facebook" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.facebook.label }}</label>
-                                {{ form2.facebook }}
-                              </div>
+                                <div class="col-md-6">
+                                  <label for="id_twitter" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.twitter.label }}</label>
+                                  {{ form2.twitter }}
+                                </div>
 
-                              <div class="col-md-6">
-                                <label for="id_github" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.github.label }}</label>
-                                {{ form2.github }}
-                              </div>
+                                <div class="col-md-6">
+                                  <label for="id_facebook" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.facebook.label }}</label>
+                                  {{ form2.facebook }}
+                                </div>
 
-                              <div class="col-md-6">
-                                <label for="id_youtube" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.youtube.label }}</label>
-                                {{ form2.youtube }}
-                              </div>
+                                <div class="col-md-6">
+                                  <label for="id_github" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.github.label }}</label>
+                                  {{ form2.github }}
+                                </div>
 
-                              <div class="col-md-6">
-                                <label for="id_linkedIn" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.linkedIn.label }}</label>
-                                {{ form2.linkedIn }}
-                              </div>
+                                <div class="col-md-6">
+                                  <label for="id_youtube" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.youtube.label }}</label>
+                                  {{ form2.youtube }}
+                                </div>
 
-                            <div class="col-12">
-                              <button class="button -md -dark-1 text-white">Əlavə et</button>
-                            </div>
-                          </form>
-                        </div>
+                                <div class="col-md-6">
+                                  <label for="id_linkedIn" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.linkedIn.label }}</label>
+                                  {{ form2.linkedIn }}
+                                </div>
+
+                              <div class="col-12">
+                                <button class="button -md -dark-1 text-white">Əlavə et</button>
+                              </div>
+                            </form>
+                          </div>
+                        {% endif %}
 
                         {% if user.staff_status == 'Tələbə' %}
                           <div class="tabs__pane -tab-item-3" data-pane="tab3">
@@ -432,81 +327,108 @@
 
                         </div> {% endcomment %}
 
-                        <div class="tabs__pane -tab-item-5" data-pane="tab5">
+                        {% if user.staff_status == 'Tələbə' %}
+                          <div class="tabs__pane -tab-item-5" data-pane="tab5">
 
-                          <div class="tDiv">
-                            <div class="table-responsive">
-                              <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th>№</th>
-                                    <th>Təlim</th>
-                                    <th>Mövzu</th>
-                                    <th>Nəticə</th>
-                                    <th>Tarix</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
-
-                                  {% for result in results %}
+                            <div class="tDiv">
+                              <div class="table-responsive">
+                                <table class="table">
+                                  <thead>
                                     <tr>
-                                      <td class="tc">{{ forloop.counter }}</td>
-                                      <td class="tc">{{ result.exam_topics.course.title|capfirst }}</td>
-                                      <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
-                                      <td class="tc">{{ result.percent_point }} %</td>
-                                      <td class="tc">{{ result.created_at }}</td>
+                                      <th>№</th>
+                                      <th>Təlim</th>
+                                      <th>Mövzu</th>
+                                      <th>Nəticə</th>
+                                      <th>Bal</th>
+                                      <th>Tarix</th>
                                     </tr>
-                                  {% endfor %}
+                                  </thead>
+                                  <tbody>
 
-                                </tbody>
-                              </table>
+                                    {% for result in results %}
+                                      <tr>
+                                        <td class="tc">{{ forloop.counter }}</td>
+                                        <td class="tc">{{ result.exam_topics.course.title|capfirst }}</td>
+                                        <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
+                                        <td class="tc">{{ result.percent_point }} %</td>
+                                        <td class="tc">{{ result.total_point }} bal</td>
+                                        <td class="tc">{{ result.created_at }}</td>
+                                      </tr>
+                                    {% endfor %}
+
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
+
                           </div>
+                        {% endif %}
 
-                        </div>
-
-                        <div class="tabs__pane -tab-item-6" data-pane="tab6">
-                          <div class="row y-gap-10 ">
-                            <div class="col-auto">
-                              <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                                <select class="js-example-basic-single" name="state" onchange="this.form.submit()" style="min-width: 200px;">
-                                  <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
-                                  {% for topic in groups %}
-                                    <option value="{{ topic.id }}" {% if topic.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ topic.name|capfirst }}</option>
-                                  {% endfor %}
-                                </select>
-                              </form>
+                        {% if user.staff_status == 'Müəllim' %}
+                          <div class="tabs__pane -tab-item-6" data-pane="tab6">
+                            <div class="row y-gap-10 ">
+                              <div class="col-auto">
+                                <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                                  <select class="js-example-basic-single" name="state" onchange="this.form.submit()" style="min-width: 200px;">
+                                    <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
+                                    {% for topic in groups %}
+                                      <option value="{{ topic.id }}" {% if topic.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ topic.name|capfirst }}</option>
+                                    {% endfor %}
+                                  </select>
+                                </form>
+                              </div>
                             </div>
-                          </div>
 
-                          <div class="tDiv py-30">
-                            <div class="table-responsive">
-                              <table class="table">
-                                <thead>
-                                  <tr>
-                                    <th>№</th>
-                                    <th>Ad Soyad</th>
-                                    <th>Nəticə</th>
-                                    <th>Tarix</th>
-                                  </tr>
-                                </thead>
-                                <tbody>
+                            <style>
+                              .tDiv{
+                                width:100%;
+                                overflow-x:scroll;
+                              }
+                            </style>
 
-                                  {% for result in group_result %}
-                                    <tr style="background-color: {% if result.percent_point == 100 %}lime{% elif result.percent_point >= 90 %}yellow{% elif result.percent_point >= 80 %}#e88030{% endif %};">
-                                      <td class="tc">{{ forloop.counter }}</td>
-                                      <td class="tc">{{ result.student.get_full_name|capfirst }}</td>
-                                      <td class="tc">{{ result.percent_point }} %</td>
-                                      <td class="tc">{{ result.created_at }}</td>
+                            <div class="tDiv py-30">
+                              <div class="table-responsive">
+                                <table class="table">
+                                  <thead>
+                                    <tr>
+                                      <th>№</th>
+                                      <th>Ad Soyad</th>
+                                      <th>Nəticə</th>
+                                      <th>Ortalama</th>
+                                      {% for topic in topics.all_course_topics.all %}
+                                        <th>{{ topic.topic_title|capfirst }}</th>
+                                      {% endfor %}
                                     </tr>
-                                  {% endfor %}
+                                  </thead>
+                                  <tbody>
 
-                                </tbody>
-                              </table>
+                                    {% for result in group_result %}
+                                      <tr style="background-color: {% if result.percent_point == 100 %}lime{% elif result.percent_point >= 90 %}yellow{% elif result.percent_point >= 80 %}#e88030{% endif %};">
+                                        <td class="tc">{{ forloop.counter }}</td>
+                                        <td class="tc">{{ result.student.get_full_name|capfirst }}</td>
+                                        <td class="tc">{{ result.percent_point }} %</td>
+                                        <td class="tc">{{ result.percent_point }} %%%%</td>
+                                        {% for old_result in old_group_result %}
+                                          {% comment %} {% for topic in topics.all_course_topics.all %}
+                                            {% if old_result.exam_topics.topic_title == topic.topic_title %} {% endcomment %}
+                                              <td class="tc">{{ old_result.exam_topics.topic_title|capfirst }}</td>
+                                            {% comment %} {% endif %}
+                                          {% endfor %} {% endcomment %}
+                                            {% comment %} <td class="tc"></td> {% endcomment %}
+                                        {% endfor %}
+                                      
+
+
+                                      </tr>
+                                    {% endfor %}
+
+                                  </tbody>
+                                </table>
+                              </div>
                             </div>
-                          </div>
 
-                        </div>
+                          </div>
+                        {% endif %}
 
                       </div>
                     </div>
@@ -523,88 +445,7 @@
 
               </div>
             </footer> {% endcomment %}
-          </div>
-        </div>
-      </div>
-    </main>
-
-  </div>
-  <!-- barba container end -->
-
-  <!-- JavaScript -->
-  <script>
-    document.addEventListener("DOMContentLoaded", function() {
-      
-      const tabs = document.querySelectorAll('.tabs__button');
-      const panes = document.querySelectorAll('.tabs__pane');
-    
-      function showTab(tabId) {
-        panes.forEach(pane => {
-          if (pane.getAttribute('data-pane') === tabId) {
-            pane.style.display = 'block';
-            pane.classList.add('is-active');
-          } else {
-            pane.style.display = 'none';
-            pane.classList.remove('is-active');
-          }
-        });
-      }
-      
-      function setActiveTab(tabId) {
-        tabs.forEach(tab => {
-          if (tab.getAttribute('data-tab') === tabId) {
-            tab.classList.add('is-active');
-          } else {
-            tab.classList.remove('is-active');
-          }
-        });
-      }
-
-      function handleTabClick(event) {
-
-        const clickedTab = event.target;
-        const tabId = clickedTab.getAttribute('data-tab');
-
-        showTab(tabId);
-        setActiveTab(tabId);
-
-        // Save selected tab to localStorage
-        localStorage.setItem('selectedTab', tabId);
-        localStorage.setItem('current_segment', window.location.pathname);
-      }
-
-      tabs.forEach(tab => {
-        tab.addEventListener('click', handleTabClick);
-      });
-
-      // Check localStorage for previously selected tab
-      const selectedTab = localStorage.getItem('selectedTab');
-      const current_segment = localStorage.getItem('current_segment');
-
-      if(current_segment != window.location.pathname){
-        localStorage.removeItem('selectedTab');
-      }else{
-        if (selectedTab) {
-          showTab(selectedTab);
-          setActiveTab(selectedTab);
-        } else {
-          // If no tab was previously selected, open the first tab and pane by default
-          showTab(tabs[0].getAttribute('data-tab'));
-          setActiveTab(tabs[0].getAttribute('data-tab'));
-        }
-      }
-    });
-
-    console.log(window.location.pathname)
-
-  </script>
-
-
-
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.1/chart.min.js" integrity="sha512-QSkVNOCYLtj73J4hbmVoOV6KVZuMluZlioC+trLpewV8qMjsWqlIQvkn1KGX2StWvPMdWGBqim1xlC8krl1EKQ==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-  <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js" integrity="sha512-XQoYMqMTK8LvdxXYG3nZ448hOEQiglfqkJs1NOQV44cWnUrBc8PkAOcXy20w0vlaXaVUearIOBhiXZ5V3ynxwA==" crossorigin=""></script>
-  <script src="{% static '' %}js/vendors.js"></script>
-  <script src="{% static '' %}js/main.js"></script>
+{% endblock %}
 
   <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
   <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>

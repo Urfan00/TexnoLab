@@ -247,6 +247,42 @@
 
               {% endif %}
 
+              {% if user.staff_status == 'Tələbə' %}
+
+                {% url 'student_dashboard' as student_dashboard %}
+                <div class="sidebar__item {% if request.path == student_dashboard or request.path|slice:'/-' == student_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "student_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Tələbə Dashboard
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'Tələbə' %}
+
+                {% url 'quiz_rule' as quiz_rule %}
+                <div class="sidebar__item {% if request.path == quiz_rule or request.path|slice:'/-' == quiz_rule %}-is-active{% endif %}">
+                  <a href="{% url "quiz_rule" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-bookmark mr-15"></i>
+                    İmtahan
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'Tələbə' %}
+
+                {% url 'profile' as profile %}
+                <div class="sidebar__item {% if request.path == profile or request.path|slice:'/-' == profile %}-is-active{% endif %}">
+                  <a href="{% url "profile" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-setting mr-15"></i>
+                    Profil
+                  </a>
+                </div>
+
+              {% endif %}
+
               {% if user.staff_status == 'Mentor' %}
 
                 {% url 'lab_evaluation' as lab_evaluation %}
@@ -478,11 +514,6 @@
       </body>
       
       </html>
-
-
-
-
-      
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {

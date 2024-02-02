@@ -107,13 +107,15 @@ from .views import (AdminAboutContactInfoListView,
                     CourseStudentAddView,
                     CourseStudentDeleteView,
                     CourseStudentEditView,
-                    DashboardView,
+                    DashboardView, StudentDashboard,
                     TopicTestDetailView,
                     get_course_topic_test_options)
 
 
 urlpatterns = [
     path('dashboard/', DashboardView.as_view(), name='dashboard'),
+
+    path('student_dashboard/', StudentDashboard.as_view(), name='student_dashboard'),
 
     # Course & Course Category & Course Program
     path('course_dashboard/', AdminCourseListView.as_view(), name='course_dashboard'),
