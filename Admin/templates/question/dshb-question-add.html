@@ -16,7 +16,7 @@
 
             <div class="py-15 px-15">
 
-              <form method="post" enctype="multipart/form-data">
+              <form method="post" enctype="multipart/form-data" id="main-form">
                 {% csrf_token %}
                 <div id="questions-container">
 
@@ -27,7 +27,7 @@
                         <div class="d-flex justify-between">
                           {% comment %} <h4 class="text-18 lh-1 fw-500 text-white">{{ q.question|capfirst|safe }}</h4> {% endcomment %}
                           <input type="text" name="title_{{q.id}}" style="width: 90%; background: none;" class="text-18 lh-1 fw-500 text-white" value="{{ q.question|capfirst }}">
-                          <div class="d-flex x-gap-50">
+                          <div class="d-flex x-gap-10">
                             <div class="d-flex items-center text-white">
                               {% comment %} <div>{{ q.point }}</div> {% endcomment %}
                               <select name="point_{{q.id}}">
@@ -36,6 +36,9 @@
                                 <option value="3" {% if q.point == 3 %}selected{% endif %}>3</option>
                               </select>
                             </div>
+                              <button type="submit" title="Sil" name="delete_question_{{ q.id}}">
+                                  <i class="fa fa-trash c text-white" aria-hidden="true"></i>
+                              </button>
                           </div>
                         </div>
                       </div>
@@ -75,7 +78,7 @@
 
                 <div class="d-flex">
                   <button type="submit" class="button px-30 ml-20 h-50 -outline-dark-1 text-dark-1">Yadda saxla</button>
-                  <button type="button" id="add-question-btn" class="button px-30 ml-20 h-50 -outline-dark-1 text-dark-1">Add Question</button>
+                  <button type="button" id="add-question-btn" class="button px-30 ml-20 h-50 -outline-dark-1 text-dark-1">Sual əlavə et</button>
                 </div>
               </form>
 
@@ -102,7 +105,7 @@
           newQuestionDiv.innerHTML = `
             <div class="py-15 px-15 bg-dark-5">
               <div class="d-flex justify-between">
-                <input type="text" name="new_title_${questionCounter}" style="width: 90%; background: none;" class="text-18 lh-1 fw-500 text-white" placeholder="New Question">
+                <input type="text" name="new_title_${questionCounter}" style="width: 90%; background: none;" class="text-18 lh-1 fw-500 text-white" placeholder="Yeni Sual">
                 <div class="d-flex x-gap-50">
                   <div class="d-flex items-center text-white">
                     <select name="new_point_${questionCounter}">
@@ -118,7 +121,7 @@
             <div class="px-15 py-15" id="new_answer-container-${questionCounter}">
               <input type="file" name="new_file_${questionCounter}">
 
-              <button type="button" class="button px-30 h-50 -outline-dark-1 text-dark-1 add-answer-btn" data-question-id="${questionCounter}">Add Answer</button>
+              <button type="button" class="button px-30 h-50 -outline-dark-1 text-dark-1 add-answer-btn" data-question-id="${questionCounter}">Cavab əlavə et</button>
             </div>
           `;
     
@@ -148,7 +151,7 @@
               </div>
             </div>
             <label for="new_answer_${questionId}_${answerCount}" style="width: 100%;">
-              <input type="text" name="new_question_answer_${questionId}_${answerCount}" style="width: 100%; background: none;" class="fw-500 ml-12" placeholder="New Answer">
+              <input type="text" name="new_question_answer_${questionId}_${answerCount}" style="width: 100%; background: none;" class="fw-500 ml-12" placeholder="Yeni Cavab">
             </label>
           `;
     

@@ -2240,7 +2240,7 @@ class TopicTestDetailView(DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        questions = Question.objects.filter(course_topic_test=self.object)
+        questions = Question.objects.filter(course_topic_test=self.object, is_active=True)
         context['questions'] = questions
         return context
 
@@ -2301,5 +2301,13 @@ class TopicTestDetailView(DetailView):
                             answer=sub_value,
                             is_correct = a_id == request.POST.get(f'new_answer_{q_id}')
                         )
+
+        # Delete Question
+        for key, value in request.POST.items():
+            if key.startswith('delete_question_'):
+                q_id = key.split('_')[2]
+                question = Question.objects.get(pk=q_id)
+                question.is_active = False
+                question.save()
 
         return redirect(reverse('topic_test_question', kwargs={'pk': self.get_object().pk}))
