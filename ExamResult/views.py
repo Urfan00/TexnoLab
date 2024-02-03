@@ -3,6 +3,7 @@ from django.views import View
 from django.views.generic import ListView
 from Account.models import Account
 from Exam.models import CourseTopic
+from services.mixins import AuthMentorMixin, AuthTeacherMixin
 from .models import LAB, CourseStudent, Group, MentorLabEvaluation, RandomQuestion, StudentResult, TeacherEvaluation
 from django.utils import timezone
 from django.http import JsonResponse
@@ -10,36 +11,6 @@ from datetime import datetime
 from django.db.models import OuterRef, Exists, FloatField, Value, Subquery
 from django.db.models.functions import Coalesce
 
-
-
-class AuthTeacherMixin:
-    def dispatch(self, request, *args, **kwargs):
-        # Check if the user is authenticated
-        if request.user.is_authenticated:
-            # Check if the user is teacher
-            if request.user.staff_status == 'Müəllim':
-                return super().dispatch(request, *args, **kwargs)
-            else:
-                # User is authenticated but not teacher, redirect to 404 page
-                return render(request, '404.html')
-        else:
-            # User is not authenticated, redirect to login page
-            return redirect('login')
-
-
-class AuthMentorMixin:
-    def dispatch(self, request, *args, **kwargs):
-        # Check if the user is authenticated
-        if request.user.is_authenticated:
-            # Check if the user is mentor
-            if request.user.staff_status == 'Mentor':
-                return super().dispatch(request, *args, **kwargs)
-            else:
-                # User is authenticated but not mentor, redirect to 404 page
-                return render(request, '404.html')
-        else:
-            # User is not authenticated, redirect to login page
-            return redirect('login')
 
 
 class SaveExamView(View):
@@ -107,28 +78,6 @@ class SaveExamView(View):
             return JsonResponse({'status': 'success'})
         else:
             return JsonResponse({'status': 'error', 'message': 'Group ID not provided'})
-
-
-# class ExamStart(AuthTeacherMixin, ListView):
-#     model = Group
-#     template_name = 'dshb-forums.html'
-
-#     def get_context_data(self, **kwargs):
-#         context = super().get_context_data(**kwargs)
-
-#         user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
-#         teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
-#         groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
-
-#         current_time = timezone.now()
-#         for group in groups:
-#             if group.exam_end_time and group.exam_end_time < current_time:
-#                 group.is_checked = False
-#                 group.save()
-
-#         context["groups"] = groups
-
-#         return context
 
 
 class ExamStart(AuthTeacherMixin, ListView):

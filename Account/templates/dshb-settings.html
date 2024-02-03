@@ -48,11 +48,11 @@
                         {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
                           Mənim sertifikatlarım
                         </button> {% endcomment %}
-                        {% if user.staff_status == 'Tələbə' %}
+                        {% comment %} {% if user.staff_status == 'Tələbə' %}
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
                             İmtahan Nəticələrim
                           </button>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                         {% comment %} {% if user.staff_status == 'Müəllim' %}
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab6" data-tab-target=".-tab-item-6" type="button">
                             Nəticələr
@@ -327,7 +327,7 @@
 
                         </div> {% endcomment %}
 
-                        {% if user.staff_status == 'Tələbə' %}
+                        {% comment %} {% if user.staff_status == 'Tələbə' %}
                           <div class="tabs__pane -tab-item-5" data-pane="tab5">
 
                             <div class="tDiv">
@@ -362,9 +362,9 @@
                             </div>
 
                           </div>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
 
-                        {% if user.staff_status == 'Müəllim' %}
+                        <!--{% if user.staff_status == 'Müəllim' %}
                           <div class="tabs__pane -tab-item-6" data-pane="tab6">
                             <div class="row y-gap-10 ">
                               <div class="col-auto">
@@ -428,7 +428,7 @@
                             </div>
 
                           </div>
-                        {% endif %}
+                        {% endif %}-->
 
                       </div>
                     </div>

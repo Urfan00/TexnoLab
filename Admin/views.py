@@ -11,6 +11,7 @@ from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from TIM.models import TIM, TIMImage, TIMVideo
+from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
                     AllGaleryEditForm,
@@ -68,7 +69,7 @@ class StaffRequiredMixin(UserPassesTestMixin):
 # **********************************************************************************
 
 
-class StudentDashboard(ListView):
+class StudentDashboard(AuthStudentPageMixin, ListView):
     model = Account
     template_name = 'student-dashboard/dashboard.html'
 
@@ -98,7 +99,7 @@ class StudentDashboard(ListView):
         return context
 
 
-class DashboardView(StaffRequiredMixin, ListView):
+class DashboardView(AuthSuperUserCoordinatorMixin, ListView):
     model = Account
     template_name = 'dashboard.html'
 
@@ -120,7 +121,7 @@ class DashboardView(StaffRequiredMixin, ListView):
 # *************************************************************************************
 
 # COURSE & COURSE CATEGORY
-class AdminCourseListView(StaffRequiredMixin, ListView):
+class AdminCourseListView(AuthSuperUserCoordinatorMixin, ListView):
     model = Course
     template_name = 'course/dshb-courses.html'
 
@@ -183,7 +184,7 @@ class AdminCourseListView(StaffRequiredMixin, ListView):
 
 
 # COURSE
-class AdminCourseEditView(StaffRequiredMixin, CreateView):
+class AdminCourseEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Course
     template_name = 'course/dshb-listing.html'
 
@@ -214,7 +215,7 @@ class AdminCourseEditView(StaffRequiredMixin, CreateView):
             return redirect('course_dashboard')
 
 
-class AdminCourseAddView(StaffRequiredMixin, CreateView):
+class AdminCourseAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Course
     template_name = 'course/dshb-listing-add.html'
     form_class = CourseEditForm
@@ -236,7 +237,7 @@ class AdminCourseAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseDeleteView(StaffRequiredMixin, View):
+class AdminCourseDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(Course, pk=pk)
         course.is_delete = True
@@ -245,7 +246,7 @@ class AdminCourseDeleteView(StaffRequiredMixin, View):
         return redirect('course_dashboard')
 
 
-class AdminCourseUndeleteView(StaffRequiredMixin, View):
+class AdminCourseUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(Course, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
@@ -255,7 +256,7 @@ class AdminCourseUndeleteView(StaffRequiredMixin, View):
 
 
 # COURSE CATEGORY
-class AdminCourseCategoryEditView(StaffRequiredMixin, CreateView):
+class AdminCourseCategoryEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = CourseCategory
     template_name = 'course/dshb-listing-course-category-edit.html'
 
@@ -281,7 +282,7 @@ class AdminCourseCategoryEditView(StaffRequiredMixin, CreateView):
             return redirect('course_dashboard')
 
 
-class AdminCourseCategoryAddView(StaffRequiredMixin, CreateView):
+class AdminCourseCategoryAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = CourseCategory
     template_name = 'course/dshb-listing-course-category-add.html'
     form_class = CourseCategoryEditForm
@@ -298,7 +299,7 @@ class AdminCourseCategoryAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseCategoryDeleteView(StaffRequiredMixin, View):
+class AdminCourseCategoryDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(CourseCategory, pk=pk)
         course.is_delete = True
@@ -307,7 +308,7 @@ class AdminCourseCategoryDeleteView(StaffRequiredMixin, View):
         return redirect('course_dashboard')
 
 
-class AdminCourseCategoryUndeleteView(StaffRequiredMixin, View):
+class AdminCourseCategoryUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(CourseCategory, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
@@ -317,7 +318,7 @@ class AdminCourseCategoryUndeleteView(StaffRequiredMixin, View):
 
 
 # Course Program
-class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
+class AdminCourseProgramAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = CourseProgram
     template_name = 'course/dshb-listing-course-program-add.html'
     form_class = CourseProgramEditForm
@@ -334,7 +335,7 @@ class AdminCourseProgramAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseProgramEditView(StaffRequiredMixin, CreateView):
+class AdminCourseProgramEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = CourseProgram
     template_name = 'course/dshb-listing-course-program-edit.html'
 
@@ -363,7 +364,7 @@ class AdminCourseProgramEditView(StaffRequiredMixin, CreateView):
             return redirect('course_dashboard')
 
 
-class AdminCourseProgramDeleteView(StaffRequiredMixin, View):
+class AdminCourseProgramDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         program_id = kwargs.get('pk')
         program = get_object_or_404(CourseProgram, pk=program_id)
@@ -373,7 +374,7 @@ class AdminCourseProgramDeleteView(StaffRequiredMixin, View):
         return redirect('course_dashboard')
 
 
-class AdminCourseProgramUndeleteView(StaffRequiredMixin, View):
+class AdminCourseProgramUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         program = get_object_or_404(CourseProgram, pk=pk)
         program.is_delete = False  # Set is_delete to False to undelete
@@ -385,7 +386,7 @@ class AdminCourseProgramUndeleteView(StaffRequiredMixin, View):
 # ********************************************************************************
 
 # BLOG & BLOG CATEGORY
-class AdminBlogListView(StaffRequiredMixin, ListView):
+class AdminBlogListView(AuthSuperUserCoordinatorMixin, ListView):
     model = Blog
     template_name = 'blog/dshb-blog.html'
 
@@ -432,7 +433,7 @@ class AdminBlogListView(StaffRequiredMixin, ListView):
 
 
 # BLOG
-class AdminBlogAddView(StaffRequiredMixin, CreateView):
+class AdminBlogAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Blog
     template_name = 'blog/dshb-listing-add-blog.html'
     form_class = BlogEditForm
@@ -449,7 +450,7 @@ class AdminBlogAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminBlogEditView(StaffRequiredMixin, CreateView):
+class AdminBlogEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Blog
     template_name = 'blog/dshb-listing-blog.html'
 
@@ -480,7 +481,7 @@ class AdminBlogEditView(StaffRequiredMixin, CreateView):
             return redirect('blog_dashboard')
 
 
-class AdminBlogDeleteView(StaffRequiredMixin, View):
+class AdminBlogDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         blog_id = kwargs.get('pk')
         blog = get_object_or_404(Blog, pk=pk)
@@ -490,7 +491,7 @@ class AdminBlogDeleteView(StaffRequiredMixin, View):
         return redirect('blog_dashboard')
 
 
-class AdminBlogUndeleteView(StaffRequiredMixin, View):
+class AdminBlogUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         blog = get_object_or_404(Blog, pk=pk)
         blog.is_delete = False  # Set is_delete to False to undelete
@@ -500,7 +501,7 @@ class AdminBlogUndeleteView(StaffRequiredMixin, View):
 
 
 # BLOG CATEGORY
-class AdminBlogCategoryAddView(StaffRequiredMixin, CreateView):
+class AdminBlogCategoryAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = BlogCategory
     template_name = 'blog/dshb-listing-add-blog-category.html'
     form_class = BlogCategoryEditForm
@@ -517,7 +518,7 @@ class AdminBlogCategoryAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminBlogCategoryEditView(StaffRequiredMixin, CreateView):
+class AdminBlogCategoryEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = BlogCategory
     template_name = 'blog/dshb-listing-blog-category.html'
 
@@ -543,7 +544,7 @@ class AdminBlogCategoryEditView(StaffRequiredMixin, CreateView):
             return redirect('blog_dashboard')
 
 
-class AdminBlogCategoryDeleteView(StaffRequiredMixin, View):
+class AdminBlogCategoryDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         category_id = kwargs.get('pk')
         category = get_object_or_404(BlogCategory, pk=category_id)
@@ -553,7 +554,7 @@ class AdminBlogCategoryDeleteView(StaffRequiredMixin, View):
         return redirect('blog_dashboard')
 
 
-class AdminBlogCategoryUndeleteView(StaffRequiredMixin, View):
+class AdminBlogCategoryUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         category = get_object_or_404(BlogCategory, pk=pk)
         category.is_delete = False  # Set is_delete to False to undelete
@@ -565,7 +566,7 @@ class AdminBlogCategoryUndeleteView(StaffRequiredMixin, View):
 
 
 # Service & Service Home & Service Gallery
-class AdminServiceListView(StaffRequiredMixin, ListView):
+class AdminServiceListView(AuthSuperUserCoordinatorMixin, ListView):
     model = ServiceHome
     template_name = 'service/dshb-service.html'
     paginate_by = 30
@@ -635,7 +636,7 @@ class AdminServiceListView(StaffRequiredMixin, ListView):
 
 
 # Service
-class AdminServiceAddView(StaffRequiredMixin, CreateView):
+class AdminServiceAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Service
     template_name = 'service/dshb-listing-add-service.html'
     form_class = ServiceEditForm
@@ -652,7 +653,7 @@ class AdminServiceAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminServiceEditView(StaffRequiredMixin, CreateView):
+class AdminServiceEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Service
     template_name = 'service/dshb-service-edit.html'
 
@@ -679,7 +680,7 @@ class AdminServiceEditView(StaffRequiredMixin, CreateView):
             return redirect('service_dashboard')
 
 
-class AdminServiceDeleteView(StaffRequiredMixin, View):
+class AdminServiceDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         service_id = kwargs.get('pk')
         service = get_object_or_404(Service, pk=service_id)
@@ -689,7 +690,7 @@ class AdminServiceDeleteView(StaffRequiredMixin, View):
         return redirect('service_dashboard')
 
 
-class AdminServiceUndeleteView(StaffRequiredMixin, View):
+class AdminServiceUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         service = get_object_or_404(Service, pk=pk)
         service.is_delete = False  # Set is_delete to False to undelete
@@ -698,7 +699,7 @@ class AdminServiceUndeleteView(StaffRequiredMixin, View):
         return redirect('service_dashboard')
 
 
-class AdminServiceDetailView(StaffRequiredMixin, DetailView):
+class AdminServiceDetailView(AuthSuperUserCoordinatorMixin, DetailView):
     model = Service
     template_name = 'service/dshb-service-look.html'
     context_object_name = 'service'
@@ -706,7 +707,7 @@ class AdminServiceDetailView(StaffRequiredMixin, DetailView):
 
 # ********************************************************************************
 # Service Home
-class AdminServiceHomeAddView(StaffRequiredMixin, CreateView):
+class AdminServiceHomeAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = ServiceHome
     template_name = 'service/service-home/dshb-listing-add-service-home.html'
     form_class = ServiceHomeEditForm
@@ -723,7 +724,7 @@ class AdminServiceHomeAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminServiceHomeEditView(StaffRequiredMixin, CreateView):
+class AdminServiceHomeEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = ServiceHome
     template_name = 'service/service-home/dshb-listing-service-home.html'
 
@@ -750,7 +751,7 @@ class AdminServiceHomeEditView(StaffRequiredMixin, CreateView):
             return redirect('service_dashboard')
 
 
-class AdminServiceHomeDeleteView(StaffRequiredMixin, View):
+class AdminServiceHomeDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         service_id = kwargs.get('pk')
         service = get_object_or_404(ServiceHome, pk=service_id)
@@ -760,7 +761,7 @@ class AdminServiceHomeDeleteView(StaffRequiredMixin, View):
         return redirect('service_dashboard')
 
 
-class AdminServiceHomeUndeleteView(StaffRequiredMixin, View):
+class AdminServiceHomeUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         service = get_object_or_404(ServiceHome, pk=pk)
         service.is_delete = False  # Set is_delete to False to undelete
@@ -771,7 +772,7 @@ class AdminServiceHomeUndeleteView(StaffRequiredMixin, View):
 
 # ********************************************************************************
 # Service Gallery
-class AdminServiceImageAddView(StaffRequiredMixin, FormView):
+class AdminServiceImageAddView(AuthSuperUserCoordinatorMixin, FormView):
     model = ServiceImage
     template_name = 'service/service-gallery/dshb-service-image-add.html'
     form_class = ServiceImageEditForm
@@ -794,7 +795,7 @@ class AdminServiceImageAddView(StaffRequiredMixin, FormView):
         return super().form_invalid(form)
 
 
-class AdminServiceImageDeleteView(StaffRequiredMixin, DeleteView):
+class AdminServiceImageDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = ServiceImage.objects.get(pk=image_id)
@@ -809,7 +810,7 @@ class AdminServiceImageDeleteView(StaffRequiredMixin, DeleteView):
 
 # ********************************************************************************
 # Service Video
-class AdminServiceVideoAddView(StaffRequiredMixin, CreateView):
+class AdminServiceVideoAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = ServiceVideo
     template_name = 'service/service-gallery/dshb-service-video-add.html'
     form_class = ServiceVideoEditForm
@@ -824,7 +825,7 @@ class AdminServiceVideoAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminServiceVideoDeleteView(StaffRequiredMixin, DeleteView):
+class AdminServiceVideoDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = ServiceVideo.objects.get(pk=image_id)
@@ -839,7 +840,7 @@ class AdminServiceVideoDeleteView(StaffRequiredMixin, DeleteView):
 
 # ********************************************************************************
 # Course Statistic
-class AdminCourseStatisticListView(StaffRequiredMixin, ListView):
+class AdminCourseStatisticListView(AuthSuperUserCoordinatorMixin, ListView):
     model = CourseStatistic
     template_name = 'course/dshb-courses-statistic.html'
 
@@ -859,7 +860,7 @@ class AdminCourseStatisticListView(StaffRequiredMixin, ListView):
 
 # ********************************************************************************
 # Course Feedback
-class AdminCourseFeedbackListView(StaffRequiredMixin, ListView):
+class AdminCourseFeedbackListView(AuthSuperUserCoordinatorMixin, ListView):
     model = CourseFeedback
     template_name = 'feedback/dshb-feedback.html'
 
@@ -886,7 +887,7 @@ class AdminCourseFeedbackListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminCourseFeedbackDeleteView(StaffRequiredMixin, View):
+class AdminCourseFeedbackDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         feedback_id = kwargs.get('pk')
         feedback = get_object_or_404(CourseFeedback, pk=feedback_id)
@@ -896,7 +897,7 @@ class AdminCourseFeedbackDeleteView(StaffRequiredMixin, View):
         return redirect('feedback_dashboard')
 
 
-class AdminCourseFeedbackUndeleteView(StaffRequiredMixin, View):
+class AdminCourseFeedbackUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         feedback = get_object_or_404(CourseFeedback, pk=pk)
         feedback.is_delete = False  # Set is_delete to False to undelete
@@ -905,7 +906,7 @@ class AdminCourseFeedbackUndeleteView(StaffRequiredMixin, View):
         return redirect('feedback_dashboard')
 
 
-class AdminCourseFeedbackDetailView(StaffRequiredMixin, DetailView):
+class AdminCourseFeedbackDetailView(AuthSuperUserCoordinatorMixin, DetailView):
     model = CourseFeedback
     template_name = 'feedback/dshb-courses-feedback-look.html'
     context_object_name = 'feedback'
@@ -913,7 +914,7 @@ class AdminCourseFeedbackDetailView(StaffRequiredMixin, DetailView):
 
 # ********************************************************************************
 # Partner
-class AdminPartnerListView(StaffRequiredMixin, ListView):
+class AdminPartnerListView(AuthSuperUserCoordinatorMixin, ListView):
     model = Partner
     template_name = 'partner/dshb-partner.html'
 
@@ -936,7 +937,7 @@ class AdminPartnerListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminPartnerAddView(StaffRequiredMixin, CreateView):
+class AdminPartnerAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Partner
     template_name = 'partner/dshb-partner-add.html'
     form_class = PartnerEditForm
@@ -953,7 +954,7 @@ class AdminPartnerAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminPartnerEditView(StaffRequiredMixin, CreateView):
+class AdminPartnerEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Partner
     template_name = 'partner/dshb-partner-edit.html'
 
@@ -980,7 +981,7 @@ class AdminPartnerEditView(StaffRequiredMixin, CreateView):
             return redirect('partner_dashboard')
 
 
-class AdminPartnerDeleteView(StaffRequiredMixin, View):
+class AdminPartnerDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         partner_id = kwargs.get('pk')
         partner = get_object_or_404(Partner, pk=partner_id)
@@ -990,7 +991,7 @@ class AdminPartnerDeleteView(StaffRequiredMixin, View):
         return redirect('partner_dashboard')
 
 
-class AdminPartnerUndeleteView(StaffRequiredMixin, View):
+class AdminPartnerUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         partner = get_object_or_404(Partner, pk=pk)
         partner.is_delete = False  # Set is_delete to False to undelete
@@ -1001,7 +1002,7 @@ class AdminPartnerUndeleteView(StaffRequiredMixin, View):
 
 # ********************************************************************************
 # FAQ
-class AdminFAQListView(StaffRequiredMixin, ListView):
+class AdminFAQListView(AuthSuperUserCoordinatorMixin, ListView):
     model = FAQ
     template_name = 'faq/dshb-faq.html'
 
@@ -1024,7 +1025,7 @@ class AdminFAQListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminFAQAddView(StaffRequiredMixin, CreateView):
+class AdminFAQAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = FAQ
     template_name = 'faq/dshb-faq-add.html'
     form_class = FAQEditForm
@@ -1041,7 +1042,7 @@ class AdminFAQAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminFAQEditView(StaffRequiredMixin, CreateView):
+class AdminFAQEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = FAQ
     template_name = 'faq/dshb-faq-edit.html'
 
@@ -1068,7 +1069,7 @@ class AdminFAQEditView(StaffRequiredMixin, CreateView):
             return redirect('faq_dashboard')
 
 
-class AdminFAQDeleteView(StaffRequiredMixin, View):
+class AdminFAQDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         faq_id = kwargs.get('pk')
         faq = get_object_or_404(FAQ, pk=faq_id)
@@ -1078,7 +1079,7 @@ class AdminFAQDeleteView(StaffRequiredMixin, View):
         return redirect('faq_dashboard')
 
 
-class AdminFAQUndeleteView(StaffRequiredMixin, View):
+class AdminFAQUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         faq = get_object_or_404(FAQ, pk=pk)
         faq.is_delete = False  # Set is_delete to False to undelete
@@ -1089,7 +1090,7 @@ class AdminFAQUndeleteView(StaffRequiredMixin, View):
 
 # ********************************************************************************
 # Contact US & Request US
-class AdminContactUSListView(StaffRequiredMixin, ListView):
+class AdminContactUSListView(AuthSuperUserCoordinatorMixin, ListView):
     model = ContactUs
     template_name = 'apply/dshb-apply.html'
 
@@ -1138,7 +1139,7 @@ class AdminContactUSListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminContactUsDeleteView(StaffRequiredMixin, View):
+class AdminContactUsDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         contact_us_id = kwargs.get('pk')
         contact_us = get_object_or_404(ContactUs, pk=contact_us_id)
@@ -1148,7 +1149,7 @@ class AdminContactUsDeleteView(StaffRequiredMixin, View):
         return redirect('apply_dashboard')
 
 
-class AdminContactUsUndeleteView(StaffRequiredMixin, View):
+class AdminContactUsUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         contact_us = get_object_or_404(ContactUs, pk=pk)
         contact_us.is_delete = False  # Set is_delete to False to undelete
@@ -1157,7 +1158,7 @@ class AdminContactUsUndeleteView(StaffRequiredMixin, View):
         return redirect('apply_dashboard')
 
 
-class AdminContactUsView(StaffRequiredMixin, DetailView):
+class AdminContactUsView(AuthSuperUserCoordinatorMixin, DetailView):
     model = ContactUs
     template_name = 'apply/dshb-contact_us-look.html'
     context_object_name = 'contact_us'
@@ -1170,7 +1171,7 @@ class AdminContactUsView(StaffRequiredMixin, DetailView):
 
 
 # Request US
-class AdminRequestUsDeleteView(StaffRequiredMixin, View):
+class AdminRequestUsDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = True
@@ -1179,7 +1180,7 @@ class AdminRequestUsDeleteView(StaffRequiredMixin, View):
         return redirect('apply_dashboard')
 
 
-class AdminRequestUsUndeleteView(StaffRequiredMixin, View):
+class AdminRequestUsUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         course = get_object_or_404(RequestUs, pk=pk)
         course.is_delete = False  # Set is_delete to False to undelete
@@ -1188,7 +1189,7 @@ class AdminRequestUsUndeleteView(StaffRequiredMixin, View):
         return redirect('apply_dashboard')
 
 
-class AdminRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
+class AdminRequestUsDetailView(AuthSuperUserCoordinatorMixin, DetailView, CreateView):
     model = RequestUs
     template_name = 'apply/dshb-courses-request-look.html'
     context_object_name = 'request'
@@ -1212,7 +1213,7 @@ class AdminRequestUsDetailView(StaffRequiredMixin, DetailView, CreateView):
 
 # ********************************************************************************
 # About Us & Contact Info & Home page text Img
-class AdminAboutContactInfoListView(StaffRequiredMixin, View):
+class AdminAboutContactInfoListView(AuthSuperUserCoordinatorMixin, View):
     template_name = 'core/about_us-contact_us/dshb-about-contact-info.html'
 
     def get_context_data(self):
@@ -1226,7 +1227,7 @@ class AdminAboutContactInfoListView(StaffRequiredMixin, View):
         return render(request, self.template_name, {**self.get_context_data()})
 
 
-class AdminAboutUsEditView(StaffRequiredMixin, CreateView):
+class AdminAboutUsEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = AboutUs
     template_name = 'core/about_us-contact_us/dshb-about_us-edit.html'
 
@@ -1254,7 +1255,7 @@ class AdminAboutUsEditView(StaffRequiredMixin, CreateView):
             return redirect('about_dashboard')
 
 
-class AdminContactInfoEditView(StaffRequiredMixin, CreateView):
+class AdminContactInfoEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = ContactInfo
     template_name = 'core/about_us-contact_us/dshb-contact_info-edit.html'
 
@@ -1291,7 +1292,7 @@ class AdminContactInfoEditView(StaffRequiredMixin, CreateView):
             return redirect('about_dashboard')
 
 
-class AdminHomePageSliderTextIMGEditView(StaffRequiredMixin, CreateView):
+class AdminHomePageSliderTextIMGEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = HomePageSliderTextIMG
     template_name = 'core/home-page-slider/dshb-homepage-slider-edit.html'
 
@@ -1317,7 +1318,7 @@ class AdminHomePageSliderTextIMGEditView(StaffRequiredMixin, CreateView):
 
 
 # Account & Register
-class AdminAccountListView(StaffRequiredMixin, ListView):
+class AdminAccountListView(AuthSuperUserCoordinatorMixin, ListView):
     model = Account
     template_name = 'account/dshb-account-list.html'
 
@@ -1393,7 +1394,7 @@ class AdminAccountListView(StaffRequiredMixin, ListView):
         return super().post(request, *args, **kwargs)
 
 
-class AdminFEEDBACKDeleteView(StaffRequiredMixin, View):
+class AdminFEEDBACKDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         feedback = get_object_or_404(Account, pk=pk)
         feedback.feedback_status = False
@@ -1402,7 +1403,7 @@ class AdminFEEDBACKDeleteView(StaffRequiredMixin, View):
         return redirect('account_dashboard')
 
 
-class AdminFEEDBACKUndeleteView(StaffRequiredMixin, View):
+class AdminFEEDBACKUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         feedback = get_object_or_404(Account, pk=pk)
         feedback.feedback_status = True  # Set is_delete to False to undelete
@@ -1411,7 +1412,7 @@ class AdminFEEDBACKUndeleteView(StaffRequiredMixin, View):
         return redirect('account_dashboard')
 
 
-class AdminKEBDeleteView(StaffRequiredMixin, View):
+class AdminKEBDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         keb = get_object_or_404(CourseStudent, pk=pk)
         keb.is_keb = False
@@ -1420,7 +1421,7 @@ class AdminKEBDeleteView(StaffRequiredMixin, View):
         return redirect('account_dashboard')
 
 
-class AdminKEBUndeleteView(StaffRequiredMixin, View):
+class AdminKEBUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         keb = get_object_or_404(CourseStudent, pk=pk)
         keb.is_keb = True  # Set is_delete to False to undelete
@@ -1429,13 +1430,13 @@ class AdminKEBUndeleteView(StaffRequiredMixin, View):
         return redirect('account_dashboard')
 
 
-class AdminAccountDetailView(StaffRequiredMixin, DetailView):
+class AdminAccountDetailView(AuthSuperUserCoordinatorMixin, DetailView):
     model = Account
     template_name = 'account/dshb-account-look.html'
     context_object_name = 'student'
 
 
-class AdminAccountAddView(StaffRequiredMixin, CreateView):
+class AdminAccountAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Account
     template_name = 'account/dshb-account-add.html'
     form_class = AccountEditForm
@@ -1456,7 +1457,7 @@ class AdminAccountAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminAccountEditView(StaffRequiredMixin, CreateView):
+class AdminAccountEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Account
     template_name = 'account/dshb-account-edit.html'
 
@@ -1488,7 +1489,7 @@ class AdminAccountEditView(StaffRequiredMixin, CreateView):
 
 
 # Group
-class AdminGroupAddView(StaffRequiredMixin, CreateView):
+class AdminGroupAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Group
     template_name = 'account/dshb-group-add.html'
     form_class = GroupEditForm
@@ -1505,7 +1506,7 @@ class AdminGroupAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminGroupEditView(StaffRequiredMixin, CreateView):
+class AdminGroupEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Group
     template_name = 'account/dshb-group-edit.html'
 
@@ -1536,7 +1537,7 @@ class AdminGroupEditView(StaffRequiredMixin, CreateView):
 
 
 # Course Student
-class CourseStudentAddView(StaffRequiredMixin, CreateView):
+class CourseStudentAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = CourseStudent
     template_name = 'account/dshb-course-student-add.html'
     form_class = CourseStudentEditForm
@@ -1553,7 +1554,7 @@ class CourseStudentAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class CourseStudentEditView(StaffRequiredMixin, CreateView):
+class CourseStudentEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = CourseStudent
     template_name = 'account/dshb-course-student-edit.html'
 
@@ -1585,7 +1586,7 @@ class CourseStudentEditView(StaffRequiredMixin, CreateView):
             return redirect('account_dashboard')
 
 
-class CourseStudentDeleteView(StaffRequiredMixin, View):
+class CourseStudentDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, *args, **kwargs):
         course_student_id = kwargs.get('pk')
         course_student = get_object_or_404(CourseStudent, pk=course_student_id)
@@ -1596,7 +1597,7 @@ class CourseStudentDeleteView(StaffRequiredMixin, View):
 
 
 # All Gallery
-class AdminAllGalleryListView(StaffRequiredMixin, ListView):
+class AdminAllGalleryListView(AuthSuperUserCoordinatorMixin, ListView):
     model = AllGalery
     template_name = 'gallery/dshb-gallery.html'
     context_object_name = 'galleries'
@@ -1622,7 +1623,7 @@ class AdminAllGalleryListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminAllGalleryDeleteView(StaffRequiredMixin, DeleteView):
+class AdminAllGalleryDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = AllGalery.objects.get(pk=image_id)
@@ -1635,7 +1636,7 @@ class AdminAllGalleryDeleteView(StaffRequiredMixin, DeleteView):
         return redirect('gallery_dashboard')  # Redirect to the gallery dashboard page
 
 
-class AdminAllGalleryAddView(StaffRequiredMixin, FormView):
+class AdminAllGalleryAddView(AuthSuperUserCoordinatorMixin, FormView):
     model = AllGalery
     template_name = 'gallery/dshb-gallery_add.html'
     form_class = AllGaleryEditForm
@@ -1656,7 +1657,7 @@ class AdminAllGalleryAddView(StaffRequiredMixin, FormView):
         return super().form_invalid(form)
 
 
-class AdminAllGalleryDeleteAllView(StaffRequiredMixin, View):
+class AdminAllGalleryDeleteAllView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request):
         # Delete all images in the AllGalery model
         AllGalery.objects.all().delete()
@@ -1665,7 +1666,7 @@ class AdminAllGalleryDeleteAllView(StaffRequiredMixin, View):
 
 
 # All Video Gallery
-class AdminAllVideoGalleryAddView(StaffRequiredMixin, CreateView):
+class AdminAllVideoGalleryAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = AllVideoGallery
     template_name = 'gallery/dshb-gallery-video-add.html'
     form_class = AllVideoGalleryEditForm
@@ -1680,7 +1681,7 @@ class AdminAllVideoGalleryAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminAllVideoGalleryDeleteView(StaffRequiredMixin, DeleteView):
+class AdminAllVideoGalleryDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = AllVideoGallery.objects.get(pk=image_id)
@@ -1694,7 +1695,7 @@ class AdminAllVideoGalleryDeleteView(StaffRequiredMixin, DeleteView):
 
 
 # Subscriber
-class AdminSubscriberView(StaffRequiredMixin, ListView):
+class AdminSubscriberView(AuthSuperUserCoordinatorMixin, ListView):
     model = Subscribe
     template_name = 'subscribe/dshb-subscribe-list.html'
 
@@ -1714,7 +1715,7 @@ class AdminSubscriberView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminSubscriberDeleteView(StaffRequiredMixin, DeleteView):
+class AdminSubscriberDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, email_id):
         try:
             email = Subscribe.objects.get(pk=email_id)
@@ -1727,7 +1728,7 @@ class AdminSubscriberDeleteView(StaffRequiredMixin, DeleteView):
 
 
 # Course Gallery
-class AdminAllCourseGalleryListView(StaffRequiredMixin, ListView):
+class AdminAllCourseGalleryListView(AuthSuperUserCoordinatorMixin, ListView):
     model = Gallery
     template_name = 'course-gallery/dshb-course-gallery.html'
     context_object_name = 'galleries'
@@ -1764,7 +1765,7 @@ class AdminAllCourseGalleryListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminAllCourseGalleryDeleteView(StaffRequiredMixin, DeleteView):
+class AdminAllCourseGalleryDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = Gallery.objects.get(pk=image_id)
@@ -1777,7 +1778,7 @@ class AdminAllCourseGalleryDeleteView(StaffRequiredMixin, DeleteView):
         return redirect('course_gallery_dashboard')
 
 
-class AdminCourseGalleryAddView(StaffRequiredMixin, FormView):
+class AdminCourseGalleryAddView(AuthSuperUserCoordinatorMixin, FormView):
     model = Gallery
     template_name = 'course-gallery/dshb-course-gallery-add.html'
     form_class = GalLeryEditForm
@@ -1803,7 +1804,7 @@ class AdminCourseGalleryAddView(StaffRequiredMixin, FormView):
 
 # ********************************************************************************
 # Course Video
-class AdminCourseVideoAddView(StaffRequiredMixin, CreateView):
+class AdminCourseVideoAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = CourseVideo
     template_name = 'course-gallery/dshb-course-video-add.html'
     form_class = CourseVideoEditForm
@@ -1818,7 +1819,7 @@ class AdminCourseVideoAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseVideoDeleteView(StaffRequiredMixin, DeleteView):
+class AdminCourseVideoDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = CourseVideo.objects.get(pk=image_id)
@@ -1832,7 +1833,7 @@ class AdminCourseVideoDeleteView(StaffRequiredMixin, DeleteView):
 
 
 # TIM & TIM Image & TIM Video
-class AdminTIMListView(StaffRequiredMixin, ListView):
+class AdminTIMListView(AuthSuperUserCoordinatorMixin, ListView):
     model = TIM
     template_name = 'tim/dshb-tim.html'
 
@@ -1846,7 +1847,7 @@ class AdminTIMListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminTIMMainEditView(StaffRequiredMixin, CreateView):
+class AdminTIMMainEditView(AuthSuperUserCoordinatorMixin, CreateView):
     model = TIM
     template_name = 'tim/dshb-tim-main-edit.html'
 
@@ -1872,7 +1873,7 @@ class AdminTIMMainEditView(StaffRequiredMixin, CreateView):
             return redirect('tim_dashboard')
 
 
-class AdminTIMImageAddView(StaffRequiredMixin, FormView):
+class AdminTIMImageAddView(AuthSuperUserCoordinatorMixin, FormView):
     model = TIMImage
     template_name = 'tim/tim-gallery/dshb-tim-image-add.html'
     form_class = TIMImageEditForm
@@ -1893,7 +1894,7 @@ class AdminTIMImageAddView(StaffRequiredMixin, FormView):
         return super().form_invalid(form)
 
 
-class AdminTIMImageDeleteView(StaffRequiredMixin, DeleteView):
+class AdminTIMImageDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = TIMImage.objects.get(pk=image_id)
@@ -1906,7 +1907,7 @@ class AdminTIMImageDeleteView(StaffRequiredMixin, DeleteView):
         return redirect('tim_dashboard')
 
 
-class AdminTIMVideoAddView(StaffRequiredMixin, CreateView):
+class AdminTIMVideoAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = TIMVideo
     template_name = 'tim/tim-gallery/dshb-tim-video-add.html'
     form_class = TIMVideoEditForm
@@ -1921,7 +1922,7 @@ class AdminTIMVideoAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminTIMVideoDeleteView(StaffRequiredMixin, DeleteView):
+class AdminTIMVideoDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = TIMVideo.objects.get(pk=image_id)
@@ -1936,13 +1937,13 @@ class AdminTIMVideoDeleteView(StaffRequiredMixin, DeleteView):
 
 # ***************************************************************************
 # Certificate
-class AdminCertificateListView(StaffRequiredMixin, ListView):
+class AdminCertificateListView(AuthSuperUserCoordinatorMixin, ListView):
     model = Certificate
     template_name = 'certificate/dshb-certificate.html'
     context_object_name = 'certificates'
 
 
-class AdminCertificateDeleteView(StaffRequiredMixin, DeleteView):
+class AdminCertificateDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
     def post(self, request, image_id):
         try:
             image = Certificate.objects.get(pk=image_id)
@@ -1954,7 +1955,7 @@ class AdminCertificateDeleteView(StaffRequiredMixin, DeleteView):
         return redirect('certificate_dashboard')
 
 
-class AdminCertificateAddView(StaffRequiredMixin, FormView):
+class AdminCertificateAddView(AuthSuperUserCoordinatorMixin, FormView):
     model = Certificate
     template_name = 'certificate/dshb-certificate-add.html'
     form_class = CertificateEditForm
@@ -1976,7 +1977,7 @@ class AdminCertificateAddView(StaffRequiredMixin, FormView):
 
 
 # COURSE TOPIC & COURSE TOPIC TEST
-class AdminCourseTopicTestListView(StaffRequiredMixin, ListView):
+class AdminCourseTopicTestListView(AuthSuperUserCoordinatorTeacherMixin, ListView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics.html'
 
@@ -2017,13 +2018,13 @@ class AdminCourseTopicTestListView(StaffRequiredMixin, ListView):
         return context
 
 
-class AdminCourseTopicDetailView(StaffRequiredMixin, DetailView):
+class AdminCourseTopicDetailView(AuthSuperUserCoordinatorTeacherMixin, DetailView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics-look.html'
     context_object_name = 'topic'
 
 
-class AdminCourseTopicAddView(StaffRequiredMixin, CreateView):
+class AdminCourseTopicAddView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics-add.html'
     form_class = CourseTopicEditForm
@@ -2057,7 +2058,7 @@ class AdminCourseTopicAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseTopicEditView(StaffRequiredMixin, CreateView):
+class AdminCourseTopicEditView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics-edit.html'
 
@@ -2111,7 +2112,7 @@ def get_course_topic_test_options(request):
     return JsonResponse({'options': options})
 # *******************************************
 
-class AdminCourseTopicDeleteView(StaffRequiredMixin, View):
+class AdminCourseTopicDeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
     def post(self, request, *args, **kwargs):
         topic_id = kwargs.get('pk')
         topic = get_object_or_404(CourseTopic, pk=topic_id)
@@ -2121,7 +2122,7 @@ class AdminCourseTopicDeleteView(StaffRequiredMixin, View):
         return redirect('topic_dashboard')
 
 
-class AdminCourseTopicUndeleteView(StaffRequiredMixin, View):
+class AdminCourseTopicUndeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
     def post(self, request, pk, *args, **kwargs):
         topic = get_object_or_404(CourseTopic, pk=pk)
         topic.is_deleted = False
@@ -2130,7 +2131,7 @@ class AdminCourseTopicUndeleteView(StaffRequiredMixin, View):
         return redirect('topic_dashboard')
 
 
-class AdminCourseTopicsTestAddView(StaffRequiredMixin, CreateView):
+class AdminCourseTopicsTestAddView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
     model = CourseTopicsTest
     template_name = 'course-topics-course-topic-test/dshb-course-topics-test-add.html'
     form_class = CourseTopicTestEditForm
@@ -2158,7 +2159,7 @@ class AdminCourseTopicsTestAddView(StaffRequiredMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseTopicsTestEditView(StaffRequiredMixin, CreateView):
+class AdminCourseTopicsTestEditView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
     model = CourseTopicsTest
     template_name = 'course-topics-course-topic-test/dshb-course-topics-test-edit.html'
 
@@ -2195,7 +2196,7 @@ class AdminCourseTopicsTestEditView(StaffRequiredMixin, CreateView):
             return redirect('topic_dashboard')
 
 
-class AdminCourseTopicsTestDeleteView(StaffRequiredMixin, View):
+class AdminCourseTopicsTestDeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
     def post(self, request, *args, **kwargs):
         topic_test_id = kwargs.get('pk')
         topic_test = get_object_or_404(CourseTopicsTest, pk=topic_test_id)
@@ -2205,7 +2206,7 @@ class AdminCourseTopicsTestDeleteView(StaffRequiredMixin, View):
         return redirect('topic_dashboard')
 
 
-class AdminCourseTopicsTestUndeleteView(StaffRequiredMixin, View):
+class AdminCourseTopicsTestUndeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
     def post(self, request, pk, *args, **kwargs):
         topic_test = get_object_or_404(CourseTopicsTest, pk=pk)
         topic_test.is_deleted = False
@@ -2215,7 +2216,7 @@ class AdminCourseTopicsTestUndeleteView(StaffRequiredMixin, View):
 
 
 # QUESTION & ANSWER
-class AdminQuestionAnswerListView(StaffRequiredMixin, ListView):
+class AdminQuestionAnswerListView(AuthSuperUserCoordinatorTeacherMixin, ListView):
     model = CourseTopicsTest
     template_name = 'question/dshb-question.html'
 
@@ -2234,7 +2235,7 @@ class AdminQuestionAnswerListView(StaffRequiredMixin, ListView):
 
 
 # Question add page
-class TopicTestDetailView(DetailView):
+class TopicTestDetailView(AuthSuperUserCoordinatorTeacherMixin, DetailView):
     model = CourseTopicsTest
     template_name = 'question/dshb-question-add.html'
 

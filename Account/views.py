@@ -1,16 +1,16 @@
 from django.shortcuts import redirect, render
 from Account.models import Account
 from ExamResult.models import CourseStudent, Group, StudentResult
-from services.uploader import Uploader
+from services.mixins import  AuthStudentPageMixin, AuthSuperUserTeacherMixin
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.urls import reverse_lazy
-from django.views.generic import CreateView, ListView
+from django.views.generic import ListView
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
-from django.db.models import F, Avg, Max
+from django.db.models import F, Avg
 
 
 class LogInView(LoginView, UserPassesTestMixin):
@@ -71,7 +71,7 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
     success_url = reverse_lazy('logout')
 
 
-class AccountInformationView(LoginRequiredMixin, View):
+class AccountInformationView(AuthStudentPageMixin, View):
     model = Account
     template_name = 'dshb-settings.html'
 
@@ -142,7 +142,7 @@ class AccountInformationView(LoginRequiredMixin, View):
             return redirect('profile')
 
 
-class ResultView(LoginRequiredMixin, ListView):
+class ResultView(AuthSuperUserTeacherMixin, ListView):
     model = StudentResult
     template_name = 'dshb-results.html'
 
