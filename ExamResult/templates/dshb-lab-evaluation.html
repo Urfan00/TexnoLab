@@ -12,7 +12,7 @@
       <div class="col-auto">
 
         {% comment %} <h1 class="text-30 lh-12 fw-700">İmtahan Qaydaları - <i>{{ student.get_full_name|capfirst }}</i></h1> {% endcomment %}
-        <h1 class="text-30 lh-12 fw-700">Lab Qiymətləndirilməsi</h1>
+        <h1 class="text-30 lh-12 fw-700">Mühəndis işi</h1>
 
       </div>
     </div>
@@ -75,8 +75,8 @@
                               <button type="button" data-lab-id="{{ lab.id }}"
                               {% if lab.lab_points == 0 %}onclick="choosePoints(this)"{% endif %}
                                       class="text-dark px-10 py-10"
-                                      style="border: 1px solid #aaa; border-radius: 5px;{% if lab.lab_points == 0.5 %} background-color: green; {% elif lab.lab_points == 1 %} background-color: red; {% endif %}">
-                                  {{ lab.name|capfirst }} <br> bal: {{ lab.lab_points }}
+                                      style="border: 1px solid #aaa; border-radius: 5px;{% if lab.lab_points == 0.5 %} background-color: orange; {% elif lab.lab_points == 1 %} background-color: lime; {% endif %}">
+                                  {{ lab.name|capfirst }} <br> Bal: {{ lab.lab_points }}
                               </button>
                               <input type="hidden" name="give_points" value="0">
                               <input type="submit" style="display: none;">
@@ -92,8 +92,8 @@
                                         {% csrf_token %}
                                         <button type="button" data-student-id="{{ student.student.id }}" {% if student.has_lab_evaluation == 0.0 %}onclick="choosePoints(this)"{% endif %}
                                                 class="text-dark px-10 py-10"
-                                                style="border: 1px solid #aaa; border-radius: 5px;{% if student.has_lab_evaluation == 1 %} background-color: green; {% elif student.has_lab_evaluation == 0.5  %} background-color: red; {% endif %}">
-                                            {{ student.student.get_full_name|capfirst }}
+                                                style="border: 1px solid #aaa; border-radius: 5px;{% if student.has_lab_evaluation == 1 %} background-color: lime; {% elif student.has_lab_evaluation == 0.5  %} background-color: orange; {% endif %}">
+                                            {{ student.student.get_full_name|capfirst }} <br> Bal: {{ student.has_lab_evaluation }}
                                         </button>
                                         <input type="hidden" name="give_points" value="0">
                                         <input type="submit" style="display: none;">

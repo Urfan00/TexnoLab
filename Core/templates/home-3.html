@@ -212,7 +212,7 @@
                         {% elif user.staff_status == 'Müəllim' %}
                           &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'evaluation' %}" class="text-white prof">Qiymətləndirmə</a>
                         {% elif user.staff_status == 'Mentor' %}
-                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'lab_evaluation' %}" class="text-white prof">Lab Qiymətləndirmə</a>
+                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'lab_evaluation' %}" class="text-white prof">Mühəndis işi</a>
                         {% endif %}
                       {% comment %} &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a> {% endcomment %}
                         <a href="{% url 'logout' %}" class="text-white ml-30 cix">Çıxış</a>
@@ -384,7 +384,7 @@
                   {% elif user.staff_status == 'Müəllim' %}
                     <a href="{% url 'evaluation' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Qiymətləndirmə</a>
                   {% elif user.staff_status == 'Mentor' %}
-                    <a href="{% url 'lab_evaluation' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Lab Qiymətləndirmə</a>
+                    <a href="{% url 'lab_evaluation' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Mühəndis işi</a>
                   {% endif %}
                 {% else %}
                   <a href="{% url 'login' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Giriş</a>
