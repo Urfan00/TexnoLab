@@ -1978,10 +1978,17 @@ class AdminCourseTopicTestListView(AuthSuperUserCoordinatorTeacherMixin, ListVie
         tt_query = self.request.GET.get('tt', '')
         stt_query = self.request.GET.get('stt', '')
 
-        topics = CourseTopic.objects.filter(is_deleted=False).order_by('-created_at').all()
-        d_topics = CourseTopic.objects.filter(is_deleted=True).order_by('-created_at').all()
-        topic_tests = CourseTopicsTest.objects.filter(is_deleted=False).order_by('-created_at').all()
-        d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True).order_by('-created_at').all()
+        if self.request.user.staff_status == 'SuperUser':
+            topics = CourseTopic.objects.filter(is_deleted=False).order_by('-created_at').all()
+            d_topics = CourseTopic.objects.filter(is_deleted=True).order_by('-created_at').all()
+            topic_tests = CourseTopicsTest.objects.filter(is_deleted=False).order_by('-created_at').all()
+            d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True).order_by('-created_at').all()
+        elif self.request.user.staff_status == 'Müəllim':
+            user_course = TeacherCourse.objects.filter(teacher=self.request.user).first()
+            topics = CourseTopic.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
+            d_topics = CourseTopic.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
+            topic_tests = CourseTopicsTest.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
+            d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
 
         if t_query:
             topics = topics.filter(
@@ -2023,7 +2030,11 @@ class AdminCourseTopicAddView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["courses"] = Course.objects.all()
-        context["tests"] = CourseTopicsTest.objects.all()
+        if self.request.user.staff_status == 'SuperUser':
+            context["tests"] = CourseTopicsTest.objects.all()
+        elif self.request.user.staff_status == 'Müəllim':
+            user_course = TeacherCourse.objects.filter(teacher=self.request.user).first()
+            context["tests"] = CourseTopicsTest.objects.filter(course=user_course.course).all()
         return context
 
     def form_valid(self, form):

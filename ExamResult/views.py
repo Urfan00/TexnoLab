@@ -87,7 +87,7 @@ class ExamStart(AuthTeacherMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
-        teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+        teacher_courses = user_account.staff_course.values_list('course', flat=True)
         groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
 
         context['topics'] = CourseTopic.objects.filter(course__id__in=teacher_courses, is_deleted=False).all()
@@ -116,7 +116,7 @@ class TeacherEvaluationView(AuthTeacherMixin, ListView):
         context = super().get_context_data(**kwargs)
         user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
         if user_account:
-            teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+            teacher_courses = user_account.staff_course.values_list('course', flat=True)
             groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
 
             context['groups'] = groups
@@ -172,7 +172,7 @@ class MentorLabEvaluationView(AuthMentorMixin, ListView):
         context = super().get_context_data(**kwargs)
         user_account = Account.objects.filter(id=self.request.user.id, staff_status='Mentor').first()
         if user_account:
-            teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+            teacher_courses = user_account.staff_course.values_list('course', flat=True)
             groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
 
             context['groups'] = groups

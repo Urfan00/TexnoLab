@@ -86,7 +86,7 @@ class AccountInformationView(AuthStudentPageMixin, View):
 
         user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
         if user_account:
-            teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+            teacher_courses = user_account.staff_course.values_list('course', flat=True)
             groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
             context['groups'] = groups
             if g_query:
@@ -156,7 +156,7 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
 
         if user_account or super_user:
             if user_account:
-                teacher_courses = user_account.teachercourse_set.values_list('course', flat=True)
+                teacher_courses = user_account.staff_course.values_list('course', flat=True)
                 groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
             elif super_user:
                 groups = Group.objects.filter(is_active=True).all()

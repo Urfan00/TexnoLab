@@ -57,20 +57,24 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-6">
+                        <div class="col-{% if user.staff_status == 'SuperUser' %}6{% elif user.staff_status == 'Müəllim' %}12{% endif %}">
                           <label for="id_topic_title" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.topic_title.label }} <span class="imp">*</span></label>
                           {{ form.topic_title }}
                         </div>
 
-                        <div class="col-6">
-                          <label for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">Təlim başlığı <span class="imp">*</span></label>
-                          <select class="js-example-basic-single" name="state" id="courseSelect" style="width: 100%;">
-                            <option value="" >-- Təlim seçin --</option>
-                            {% for topic in courses %}
-                              <option value="{{ topic.id }}">{{ topic.title|capfirst }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
+                        {% if user.staff_status == 'SuperUser' %}
+                          <div class="col-6">
+                            <label for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">Təlim başlığı <span class="imp">*</span></label>
+                            <select class="js-example-basic-single" name="state" id="courseSelect" style="width: 100%;">
+                              <option value="" >-- Təlim seçin --</option>
+                              {% for topic in courses %}
+                                <option value="{{ topic.id }}">{{ topic.title|capfirst }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        {% elif user.staff_status == 'Müəllim' %}
+                          <input type="hidden" name="state" value="{{ user.staff_course.first.course.pk }}">
+                        {% endif %}
 
                         <div class="col-12">
                           <label for="id_course_topic_test" class="text-16 lh-1 fw-500 text-dark-1 mb-10">Mövzu testləri <span class="imp">*</span></label>

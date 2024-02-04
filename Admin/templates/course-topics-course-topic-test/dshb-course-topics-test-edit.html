@@ -57,20 +57,25 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-6">
+                        <div class="col-{% if user.staff_status == 'SuperUser' %}6{% elif user.staff_status == 'Müəllim' %}12{% endif %}">
                           <label for="id_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.name.label }} <span class="imp">*</span></label>
                           {{ form.name }}
                         </div>
 
-                        <div class="col-6">
-                          <label for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">Təlim başlığı <span class="imp">*</span></label>
-                          <select class="js-example-basic-single" name="state" id="courseSelect" style="width: 100%;">
-                            <option value="" >-- Təlim seçin --</option>
-                            {% for topic in courses %}
-                              <option value="{{ topic.id }}" {% if topic.id == topic_test.course.id %}selected{% endif %}>{{ topic.title|capfirst }}</option>
-                            {% endfor %}
-                          </select>
-                        </div>
+
+                        {% if user.staff_status == 'SuperUser' %}
+                          <div class="col-6">
+                            <label for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">Təlim başlığı <span class="imp">*</span></label>
+                            <select class="js-example-basic-single" name="state" id="courseSelect" style="width: 100%;">
+                              <option value="" >-- Təlim seçin --</option>
+                              {% for topic in courses %}
+                                <option value="{{ topic.id }}" {% if topic.id == topic_test.course.id %}selected{% endif %}>{{ topic.title|capfirst }}</option>
+                              {% endfor %}
+                            </select>
+                          </div>
+                        {% elif user.staff_status == 'Müəllim' %}
+                          <input type="hidden" name="state" value="{{ user.staff_course.first.course.pk }}">
+                        {% endif %}
 
                         <div class="row y-gap-20 justify-between pt-15">
                           <div class="col-auto">
