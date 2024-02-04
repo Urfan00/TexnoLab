@@ -96,6 +96,11 @@ from .views import (AdminAboutContactInfoListView,
                     AdminServiceUndeleteView,
                     AdminServiceVideoAddView,
                     AdminServiceVideoDeleteView,
+                    AdminStaffAccountAddView,
+                    AdminStaffAccountDeleteView,
+                    AdminStaffAccountEditView,
+                    AdminStaffAccountListView,
+                    AdminStaffAccountUndeleteView,
                     AdminSubscriberDeleteView,
                     AdminSubscriberView,
                     AdminTIMImageAddView,
@@ -107,7 +112,8 @@ from .views import (AdminAboutContactInfoListView,
                     CourseStudentAddView,
                     CourseStudentDeleteView,
                     CourseStudentEditView,
-                    DashboardView, StudentDashboard,
+                    DashboardView,
+                    StudentDashboard,
                     TopicTestDetailView,
                     get_course_topic_test_options)
 
@@ -329,5 +335,11 @@ urlpatterns = [
     path('question_dashboard/', AdminQuestionAnswerListView.as_view(), name='question_dashboard'),
     path('topic_test_question/<int:pk>', TopicTestDetailView.as_view(), name='topic_test_question'),
 
+    # Staff
+    path('staff_dashboard/', AdminStaffAccountListView.as_view(), name='staff_dashboard'),
+    path('staff_add/', AdminStaffAccountAddView.as_view(), name='staff_add'),
+    path('staff_edit/<int:pk>', AdminStaffAccountEditView.as_view(), name='staff_edit'),
+    path('staff/<int:pk>/delete/', AdminStaffAccountDeleteView.as_view(), name='staff_delete'),
+    path('staff/<int:pk>/undelete/', AdminStaffAccountUndeleteView.as_view(), name='staff_undelete'),
 
 ]

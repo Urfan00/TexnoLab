@@ -83,7 +83,7 @@ class Course(DateMixin):
 
 
 class TeacherCourse(DateMixin):
-    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, limit_choices_to=Q(staff_status='Müəllim') | Q(staff_status='Mentor'))
+    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, limit_choices_to=Q(staff_status='Müəllim') | Q(staff_status='Mentor'), related_name='staff_course')
     course = models.ForeignKey(Course, on_delete=models.CASCADE)
 
     def __str__(self):

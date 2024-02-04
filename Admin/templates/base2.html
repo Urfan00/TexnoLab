@@ -165,6 +165,19 @@
 
               {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
 
+                {% url 'staff_dashboard' as staff_dashboard %}
+                <div class="sidebar__item {% if request.path == staff_dashboard or request.path|slice:'/-' == staff_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "staff_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-message mr-15"></i>
+                    İşçilər
+                  </a>
+                </div>
+
+              {% endif %}
+
+
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
+
                 {% url 'course_dashboard' as course_dashboard %}
                 <div class="sidebar__item {% if request.path == course_dashboard or request.path|slice:'/-' == course_dashboard %}-is-active{% endif %}">
                   <a href="{% url "course_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
@@ -187,7 +200,7 @@
 
               {% endif %}
 
-              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' or user.staff_status == 'Koordinator' %}
 
                 {% url 'topic_dashboard' as topic_dashboard %}
                 <div class="sidebar__item {% if request.path == topic_dashboard or request.path|slice:'/-' == topic_dashboard %}-is-active{% endif %}">
@@ -199,7 +212,7 @@
 
               {% endif %}
 
-              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' or user.staff_status == 'Koordinator' %}
 
                 {% url 'question_dashboard' as question_dashboard %}
                 <div class="sidebar__item {% if request.path == question_dashboard or request.path|slice:'/-' == question_dashboard %}-is-active{% endif %}">

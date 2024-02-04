@@ -1,0 +1,250 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+  <div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+      <div class="row pb-50 mb-10">
+        <div class="col-auto">
+
+          <h1 class="text-30 lh-12 fw-700">İşçi siyahısı</h1>
+          <div class="mt-10">Bütün işçilər ilə bu bölmədə tanış ola bilərsiniz</div>
+
+        </div>
+      </div>
+
+      {% include "messages.html" %}
+
+      <div class="row y-gap-30">
+        <div class="col-12">
+          <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+            <div class="tabs -active-purple-2 js-tabs">
+              <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
+                  Aktiv işçilər
+                </button>
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-30" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
+                  Deaktiv işçilər
+                </button>
+              </div>
+
+              <div class="tabs__content py-30 px-30 js-tabs-content">
+                <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
+                  <div class="row y-gap-10 ">
+
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="as" placeholder="işçi axtar" value="{{ request.GET.as }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+
+                    <div class="col-auto">
+                      <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                        <div>
+                        </div>
+                        <div>
+                          <a href="{% url "staff_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                            Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <style>
+                    .tDiv{
+                      width:100%;
+                      overflow-x:scroll;
+                    }
+
+
+                    .wt{
+                      min-width:30px!important;
+                      height:30px!important;
+                      padding:8px!important;
+                      float:left!important;
+                      margin:5px;
+                    }
+
+                    .menusuboper{
+                      width: 150px;
+                      height:40px;
+                      float: left;
+                    }
+
+                    table.table td{
+                      padding: 10px;
+                    }
+
+                    .c{
+                      color: white!important;
+                    }
+                  </style>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Ad/Soyad</th>
+                            <th>İD kod</th>
+                            <th>Şəkil</th>
+                            <th>FIN</th>
+                            <th>E-poçt</th>
+                            <th>Nömrə</th>
+                            <th>Vəzifə</th>
+                            <th>Təlim</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for staff in staff_account %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ staff.get_full_name|capfirst }}</td>
+                              <td>{{ staff.id_code }}</td>
+                              <td>
+                                {% if staff.image %}
+                                  <img width="50" height="50" src="{{ staff.image.url }}" alt="{{ a_blog.title }}">
+                                {% else %}
+                                  ---
+                                {% endif %}
+                              </td>
+                              <td>{{ staff.FIN }}</td>
+                              <td>{{ staff.email }}</td>
+                              <td>{{ staff.number }}</td>
+                              <td>{{ staff.staff_status|capfirst }}</td>
+                              <td>
+                                {{ staff.staff_course.first.course.title|capfirst }}</td>
+                              <td>
+                                <div class="menusuboper">
+                                  {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a> {% endcomment %}
+                                  <a href="{% url 'staff_edit' staff.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url 'staff_delete' staff.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
+                                        <i class="fa fa-trash c" aria-hidden="true"></i>
+                                    </button>
+                                  </form>
+                                  {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1 " style="background:#c9302c; color:white" title="Sil">
+                                    <div style="color:white" class="icon-bin"></div>
+                                  </a> {% endcomment %}
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+                <div class="tabs__pane -tab-item-2" data-pane="tab2">
+
+                    <div class="row y-gap-10 ">
+                      <div class="col-auto">
+                        <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                            <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="das" placeholder="işçi axtar" value="{{ request.GET.das }}">
+                            <button class="" type="submit">
+                                <i class="icon-search text-light-1 text-20"></i>
+                            </button>
+                        </form>
+                      </div>
+
+                      <div class="col-auto">
+                        <div class="d-flex flex-wrap y-gap-10 x-gap-20">
+                          <div>
+                          </div>
+                          <div>
+                            <a href="{% url "staff_add" %}" class="button -icon -purple-3 h-50 text-purple-1" title="Əlavə et" style="background:#5cb85c;color:white!important;">
+                              Əlavə et &nbsp;&nbsp; &nbsp;<i class="fa fa-plus" aria-hidden="true"></i>
+                            </a>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+
+                    <div class="tDiv">
+                      <div class="table-responsive">
+                        <table class="table" style="margin-top:25px; padding: 0px;">
+                          <thead>
+                            <tr>
+                              <th>№</th>
+                              <th>Ad/Soyad</th>
+                              <th>İD kod</th>
+                              <th>Şəkil</th>
+                              <th>FIN</th>
+                              <th>E-poçt</th>
+                              <th>Nömrə</th>
+                              <th>Vəzifə</th>
+                              <th>Təlim</th>
+                              <th>Əməliyyatlar</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+
+                            {% for staff in d_staff_account %}
+                            <tr>
+                              <td>{{ forloop.counter }}</td>
+                              <td>{{ staff.get_full_name|capfirst }}</td>
+                              <td>{{ staff.id_code }}</td>
+                              <td>
+                                {% if staff.image %}
+                                  <img width="50" height="50" src="{{ staff.image.url }}" alt="{{ a_blog.title }}">
+                                {% else %}
+                                  ---
+                                {% endif %}
+                              </td>
+                              <td>{{ staff.FIN }}</td>
+                              <td>{{ staff.email }}</td>
+                              <td>{{ staff.number }}</td>
+                              <td>{{ staff.staff_status|capfirst }}</td>
+                              <td>
+                                {{ staff.staff_course.first.course.title|capfirst }}</td>
+                              <td>
+                                <div class="menusuboper">
+                                  {% comment %} <a href="" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a> {% endcomment %}
+                                  <a href="{% url 'staff_edit' staff.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </a>
+                                  <form method="post" action="{% url 'staff_undelete' staff.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#3498db; color:white" title="Undelete">
+                                      <i class="fa fa-undo" aria-hidden="true"></i> &nbsp;Bərpa et
+                                  </button>
+                                  </form>
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+                          </tbody>
+                        </table>
+                      </div>
+                    </div>
+
+                </div>
+
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+{% endblock %}
+

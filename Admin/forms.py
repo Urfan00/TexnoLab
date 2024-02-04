@@ -2,12 +2,14 @@ from django import forms
 from Account.models import Account
 from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, HomePageSliderTextIMG, Partner
-from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs
+from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
 from ExamResult.models import Group, CourseStudent
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
 from TIM.models import TIMImage, TIMVideo
+from django.core.exceptions import ValidationError
+
 
 
 class CourseEditForm(forms.ModelForm):
@@ -724,3 +726,72 @@ class HomePageSliderTextIMGForm(forms.ModelForm):
             )
         }
 
+
+class StaffAccountEditForm(forms.ModelForm):
+    course = forms.ModelChoiceField(
+        queryset=Course.objects.filter(is_delete=False, status=True).all(),
+        required=False,
+        label='Təlim',
+        widget=forms.Select(attrs={'placeholder': '-select-'}),
+    )
+
+    staff_status = forms.ChoiceField(
+        choices=Account.staffs_status,  # Use the predefined choices from the model
+        required=False,
+        label='Vəzifə',
+        widget=forms.Select(attrs={'placeholder': '-seçin-'}),
+    )
+
+    def __init__(self, *args, **kwargs):
+        user = kwargs.pop('user', None)
+        super(StaffAccountEditForm, self).__init__(*args, **kwargs)
+
+        if user:
+            if user.staff_status == 'Koordinator':
+                excluded_choices = ['Tələbə', 'SuperUser']
+                self.fields['staff_status'].choices = [choice for choice in Account.staffs_status if choice[0] not in excluded_choices]
+
+            if user.staff_status == 'SuperUser':
+                excluded_choices1 = ['Tələbə']
+                self.fields['staff_status'].choices = [choice for choice in Account.staffs_status if choice[0] not in excluded_choices1]
+
+        # Set initial values for staff_status and course
+        if 'instance' in kwargs and kwargs['instance']:
+            self.initial['staff_status'] = kwargs['instance'].staff_status
+            course_instance = kwargs['instance'].staff_course.first()
+            self.initial['course'] = course_instance.course.id if course_instance else None
+
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'FIN', 'id_code', 'email', 'number']
+        labels = {
+            'first_name': 'Ad',
+            'last_name': 'Soyad',
+            'FIN': 'FİN kod',
+            'id_code': 'İD Kod',
+            'email': 'E-poçt',
+            'number': 'Nömrə',
+        }
+        widgets = {
+            'first_name': forms.TextInput(attrs={'placeholder': "Ad"}),
+            'last_name': forms.TextInput(attrs={'placeholder': "Soyad"}),
+            'FIN': forms.TextInput(attrs={'placeholder': "FİN kod"}),
+            'id_code': forms.TextInput(attrs={'placeholder': "İD Kod"}),
+            'email': forms.EmailInput(attrs={'placeholder': "E-poçt"}),
+            'number': forms.TextInput(attrs={'placeholder': "+994 -- --- -- --", 'value': '+994'}),
+        }
+
+    def save(self, commit=True):
+        staff_user = super().save(commit)
+        
+        st_status = self.cleaned_data.get('staff_status')
+        course = self.cleaned_data.get('course')
+
+        if st_status == 'Müəllim' or st_status == 'Mentor':
+            staff_user.staff_status = st_status
+            staff_user.save()
+
+            if course:
+                TeacherCourse.objects.create(teacher=staff_user, course=course)
+
+        return staff_user

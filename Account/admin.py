@@ -25,7 +25,7 @@ class AccountAdmin(BaseUserAdmin):
             },
         ),
     )
-    ordering = ['id_code']  # Use a valid field from your model for ordering
+    ordering = ['-id']  # Use a valid field from your model for ordering
     search_fields = ("id_code", "first_name", "last_name", 'FIN', "email", "number")
     actions = ['delete_selected_with_images']
 

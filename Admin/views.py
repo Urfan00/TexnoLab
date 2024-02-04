@@ -36,6 +36,7 @@ from .forms import (AboutUsEditForm,
                     ServiceHomeEditForm,
                     ServiceImageEditForm,
                     ServiceVideoEditForm,
+                    StaffAccountEditForm,
                     TIMEditForm,
                     TIMImageEditForm,
                     TIMVideoEditForm)
@@ -47,24 +48,10 @@ from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
-
-# **********************************************************************************
-from django.contrib.auth.mixins import UserPassesTestMixin
-from django.core.exceptions import PermissionDenied
 from django.views.generic.edit import FormView
 
+# **********************************************************************************
 
-class StaffRequiredMixin(UserPassesTestMixin):
-    def test_func(self):
-        return self.request.user.is_staff
-
-    def handle_no_permission(self):
-        if self.request.user.is_authenticated:
-            # If the user is authenticated but not a staff, redirect to 404 page
-            return render(self.request, '404.html')
-        else:
-            # If the user is not authenticated, redirect to the login page
-            return redirect('login')  # Replace 'login' with the actual name or URL of your login page
 
 # **********************************************************************************
 
@@ -1443,11 +1430,9 @@ class AdminAccountAddView(AuthSuperUserCoordinatorMixin, CreateView):
     success_url = reverse_lazy('account_dashboard')
 
     def form_valid(self, form):
-        # Set the password to FIN before saving the form
         fin = form.cleaned_data['FIN']
         form.instance.password = make_password(fin)
-        print(form.instance.password)
-        # If the form is valid, display a success message
+        form.instance.staff_status = 'Tələbə'
         messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
         return super().form_valid(form)
 
@@ -2312,3 +2297,139 @@ class TopicTestDetailView(AuthSuperUserCoordinatorTeacherMixin, DetailView):
                 question.save()
 
         return redirect(reverse('topic_test_question', kwargs={'pk': self.get_object().pk}))
+
+
+# STAFF ACCOUNT
+class AdminStaffAccountListView(AuthSuperUserCoordinatorMixin, ListView):
+    model = Account
+    template_name = 'staff/dshb-staff-account.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        as_query = self.request.GET.get('as', '')
+        das_query = self.request.GET.get('das', '')
+
+        staff_users = Account.objects.exclude(staff_status='Tələbə').exclude(id=self.request.user.id).order_by('-id').all()
+
+        if self.request.user.staff_status == 'SuperUser':
+            staff_account = staff_users.filter(is_delete=False).all()
+            d_staff_account = staff_users.filter(is_delete=True).all()
+        elif self.request.user.staff_status == 'Koordinator':
+            staff_account = staff_users.filter(is_delete=False).exclude(staff_status='SuperUser').all()
+            d_staff_account = staff_users.filter(is_delete=True).exclude(staff_status='SuperUser').all()
+
+        if as_query:
+            staff_account = staff_account.filter(
+                Q(first_name__icontains=as_query)
+                | Q(last_name__icontains=as_query)
+                | Q(id_code__icontains=as_query)
+                | Q(FIN__icontains=as_query)
+                | Q(email__icontains=as_query)
+                | Q(number__icontains=as_query)
+                | Q(staff_status__icontains=as_query)
+                | Q(staff_course__course__title__icontains=as_query)
+            )
+        elif das_query:
+            d_staff_account = d_staff_account.filter(
+                Q(first_name__icontains=das_query)
+                | Q(last_name__icontains=das_query)
+                | Q(id_code__icontains=das_query)
+                | Q(FIN__icontains=das_query)
+                | Q(email__icontains=das_query)
+                | Q(number__icontains=das_query)
+                | Q(staff_status__icontains=das_query)
+                | Q(staff_course__course__title__icontains=das_query)
+            )
+
+        context["staff_account"] = staff_account
+        context["d_staff_account"] = d_staff_account
+
+        return context
+
+
+class AdminStaffAccountAddView(AuthSuperUserCoordinatorMixin, CreateView):
+    model = Account
+    template_name = 'staff/dshb-staff-add.html'
+    form_class = StaffAccountEditForm
+    success_url = reverse_lazy('staff_dashboard')
+
+    def get_form_kwargs(self):
+        kwargs = super(AdminStaffAccountAddView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+
+    def form_valid(self, form):
+        fin = form.cleaned_data['FIN']
+        form.instance.password = make_password(fin)
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminStaffAccountEditView(AuthSuperUserCoordinatorMixin, CreateView):
+    model = Account
+    template_name = 'staff/dshb-staff-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        account_id = kwargs.get('pk')
+        account = get_object_or_404(Account, pk=account_id)
+
+        # Create an instance of the CourseEditForm with the retrieved course
+        form = StaffAccountEditForm(instance=account)
+        return render(request, 'staff/dshb-staff-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = StaffAccountEditForm(request.POST, instance=get_object_or_404(Account, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            account = Account.objects.get(pk=kwargs.get('pk'))
+            account.first_name = form.cleaned_data.get('first_name')
+            account.last_name = form.cleaned_data.get('last_name')
+            # account.FIN = form.cleaned_data.get('FIN')
+            account.staff_status = form.cleaned_data.get('staff_status')
+            # account.id_code = form.cleaned_data.get('id_code')
+            account.email = form.cleaned_data.get('email')
+            account.number = form.cleaned_data.get('number')
+            account.save()
+
+            # Update the teacher's course if staff status is 'Müəllim' or 'Mentor'
+            if account.staff_status in ['Müəllim', 'Mentor']:
+                course = form.cleaned_data.get('course')
+                if course:
+                    teacher_course = TeacherCourse.objects.filter(teacher=account).first()
+
+                    if teacher_course:
+                        teacher_course.course = course
+                        teacher_course.save()
+                    else:
+                        TeacherCourse.objects.create(teacher=account, course=course)
+
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('staff_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('staff_dashboard')
+
+
+class AdminStaffAccountDeleteView(AuthSuperUserCoordinatorMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        account = get_object_or_404(Account, pk=pk)
+        account.is_delete = True
+        account.save()
+        messages.success(request, 'İşçi uğurla silindi')
+        return redirect('staff_dashboard')
+
+
+class AdminStaffAccountUndeleteView(AuthSuperUserCoordinatorMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        account = get_object_or_404(Account, pk=pk)
+        account.is_delete = False
+        account.save()
+        messages.success(request, 'İşçi uğurla bərpa olundu')
+        return redirect('staff_dashboard')
+
+

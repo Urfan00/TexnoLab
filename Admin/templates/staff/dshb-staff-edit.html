@@ -1,0 +1,131 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .imp{
+    color: red;
+  }
+
+  .inpClass{
+    outline: none;
+    width: 100%;
+    background-color: transparent;
+    border-radius: 8px;
+    border: 1px solid #DDDDDD;
+    font-size: 15px;
+    line-height: 1.5;
+    padding: 15px 22px;
+    transition: all 0.15s cubic-bezier(0.165, 0.84, 0.44, 1);
+  }
+</style>
+  <div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+      <div class="row pb-20 mb-10">
+        <div class="col-auto">
+
+          <h1 class="text-30 lh-12 fw-700">İşçi redaktə et</h1>
+          <div class="mt-10">Bu bölmədə isçi redaktə edə bilərsiniz.</div>
+
+        </div>
+      </div>
+
+      <div class="row y-gap-10">
+        <div class="col-12">
+          <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+            
+            <div class="py-30 px-30">
+              <form method="post" class="contact-form row y-gap-30" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {% if form.errors %}
+                  <div class="alert alert-danger alert-dismissible" role="alert">
+                    <div id="form_errors">
+                      {% for key, value in form.errors.items %}
+                        <strong>{{ key }}-{{ value }}</strong>
+                      {% endfor %}
+                    </div>
+                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                  </div>
+                {% endif %}
+
+                <div class="col-12">
+                  <label id="a1" for="id_first_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.first_name.label }} <span class="imp">*</span></label>
+                  {{ form.first_name }}
+                </div>
+
+                <div class="col-12">
+                  <label id="a1" for="id_last_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.last_name.label }} <span class="imp">*</span></label>
+                  {{ form.last_name }}
+                </div>
+
+                {% comment %} <div class="col-12">
+                  <label id="a1" for="id_FIN" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.FIN.label }} <span class="imp">*</span></label>
+                  {{ form.FIN }}
+                </div> {% endcomment %}
+
+                <div class="col-12">
+                  <label id="a1" for="id_staff_status" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.staff_status.label }} <span class="imp">*</span></label>
+                  {{ form.staff_status }}
+                </div>
+
+                {% comment %} <div class="col-12">
+                  <label id="a1" for="id_id_code" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.id_code.label }} <span class="imp">*</span></label>
+                  {{ form.id_code }}
+                </div> {% endcomment %}
+
+                <div class="col-12">
+                  <label id="a1" for="id_email" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.email.label }} <span class="imp">*</span></label>
+                  {{ form.email }}
+                </div>
+
+                <div class="col-12">
+                  <label id="a1" for="id_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.number.label }} <span class="imp">*</span></label>
+                  {{ form.number }}
+                </div>
+
+                <div class="col-12"  id="courseField">
+                  <label id="a1" for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.course.label }} <span class="imp">*</span></label>
+                  {{ form.course }}
+                </div>
+
+                <div class="row y-gap-20 justify-between pt-15">
+                  <div class="col-auto">
+                    <button class="button -md -purple-1 text-white">Təsdiq et</button>
+                  </div>
+                </div>
+              </form>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <script>
+      // Get the staff_status field
+      var staffStatusField = document.getElementById("id_staff_status");
+    
+      // Get the courseField
+      var courseField = document.getElementById("courseField");
+    
+      // Add an event listener to staff_status field to show/hide the courseField
+      function updateCourseFieldVisibility() {
+        var selectedValue = staffStatusField.value;
+    
+        // Show the courseField only if staff_status is 'Müəllim' or 'Mentor'
+        if (selectedValue === "Müəllim" || selectedValue === "Mentor") {
+          courseField.style.display = "block";
+        } else {
+          courseField.style.display = "none";
+        }
+      }
+    
+      // Add an event listener to update the course field visibility on page load
+      window.addEventListener("load", updateCourseFieldVisibility);
+    
+      // Add an event listener to staff_status field to update the course field visibility
+      staffStatusField.addEventListener("change", updateCourseFieldVisibility);
+    </script>
+{% endblock %}
