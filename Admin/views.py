@@ -49,6 +49,7 @@ from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.views.generic.edit import FormView
+from django.db.models import F
 
 # **********************************************************************************
 
@@ -73,7 +74,11 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
 
         context['average_total_point'] = average_total_point * 5
 
-        student_results = StudentResult.objects.filter(student=self.request.user, status=False)
+        context["results"] = StudentResult.objects.filter(student=self.request.user).annotate(
+            percent_point = F('total_point') * 5
+        ).order_by('-created_at').all()
+
+        student_results = StudentResult.objects.filter(student=self.request.user)
         labels = [result.exam_topics.topic_title for result in student_results]
         data = [result.total_point * 5 for result in student_results]
 
@@ -2431,5 +2436,3 @@ class AdminStaffAccountUndeleteView(AuthSuperUserCoordinatorMixin, View):
         account.save()
         messages.success(request, 'İşçi uğurla bərpa olundu')
         return redirect('staff_dashboard')
-
-

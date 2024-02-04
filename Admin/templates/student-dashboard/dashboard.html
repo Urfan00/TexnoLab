@@ -78,6 +78,50 @@
                 <div class="col-xl-12 col-md-12">
                   <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
                     <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
+                      <h2 class="text-17 fw-500">İmtahan Nəticələrim</h2>
+                    </div>
+                    <div class="py-30 px-30">
+                      <div class="y-gap-40">
+
+                        <div class="tDiv">
+                          <div class="table-responsive">
+                            <table class="table">
+                              <thead>
+                                <tr>
+                                  <th>№</th>
+                                  <th>Təlim</th>
+                                  <th>Mövzu</th>
+                                  <th>Nəticə</th>
+                                  <th>Bal</th>
+                                  <th>Tarix</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+
+                                {% for result in results %}
+                                  <tr>
+                                    <td class="tc">{{ forloop.counter }}</td>
+                                    <td class="tc">{{ result.exam_topics.course.title|capfirst }}</td>
+                                    <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
+                                    <td class="tc">{{ result.percent_point }} %</td>
+                                    <td class="tc">{{ result.total_point }} bal</td>
+                                    <td class="tc">{{ result.created_at }}</td>
+                                  </tr>
+                                {% endfor %}
+
+                              </tbody>
+                            </table>
+                          </div>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="col-xl-12 col-md-12">
+                  <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                    <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
                       <h2 class="text-17 fw-500">Qrup Reytinqi</h2>
                     </div>
                     <div class="py-30 px-30">
