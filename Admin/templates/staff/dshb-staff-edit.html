@@ -49,12 +49,12 @@
                   </div>
                 {% endif %}
 
-                <div class="col-12">
+                <div class="col-6">
                   <label id="a1" for="id_first_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.first_name.label }} <span class="imp">*</span></label>
                   {{ form.first_name }}
                 </div>
 
-                <div class="col-12">
+                <div class="col-6">
                   <label id="a1" for="id_last_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.last_name.label }} <span class="imp">*</span></label>
                   {{ form.last_name }}
                 </div>
@@ -64,27 +64,27 @@
                   {{ form.FIN }}
                 </div> {% endcomment %}
 
-                <div class="col-12">
-                  <label id="a1" for="id_staff_status" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.staff_status.label }} <span class="imp">*</span></label>
-                  {{ form.staff_status }}
-                </div>
-
                 {% comment %} <div class="col-12">
                   <label id="a1" for="id_id_code" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.id_code.label }} <span class="imp">*</span></label>
                   {{ form.id_code }}
                 </div> {% endcomment %}
 
-                <div class="col-12">
+                <div class="col-6">
                   <label id="a1" for="id_email" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.email.label }} <span class="imp">*</span></label>
                   {{ form.email }}
                 </div>
 
-                <div class="col-12">
+                <div class="col-6">
                   <label id="a1" for="id_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.number.label }} <span class="imp">*</span></label>
                   {{ form.number }}
                 </div>
 
-                <div class="col-12"  id="courseField">
+                <div class="col-6">
+                  <label id="a1" for="id_staff_status" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.staff_status.label }} <span class="imp">*</span></label>
+                  {{ form.staff_status }}
+                </div>
+
+                <div class="col-6"  id="courseField">
                   <label id="a1" for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.course.label }} <span class="imp">*</span></label>
                   {{ form.course }}
                 </div>

@@ -11,7 +11,7 @@ from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from TIM.models import TIM, TIMImage, TIMVideo
-from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin
+from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin, AuthSuperUserTeacherMixin
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
                     AllGaleryEditForm,
@@ -139,8 +139,8 @@ class AdminCourseListView(AuthSuperUserCoordinatorMixin, ListView):
 
         deleted_categories = CourseCategory.objects.filter(is_delete=True).order_by('-created_at')
 
-        programs = CourseProgram.objects.filter(is_delete=False).all()
-        d_programs = CourseProgram.objects.filter(is_delete=True).all()
+        programs = CourseProgram.objects.filter(is_delete=False).order_by('-created_at').all()
+        d_programs = CourseProgram.objects.filter(is_delete=True).order_by('-created_at').all()
 
 
         # Apply search filter if a query is provided
@@ -198,7 +198,8 @@ class AdminCourseEditView(AuthSuperUserCoordinatorMixin, CreateView):
             course.main_photo = form.cleaned_data.get('main_photo')
             course.video_link = form.cleaned_data.get('video_link')
             course.status = form.cleaned_data.get('status')
-            course.category = form.cleaned_data.get('category')
+            # course.category = form.cleaned_data.get('category')
+            course.category = CourseCategory.objects.filter(is_delete=False).first()
             course.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('course_dashboard')
@@ -592,11 +593,11 @@ class AdminServiceListView(AuthSuperUserCoordinatorMixin, ListView):
         elif sx_query:
             delete_service_home = delete_service_home.filter(title__icontains=sx_query)
         elif as_query:
-            delete_service_home = delete_service_home.filter(title__icontains=as_query)
+            active_service = active_service.filter(title__icontains=as_query)
         elif ds_query:
-            delete_service_home = delete_service_home.filter(title__icontains=ds_query)
+            deactive_service = deactive_service.filter(title__icontains=ds_query)
         elif ss_query:
-            delete_service_home = delete_service_home.filter(title__icontains=ss_query)
+            delete_service = delete_service.filter(title__icontains=ss_query)
         elif g_query:
             galleries = galleries.filter(service__title__icontains=g_query)
         elif v_query:
@@ -1967,7 +1968,7 @@ class AdminCertificateAddView(AuthSuperUserCoordinatorMixin, FormView):
 
 
 # COURSE TOPIC & COURSE TOPIC TEST
-class AdminCourseTopicTestListView(AuthSuperUserCoordinatorTeacherMixin, ListView):
+class AdminCourseTopicTestListView(AuthSuperUserTeacherMixin, ListView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics.html'
 
@@ -2015,13 +2016,13 @@ class AdminCourseTopicTestListView(AuthSuperUserCoordinatorTeacherMixin, ListVie
         return context
 
 
-class AdminCourseTopicDetailView(AuthSuperUserCoordinatorTeacherMixin, DetailView):
+class AdminCourseTopicDetailView(AuthSuperUserTeacherMixin, DetailView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics-look.html'
     context_object_name = 'topic'
 
 
-class AdminCourseTopicAddView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
+class AdminCourseTopicAddView(AuthSuperUserTeacherMixin, CreateView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics-add.html'
     form_class = CourseTopicEditForm
@@ -2059,7 +2060,7 @@ class AdminCourseTopicAddView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminCourseTopicEditView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
+class AdminCourseTopicEditView(AuthSuperUserTeacherMixin, CreateView):
     model = CourseTopic
     template_name = 'course-topics-course-topic-test/dshb-course-topics-edit.html'
 
@@ -2113,7 +2114,7 @@ def get_course_topic_test_options(request):
     return JsonResponse({'options': options})
 # *******************************************
 
-class AdminCourseTopicDeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
+class AdminCourseTopicDeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, *args, **kwargs):
         topic_id = kwargs.get('pk')
         topic = get_object_or_404(CourseTopic, pk=topic_id)
@@ -2123,7 +2124,7 @@ class AdminCourseTopicDeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
         return redirect('topic_dashboard')
 
 
-class AdminCourseTopicUndeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
+class AdminCourseTopicUndeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, pk, *args, **kwargs):
         topic = get_object_or_404(CourseTopic, pk=pk)
         topic.is_deleted = False
@@ -2132,7 +2133,7 @@ class AdminCourseTopicUndeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
         return redirect('topic_dashboard')
 
 
-class AdminCourseTopicsTestAddView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
+class AdminCourseTopicsTestAddView(AuthSuperUserTeacherMixin, CreateView):
     model = CourseTopicsTest
     template_name = 'course-topics-course-topic-test/dshb-course-topics-test-add.html'
     form_class = CourseTopicTestEditForm
@@ -2160,7 +2161,7 @@ class AdminCourseTopicsTestAddView(AuthSuperUserCoordinatorTeacherMixin, CreateV
         return super().form_invalid(form)
 
 
-class AdminCourseTopicsTestEditView(AuthSuperUserCoordinatorTeacherMixin, CreateView):
+class AdminCourseTopicsTestEditView(AuthSuperUserTeacherMixin, CreateView):
     model = CourseTopicsTest
     template_name = 'course-topics-course-topic-test/dshb-course-topics-test-edit.html'
 
@@ -2197,7 +2198,7 @@ class AdminCourseTopicsTestEditView(AuthSuperUserCoordinatorTeacherMixin, Create
             return redirect('topic_dashboard')
 
 
-class AdminCourseTopicsTestDeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
+class AdminCourseTopicsTestDeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, *args, **kwargs):
         topic_test_id = kwargs.get('pk')
         topic_test = get_object_or_404(CourseTopicsTest, pk=topic_test_id)
@@ -2207,7 +2208,7 @@ class AdminCourseTopicsTestDeleteView(AuthSuperUserCoordinatorTeacherMixin, View
         return redirect('topic_dashboard')
 
 
-class AdminCourseTopicsTestUndeleteView(AuthSuperUserCoordinatorTeacherMixin, View):
+class AdminCourseTopicsTestUndeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, pk, *args, **kwargs):
         topic_test = get_object_or_404(CourseTopicsTest, pk=pk)
         topic_test.is_deleted = False
@@ -2217,7 +2218,7 @@ class AdminCourseTopicsTestUndeleteView(AuthSuperUserCoordinatorTeacherMixin, Vi
 
 
 # QUESTION & ANSWER
-class AdminQuestionAnswerListView(AuthSuperUserCoordinatorTeacherMixin, ListView):
+class AdminQuestionAnswerListView(AuthSuperUserTeacherMixin, ListView):
     model = CourseTopicsTest
     template_name = 'question/dshb-question.html'
 
@@ -2236,7 +2237,7 @@ class AdminQuestionAnswerListView(AuthSuperUserCoordinatorTeacherMixin, ListView
 
 
 # Question add page
-class TopicTestDetailView(AuthSuperUserCoordinatorTeacherMixin, DetailView):
+class TopicTestDetailView(AuthSuperUserTeacherMixin, DetailView):
     model = CourseTopicsTest
     template_name = 'question/dshb-question-add.html'
 

@@ -53,22 +53,22 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_title" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.title.label }} <span class="imp">*</span></label>
                           {{ form.title }}
                         </div>
 
+                        <div class="col-6">
+                          <label id="a4" for="id_blog_category" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.blog_category.label }} <span class="imp">*</span></label>
+                          {{ form.blog_category }}
+                        </div>
+
                         <div class="col-12">
                           <label id="a2" for="id_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.description.label }} <span class="imp">*</span></label>
-                          {{ form.description }}
+                          <br> {{ form.description }}
                         </div>
 
-                        <div class="col-12">
-                          <label id="a2" for="id_status" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.status.label }} <span class="imp">*</span></label>
-                          {{ form.status }}
-                        </div>
-
-                        <div class="col-md-6">
+                        <div class="col-6">
                           <label for="id_photo" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.photo.label }} <span class="imp">*</span>
                           <br>
                             <img width="50" style="margin-top:15px; cursor: pointer;" src="https://lordicon.com/icons/system/solid/49-upload-file.gif" alt="">
@@ -76,14 +76,14 @@
                           {{ form.photo }}
                         </div>
 
-                        <div class="col-md-4">
-                          <label id="a4" for="id_blog_category" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.blog_category.label }} <span class="imp">*</span></label>
-                          {{ form.blog_category }}
-                        </div>
-
-                        <div class="col-md-4">
+                        <div class="col-6">
                           <label id="a5" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.date.label }} <span class="imp">*</span></label>
                           {{ form.date }}
+                        </div>
+
+                        <div class="col-6">
+                          <label id="a2" for="id_status" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.status.label }} <span class="imp">*</span></label>
+                          {{ form.status }}
                         </div>
 
                         <div class="row y-gap-20 justify-between pt-15">

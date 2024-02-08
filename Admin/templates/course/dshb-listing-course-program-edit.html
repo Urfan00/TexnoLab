@@ -23,8 +23,8 @@
               <div class="row pb-50 mb-10">
                 <div class="col-auto">
 
-                  <h1 class="text-30 lh-12 fw-700">Program əlavə et</h1>
-                  <div class="mt-10">Bu bölmədə yeni program əlavə edə bilərsiniz.</div>
+                  <h1 class="text-30 lh-12 fw-700">Program redaktə et</h1>
+                  <div class="mt-10">Bu bölmədə program redaktə edə bilərsiniz.</div>
 
                 </div>
               </div>
@@ -34,7 +34,7 @@
                 <div class="col-12">
                   <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
                     <div class="d-flex items-center py-20 px-30 border-bottom-light">
-                      <h2 class="text-17 lh-1 fw-500">Yeni program əlavəsi</h2>
+                      <h2 class="text-17 lh-1 fw-500">Program redaktə et</h2>
                     </div>
 
                     <div class="py-30 px-30">
@@ -53,20 +53,21 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_program_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.program_name.label }} <span class="imp">*</span></label>
                           {{ form.program_name }}
                         </div>
 
-                        <div class="col-12">
-                          <label id="a1" for="id_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.description.label }} <span class="imp">*</span></label>
-                          {{ form.description }}
-                        </div>
-
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.course.label }} <span class="imp">*</span></label>
                           {{ form.course }}
                         </div>
+
+                        <div class="col-12">
+                          <label id="a1" for="id_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.description.label }} <span class="imp">*</span></label>
+                          <br>{{ form.description }}
+                        </div>
+
                         <div class="col-12">
                           <label id="a1" for="id_file" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.file.label }} <span class="imp">*</span></label>
                           {{ form.file }}

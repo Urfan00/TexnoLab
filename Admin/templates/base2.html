@@ -200,7 +200,7 @@
 
               {% endif %}
 
-              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' or user.staff_status == 'Koordinator' %}
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
 
                 {% url 'topic_dashboard' as topic_dashboard %}
                 <div class="sidebar__item {% if request.path == topic_dashboard or request.path|slice:'/-' == topic_dashboard %}-is-active{% endif %}">
@@ -212,7 +212,7 @@
 
               {% endif %}
 
-              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' or user.staff_status == 'Koordinator' %}
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
 
                 {% url 'question_dashboard' as question_dashboard %}
                 <div class="sidebar__item {% if request.path == question_dashboard or request.path|slice:'/-' == question_dashboard %}-is-active{% endif %}">
@@ -278,7 +278,7 @@
                 <div class="sidebar__item {% if request.path == quiz_rule or request.path|slice:'/-' == quiz_rule %}-is-active{% endif %}">
                   <a href="{% url "quiz_rule" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                     <i class="text-20 icon-bookmark mr-15"></i>
-                    İmtahan
+                    İmtahan {{ user.exam_status }} <!--{{ user.learner.all }}-->
                   </a>
                 </div>
 
