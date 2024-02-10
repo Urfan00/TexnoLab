@@ -1989,10 +1989,14 @@ class AdminCourseTopicTestListView(AuthSuperUserTeacherMixin, ListView):
             d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True).order_by('-created_at').all()
         elif self.request.user.staff_status == 'Müəllim':
             user_course = TeacherCourse.objects.filter(teacher=self.request.user).first()
-            topics = CourseTopic.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
-            d_topics = CourseTopic.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
-            topic_tests = CourseTopicsTest.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
-            d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
+            if not user_course:
+                context['user_course'] = user_course
+                return {'error_template': '404.html'}
+            else:
+                topics = CourseTopic.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
+                d_topics = CourseTopic.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
+                topic_tests = CourseTopicsTest.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
+                d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
 
         if t_query:
             topics = topics.filter(

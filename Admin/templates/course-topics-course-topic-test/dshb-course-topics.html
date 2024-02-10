@@ -79,6 +79,7 @@
                           </button>
                       </form>
                     </div>
+                    {% if user_course or user.staff_status == 'SuperUser' %}
                     <div class="col-auto">
                       <div class="d-flex flex-wrap y-gap-10 x-gap-20">
                         <div>
@@ -90,6 +91,7 @@
                         </div>
                       </div>
                     </div>
+                    {% endif %}
                   </div>
 
                   <style>
@@ -242,6 +244,7 @@
                             </button>
                         </form>
                       </div>
+                      {% if user_course or user.staff_status == 'SuperUser' %}
                       <div class="col-auto">
                         <div class="d-flex flex-wrap y-gap-10 x-gap-20">
                           <div>
@@ -253,6 +256,7 @@
                           </div>
                         </div>
                       </div>
+                      {% endif %}
                     </div>
 
                     <div class="tDiv">
