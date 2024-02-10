@@ -100,7 +100,9 @@
                 <div class="relative d-flex items-center ml-10">
                   <a href="#" data-el-toggle=".js-profile-toggle">
                     {% comment %} <img class="size-50" src="" alt="image"> {% endcomment %}
-                    <img class="size-50" src="{% if superadmin_avatar %}{{ superadmin_avatar }}{% else %}{% static '' %}img/misc/user-profile.png{% endif %}" alt="image" style="border-radius: 50%;">
+                    {% comment %} <img class="size-50" src="{% if superadmin_avatar %}{{ superadmin_avatar }}{% else %}{% static '' %}img/misc/user-profile.png{% endif %}" alt="image" style="border-radius: 50%;"> {% endcomment %}
+                    <img class="size-50" 
+                      src="{% if user.is_authenticated %}{% if user.image %}{{ user.image.url }}{% endif %}{% else %}{% static '' %}img/misc/user-profile.png{% endif %}" alt="image" style="border-radius: 50%;">
                   </a>
 
                   {% comment %} <div class="toggle-element js-profile-toggle">
@@ -206,7 +208,7 @@
                 <div class="sidebar__item {% if request.path == topic_dashboard or request.path|slice:'/-' == topic_dashboard %}-is-active{% endif %}">
                   <a href="{% url "topic_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                     <i class="text-20 icon-list mr-15"></i>
-                    Təlim Mövzuları
+                    İmtahan Mövzuları
                   </a>
                 </div>
 

@@ -2,19 +2,20 @@ import os
 import shutil
 from django.contrib import admin
 from .models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
+from import_export.admin import ImportExportModelAdmin
 
 
 
-class ServiceVideoAdmin(admin.ModelAdmin):
+class ServiceVideoAdmin(ImportExportModelAdmin):
     list_display = ['id', 'video_url', 'service', 'created_at', 'updated_at']
     search_fields = ['service__title']
 
 
-class AllVideoGalleryAdmin(admin.ModelAdmin):
+class AllVideoGalleryAdmin(ImportExportModelAdmin):
     list_display = ['id', 'video_url', 'created_at', 'updated_at']
 
 
-class ServiceImageAdmin(admin.ModelAdmin):
+class ServiceImageAdmin(ImportExportModelAdmin):
     list_display = ['id', 'photo', 'service', 'created_at', 'updated_at']
     search_fields = ['service__title']
     actions = ['delete_selected_with_images']
@@ -39,7 +40,7 @@ class ServiceImageAdmin(admin.ModelAdmin):
         return actions
 
 
-class ServiceAdmin(admin.ModelAdmin):
+class ServiceAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'slug', 'status', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title', 'slug']
     list_filter = ['status', 'is_delete']
@@ -82,7 +83,7 @@ class ServiceAdmin(admin.ModelAdmin):
         return actions
 
 
-class ServiceHomeAdmin(admin.ModelAdmin):
+class ServiceHomeAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'photo', 'status', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     search_fields = ['title']
@@ -115,7 +116,7 @@ class ServiceHomeAdmin(admin.ModelAdmin):
         return actions
 
 
-class AllGaleryAdmin(admin.ModelAdmin):
+class AllGaleryAdmin(ImportExportModelAdmin):
     list_display = ['id', 'img', 'created_at', 'updated_at']
     actions = ['delete_selected_with_images']
 

@@ -5,6 +5,7 @@ from Account.models import Account
 from ExamResult.models import CourseStudent, RandomQuestion, StudentAnswer, StudentResult
 from django.db.models import F
 from django.utils import timezone
+from django.contrib import messages
 
 
 
@@ -13,14 +14,19 @@ class AuthStudentMixin:
         if request.user.is_authenticated:
             if request.user.staff_status == 'Tələbə':
                 account_group = CourseStudent.objects.filter(student=request.user, group_student_is_active=True).first()
-                if account_group.group.is_active and request.user.exam_status:
-                    current_time = timezone.now()
-                    if account_group.group.exam_start_time < current_time:
-                        return super().dispatch(request, *args, **kwargs)
+                if account_group:
+                    if account_group.group.is_active and request.user.exam_status:
+                        current_time = timezone.now()
+                        if account_group.group.exam_start_time < current_time:
+                            return super().dispatch(request, *args, **kwargs)
+                        else:
+                            return redirect('student_dashboard')
                     else:
-                        return redirect('profile')
+                        print('ok')
+                        messages.error(request, 'Məlumatlarınız yenilənmədi')
+                        return redirect('student_dashboard')
                 else:
-                    return redirect('profile')
+                    return redirect('student_dashboard')
             else:
                 return render(request, '404.html')
         else:

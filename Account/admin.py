@@ -3,9 +3,10 @@ import shutil
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from .models import Account
+from import_export.admin import ImportExportModelAdmin
 
 
-class AccountAdmin(BaseUserAdmin):
+class AccountAdmin(BaseUserAdmin, ImportExportModelAdmin):
     list_display = ("id_code", "first_name", "last_name", 'FIN', "email", "number", 'staff_status', "image", 'cv', "birthday", "balance", 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'exam_status', 'feedback_status', 'first_time_login', 'is_delete', "is_active", "is_superuser")
     list_filter = ('staff_status', "is_active", 'is_staff', 'is_delete', 'exam_status', "is_superuser", 'first_time_login', 'feedback_status')
     fieldsets = (

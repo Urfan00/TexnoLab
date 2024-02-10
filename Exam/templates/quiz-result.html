@@ -27,7 +27,8 @@
                 <div class="py-40 px-40 bg-dark-5">
 
                   <div class="text-20 lh-1 text-white">
-                    Sizin {% for topic in result.exam_topics.all %}<i>"{{ topic.topic_title|capfirst }}"</i>{% if not forloop.last %}, {% endif %}{% endfor %} {% if result.exam_topics.all|length > 1 %} mövzular {% else %} mövzu {% endif %} üzrə nəticəniz: {{ result.total_point }} bal, {{ result.percent_point }} %
+                    {% comment %} Sizin {% for topic in result.exam_topics.all %}<i>"{{ topic.topic_title|capfirst }}"</i>{% if not forloop.last %}, {% endif %}{% endfor %} {% if result.exam_topics.all|length > 1 %} mövzular {% else %} mövzu {% endif %} üzrə nəticəniz: {{ result.total_point }} bal, {{ result.percent_point }} % {% endcomment %}
+                    Sizin mövzu üzrə nəticəniz: {{ result.total_point }} bal, {{ result.percent_point }} %
                   </div>
 
                 </div>
@@ -35,7 +36,7 @@
               </div>
 
               <div class="d-flex justify-end">
-                <a href="{% url 'logout' %}" class="button -md -dark-1 text-white -dark-button-white mt-40">Çıxış</a>
+                <a href="{% url 'student_dashboard' %}" class="button -md -dark-1 text-white -dark-button-white mt-40">Tələbə Dashboard</a>
               </div>
 
             </div>

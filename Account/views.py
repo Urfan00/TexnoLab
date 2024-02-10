@@ -11,6 +11,12 @@ from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
 from django.db.models import F, Avg
+from django.contrib.auth import logout
+
+
+def logout_view(request):
+    logout(request)
+    return redirect('login')
 
 
 class LogInView(LoginView, UserPassesTestMixin):
@@ -33,7 +39,16 @@ class LogInView(LoginView, UserPassesTestMixin):
                 # If there's a next_url parameter in the URL, redirect to that
                 return next_url
             else:
-                return reverse_lazy('index')
+                if self.request.user.staff_status == 'Tələbə':
+                    return reverse_lazy('student_dashboard')
+                elif self.request.user.staff_status == 'SuperUser' or self.request.user.staff_status == 'Koordinator':
+                    return reverse_lazy('dashboard')
+                elif self.request.user.staff_status == 'Müəllim':
+                    return reverse_lazy('evaluation')
+                elif self.request.user.staff_status == 'Mentor':
+                    return reverse_lazy('lab_evaluation')
+                else:
+                    return reverse_lazy('index')
         return reverse_lazy('index')  # For anonymous users
 
 
@@ -166,6 +181,8 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
             if g_query:
                 course_students = CourseStudent.objects.filter(group=g_query, group_student_is_active=True)
 
+                print('=--==>', course_students)
+
                 context['topics'] = Group.objects.filter(id=g_query).first()
 
                 group_results = StudentResult.objects.filter(
@@ -175,6 +192,8 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
                 ).order_by('-true_percent_point').all()
 
                 context['group_results'] = group_results
+
+                print('<<<>>>>', group_results)
 
                 context['old_group_result'] = StudentResult.objects.filter(
                     student__in=course_students.values_list('student', flat=True), status=False

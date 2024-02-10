@@ -88,7 +88,7 @@
                   {{ form.staff_status }}
                 </div>
 
-                <div class="col-6">
+                <div class="col-6" id="courseField">
                   <label id="a1" for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.course.label }} <span class="imp">*</span></label>
                   {{ form.course }}
                 </div>
@@ -106,5 +106,31 @@
 
       </div>
     </div>
+
+    <script>
+      // Get the staff_status field
+      var staffStatusField = document.getElementById("id_staff_status");
+    
+      // Get the courseField
+      var courseField = document.getElementById("courseField");
+    
+      // Add an event listener to staff_status field to show/hide the courseField
+      function updateCourseFieldVisibility() {
+        var selectedValue = staffStatusField.value;
+    
+        // Show the courseField only if staff_status is 'Müəllim' or 'Mentor'
+        if (selectedValue === "Müəllim" || selectedValue === "Mentor") {
+          courseField.style.display = "block";
+        } else {
+          courseField.style.display = "none";
+        }
+      }
+    
+      // Add an event listener to update the course field visibility on page load
+      window.addEventListener("load", updateCourseFieldVisibility);
+    
+      // Add an event listener to staff_status field to update the course field visibility
+      staffStatusField.addEventListener("change", updateCourseFieldVisibility);
+    </script>
 
 {% endblock %}

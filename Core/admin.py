@@ -2,10 +2,11 @@ import os
 import shutil
 from django.contrib import admin
 from .models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomePageSliderTextIMG, NavMenu, Partner, Subscribe
+from import_export.admin import ImportExportModelAdmin
 
 
 
-class PartnerAdmin(admin.ModelAdmin):
+class PartnerAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'img', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     list_filter = ['is_delete']
@@ -38,7 +39,7 @@ class PartnerAdmin(admin.ModelAdmin):
         return actions
 
 
-class AboutUsAdmin(admin.ModelAdmin):
+class AboutUsAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'img1', 'img2', 'img3', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     search_fields = ['title']
@@ -75,40 +76,40 @@ class AboutUsAdmin(admin.ModelAdmin):
         return actions
 
 
-class NavMenuAdmin(admin.ModelAdmin):
+class NavMenuAdmin(ImportExportModelAdmin):
     list_display = ['id', 'menu', 'sub_menu', 'url_link', 'created_at', 'updated_at']
     list_display_links = ['id', 'menu']
     search_fields = ['menu']
 
 
-class ContactUsAdmin(admin.ModelAdmin):
+class ContactUsAdmin(ImportExportModelAdmin):
     list_display = ['id', 'fullname', 'email', 'is_view', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'fullname']
     list_filter = ['is_view', 'is_delete']
     search_fields = ['fullname', 'email']
 
 
-class ContactInfoAdmin(admin.ModelAdmin):
+class ContactInfoAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'location', 'location_url', 'phone_number', 'email', 'instagram', 'twitter', 'facebook', 'github', 'youtube', 'linkedIn', 'tiktok', 'whatsapp', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     list_filter = ['is_delete']
     search_fields = ['title']
 
 
-class FAQAdmin(admin.ModelAdmin):
+class FAQAdmin(ImportExportModelAdmin):
     list_display = ['id', 'question', 'answer', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'question']
     list_filter = ['is_delete']
     search_fields = ['question']
 
 
-class SubscribeAdmin(admin.ModelAdmin):
+class SubscribeAdmin(ImportExportModelAdmin):
     list_display = ['id', 'email']
     list_display_links = ['id', 'email']
     search_fields = ['email']
 
 
-class CertificateAdmin(admin.ModelAdmin):
+class CertificateAdmin(ImportExportModelAdmin):
     list_display = ['id', 'certificate']
     actions = ['delete_selected_with_images']
 
@@ -132,7 +133,7 @@ class CertificateAdmin(admin.ModelAdmin):
         return actions
 
 
-class HomePageSliderTextIMGAdmin(admin.ModelAdmin):
+class HomePageSliderTextIMGAdmin(ImportExportModelAdmin):
     list_display = ['id', 'text', 'img']
     list_display_links = ['id', 'text']
     actions = ['delete_selected_with_images']

@@ -97,7 +97,8 @@ class DashboardView(AuthSuperUserCoordinatorMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['account_count'] = Account.objects.filter(is_active=True, is_staff=False, is_superuser=False).count()
+        context['account_count'] = Account.objects.filter(is_active=True, is_staff=False, is_superuser=False, is_delete=False, staff_status='Tələbə').count()
+        context['staff_count'] = Account.objects.filter(is_active=True, is_delete=False).exclude(staff_status='Tələbə').count()
         context['blog_count'] = Blog.objects.filter(blog_category__is_delete=False, is_delete=False, status=True).count()
         context['course_count'] = Course.objects.filter(category__is_delete=False, is_delete=False, status=True).count()
         context['service_count'] = ServiceHome.objects.filter(is_delete=False, status=True).count()
@@ -1325,21 +1326,23 @@ class AdminAccountListView(AuthSuperUserCoordinatorMixin, ListView):
         df_query = self.request.GET.get('df', '')
 
 
-        students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False).order_by('-date_joined')
-        c_students = CourseStudent.objects.filter(is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False).all()
-        k_students = CourseStudent.objects.filter(is_keb=True, is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False).all()
+        students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False, staff_status="Tələbə").order_by('-date_joined')
+        c_students = CourseStudent.objects.filter(is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False, student__staff_status="Tələbə").all()
+        k_students = CourseStudent.objects.filter(is_keb=True, is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False, student__staff_status="Tələbə").all()
         groups = Group.objects.all()
         allow_feedback = Account.objects.filter(
             is_delete=False,
             is_superuser=False,
-            feedback_status=True
+            feedback_status=True,
+            staff_status="Tələbə"
         ).filter(
             Q(feedback__isnull=False) & ~Q(feedback="")
         ).all()
         dont_allow_feedback = Account.objects.filter(
             is_delete=False,
             is_superuser=False,
-            feedback_status=False
+            feedback_status=False,
+            staff_status="Tələbə"
         ).filter(
             Q(feedback__isnull=False) & ~Q(feedback="")
         ).all()
@@ -1350,15 +1353,15 @@ class AdminAccountListView(AuthSuperUserCoordinatorMixin, ListView):
             )
         elif cs_query:
             c_students = c_students.filter(
-                Q(student__first_name__icontains=cs_query) | Q(student__last_name__icontains=cs_query) | Q(group__name__icontains=cs_query) | Q(course__title__icontains=cs_query)
+                Q(student__first_name__icontains=cs_query) | Q(student__last_name__icontains=cs_query) | Q(group__name__icontains=cs_query) | Q(group__course__title__icontains=cs_query)
             )
         elif k_query:
             k_students = k_students.filter(
-                Q(student__first_name__icontains=k_query) | Q(student__last_name__icontains=k_query) | Q(group__name__icontains=k_query) | Q(course__title__icontains=k_query)
+                Q(student__first_name__icontains=k_query) | Q(student__last_name__icontains=k_query) | Q(group__name__icontains=k_query) | Q(group__course__title__icontains=k_query)
             )
         elif g_query:
             groups = groups.filter(
-                Q(name__icontains=g_query) | Q(name__icontains=g_query)
+                Q(name__icontains=g_query) | Q(course__title__icontains=g_query)
             )
         elif af_query:
             allow_feedback = allow_feedback.filter(

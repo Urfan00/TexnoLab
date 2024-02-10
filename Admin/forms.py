@@ -787,11 +787,12 @@ class StaffAccountEditForm(forms.ModelForm):
         st_status = self.cleaned_data.get('staff_status')
         course = self.cleaned_data.get('course')
 
-        if st_status == 'Müəllim' or st_status == 'Mentor':
+        if st_status:
             staff_user.staff_status = st_status
             staff_user.save()
 
-            if course:
-                TeacherCourse.objects.create(teacher=staff_user, course=course)
+            if st_status == 'Müəllim' or st_status == 'Mentor':
+                if course:
+                    TeacherCourse.objects.create(teacher=staff_user, course=course)
 
         return staff_user

@@ -23,8 +23,8 @@
               <div class="row pb-50 mb-10">
                 <div class="col-auto">
 
-                  <h1 class="text-30 lh-12 fw-700">Tələbə əlavə et</h1>
-                  <div class="mt-10">Bu bölmədə yeni tələbə əlavə edə bilərsiniz.</div>
+                  <h1 class="text-30 lh-12 fw-700">Tələbə redaktə et</h1>
+                  <div class="mt-10">Bu bölmədə tələbə redaktə edə bilərsiniz.</div>
 
                 </div>
               </div>
@@ -34,7 +34,7 @@
                 <div class="col-12">
                   <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
                     <div class="d-flex items-center py-20 px-30 border-bottom-light">
-                      <h2 class="text-17 lh-1 fw-500">Yeni tələbə əlavəsi</h2>
+                      <h2 class="text-17 lh-1 fw-500">Tələbə redaktə</h2>
                     </div>
 
                     <div class="py-30 px-30">
@@ -53,32 +53,32 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_first_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.first_name.label }} <span class="imp">*</span></label>
                           {{ form.first_name }}
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_last_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.last_name.label }} <span class="imp">*</span></label>
                           {{ form.last_name }}
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_FIN" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.FIN.label }} <span class="imp">*</span></label>
                           {{ form.FIN }}
                         </div>
 
-                        <div class="col-12">
-                          <label id="a1" for="id_birthday" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.birthday.label }} <span class="imp">*</span></label>
-                          {{ form.birthday }}
-                        </div>
-
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_id_code" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.id_code.label }} <span class="imp">*</span></label>
                           {{ form.id_code }}
                         </div>
 
-                        <div class="col-12">
+                        <div class="col-6">
+                          <label id="a1" for="id_birthday" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.birthday.label }} <span class="imp">*</span></label>
+                          {{ form.birthday }}
+                        </div>
+
+                        <div class="col-6">
                           <label id="a1" for="id_balance" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.balance.label }} <span class="imp">*</span></label>
                           {{ form.balance }}
                         </div>

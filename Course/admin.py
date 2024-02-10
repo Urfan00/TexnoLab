@@ -2,28 +2,29 @@ import os
 import shutil
 from django.contrib import admin
 from .models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
+from import_export.admin import ImportExportModelAdmin
 
 
 
-class TeacherCourseAdmin(admin.ModelAdmin):
+class TeacherCourseAdmin(ImportExportModelAdmin):
     list_display = ['id', 'teacher', 'course', 'created_at', 'updated_at']
     list_display_links = ['id', 'teacher']
     search_fields = ['teacher__first_name', 'teacher__last_name', 'course__title']
 
 
-class CourseVideoAdmin(admin.ModelAdmin):
+class CourseVideoAdmin(ImportExportModelAdmin):
     list_display = ['id', 'video_url', 'course', 'created_at', 'updated_at']
     search_fields = ['course__title']
 
 
-class CourseCategoryAdmin(admin.ModelAdmin):
+class CourseCategoryAdmin(ImportExportModelAdmin):
     list_display = ['id', 'name', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'name']
     list_filter = ['is_delete']
     search_fields = ['name']
 
 
-class CourseAdmin(admin.ModelAdmin):
+class CourseAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'slug', 'main_photo', 'video_link', 'category', 'status', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     list_filter = ['status', 'is_delete']
@@ -56,21 +57,21 @@ class CourseAdmin(admin.ModelAdmin):
         return actions
 
 
-class CourseFeedbackAdmin(admin.ModelAdmin):
+class CourseFeedbackAdmin(ImportExportModelAdmin):
     list_display = ['id', 'student', 'course', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     list_filter = ['is_delete']
-    search_fields = ['student', 'course__title']
+    search_fields = ['student__first_name', 'student__last_name', 'course__title']
 
 
-class RequestUsAdmin(admin.ModelAdmin):
+class RequestUsAdmin(ImportExportModelAdmin):
     list_display = ['id', 'fullname', 'select_option', 'phone_number', 'course', 'is_view', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'fullname']
     list_filter = ['is_view', 'is_delete']
     search_fields = ['fullname', 'phone_number', 'course__title']
 
 
-class GalleryAdmin(admin.ModelAdmin):
+class GalleryAdmin(ImportExportModelAdmin):
     list_display = ['id', 'photo', 'course', 'created_at', 'updated_at']
     search_fields = ['course__title']
     actions = ['delete_selected_with_images']
@@ -98,7 +99,7 @@ class GalleryAdmin(admin.ModelAdmin):
         return actions
 
 
-class CourseProgramAdmin(admin.ModelAdmin):
+class CourseProgramAdmin(ImportExportModelAdmin):
     list_display = ['id', 'program_name', 'course', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'program_name',]
     list_filter =  ['is_delete']
@@ -124,7 +125,7 @@ class CourseProgramAdmin(admin.ModelAdmin):
         return actions
 
 
-class CourseStatisticAdmin(admin.ModelAdmin):
+class CourseStatisticAdmin(ImportExportModelAdmin):
     list_display = ['id', 'course', 'read_count', 'review_count', 'created_at', 'updated_at']
     list_display_links = ['id', 'course']
     search_fields = ['course__title']

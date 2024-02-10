@@ -54,7 +54,7 @@ class LABAdmin(ImportExportModelAdmin):
 class MentorLabEvaluationAdmin(ImportExportModelAdmin):
     list_display = ['id', 'student', 'lab', 'point', 'mentor', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
-    search_fields = ['student__first_name', 'student__last_name', 'student__email']
+    search_fields = ['student__first_name', 'student__last_name', 'student__email', 'lab__name']
 
 
 

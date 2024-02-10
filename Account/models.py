@@ -67,7 +67,7 @@ class Account(AbstractUser):
     # group = models.ManyToManyField(Group, blank=True)
     first_time_login = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
-    exam_status = models.BooleanField(default=True)
+    exam_status = models.BooleanField(default=False)
 
     username = None
 

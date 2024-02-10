@@ -36,7 +36,8 @@
                       <div class="py-15 px-15 bg-dark-5">
                         <div class="d-flex justify-between">
                           {% comment %} <h4 class="text-18 lh-1 fw-500 text-white">{{ q.question|capfirst|safe }}</h4> {% endcomment %}
-                          <input type="text" name="title_{{q.id}}" style="width: 90%; background: none;" class="text-18 lh-1 fw-500 text-white" value="{{ q.question|capfirst }}">
+                          {% comment %} <input type="text" name="title_{{q.id}}" style="width: 90%; background: none;" class="text-18 lh-1 fw-500 text-white" value="{{ q.question|capfirst }}"> {% endcomment %}
+                          <textarea name="title_{{q.id}}" style="width: 90%; background: none;" class="text-18 lh-1 fw-500 text-white">{{ q.question|capfirst }}</textarea>
                           <div class="d-flex x-gap-10">
                             <div class="d-flex items-center text-white">
                               {% comment %} <div>{{ q.point }}</div> {% endcomment %}

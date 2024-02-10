@@ -66,7 +66,7 @@
                             </div>
                           </div>
 
-                                                    <style>
+                          <style>
                             .tDiv{
                               width:100%;
                               overflow-x:scroll;
@@ -253,21 +253,22 @@
                                       {% endif %}
                                       <td>
                                         <div class="">
-                                          {% if cs.is_keb %}
-                                          <form method="post" action="{% url "keb_delete" cs.pk %}" style="display: inline;">
-                                            {% csrf_token %}
-                                            <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="color:white" title="kebdən çıxart et">
-                                              <i class="fa fa-check" aria-hidden="true"></i>
-                                            </button>
-                                          </form>
-                                          {% else %}
-                                            <form method="post" action="{% url "keb_undelete" cs.pk %}" style="display: inline;">
+                                          {% if cs.is_active %}
+                                            {% if cs.is_keb %}
+                                            <form method="post" action="{% url "keb_delete" cs.pk %}" style="display: inline;">
                                               {% csrf_token %}
-                                              <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="color:white" title="kebə daxil et">
-                                                <i class="fa fa-minus" aria-hidden="true"></i>
+                                              <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="color:white" title="kebdən çıxart et">
+                                                <i class="fa fa-check" aria-hidden="true"></i>
                                               </button>
                                             </form>
-  
+                                            {% else %}
+                                              <form method="post" action="{% url "keb_undelete" cs.pk %}" style="display: inline;">
+                                                {% csrf_token %}
+                                                <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="color:white" title="kebə daxil et">
+                                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                                </button>
+                                              </form>
+                                            {% endif %}
                                           {% endif %}
                                         </div>
                                       </td>
@@ -409,7 +410,7 @@
                                       <td>{{ forloop.counter }}</td>
                                       <td>{{ cs.student.first_name }} {{ cs.student.last_name }}</td>
                                       <td>{{ cs.group.name }}</td>
-                                      <td>{{ cs.course.title }}</td>
+                                      <td>{{ cs.group.course.title }}</td>
                                       <td>{{ cs.average }}</td>
                                       <td>
                                         {% if cs.rating %}

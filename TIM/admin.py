@@ -1,14 +1,15 @@
 import os
 from django.contrib import admin
 from .models import TIM, TIMImage, TIMVideo
+from import_export.admin import ImportExportModelAdmin
 
 
 
-class TIMVideoAdmin(admin.ModelAdmin):
+class TIMVideoAdmin(ImportExportModelAdmin):
     list_display = ['id', 'video_url', 'created_at', 'updated_at']
 
 
-class TIMImageAdmin(admin.ModelAdmin):
+class TIMImageAdmin(ImportExportModelAdmin):
     list_display = ['id', 'photo', 'created_at', 'updated_at']
     actions = ['delete_selected_with_images']
 
@@ -32,7 +33,7 @@ class TIMImageAdmin(admin.ModelAdmin):
         return actions
 
 
-class TIMAdmin(admin.ModelAdmin):
+class TIMAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'slug', 'status', 'is_delete', 'created_at', 'updated_at']
     list_display_links = ['id', 'title', 'slug']
     list_filter = ['status', 'is_delete']

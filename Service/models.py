@@ -15,7 +15,7 @@ class Service(DateMixin):
     title = models.CharField(max_length=255)
     slug = models.SlugField(null=True, blank=True, unique=True)
     description1 = RichTextField()
-    description2 = RichTextField()
+    description2 = RichTextField(null=True, blank=True)
     status = models.BooleanField(default=True)
     is_delete = models.BooleanField(default=False)
 
