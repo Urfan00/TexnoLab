@@ -2,6 +2,7 @@ from Core.forms import SubscribeForm
 from Course.models import Course
 from Service.models import Service
 from .models import ContactInfo, NavMenu
+from django.utils import timezone
 
 def base_data(request):
     data = {}
@@ -11,4 +12,5 @@ def base_data(request):
     data['contact'] = ContactInfo.objects.first()
     data['subscribe_form'] = SubscribeForm()
     data['b_t'] = Course.objects.filter(status=True, is_delete=False, category__is_delete=False).order_by('-created_at').all()[:10]
+    data['current_time'] = timezone.now()
     return data

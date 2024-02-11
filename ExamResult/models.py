@@ -52,6 +52,7 @@ class CourseStudent(DateMixin):
     group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='student_group')
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='learner')
     group_student_is_active = models.BooleanField(default=True) # tələbə bu qrupda aktiv // deaktiv.
+    is_exam_group = models.BooleanField(default=False) # imatahn başladılanda seçilən qrupdursa true olur
 
     # course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='student_course')
 
@@ -136,6 +137,7 @@ class TeacherEvaluation(DateMixin):
 class LAB(DateMixin):
     name = models.CharField(max_length=255)
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='lab_course')
+    is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

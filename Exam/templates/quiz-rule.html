@@ -17,9 +17,6 @@
       <div class="row y-gap-30">
         <div class="col-xl-12">
           <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4">
-            {% comment %} <div class="d-flex items-center py-20 px-30 border-bottom-light">
-              <h2 class="text-17 lh-1 fw-500">Qaydalar</h2>
-            </div> {% endcomment %}
 
             <div class="py-30 px-30">
 
@@ -27,72 +24,10 @@
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ipsam cumque accusamus asperiores dolorem porro corrupti voluptate enim minus blanditiis incidunt, voluptatem, eligendi architecto nisi ipsum deleniti, itaque nihil perspiciatis.</p>
               <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Fuga ipsam cumque accusamus asperiores dolorem porro corrupti voluptate enim minus blanditiis incidunt, voluptatem, eligendi architecto nisi ipsum deleniti, itaque nihil perspiciatis.</p>
 
-              {% comment %} <div class="border-light overflow-hidden rounded-8">
-
-                <div class="py-40 px-40 bg-dark-5">
-                  <div class="d-flex justify-between">
-                    <h4 class="text-18 lh-1 fw-500 text-white">Question 1</h4>
-                    <div class="d-flex x-gap-50">
-                      <div class="d-flex items-center text-white">
-                        <div class="icon-flag mr-10"></div>
-                        <div>Flag Question</div>
-                      </div>
-                      <div class="d-flex items-center text-white">
-                        <div class="icon-edit mr-10"></div>
-                        <div>Edit Question</div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="d-flex pt-15">
-                    <div class="text-white">Not yet answered</div>
-                    <div class="text-white ml-50">Marked out of 1.00</div>
-                  </div>
-
-                  <div class="text-20 lh-1 text-white mt-15">You are watching the TV news and see this appear on the screen:</div>
-                </div>
-
-
-                <div class="px-40 py-40">
-                  <div class="mb-30">Select one:</div>
-
-                  <div class="form-radio d-flex items-center ">
-                    <div class="radio">
-                      <input type="radio">
-                      <div class="radio__mark">
-                        <div class="radio__icon"></div>
-                      </div>
-                    </div>
-                    <div class="fw-500 ml-12">a. A tweet</div>
-                  </div>
-
-
-                  <div class="form-radio d-flex items-center mt-20">
-                    <div class="radio">
-                      <input type="radio" checked>
-                      <div class="radio__mark">
-                        <div class="radio__icon"></div>
-                      </div>
-                    </div>
-                    <div class="fw-500 ml-12">b. A hashtag</div>
-                  </div>
-
-
-                  <div class="form-radio d-flex items-center mt-20">
-                    <div class="radio">
-                      <input type="radio">
-                      <div class="radio__mark">
-                        <div class="radio__icon"></div>
-                      </div>
-                    </div>
-                    <div class="fw-500 ml-12">c. A tag</div>
-                  </div>
-
-                </div>
-              </div> {% endcomment %}
-
               <div class="d-flex justify-end">
-                <a href="{% url 'quiz' %}" class="button -md -dark-1 text-white -dark-button-white mt-40">İmtahana başla</a>
+                {% if not dont_have_question %}
+                  <a href="{% url 'quiz' %}" class="button -md -dark-1 text-white -dark-button-white mt-40">İmtahana başla</a>
+                {% endif %}
               </div>
 
             </div>

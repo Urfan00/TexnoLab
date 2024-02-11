@@ -42,20 +42,31 @@ class RuleView(AuthStudentMixin, ListView):
         context["student"] = Account.objects.filter(id_code=self.request.user.id_code).first()
 
         if not RandomQuestion.objects.filter(student=self.request.user, status=True).exists():
-            account_group = CourseStudent.objects.filter(student=self.request.user, group_student_is_active=True).first()
+            account_group = CourseStudent.objects.filter(student=self.request.user, group_student_is_active=True, is_exam_group=True).first()
+
+            assigned_1_questions = list(RandomQuestion.objects.filter(student=self.request.user).values_list('point_1_question__pk', flat=True))
+            assigned_2_questions = list(RandomQuestion.objects.filter(student=self.request.user).values_list('point_2_question__pk', flat=True))
+            assigned_3_questions = list(RandomQuestion.objects.filter(student=self.request.user).values_list('point_3_question__pk', flat=True))
+
+            # Get all questions already assigned to the student
+            assigned_question_ids = set(assigned_1_questions + assigned_2_questions + assigned_3_questions)
 
             if account_group.group.is_active:
                 group_course_topics = account_group.group.course_topic.course_topic_test.all()
 
-                one_point = Question.objects.filter(course_topic_test__in=group_course_topics, point=1, is_active=True).order_by('?')[:3]
-                two_point = Question.objects.filter(course_topic_test__in=group_course_topics, point=2, is_active=True).order_by('?')[:4]
-                three_point = Question.objects.filter(course_topic_test__in=group_course_topics, point=3, is_active=True).order_by('?')[:3]
+                one_point = Question.objects.filter(course_topic_test__in=group_course_topics, point=1, is_active=True).exclude(pk__in=assigned_question_ids).order_by('?')[:3]
+                two_point = Question.objects.filter(course_topic_test__in=group_course_topics, point=2, is_active=True).exclude(pk__in=assigned_question_ids).order_by('?')[:4]
+                three_point = Question.objects.filter(course_topic_test__in=group_course_topics, point=3, is_active=True).exclude(pk__in=assigned_question_ids).order_by('?')[:3]
 
-                random_questions = RandomQuestion.objects.create(student=self.request.user)
+                if len(one_point) == 3 and len(two_point) == 4 and len(three_point) == 3:
+                    random_questions = RandomQuestion.objects.create(student=self.request.user)
 
-                random_questions.point_1_question.set(one_point)
-                random_questions.point_2_question.set(two_point)
-                random_questions.point_3_question.set(three_point)
+                    random_questions.point_1_question.set(one_point)
+                    random_questions.point_2_question.set(two_point)
+                    random_questions.point_3_question.set(three_point)
+                else:
+                    context['dont_have_question'] = True
+                    print(context['dont_have_question'])
 
         return context
 

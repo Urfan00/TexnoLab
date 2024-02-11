@@ -4,7 +4,7 @@ from Blog.models import Blog, BlogCategory
 from Core.models import FAQ, AboutUs, ContactInfo, HomePageSliderTextIMG, Partner
 from Course.models import Course, CourseCategory, CourseProgram, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
-from ExamResult.models import Group, CourseStudent
+from ExamResult.models import LAB, Group, CourseStudent
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
 from TIM.models import TIMImage, TIMVideo
@@ -13,41 +13,35 @@ from django.core.exceptions import ValidationError
 
 
 class CourseEditForm(forms.ModelForm):
+    # Add fields from CourseProgramEditForm
+    program_name = forms.CharField(max_length=255, label='Proqram başlığı', required=False)
+    program_description = forms.CharField(widget=forms.Textarea(attrs={'rows': 8}), label='Proqram haqqında', required=False)
+    program_file = forms.FileField(label='Fayl', required=False)
+
     class Meta:
         model = Course
-        # exclude = ['slug']
         exclude = ['slug', "category"]
         labels = {
-            'title' : 'Təlimin başlığı',
-            'description' : 'Təlim haqqında',
-            'main_photo' : 'Təlimin əsas şəkili',
-            'video_link' : 'Video linki',
-            # 'category' : 'Kateqoriya'
+            'title': 'Təlimin başlığı',
+            'description': 'Təlim haqqında',
+            'main_photo': 'Təlimin əsas şəkili',
+            'video_link': 'Video linki',
         }
         widgets = {
-            'title' : forms.TextInput(
-                attrs={
-                    'placeholder' :"Təlimin başlığı"
-                }
-            ),
-            'description' : forms.Textarea(
-                attrs={
-                    'rows' : 8,
-                    'placeholder' :"Ətraflı məlumat"
-                }
-            ),
-            'video_link' : forms.URLInput(
-                attrs={
-                    'placeholder' :"http://www",
-                    'class' : 'inpClass'
-                }
-            ),
-            # 'category' : forms.Select(
-            #     attrs={
-            #         'placeholder' :"-seçin-"
-            #     }
-            # ),
+            'title': forms.TextInput(attrs={'placeholder': "Təlimin başlığı"}),
+            'description': forms.Textarea(attrs={'rows': 8, 'placeholder': "Ətraflı məlumat"}),
+            'video_link': forms.URLInput(attrs={'placeholder': "http://www", 'class': 'inpClass'}),
         }
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        if self.instance.pk:
+            program = self.instance.course_program.first()
+            if program:
+                self.fields['program_name'].initial = program.program_name
+                self.fields['program_description'].initial = program.description
+                self.fields['program_file'].initial = program.file
+
 
 
 class CourseCategoryEditForm(forms.ModelForm):
@@ -796,3 +790,28 @@ class StaffAccountEditForm(forms.ModelForm):
                     TeacherCourse.objects.create(teacher=staff_user, course=course)
 
         return staff_user
+
+
+class LABEditForm(forms.ModelForm):
+
+    class Meta:
+        model = LAB
+        fields = ['name', 'course']
+
+        labels = {
+            'name' : 'Mühəndis başlığı',
+            'course' : 'Təlim başlığı',
+        }
+
+        widgets = {
+            'title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Təlimin başlığı"
+                }
+            ),
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            ),
+        }

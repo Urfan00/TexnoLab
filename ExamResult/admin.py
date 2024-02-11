@@ -12,10 +12,10 @@ class GroupAdmin(ImportExportModelAdmin):
 
 
 class CourseStudentAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'student', 'group', 'average', 'payment', 'discount', 'rest', 'rating', 'is_keb', 'is_active', 'group_student_is_active', 'is_deleted', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'group', 'average', 'payment', 'discount', 'rest', 'rating', 'is_keb', 'is_exam_group', 'is_active', 'group_student_is_active', 'is_deleted', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__id_code', 'group__name', 'group__course__title']
-    list_filter = ['rating', 'is_active', 'group_student_is_active', 'is_deleted', 'is_keb']
+    list_filter = ['rating', 'is_exam_group', 'is_active', 'group_student_is_active', 'is_deleted', 'is_keb']
 
 
 class RandomQuestionAdmin(ImportExportModelAdmin):
@@ -46,9 +46,10 @@ class TeacherEvaluationAdmin(ImportExportModelAdmin):
 
 
 class LABAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'name', 'course', 'created_at', 'updated_at']
+    list_display = ['id', 'name', 'course', 'is_deleted', 'created_at', 'updated_at']
     list_display_links = ['id', 'name']
     search_fields = ['name', 'course__title']
+    list_filter = ['is_deleted']
 
 
 class MentorLabEvaluationAdmin(ImportExportModelAdmin):

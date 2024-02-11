@@ -93,7 +93,8 @@
                                 </div>
   
                                 <div class="col-md-6">
-                                  {{ form1.image }}
+                                  <label for="id_image" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.image.label }}:</label>
+                                  <br>{{ form1.image }}
                                 </div>
   
                                 {% if user.is_staff == False and user.is_superuser == False %}

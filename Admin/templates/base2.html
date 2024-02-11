@@ -274,13 +274,35 @@
 
               {% endif %}
 
+<style>
+  @keyframes flashing {
+    0% { opacity: 1; }
+    50% { opacity: 0; }
+    100% { opacity: 1; }
+  }
+
+  .flashing-text {
+    animation: flashing 1s infinite;
+  }
+
+  .abcde {
+    border-radius: 5px;
+    background-color: lime;
+    color: black;
+  }
+</style>
+
               {% if user.staff_status == 'Tələbə' %}
 
                 {% url 'quiz_rule' as quiz_rule %}
-                <div class="sidebar__item {% if request.path == quiz_rule or request.path|slice:'/-' == quiz_rule %}-is-active{% endif %}">
+                <div class="sidebar__item {% if request.path == quiz_rule or request.path|slice:'/-' == quiz_rule %}-is-active{% endif %} {% if user.exam_status and user.learner.first.group.exam_start_time < current_time %}abcde{% endif %}">
                   <a href="{% url "quiz_rule" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                     <i class="text-20 icon-bookmark mr-15"></i>
-                    İmtahan {{ user.exam_status }} <!--{{ user.learner.all }}-->
+                    {% if user.exam_status and user.learner.first.group.exam_start_time < current_time %}
+                      <span id="exam-text" class="flashing-text">İmtahan başladı!</span>
+                    {% else %}
+                      İmtahan
+                    {% endif %}
                   </a>
                 </div>
 
@@ -309,6 +331,19 @@
                 </div>
 
               {% endif %}
+
+              {% if user.staff_status == 'SuperUser' %}
+
+                {% url 'sxem_lab_dashboard' as sxem_lab_dashboard %}
+                <div class="sidebar__item {% if request.path == sxem_lab_dashboard or request.path|slice:'/-' == sxem_lab_dashboard %}-is-active{% endif %}">
+                  <a href="{% url "sxem_lab_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-play-button mr-15"></i>
+                    Mühəndis işi və Sxem
+                  </a>
+                </div>
+
+              {% endif %}
+
 
               {% if user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
 

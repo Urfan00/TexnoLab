@@ -58,10 +58,12 @@ class SaveExamView(View):
                         w.save()
 
                 # Set the status of all students in the group to True
-                for account_group in group.student_group.filter(group_student_is_active=True, is_active=False):
+                for account_group in group.student_group.filter(group_student_is_active=True, is_active=False, is_deleted=False):
                     if not StudentResult.objects.filter(student=account_group.student, exam_topics=course_topic).exists():
                         account_group.student.exam_status = True
                         account_group.student.save()
+                        account_group.is_exam_group = True
+                        account_group.save()
                     else:
                         print('nono')
             elif start_end_checkbox == 'false':
@@ -71,6 +73,8 @@ class SaveExamView(View):
                 for account_group in group.student_group.filter(group_student_is_active=True, is_active=False):
                     account_group.student.exam_status = False
                     account_group.student.save()
+                    account_group.is_exam_group = False
+                    account_group.save()
 
             # Save the updated group
             group.save()
@@ -202,7 +206,7 @@ class MentorLabEvaluationView(AuthMentorMixin, ListView):
 
                 context['students'] = students
 
-                labs = LAB.objects.filter(course__course_group__id=state).annotate(
+                labs = LAB.objects.filter(course__course_group__id=state, is_deleted=False).annotate(
                     lab_points=Coalesce(
                         Subquery(
                             MentorLabEvaluation.objects.filter(

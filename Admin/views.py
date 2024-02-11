@@ -4,14 +4,14 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from Account.models import Account
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
-from ExamResult.models import Group, CourseStudent, MentorLabEvaluation, StudentResult, TeacherEvaluation
+from ExamResult.models import LAB, Group, CourseStudent, MentorLabEvaluation, StudentResult, TeacherEvaluation
 from Core.forms import CertificateEditForm
 from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomePageSliderTextIMG, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from TIM.models import TIM, TIMImage, TIMVideo
-from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin, AuthSuperUserTeacherMixin
+from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin, AuthSuperUserMixin, AuthSuperUserTeacherMixin
 from .forms import (AboutUsEditForm,
                     AccountEditForm,
                     AllGaleryEditForm,
@@ -29,7 +29,7 @@ from .forms import (AboutUsEditForm,
                     FAQEditForm,
                     GalLeryEditForm,
                     GroupEditForm,
-                    HomePageSliderTextIMGForm,
+                    HomePageSliderTextIMGForm, LABEditForm,
                     PartnerEditForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
@@ -182,26 +182,32 @@ class AdminCourseEditView(AuthSuperUserCoordinatorMixin, CreateView):
     template_name = 'course/dshb-listing.html'
 
     def get(self, request, *args, **kwargs):
-        course_id = kwargs.get('slug')  # Get the course ID from URL kwargs
-        course = get_object_or_404(Course, slug=course_id)  # Retrieve the Course instance
-
-        # Create an instance of the CourseEditForm with the retrieved course
+        course_id = kwargs.get('slug')
+        course = get_object_or_404(Course, slug=course_id)
         form = CourseEditForm(instance=course)
         return render(request, 'course/dshb-listing.html', {'form': form})
 
     def post(self, request, *args, **kwargs):
-        form = CourseEditForm(request.POST, request.FILES, instance=get_object_or_404(Course, slug=kwargs.get('slug')))
+        course = get_object_or_404(Course, slug=kwargs.get('slug'))
+        form = CourseEditForm(request.POST, request.FILES, instance=course)
 
         if form.is_valid():
-            course = Course.objects.get(slug=kwargs.get('slug'))
-            course.title = form.cleaned_data.get('title')
-            course.description = form.cleaned_data.get('description')
-            course.main_photo = form.cleaned_data.get('main_photo')
-            course.video_link = form.cleaned_data.get('video_link')
-            course.status = form.cleaned_data.get('status')
-            # course.category = form.cleaned_data.get('category')
+            course = form.save(commit=False)
+            course.title = form.cleaned_data['title']
+            course.description = form.cleaned_data['description']
+            course.main_photo = form.cleaned_data['main_photo']
+            course.video_link = form.cleaned_data['video_link']
+            course.status = form.cleaned_data['status']
             course.category = CourseCategory.objects.filter(is_delete=False).first()
             course.save()
+
+            # Update or create program details
+            program, created = CourseProgram.objects.get_or_create(course=course)
+            program.program_name = form.cleaned_data['program_name']
+            program.description = form.cleaned_data['program_description']
+            program.file = form.cleaned_data['program_file']
+            program.save()
+
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('course_dashboard')
         else:
@@ -216,12 +222,25 @@ class AdminCourseAddView(AuthSuperUserCoordinatorMixin, CreateView):
     success_url = reverse_lazy('course_dashboard')
 
     def form_valid(self, form):
-        # Get the first CourseCategory instance
         first_category = CourseCategory.objects.first()
-
-        # Set the category field of the Course instance to the first category
         form.instance.category = first_category
-        # If the form is valid, display a success message
+
+        program_name = form.cleaned_data.get('program_name')
+        program_description = form.cleaned_data.get('program_description')
+        program_file = self.request.FILES.get('program_file')
+
+        course = form.save(commit=False)
+        course.save()
+
+        # Create CourseProgram instance if data is provided
+        if program_name:
+            CourseProgram.objects.get_or_create(
+                program_name=program_name,
+                description=program_description,
+                file=program_file,
+                course=course
+            )
+
         messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
         return super().form_valid(form)
 
@@ -2455,3 +2474,94 @@ class AdminStaffAccountUndeleteView(AuthSuperUserCoordinatorMixin, View):
         account.save()
         messages.success(request, 'İşçi uğurla bərpa olundu')
         return redirect('staff_dashboard')
+
+
+# LAB & SXEM
+class AdminSXEMLABListView(AuthSuperUserMixin, ListView):
+    model = LAB
+    template_name = 'sxem_lab/dshb-sxem-lab-list.html'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        l_query = self.request.GET.get('l', '')
+        sl_query = self.request.GET.get('sl', '')
+
+        labs = LAB.objects.filter(is_deleted=False).order_by('-created_at').all()
+        d_labs = LAB.objects.filter(is_deleted=True).order_by('-created_at').all()
+
+        if l_query:
+            labs = labs.filter(
+                Q(name__icontains=l_query) | Q(course__title__icontains=l_query)
+            )
+        elif sl_query:
+            d_labs = d_labs.filter(
+                Q(name__icontains=sl_query) | Q(course__title__icontains=sl_query)
+            )
+
+        context["labs"] = labs
+        context["d_labs"] = d_labs
+
+        return context
+
+
+class AdminLABAddView(AuthSuperUserCoordinatorMixin, CreateView):
+    model = LAB
+    template_name = 'sxem_lab/lab/dshb-lab-add.html'
+    form_class = LABEditForm
+    success_url = reverse_lazy('sxem_lab_dashboard')
+
+    def form_valid(self, form):
+        # If the form is valid, display a success message
+        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+        return super().form_valid(form)
+
+    def form_invalid(self, form):
+        # If the form has validation errors, display an error message
+        messages.error(self.request, 'Məlumatlarınız əlavə edilmədi. Zəhmət olmasa düzgün doldurun.')
+        return super().form_invalid(form)
+
+
+class AdminLABEditView(AuthSuperUserCoordinatorMixin, CreateView):
+    model = LAB
+    template_name = 'sxem_lab/lab/dshb-lab-edit.html'
+
+    def get(self, request, *args, **kwargs):
+        lab_id = kwargs.get('pk')
+        lab = get_object_or_404(LAB, pk=lab_id)
+
+        form = LABEditForm(instance=lab)
+        return render(request, 'sxem_lab/lab/dshb-lab-edit.html', {'form': form})
+
+    def post(self, request, *args, **kwargs):
+        form = LABEditForm(request.POST, request.FILES, instance=get_object_or_404(LAB, pk=kwargs.get('pk')))
+
+        if form.is_valid():
+            lab = LAB.objects.get(pk=kwargs.get('pk'))
+            lab.name = form.cleaned_data.get('name')
+            lab.course = form.cleaned_data.get('course')
+            lab.save()
+            messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
+            return redirect('sxem_lab_dashboard')
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('sxem_lab_dashboard')
+
+
+class AdminLABDeleteView(AuthSuperUserCoordinatorMixin, View):
+    def post(self, request, *args, **kwargs):
+        lab_id = kwargs.get('pk')
+        lab = get_object_or_404(LAB, pk=lab_id)
+        lab.is_deleted = True
+        lab.save()
+        messages.success(request, 'Mühəndis işi uğurla silindi')
+        return redirect('sxem_lab_dashboard')
+
+
+class AdminLABUndeleteView(AuthSuperUserCoordinatorMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        lab = get_object_or_404(LAB, pk=pk)
+        lab.is_deleted = False
+        lab.save()
+        messages.success(request, 'Mühəndis işi uğurla bərpa olundu')
+        return redirect('sxem_lab_dashboard')
+

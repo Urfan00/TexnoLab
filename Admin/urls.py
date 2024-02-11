@@ -66,6 +66,10 @@ from .views import (AdminAboutContactInfoListView,
                     AdminHomePageSliderTextIMGEditView,
                     AdminKEBDeleteView,
                     AdminKEBUndeleteView,
+                    AdminLABAddView,
+                    AdminLABDeleteView,
+                    AdminLABEditView,
+                    AdminLABUndeleteView,
                     AdminQuestionAnswerListView,
                     AdminRequestUsDeleteView,
                     AdminRequestUsDetailView,
@@ -81,6 +85,7 @@ from .views import (AdminAboutContactInfoListView,
                     AdminPartnerEditView,
                     AdminPartnerListView,
                     AdminPartnerUndeleteView,
+                    AdminSXEMLABListView,
                     AdminServiceAddView,
                     AdminServiceDeleteView,
                     AdminServiceDetailView,
@@ -341,5 +346,13 @@ urlpatterns = [
     path('staff_edit/<int:pk>', AdminStaffAccountEditView.as_view(), name='staff_edit'),
     path('staff/<int:pk>/delete/', AdminStaffAccountDeleteView.as_view(), name='staff_delete'),
     path('staff/<int:pk>/undelete/', AdminStaffAccountUndeleteView.as_view(), name='staff_undelete'),
+
+    # Sxem & Lab
+    path('sxem_lab_dashboard/', AdminSXEMLABListView.as_view(), name='sxem_lab_dashboard'),
+    path('lab_add/', AdminLABAddView.as_view(), name='lab_add'),
+    path('lab_edit/<int:pk>', AdminLABEditView.as_view(), name='lab_edit'),
+    path('lab/<int:pk>/delete/', AdminLABDeleteView.as_view(), name='lab_delete'),
+    path('lab/<int:pk>/undelete/', AdminLABUndeleteView.as_view(), name='lab_undelete'),
+
 
 ]

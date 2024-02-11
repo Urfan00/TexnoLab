@@ -34,7 +34,7 @@
                 <div class="col-12">
                   <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
                     <div class="d-flex items-center py-20 px-30 border-bottom-light">
-                      <h2 class="text-17 lh-1 fw-500">Təlim redaktə et</h2>
+                      <h2 class="text-17 lh-1 fw-500">Təlim redaktə</h2>
                     </div>
 
                     <div class="py-30 px-30">
@@ -55,16 +55,9 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-12">
+                        <div class="col-6">
                           <label id="a1" for="id_title" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.title.label }} <span class="imp">*</span></label>
                           {{ form.title }}
-                        </div>
-
-
-                        <div class="col-12">
-                          <label id="a2" for="id_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.description.label }} <span class="imp">*</span></label>
-                          <br>
-                          {{ form.description }}
                         </div>
 
                         <div class="col-md-6">
@@ -72,6 +65,11 @@
                           {{ form.video_link }}
                         </div>
 
+                        <div class="col-12">
+                          <label id="a2" for="id_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.description.label }} <span class="imp">*</span></label>
+                          <br>
+                          {{ form.description }}
+                        </div>
 
                         <div class="col-md-6">
                           <label for="course_img" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.main_photo.label }} <span class="imp">*</span>
@@ -89,6 +87,23 @@
                         <div class="col-md-4">
                           <label id="a6" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.status.label }} <span class="imp">*</span></label>
                           {{ form.status }}
+                        </div>
+
+                        <h2 class="text-17 lh-1 fw-500">Təlim program əlavəsi</h2>
+
+                        <div class="col-12">
+                          <label id="a1" for="id_program_name" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.program_name.label }} <span class="imp">*</span></label>
+                          {{ form.program_name }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a1" for="id_program_file" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.program_file.label }} <span class="imp">*</span></label>
+                          {{ form.program_file }}
+                        </div>
+
+                        <div class="col-12">
+                          <label id="a1" for="id_program_description" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.program_description.label }} <span class="imp">*</span></label>
+                          <br>{{ form.program_description }}
                         </div>
 
                         <div class="row y-gap-20 justify-between pt-15">
