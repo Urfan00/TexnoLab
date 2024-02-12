@@ -101,273 +101,223 @@
 
         <section class="pt-30 layout-pb-md">
           <div class="container">
-            <div class="row">
-              <div class="col-lg-8">
-                <div class="pt-25 pb-30 px-30 bg-white shadow-2 rounded-8 border-light">
-                  <div class="tabs -active-purple-2 js-tabs pt-0">
-                    <div class="tabs__controls d-flex js-tabs-controls sss">
-                      <button class="tabs__button js-tabs-button js-update-pin-scene is-active" data-tab-target=".-tab-item-1" type="button">
-                        Ümumi baxış
-                      </button>
-                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-2" type="button">
-                        Təlim proqramı
-                      </button>
-                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-3" type="button">
-                        Rəylər
-                      </button>
-                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-4" type="button">
-                        Müraciət
-                      </button>
-                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-5" type="button">
-                        Şəkillər
-                      </button>
-                      <button class="tabs__button js-tabs-button js-update-pin-scene ml-30" data-tab-target=".-tab-item-6" type="button">
-                        Videolar
-                      </button>
-                    </div>
+            <div class="accordion -block text-left pt-60 lg:pt-40 js-accordion">
 
-                    <div class="tabs__content pt-60 lg:pt-40 js-tabs-content">
-                      <div class="tabs__pane -tab-item-1 is-active">
-                        <h4 class="text-18 fw-500">Ətraflı məlumat</h4>
+              <div class="accordion__item">
+                <div class="accordion__button">
+                  <div class="accordion__icon">
+                    <div class="icon" data-feather="plus"></div>
+                    <div class="icon" data-feather="minus"></div>
+                  </div>
+                  <span class="text-17 fw-500 text-dark-1">Ümumi baxış</span>
+                </div>
 
-                        <div class="show-more mt-30 js-show-more">
-                          <div class="show-more__content">
-                            <p class="">{{ course.description|safe }}</p>
+                <div class="accordion__content">
+                  <div class="accordion__content__inner">
+                    <p><i class="text-24 mb-10">Ətraflı məlumat</i></p>
+                    <p class="">{{ course.description|safe }}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion__item">
+                <div class="accordion__button">
+                  <div class="accordion__icon">
+                    <div class="icon" data-feather="plus"></div>
+                    <div class="icon" data-feather="minus"></div>
+                  </div>
+                  <span class="text-17 fw-500 text-dark-1">Təlim proqramı</span>
+                </div>
+
+                <div class="accordion__content">
+                  <div class="accordion__content__inner">
+                    <p>
+                      <i class="text-24 mb-10">Mövzular</i>
+                    </p>
+
+                    {% for c_pro in course_programs %}
+                      <div class="d-flex justify-between">
+                        <div class="text-17 fw-500 text-dark-1">{{ c_pro.program_name }}</div>
+                        {% if c_pro.file %}
+                          <div class="d-flex items-start" title="bax" >
+                            <a class="mybtn"  target="_blank" href="{{ c_pro.file.url }}" class="text-14 lh-1  underline"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <a class="mybtn"  download href="{{ c_pro.file.url }}" class="text-14 lh-1  underline">Yüklə</a>
                           </div>
-
-                          <button id="more_" onclick="changeText()" class="show-more__button text-purple-1 fw-500 underline mt-30">Daha çox</button>
-                        </div>
-                        <script>
-                          function changeText(){
-                            let button = document.getElementById("more_")
-                            if (button.innerHTML === "Daha çox") {
-                              button.innerHTML = "Gizlət";
-                            } else {
-                              button.innerHTML = "Daha çox";
-                            }
-                          }
-                        </script>
-                      </div>
-
-                      <div class="tabs__pane -tab-item-2">
-                        <h2 class="text-20 fw-500">Mövzular</h2>
-
-                        <div class="d-flex justify-between items-center mt-30">
-                          {% comment %} <div class="">27 sections • 95 lectures</div> {% endcomment %}
-                          {% comment %} <a href="#" class="underline text-purple-1">Expand All Sections</a> {% endcomment %}
-                        </div>
-
-                        <div class="mt-10">
-                          <div class="accordion -block-2 text-left js-accordion">
-
-                            {% for c_pro in course_programs %}
-                              <div class="accordion__item">
-                                <div class="accordion__button py-20 px-30 bg-light-4">
-                                  <div class="d-flex items-center">
-                                    {% if c_pro.description %}
-                                    <div class="accordion__icon">
-                                      <div class="icon" data-feather="chevron-down"></div>
-                                      <div class="icon" data-feather="chevron-up"></div>
-                                    </div>
-                                    {% endif %}
-                                    <span class="text-17 fw-500 text-dark-1">{{ c_pro.program_name }}</span>
-                                  </div>
-
-                                </div>
-                                {% if c_pro.description %}
-                                <div class="accordion__content">
-                                  <div class="accordion__content__inner px-30 py-30">
-                                    <div class="y-gap-20">
-                                      <div class="d-flex justify-between">
-                                        <div class="d-flex items-center">
-
-                                          {% if c_pro.description %}
-                                            <div>{{ c_pro.description|safe }}</div>
-                                          {% endif %}
-
-                                        </div>
-                                        {% if c_pro.file %}
-                                       
-                                            <div class="d-flex items-start" title="bax" >
-                                              <a class="mybtn"  target="_blank" href="{{ c_pro.file.url }}" class="text-14 lh-1  underline"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                                              <a class="mybtn"  download href="{{ c_pro.file.url }}" class="text-14 lh-1  underline">Yüklə</a>
-                                            </div>
-                                            
-                                         
-                                        {% endif %}
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-
-                                {% endif %}
-                              </div>
-
-                            {% endfor %}
-
-                          </div>
-                        </div>
-                      </div>
-
-                      <div class="tabs__pane -tab-item-3">
-                        <div class="blogPost -comments">
-                          <div class="blogPost__content">
-                            <h2 class="text-20 fw-500">
-                              Rəylər
-                            </h2>
-
-                            <ul class="comments__list mt-30">
-
-                              {% for review in reviews %}
-
-                                <li class="comments__item">
-                                  <div class="comments__item-inner md:direction-column">
-                                    <div class="comments__img mr-20">
-                                      <div class="bg-image rounded-full js-lazy" data-bg="{{ review.student.image.url }}"></div>
-                                    </div>
-
-                                    <div class="comments__body md:mt-15">
-                                      <div class="comments__header">
-                                        <h4 class="text-17 fw-500 lh-15">
-                                          {{ review.student.first_name }} {{ review.student.last_name }}
-                                          {% comment %} <span class="text-13 text-light-1 fw-400">{{ review.created_at }}</span> {% endcomment %}
-                                        </h4>
-                                      </div>
-
-                                      <div class="comments__text mt-10">
-                                        <p>{{ review.message }}</p>
-                                      </div>
-                                    </div>
-                                  </div>
-                                </li>
-
-                              {% endfor %}
-
-
-                            </ul>
-                          </div>
-                        </div>
-
-                        {% if user.is_authenticated and user_review %}
-
-                          <div class="respondForm pt-30">
-                            <h3 class="text-20 fw-500">
-                              Rəy əlavə et
-                            </h3>
-
-                            <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" action="#">
-
-                              {% csrf_token %}
-
-                              <div class="col-12">
-                                <label for="id_message" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ feedback_form.message.label }}</label>
-                                {{ feedback_form.message }}
-                              </div>
-                              <div class="col-12">
-                                <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
-                                  Əlavə et
-                                </button>
-                              </div>
-                            </form>
-
-                          </div>
-
                         {% endif %}
                       </div>
+                      {% if c_pro.description %}
+                        <div>{{ c_pro.description|safe }}</div>
+                      {% endif %}
+                    {% endfor %}
 
-                      <div class="tabs__pane -tab-item-4">
+                  </div>
+                </div>
+              </div>
 
-                        <h3 class="text-20 fw-500">
-                          Müraciət et
-                        </h3>
-                          <div class="respondForm pt-30">
+              <div class="accordion__item">
+                <div class="accordion__button">
+                  <div class="accordion__icon">
+                    <div class="icon" data-feather="plus"></div>
+                    <div class="icon" data-feather="minus"></div>
+                  </div>
+                  <span class="text-17 fw-500 text-dark-1">Rəylər</span>
+                </div>
 
-                            <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30">
+                <div class="accordion__content">
+                  <div class="accordion__content__inner">
+                    <ul class="comments__list mt-30">
 
-                              {% csrf_token %}
-                              {{ request_form.as_hidden }}
-                              <div class="col-md-6">
-                                <label for="id_fullname" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.fullname.label }}</label>
-                                {{ request_form.fullname }}
-                              </div>
-                              <div class="col-md-6">
-                                <label for="id_phone_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.phone_number.label }}</label>
-                                {{ request_form.phone_number }}
-                              </div>
-                              <div class="col-12" style="display: none;">
-                                <label for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.course.label }}</label>
-                                {{ request_form.course }}
-                              </div>
-                              <div class="col-12">
-                                <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
-                                  Əlavə et
-                                </button>
-                              </div>
-                            </form>
+                      {% for review in reviews %}
 
-                          </div>
-
-                      </div>
-
-                      <div class="tabs__pane -tab-item-5">
-
-                        <h3 class="text-20 fw-500">
-                          Şəkillər
-                        </h3>
-                          <div class="respondForm pt-30 d-flex " style="flex-wrap:wrap">
-                        
-                         
-
-
-                              {% for i in galleries %}
-                                <div data-category-id="{{ forloop.counter }}" style="margin:5px;">
-                                  <div class="" >
-                                    <div class="blogCard__image">
-
-                                      <ul class="gallery__list">
-                                        <li class="gallery__item" style="float: left;">
-                                          <a href="{{ i.photo.url }}" data-lightbox="group1" data-title="">
-                                            <img src="{{ i.photo.url }}" alt="" style="width: 250px; height: 160px; object-fit: cover; float: left;">
-                                          </a>
-                                        </li>
-                                      </ul>
-                                    </div>
-                                  </div>
-                                </div>
-                            {% endfor %}
+                        <li class="comments__item mb-15">
+                          <div class="comments__item-inner md:direction-column">
+                            <div class="comments__img mr-20">
+                              {% comment %} <div style="width: 50px; height: 50px; background-image: url('{{ review.student.image.url }}')"></div> {% endcomment %}
+                              <img src="{{ review.student.image.url }}" class="rounded-full m-1" style="height: 50px; width: 50px; object-fit: contain; float: left;">
                             </div>
+
+                            <div class="comments__body md:mt-15">
+                              <div class="comments__header">
+                                <h4 class="text-17 fw-500 lh-15">
+                                  {{ review.student.first_name }} {{ review.student.last_name }}
+                                  {% comment %} <span class="text-13 text-light-1 fw-400">{{ review.created_at }}</span> {% endcomment %}
+                                </h4>
+                              </div>
+
+                              <div class="comments__text mt-10">
+                                <p>{{ review.message }}</p>
+                              </div>
+                            </div>
+                          </div>
+                        </li>
+
+                      {% endfor %}
+
+                      {% if user.is_authenticated and user_review %}
+
+                        <div class="respondForm pt-30">
+                          <h3 class="text-20 fw-500">
+                            Rəy əlavə et
+                          </h3>
+
+                          <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30" action="#">
+
+                            {% csrf_token %}
+
+                            <div class="col-12">
+                              <label for="id_message" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ feedback_form.message.label }}</label>
+                              {{ feedback_form.message }}
+                            </div>
+                            <div class="col-12">
+                              <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
+                                Əlavə et
+                              </button>
+                            </div>
+                          </form>
+
+                        </div>
+
+                      {% endif %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+
+              <div class="accordion__item">
+                <div class="accordion__button">
+                  <div class="accordion__icon">
+                    <div class="icon" data-feather="plus"></div>
+                    <div class="icon" data-feather="minus"></div>
+                  </div>
+                  <span class="text-17 fw-500 text-dark-1">Müraciət et</span>
+                </div>
+
+                <div class="accordion__content">
+                  <div class="accordion__content__inner">
+                    <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30">
+
+                      {% csrf_token %}
+                      {{ request_form.as_hidden }}
+                      <div class="col-md-6">
+                        <label for="id_fullname" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.fullname.label }}</label>
+                        {{ request_form.fullname }}
                       </div>
+                      <div class="col-md-6">
+                        <label for="id_phone_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.phone_number.label }}</label>
+                        {{ request_form.phone_number }}
+                      </div>
+                      <div class="col-12" style="display: none;">
+                        <label for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ request_form.course.label }}</label>
+                        {{ request_form.course }}
+                      </div>
+                      <div class="col-12">
+                        <button type="submit" name="submit" id="submit" class="button -md -purple-1 text-white">
+                          Əlavə et
+                        </button>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
 
-                      <div class="tabs__pane -tab-item-6">
+              <div class="accordion__item">
+                <div class="accordion__button">
+                  <div class="accordion__icon">
+                    <div class="icon" data-feather="plus"></div>
+                    <div class="icon" data-feather="minus"></div>
+                  </div>
+                  <span class="text-17 fw-500 text-dark-1">Şəkillər</span>
+                </div>
 
-                        <h3 class="text-20 fw-500">
-                          Videolar
-                        </h3>
-                          <div class="respondForm pt-30">
-                            <div>
-                              <div class="relative pt-40">
-                              {% for i in videos %}
-                              
-                                <iframe class="w-2/2" width="49%" height="200px" src="{{ i.video_url }}" frameborder="0" allowfullscreen></iframe>
-                                {% comment %} <div class="absolute-full-center d-flex justify-center items-center">
-                                  <a href="{{ i.video_url }}" class="d-flex justify-center items-center size-60 rounded-full bg-white js-gallery" data-gallery="gallery1">
-                                    <div class="icon-play text-18"></div>
+                <div class="accordion__content">
+                  <div class="accordion__content__inner">
+                    <div class="respondForm pt-30 d-flex " style="flex-wrap:wrap">
+
+                      {% for i in galleries %}
+                        <div data-category-id="{{ forloop.counter }}" style="margin:5px;">
+                          <div class="" >
+                            <div class="blogCard__image">
+
+                              <ul class="gallery__list">
+                                <li class="gallery__item" style="float: left;">
+                                  <a href="{{ i.photo.url }}" data-lightbox="group1" data-title="">
+                                    <img src="{{ i.photo.url }}" alt="" style="width: 250px; height: 160px; object-fit: cover; float: left;">
                                   </a>
-                                </div> {% endcomment %}
-                              
-                              {% endfor %}
-                            </div>
+                                </li>
+                              </ul>
                             </div>
                           </div>
-
-                      </div>
-
-
+                        </div>
+                      {% endfor %}
                     </div>
                   </div>
                 </div>
               </div>
-            </div>
+
+              <div class="accordion__item">
+                <div class="accordion__button">
+                  <div class="accordion__icon">
+                    <div class="icon" data-feather="plus"></div>
+                    <div class="icon" data-feather="minus"></div>
+                  </div>
+                  <span class="text-17 fw-500 text-dark-1">Videolar</span>
+                </div>
+
+                <div class="accordion__content">
+                  <div class="accordion__content__inner">
+                    <div class="respondForm pt-30">
+                      <div>
+                        <div class="relative pt-40">
+                          {% for i in videos %}
+                            <iframe class="w-2/2" width="49%" height="200px" src="{{ i.video_url }}" frameborder="0" allowfullscreen></iframe>
+                          {% endfor %}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
           </div>
         </section>
 
