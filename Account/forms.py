@@ -30,6 +30,11 @@ class LoginForm(AuthenticationForm):
         )
     )
 
+    error_messages = {
+        'invalid_login': "Daxil etdiyiniz İD kod və ya şifrə yanlışdır. Zəhmət olmasa, doğru daxil edin.",
+        'inactive': "Hesabınız aktiv deyil.",
+    }
+
 
 # CHANGE PASSWORD FORM
 class ChangePasswordForm(PasswordChangeForm):
@@ -55,12 +60,12 @@ class ChangePasswordForm(PasswordChangeForm):
     error_messages = {
         'password_incorrect': 'Cari şifrə yanlışdır. Zəhmət olmasa, düzgün daxil edin.',
         'password_mismatch': 'Yeni şifrələr uyğun gəlmir. Zəhmət olmasa, təkrar daxil edin.',
-        'password_invalid': 'Yeni şifrə etibarsızdır. Zəhmət olmasa, başqa bir şifrə seçin.',
-        'password_same_as_username': 'Şifrə istifadəçi adı ilə eyni ola bilməz. Zəhmət olmasa, başqa bir şifrə seçin.',
-        'password_too_common': 'Şifrə çox yayğın və rahatlıqla təxmin edilə bilən bir şifrədir. Zəhmət olmasa, daha güclü bir şifrə seçin.',
-        'password_entirely_numeric': 'Şifrə tamamilə rəqəmlərdən ibarət ola bilməz. Zəhmət olmasa, daha çeşidlənmiş bir şifrə seçin.',
-        'password_too_short': 'Şifrə çox qısa. Zəhmət olmasa, minimum 8 simvol daxil edin.',
-        'password_common_sequences': 'Şifrədə yayğın ardıcıllıqlardan istifadə etmək təhlükəlidir. Zəhmət olmasa, daha güclü bir şifrə seçin.',
+        # 'password_invalid': 'Yeni şifrə etibarsızdır. Zəhmət olmasa, başqa bir şifrə seçin.',
+        # 'password_same_as_username': 'Şifrə istifadəçi adı ilə eyni ola bilməz. Zəhmət olmasa, başqa bir şifrə seçin.',
+        # 'password_too_common': 'Şifrə çox yayğın və rahatlıqla təxmin edilə bilən bir şifrədir. Zəhmət olmasa, daha güclü bir şifrə seçin.',
+        # 'password_entirely_numeric': 'Şifrə tamamilə rəqəmlərdən ibarət ola bilməz. Zəhmət olmasa, daha çeşidlənmiş bir şifrə seçin.',
+        # 'password_too_short': 'Şifrə çox qısa. Zəhmət olmasa, minimum 8 simvol daxil edin.',
+        # 'password_common_sequences': 'Şifrədə yayğın ardıcıllıqlardan istifadə etmək təhlükəlidir. Zəhmət olmasa, daha güclü bir şifrə seçin.',
     }
 
 
