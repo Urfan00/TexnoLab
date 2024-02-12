@@ -93,7 +93,7 @@
                       <div class="col-auto">
                         <div class="pagination__item {% if forloop.first %} is-active{% endif %}">
                             {% comment %} <img width="60px" height="60px" {% if f_img.image %} src="{{ f_img.image.url }}" {% endif %} alt="image"> {% endcomment %}
-                            <img width="60px" height="60px" {% if f_img.image %} src="{{ f_img.image.url }}" {% else %} src="{% static 'img/avatars/user-default.png' %}" {% endif %} alt="image">
+                            <img class="rounded-full" style="width: 85px; height: 85px;" {% if f_img.image %} src="{{ f_img.image.url }}" {% else %} src="{% static 'img/avatars/user-default.png' %}" {% endif %} alt="image">
                         </div>
                       </div>
                     {% endfor %}
