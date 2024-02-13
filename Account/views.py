@@ -86,36 +86,18 @@ class ResetPasswordConfirmView(PasswordResetConfirmView):
     success_url = reverse_lazy('logout')
 
 
-class AccountInformationView(AuthStudentPageMixin, View):
+class AccountInformationView(LoginRequiredMixin, View):
     model = Account
     template_name = 'dshb-settings.html'
 
     def get_context_data(self):
         context = {}
-        g_query = self.request.GET.get('state', '')
 
-        context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
-        context["results"] = StudentResult.objects.filter(student=self.request.user).annotate(
-            percent_point = F('total_point') * 5
-        ).order_by('-created_at').all()
+        position = self.request.user.staff_status 
+        context['position'] = position
 
-        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
-        if user_account:
-            teacher_courses = user_account.staff_course.values_list('course', flat=True)
-            groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
-            context['groups'] = groups
-            if g_query:
-                course_students = CourseStudent.objects.filter(group=g_query, group_student_is_active=True)
-
-                context['topics'] = Group.objects.filter(id=g_query).first()
-
-                context['group_result'] = StudentResult.objects.filter(student__in=course_students.values_list('student', flat=True), status=True).annotate(
-                    percent_point = F('total_point') * 5
-                ).order_by('-percent_point').all()
-
-                context['old_group_result'] = StudentResult.objects.filter(student__in=course_students.values_list('student', flat=True), status=False).annotate(
-                    percent_point = F('total_point') * 5
-                ).order_by('exam_topics__id').all()
+        if position == 'Tələbə':
+            context["my_course"] = CourseStudent.objects.filter(student=self.request.user)
 
         return context
 
@@ -141,7 +123,8 @@ class AccountInformationView(AuthStudentPageMixin, View):
             user_account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')
-        elif form2.is_valid():
+
+        if form2.is_valid():
             user_account = Account.objects.get(pk=request.user.pk)
             user_account.instagram = form2.cleaned_data.get('instagram')
             user_account.twitter = form2.cleaned_data.get('twitter')
@@ -152,9 +135,9 @@ class AccountInformationView(AuthStudentPageMixin, View):
             user_account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')
-        else:
-            messages.error(request, 'Məlumatlarınız yenilənmədi')
-            return redirect('profile')
+
+        messages.error(request, 'Məlumatlarınız yenilənmədi')
+        return redirect('profile')
 
 
 class ResultView(AuthSuperUserTeacherMixin, ListView):

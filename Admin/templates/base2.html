@@ -308,7 +308,7 @@
 
               {% endif %}
 
-              {% if user.staff_status == 'Tələbə' %}
+              {% comment %} {% if user.staff_status == 'Tələbə' %} {% endcomment %}
 
                 {% url 'profile' as profile %}
                 <div class="sidebar__item {% if request.path == profile or request.path|slice:'/-' == profile %}-is-active{% endif %}">
@@ -318,7 +318,7 @@
                   </a>
                 </div>
 
-              {% endif %}
+              {% comment %} {% endif %} {% endcomment %}
 
               {% if user.staff_status == 'Mentor' %}
 
@@ -500,6 +500,14 @@
                 </div>
 
               {% endif %} {% endcomment %}
+
+              {% url 'change_password' as change_password %}
+              <div class="sidebar__item {% if request.path == change_password or request.path|slice:'/-' == change_password %}-is-active{% endif %}">
+                <a href="{% url "change_password" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                  <i class="text-20 icon-list mr-15"></i>
+                  Şifrə Yenilə
+                </a>
+              </div>
 
               {% url 'logout' as logout %}
               <div class="sidebar__item {% if request.path == logout or request.path|slice:'/-' == logout %}-is-active{% endif %}">

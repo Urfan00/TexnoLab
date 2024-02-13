@@ -35,29 +35,19 @@
                         <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
                           Profili yenilə
                         </button>
-                        {% if user.staff_status == 'Tələbə' %}
+                        {% if position == 'Tələbə' %}
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
                             Sosial şəbəkələr
                           </button>
                         {% endif %}
-                        {% if user.staff_status == 'Tələbə' %}
+                        {% if position == 'Tələbə' %}
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab3" data-tab-target=".-tab-item-3" type="button">
                             Mənim təlimlərim
                           </button>
                         {% endif %}
-                        {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
-                          Mənim sertifikatlarım
-                        </button> {% endcomment %}
-                        {% comment %} {% if user.staff_status == 'Tələbə' %}
-                          <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
-                            İmtahan Nəticələrim
-                          </button>
-                        {% endif %} {% endcomment %}
-                        {% comment %} {% if user.staff_status == 'Müəllim' %}
-                          <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab6" data-tab-target=".-tab-item-6" type="button">
-                            Nəticələr
-                          </button>
-                        {% endif %} {% endcomment %}
+                          {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
+                            Mənim sertifikatlarım
+                          </button> {% endcomment %}
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
@@ -97,21 +87,24 @@
                                   <br>{{ form1.image }}
                                 </div>
   
-                                {% if user.is_staff == False and user.is_superuser == False %}
+                                {% if position == 'Tələbə' %}
                                 <div class="col-md-12">
                                   <label for="id_feedback" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.feedback.label }}</label>
                                   {{ form1.feedback }}
                                 </div>
                                 {% endif %}
+
                                 <div class="col-md-12">
                                   <label for="id_bio" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.bio.label }}</label>
                                   {{ form1.bio }}
                                 </div>
 
-                                <div class="col-md-12">
-                                  <label for="id_cv" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.cv.label }}: </label>
-                                  {{ form1.cv }}
-                                </div>
+                                {% if position == 'Tələbə' %}
+                                  <div class="col-md-12">
+                                    <label for="id_cv" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.cv.label }}: </label>
+                                    {{ form1.cv }}
+                                  </div>
+                                {% endif %}
 
                             <div class="col-12">
                               <button class="button -md -dark-1 text-white">Yenilə</button>
@@ -327,109 +320,6 @@
 
 
                         </div> {% endcomment %}
-
-                        {% comment %} {% if user.staff_status == 'Tələbə' %}
-                          <div class="tabs__pane -tab-item-5" data-pane="tab5">
-
-                            <div class="tDiv">
-                              <div class="table-responsive">
-                                <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th>№</th>
-                                      <th>Təlim</th>
-                                      <th>Mövzu</th>
-                                      <th>Nəticə</th>
-                                      <th>Bal</th>
-                                      <th>Tarix</th>
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-
-                                    {% for result in results %}
-                                      <tr>
-                                        <td class="tc">{{ forloop.counter }}</td>
-                                        <td class="tc">{{ result.exam_topics.course.title|capfirst }}</td>
-                                        <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
-                                        <td class="tc">{{ result.percent_point }} %</td>
-                                        <td class="tc">{{ result.total_point }} bal</td>
-                                        <td class="tc">{{ result.created_at }}</td>
-                                      </tr>
-                                    {% endfor %}
-
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-
-                          </div>
-                        {% endif %} {% endcomment %}
-
-                        <!--{% if user.staff_status == 'Müəllim' %}
-                          <div class="tabs__pane -tab-item-6" data-pane="tab6">
-                            <div class="row y-gap-10 ">
-                              <div class="col-auto">
-                                <form class="search-field border-light rounded-8 h-50" action="." method="get">
-                                  <select class="js-example-basic-single" name="state" onchange="this.form.submit()" style="min-width: 200px;">
-                                    <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
-                                    {% for topic in groups %}
-                                      <option value="{{ topic.id }}" {% if topic.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ topic.name|capfirst }}</option>
-                                    {% endfor %}
-                                  </select>
-                                </form>
-                              </div>
-                            </div>
-
-                            <style>
-                              .tDiv{
-                                width:100%;
-                                overflow-x:scroll;
-                              }
-                            </style>
-
-                            <div class="tDiv py-30">
-                              <div class="table-responsive">
-                                <table class="table">
-                                  <thead>
-                                    <tr>
-                                      <th>№</th>
-                                      <th>Ad Soyad</th>
-                                      <th>Nəticə</th>
-                                      <th>Ortalama</th>
-                                      {% for topic in topics.all_course_topics.all %}
-                                        <th>{{ topic.topic_title|capfirst }}</th>
-                                      {% endfor %}
-                                    </tr>
-                                  </thead>
-                                  <tbody>
-
-                                    {% for result in group_result %}
-                                      <tr style="background-color: {% if result.percent_point == 100 %}lime{% elif result.percent_point >= 90 %}yellow{% elif result.percent_point >= 80 %}#e88030{% endif %};">
-                                        <td class="tc">{{ forloop.counter }}</td>
-                                        <td class="tc">{{ result.student.get_full_name|capfirst }}</td>
-                                        <td class="tc">{{ result.percent_point }} %</td>
-                                        <td class="tc">{{ result.percent_point }} %%%%</td>
-                                        {% for old_result in old_group_result %}
-                                          {% comment %} {% for topic in topics.all_course_topics.all %}
-                                            {% if old_result.exam_topics.topic_title == topic.topic_title %} {% endcomment %}
-                                              <td class="tc">{{ old_result.exam_topics.topic_title|capfirst }}</td>
-                                            {% comment %} {% endif %}
-                                          {% endfor %} {% endcomment %}
-                                            {% comment %} <td class="tc"></td> {% endcomment %}
-                                        {% endfor %}
-                                      
-
-
-                                      </tr>
-                                    {% endfor %}
-
-                                  </tbody>
-                                </table>
-                              </div>
-                            </div>
-
-                          </div>
-                        {% endif %}-->
 
                       </div>
                     </div>
