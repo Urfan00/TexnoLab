@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import LAB, CourseStudent, Group, MentorLabEvaluation, RandomQuestion, StudentAnswer, StudentResult, TeacherEvaluation
+from .models import LAB, CourseStudent, Group, MentorLabEvaluation, RandomQuestion, StudentAnswer, StudentResult, TeacherEvaluation, TeacherLastLabPoint
 from import_export.admin import ImportExportModelAdmin
 
 
@@ -58,8 +58,15 @@ class MentorLabEvaluationAdmin(ImportExportModelAdmin):
     search_fields = ['student__first_name', 'student__last_name', 'student__email', 'lab__name']
 
 
+class TeacherLastLabPointAdmin(ImportExportModelAdmin):
+    list_display = ['id', 'student', 'teacher', 'last_lab_point', 'student_group', 'created_at', 'updated_at']
+    list_display_links = ['id', 'student', 'teacher']
+    search_fields = ['student__first_name', 'student__last_name', 'teacher__first_name', 'teacher__last_name']
 
 
+
+
+admin.site.register(TeacherLastLabPoint, TeacherLastLabPointAdmin)
 admin.site.register(StudentResult, StudentResultAdmin)
 admin.site.register(StudentAnswer, StudentAnswerAdmin)
 admin.site.register(RandomQuestion, RandomQuestionAdmin)

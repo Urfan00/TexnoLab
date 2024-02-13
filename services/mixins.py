@@ -139,3 +139,18 @@ class AuthSuperUserCoordinatorTeacherMixin:
             # User is not authenticated, redirect to login page
             return redirect('login')
 
+
+# ONLY Müəllim & Mentor
+class AuthTeacherMentorMixin:
+    def dispatch(self, request, *args, **kwargs):
+        # Check if the user is authenticated
+        if request.user.is_authenticated:
+            # Check if the user is teacher
+            if request.user.staff_status == 'Müəllim' or request.user.staff_status == 'Mentor':
+                return super().dispatch(request, *args, **kwargs)
+            else:
+                # User is authenticated but not teacher, redirect to 404 page
+                return render(request, '404.html')
+        else:
+            # User is not authenticated, redirect to login page
+            return redirect('login')

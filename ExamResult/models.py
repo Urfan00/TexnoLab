@@ -155,3 +155,17 @@ class MentorLabEvaluation(DateMixin):
     class Meta:
         verbose_name = 'Mentor Lab Evaluation'
         verbose_name_plural = 'Mentor Lab Evaluation'
+
+
+class TeacherLastLabPoint(DateMixin):
+    student_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='lab_point_student_group')
+    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='last_lab_point_student')
+    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='last_lab_point_teacher')
+    last_lab_point = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.student.get_full_name()
+
+    class Meta:
+        verbose_name = 'Teacher Last Lab Point'
+        verbose_name_plural = 'Teacher Last Lab Point'

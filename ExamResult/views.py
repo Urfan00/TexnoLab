@@ -1,15 +1,17 @@
+from typing import Any
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import ListView
 from Account.models import Account
 from Exam.models import CourseTopic
-from services.mixins import AuthMentorMixin, AuthTeacherMixin
-from .models import LAB, CourseStudent, Group, MentorLabEvaluation, RandomQuestion, StudentResult, TeacherEvaluation
+from services.mixins import AuthMentorMixin, AuthTeacherMentorMixin, AuthTeacherMixin
+from .models import LAB, CourseStudent, Group, MentorLabEvaluation, RandomQuestion, StudentResult, TeacherEvaluation, TeacherLastLabPoint
 from django.utils import timezone
-from django.http import JsonResponse
+from django.http import HttpRequest, HttpResponse, JsonResponse
 from datetime import datetime
 from django.db.models import OuterRef, Exists, FloatField, Value, Subquery
 from django.db.models.functions import Coalesce
+from django.contrib import messages
 
 
 
@@ -168,57 +170,86 @@ class GivePointView(View):
         return redirect(request.META.get('HTTP_REFERER'))
 
 
-class MentorLabEvaluationView(AuthMentorMixin, ListView):
+class MentorLabEvaluationView(AuthTeacherMentorMixin, ListView):
     model = Account
     template_name = "dshb-lab-evaluation.html"
 
+    def post(self, request, *args, **kwargs):
+        student_id = self.request.GET.get('student', '')
+        group_id = self.request.GET.get('state')
+        teacher = self.request.user
+        last_lab_point = request.POST.get('teacherLastLabPoint')
+
+        student = get_object_or_404(Account, id=student_id)
+        group = get_object_or_404(Group, id=group_id)
+
+        if student and teacher and last_lab_point:
+            if last_lab_point == '0' or last_lab_point == '100':
+                if not TeacherLastLabPoint.objects.filter(student=student, student_group=group).exists():
+                    TeacherLastLabPoint.objects.create(student_group=group, student=student, teacher=teacher, last_lab_point=last_lab_point)
+                    messages.success(request, 'Bal uğurla verildi.')
+            else:
+                messages.error(request, 'Ancaq 0 və 100 bal vermək olar.')
+
+        return redirect(request.META.get('HTTP_REFERER'))
+
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Mentor').first()
-        if user_account:
-            teacher_courses = user_account.staff_course.values_list('course', flat=True)
-            groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
 
-            context['groups'] = groups
-            state = self.request.GET.get('state', '')
-            lab = self.request.GET.get('lab', '')
-            st = self.request.GET.get('student', '')
+        user = Account.objects.filter(id=self.request.user.id).first()
 
-            if state:
-                students = CourseStudent.objects.filter(
-                    group__id=state,
-                    is_active=False,
-                    is_deleted=False,
-                    group_student_is_active=True,
-                    is_keb=False
-                ).annotate(
-                    has_lab_evaluation=Coalesce(
-                        Subquery(
-                            MentorLabEvaluation.objects.filter(
-                                student__id=OuterRef('student__id'),
-                                lab__id=lab
-                            ).values('point')[:1]
-                        ),
-                        Value(0),
-                        output_field=FloatField()
-                    )
-                ).all()
+        # user_account = Account.objects.filter(id=self.request.user.id, staff_status='Mentor').first()
+        if user:
+            if user.staff_status == 'Mentor' or user.staff_status == 'Müəllim':
+                teacher_courses = user.staff_course.values_list('course', flat=True)
+                groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
 
-                context['students'] = students
+                context['groups'] = groups
+                state = self.request.GET.get('state', '')
+                lab = self.request.GET.get('lab', '')
+                st = self.request.GET.get('student', '')
 
-                labs = LAB.objects.filter(course__course_group__id=state, is_deleted=False).annotate(
-                    lab_points=Coalesce(
-                        Subquery(
-                            MentorLabEvaluation.objects.filter(
-                                lab=OuterRef('pk'), student__id=st
-                            ).values('point')[:1]
-                        ),
-                        Value(0),
-                        output_field=FloatField()
-                    )
-                ).all()
+                if state:
+                    if st and st != '0':
+                        student = get_object_or_404(Account, id=st)
+                        group = get_object_or_404(Group, id=state)
 
-                context['labs'] = labs
+                        context['is_last_lab_point'] = TeacherLastLabPoint.objects.filter(student=student, student_group=group).exists()
+
+                    students = CourseStudent.objects.filter(
+                        group__id=state,
+                        is_active=False,
+                        is_deleted=False,
+                        group_student_is_active=True,
+                        is_keb=False
+                    ).annotate(
+                        has_lab_evaluation=Coalesce(
+                            Subquery(
+                                MentorLabEvaluation.objects.filter(
+                                    student__id=OuterRef('student__id'),
+                                    lab__id=lab
+                                ).values('point')[:1]
+                            ),
+                            Value(2),
+                            output_field=FloatField()
+                        )
+                    ).all()
+
+                    context['students'] = students
+
+                    labs = LAB.objects.filter(course__course_group__id=state, is_deleted=False).annotate(
+                        lab_points=Coalesce(
+                            Subquery(
+                                MentorLabEvaluation.objects.filter(
+                                    lab=OuterRef('pk'), student__id=st
+                                ).values('point')[:1]
+                            ),
+                            Value(2),
+                            output_field=FloatField()
+                        )
+                    ).all()
+
+                    context['labs'] = labs
 
             return context
 

@@ -5,7 +5,19 @@
 <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
+<style>
+  .lab-select {
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 20px;
+  }
 
+  .lab-button {
+    padding: 7px 15px;
+    border-radius: 20px;
+    background-color: #140342;
+  }
+</style>
 <div class="dashboard__main">
   <div class="dashboard__content bg-light-4">
     <div class="row pb-50 mb-10">
@@ -13,7 +25,7 @@
 
         {% comment %} <h1 class="text-30 lh-12 fw-700">İmtahan Qaydaları - <i>{{ student.get_full_name|capfirst }}</i></h1> {% endcomment %}
         <h1 class="text-30 lh-12 fw-700">Mühəndis işi</h1>
-
+        {% include "messages.html" %}
       </div>
     </div>
     <div class="row y-gap-30">
@@ -28,7 +40,7 @@
                   <div class="row x-gap-10 items-center py-25">
                     
                     <form class="d-flex x-gap-20" action="." method="get" style="width: 100%;">
-                      <div class="col-lg-2">
+                      <div class="col-lg-3">
                         <div class="d-flex items-center">
                           <select class="js-example-basic-single" name="state" onchange="updateSelect(this, 'student'); this.form.submit()" id="groupSelect" style="width: 100%;">
                             <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
@@ -38,7 +50,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-lg-2">
+                      <div class="col-lg-3">
                         <div class="d-flex items-center">
                           <select class="js-example-basic-single2" name="student" onchange="updateSelect(this, 'lab'); this.form.submit()" style="width: 100%;">
                             <option value="0" {% if request.GET.student == 0 %}selected{% endif %}>------</option>
@@ -48,7 +60,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-lg-2">
+                      <div class="col-lg-3">
                         <div class="d-flex items-center">
                           <select class="js-example-basic-single3" name="lab" onchange="updateSelect(this, 'student'); this.form.submit()" style="width: 100%;">
                             <option value="0" {% if request.GET.lab == 0 %}selected{% endif %}>------</option>
@@ -73,27 +85,38 @@
                             <form method="post">
                               {% csrf_token %}
                               <button type="button" data-lab-id="{{ lab.id }}"
-                              {% if lab.lab_points == 0 %}onclick="choosePoints(this)"{% endif %}
+                              {% if lab.lab_points == 2 %}onclick="choosePoints(this)"{% endif %}
                                       class="text-dark px-10 py-10"
-                                      style="border: 1px solid #aaa; border-radius: 5px;{% if lab.lab_points == 0.5 %} background-color: orange; {% elif lab.lab_points == 1 %} background-color: lime; {% endif %}">
-                                  {{ lab.name|capfirst }} <br> Bal: {{ lab.lab_points }}
+                                      style="border: 1px solid #aaa; border-radius: 5px;{% if lab.lab_points == 0.5 %} background-color: orange; {% elif lab.lab_points == 1 %} background-color: lime; {% elif lab.lab_points == 0 %} background-color: red; {% endif %}">
+                                  {{ lab.name|capfirst }} <br> Bal: {% if lab.lab_points != 2 %}{{ lab.lab_points }}{% endif %}
                               </button>
                               <input type="hidden" name="give_points" value="0">
                               <input type="submit" style="display: none;">
                             </form>
                           </div>
                         </div>
-                      {% endfor %}
+                        {% endfor %}
+                        {% if user.staff_status == 'Müəllim' and is_last_lab_point == False %}
+                          <form method="post">
+                            {% csrf_token %}
+                            <select name="teacherLastLabPoint" class="col-xl-3 col-md-6 mt-20 lab-select">
+                              <option value="">------</option>
+                              <option value="0">0</option>
+                              <option value="100">100</option>
+                            </select>
+                            <button type="submit" class="lab-button text-white ml-20">Göndər</button>
+                          </form>
+                        {% endif %}
                     {% elif request.GET.lab != '0' and request.GET.student == '0' %}
                         {% for student in students %}
                             <div class="col-xl-3 col-6 mt-10">
                                 <div class="d-flex align-items-center">
                                     <form method="post">
                                         {% csrf_token %}
-                                        <button type="button" data-student-id="{{ student.student.id }}" {% if student.has_lab_evaluation == 0.0 %}onclick="choosePoints(this)"{% endif %}
+                                        <button type="button" data-student-id="{{ student.student.id }}" {% if student.has_lab_evaluation == 2 %}onclick="choosePoints(this)"{% endif %}
                                                 class="text-dark px-10 py-10"
-                                                style="border: 1px solid #aaa; border-radius: 5px;{% if student.has_lab_evaluation == 1 %} background-color: lime; {% elif student.has_lab_evaluation == 0.5  %} background-color: orange; {% endif %}">
-                                            {{ student.student.get_full_name|capfirst }} <br> Bal: {{ student.has_lab_evaluation }}
+                                                style="border: 1px solid #aaa; border-radius: 5px;{% if student.has_lab_evaluation == 1 %} background-color: lime; {% elif student.has_lab_evaluation == 0.5  %} background-color: orange; {% elif student.has_lab_evaluation == 0 %} background-color: red; {% endif %}">
+                                            {{ student.student.get_full_name|capfirst }} <br> Bal: {% if student.has_lab_evaluation != 2 %}{{ student.has_lab_evaluation }}{% endif %}
                                         </button>
                                         <input type="hidden" name="give_points" value="0">
                                         <input type="submit" style="display: none;">
@@ -139,7 +162,7 @@
     var pointsInput = form.querySelector('input[name="give_points"]');
     var submitButton = form.querySelector('input[type="submit"]');
 
-    var points = prompt("Choose points (0, 0.5, 1):");
+    var points = prompt("Bal seçin (0, 0.5, 1):");
     if (points !== null && (points === '0' || points === '0.5' || points === '1')) {
       // Set the chosen points in the hidden input
       pointsInput.value = points;
@@ -167,8 +190,6 @@
 
       console.log(sendData)
 
-
-
       $.ajax({
         type: 'POST',
         url: '/mentor_evaluation/',
@@ -186,7 +207,7 @@
         }
       });
     } else {
-      alert("Invalid input or canceled. Please choose points (0, 0.5, 1).");
+      alert("Yanlış daxiletmə və ya ləğv edilib. Zəhmət olmasa balı seçin (0, 0.5, 1).");
     }
   }
 </script>
