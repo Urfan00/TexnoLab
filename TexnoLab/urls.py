@@ -32,5 +32,6 @@ urlpatterns = [
     path('', include('TIM.urls')),
     path('', include('Exam.urls')),
     path('', include('ExamResult.urls')),
+    path('', include('Sxem.urls')),
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 

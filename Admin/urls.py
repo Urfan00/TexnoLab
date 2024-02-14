@@ -108,6 +108,11 @@ from .views import (AdminAboutContactInfoListView,
                     AdminStaffAccountUndeleteView,
                     AdminSubscriberDeleteView,
                     AdminSubscriberView,
+                    AdminSxemAddView,
+                    AdminSxemDeleteView,
+                    AdminSxemEditView,
+                    AdminSxemImagesDeleteView,
+                    AdminSxemUndeleteView,
                     AdminTIMImageAddView,
                     AdminTIMImageDeleteView,
                     AdminTIMListView,
@@ -349,10 +354,17 @@ urlpatterns = [
 
     # Sxem & Lab
     path('sxem_lab_dashboard/', AdminSXEMLABListView.as_view(), name='sxem_lab_dashboard'),
+
     path('lab_add/', AdminLABAddView.as_view(), name='lab_add'),
     path('lab_edit/<int:pk>', AdminLABEditView.as_view(), name='lab_edit'),
     path('lab/<int:pk>/delete/', AdminLABDeleteView.as_view(), name='lab_delete'),
     path('lab/<int:pk>/undelete/', AdminLABUndeleteView.as_view(), name='lab_undelete'),
 
+    path('sxem_add/', AdminSxemAddView.as_view(), name='sxem_add'),
+    path('sxem_edit/<int:pk>', AdminSxemEditView.as_view(), name='sxem_edit'),
+    path('sxem/<int:pk>/delete/', AdminSxemDeleteView.as_view(), name='sxem_delete'),
+    path('sxem/<int:pk>/undelete/', AdminSxemUndeleteView.as_view(), name='sxem_undelete'),
+
+    path('sxem_image/<int:pk>/', AdminSxemImagesDeleteView.as_view(), name='sxem_image'),
 
 ]

@@ -10,6 +10,7 @@ from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomeP
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
+from Sxem.models import Sxem, SxemImages
 from TIM.models import TIM, TIMImage, TIMVideo
 from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin, AuthSuperUserMixin, AuthSuperUserTeacherMixin
 from .forms import (AboutUsEditForm,
@@ -36,7 +37,7 @@ from .forms import (AboutUsEditForm,
                     ServiceHomeEditForm,
                     ServiceImageEditForm,
                     ServiceVideoEditForm,
-                    StaffAccountEditForm,
+                    StaffAccountEditForm, SxemEditForm,
                     TIMEditForm,
                     TIMImageEditForm,
                     TIMVideoEditForm)
@@ -2485,9 +2486,14 @@ class AdminSXEMLABListView(AuthSuperUserMixin, ListView):
         context = super().get_context_data(**kwargs)
         l_query = self.request.GET.get('l', '')
         sl_query = self.request.GET.get('sl', '')
+        s_query = self.request.GET.get('s', '')
+        ss_query = self.request.GET.get('ss', '')
 
         labs = LAB.objects.filter(is_deleted=False).order_by('-created_at').all()
         d_labs = LAB.objects.filter(is_deleted=True).order_by('-created_at').all()
+
+        sxems = Sxem.objects.filter(is_deleted=False).order_by('-created_at').all()
+        d_sxems = Sxem.objects.filter(is_deleted=True).order_by('-created_at').all()
 
         if l_query:
             labs = labs.filter(
@@ -2497,14 +2503,25 @@ class AdminSXEMLABListView(AuthSuperUserMixin, ListView):
             d_labs = d_labs.filter(
                 Q(name__icontains=sl_query) | Q(course__title__icontains=sl_query)
             )
+        elif s_query:
+            sxems = sxems.filter(
+                Q(sxem_title__icontains=s_query) | Q(course__title__icontains=s_query)
+            )
+        elif ss_query:
+            d_sxems = d_sxems.filter(
+                Q(sxem_title__icontains=ss_query) | Q(course__title__icontains=ss_query)
+            )
 
         context["labs"] = labs
         context["d_labs"] = d_labs
+        context["sxems"] = sxems
+        context["d_sxems"] = d_sxems
 
         return context
 
 
-class AdminLABAddView(AuthSuperUserCoordinatorMixin, CreateView):
+# LAB
+class AdminLABAddView(AuthSuperUserMixin, CreateView):
     model = LAB
     template_name = 'sxem_lab/lab/dshb-lab-add.html'
     form_class = LABEditForm
@@ -2521,7 +2538,7 @@ class AdminLABAddView(AuthSuperUserCoordinatorMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminLABEditView(AuthSuperUserCoordinatorMixin, CreateView):
+class AdminLABEditView(AuthSuperUserMixin, CreateView):
     model = LAB
     template_name = 'sxem_lab/lab/dshb-lab-edit.html'
 
@@ -2547,7 +2564,7 @@ class AdminLABEditView(AuthSuperUserCoordinatorMixin, CreateView):
             return redirect('sxem_lab_dashboard')
 
 
-class AdminLABDeleteView(AuthSuperUserCoordinatorMixin, View):
+class AdminLABDeleteView(AuthSuperUserMixin, View):
     def post(self, request, *args, **kwargs):
         lab_id = kwargs.get('pk')
         lab = get_object_or_404(LAB, pk=lab_id)
@@ -2557,7 +2574,7 @@ class AdminLABDeleteView(AuthSuperUserCoordinatorMixin, View):
         return redirect('sxem_lab_dashboard')
 
 
-class AdminLABUndeleteView(AuthSuperUserCoordinatorMixin, View):
+class AdminLABUndeleteView(AuthSuperUserMixin, View):
     def post(self, request, pk, *args, **kwargs):
         lab = get_object_or_404(LAB, pk=pk)
         lab.is_deleted = False
@@ -2565,3 +2582,73 @@ class AdminLABUndeleteView(AuthSuperUserCoordinatorMixin, View):
         messages.success(request, 'Mühəndis işi uğurla bərpa olundu')
         return redirect('sxem_lab_dashboard')
 
+
+# Sxem
+class AdminSxemAddView(AuthSuperUserMixin, CreateView):
+    model = Sxem
+    template_name = 'sxem_lab/sxem/dshb-sxem-add.html'
+    form_class = SxemEditForm
+    success_url = reverse_lazy('sxem_lab_dashboard')
+
+    def form_valid(self, form):
+        # Save the Sxem instance
+        sxem_instance = form.save(commit=False)
+        sxem_instance.save()
+
+        # Save each image
+        for image in self.request.FILES.getlist('image'):
+            sxem_image = SxemImages(sxem=sxem_instance, image=image)
+            sxem_image.save()
+
+        return super().form_valid(form)
+
+
+class AdminSxemEditView(AuthSuperUserMixin, UpdateView):
+    model = Sxem
+    template_name = 'sxem_lab/sxem/dshb-sxem-edit.html'
+    form_class = SxemEditForm
+    success_url = reverse_lazy('sxem_lab_dashboard')
+
+    def form_valid(self, form):
+        # Save the Sxem instance
+        sxem_instance = form.save(commit=False)
+        sxem_instance.save()
+
+        # Save each image
+        for image in self.request.FILES.getlist('image'):
+            sxem_image = SxemImages(sxem=sxem_instance, image=image)
+            sxem_image.save()
+
+        return super().form_valid(form)
+
+
+class AdminSxemDeleteView(AuthSuperUserMixin, View):
+    def post(self, request, *args, **kwargs):
+        sxem_id = kwargs.get('pk')
+        sxem = get_object_or_404(Sxem, pk=sxem_id)
+        sxem.is_deleted = True
+        sxem.save()
+        messages.success(request, 'Sxem uğurla silindi')
+        return redirect('sxem_lab_dashboard')
+
+
+class AdminSxemUndeleteView(AuthSuperUserMixin, View):
+    def post(self, request, pk, *args, **kwargs):
+        sxem = get_object_or_404(Sxem, pk=pk)
+        sxem.is_deleted = False
+        sxem.save()
+        messages.success(request, 'Sxem uğurla bərpa olundu')
+        return redirect('sxem_lab_dashboard')
+
+
+class AdminSxemImagesDeleteView(AuthSuperUserMixin, DeleteView):
+    def post(self, request, pk):
+        try:
+            image = SxemImages.objects.get(pk=pk)
+            image.delete()
+            messages.success(request, 'Şəkil uğurla silindi')
+        except SxemImages.DoesNotExist:
+            messages.error(request, 'Şəkil silinmədi.')
+            pass
+
+        return redirect(request.META.get('HTTP_REFERER'))

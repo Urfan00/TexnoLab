@@ -50,6 +50,7 @@ INSTALLED_APPS = [
     'TIM',
     'Exam',
     'ExamResult',
+    'Sxem',
 
     'ckeditor',
     'import_export',

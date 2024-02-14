@@ -64,6 +64,12 @@ class Uploader:
     def home_page_silder_image(instance, filename):
         return f"Home-Page-Slider-image/{filename}"
 
+    def sxem_images(instance, filename):
+        return f"Sxem-image/{instance.sxem.sxem_title}/{filename}"
+
+    def answer_sxem_images(instance, filename):
+        return f"Student-Answer-Sxem-image/{instance.student.id_code}/{instance.sxem.sxem_title}/{filename}"
+
     @staticmethod
     def get_file_extension(file_name):
         _, file_extension = os.path.splitext(file_name)

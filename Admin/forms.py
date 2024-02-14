@@ -7,6 +7,7 @@ from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
 from ExamResult.models import LAB, Group, CourseStudent
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
 from multiupload.fields import MultiFileField
+from Sxem.models import Sxem, SxemImages
 from TIM.models import TIMImage, TIMVideo
 from django.core.exceptions import ValidationError
 
@@ -41,7 +42,6 @@ class CourseEditForm(forms.ModelForm):
                 self.fields['program_name'].initial = program.program_name
                 self.fields['program_description'].initial = program.description
                 self.fields['program_file'].initial = program.file
-
 
 
 class CourseCategoryEditForm(forms.ModelForm):
@@ -799,7 +799,7 @@ class LABEditForm(forms.ModelForm):
         fields = ['name', 'course']
 
         labels = {
-            'name' : 'Mühəndis başlığı',
+            'name' : 'Mühəndis işi adı',
             'course' : 'Təlim başlığı',
         }
 
@@ -814,4 +814,31 @@ class LABEditForm(forms.ModelForm):
                     'placeholder' :"-seçin-"
                 }
             ),
+        }
+
+
+class SxemEditForm(forms.ModelForm):
+
+    image = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+
+    class Meta:
+        model = Sxem
+        fields = ['sxem_title', 'course']
+
+        labels = {
+            'sxem_title' : 'Sxem adı',
+            'course' : 'Təlim başlığı'
+        }
+
+        widgets = {
+            'course' : forms.Select(
+                attrs={
+                    'placeholder' :"-seçin-"
+                }
+            ),
+            'sxem_title' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Sxem adı"
+                }
+            )
         }
