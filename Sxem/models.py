@@ -80,11 +80,12 @@ class SxemImages(DateMixin):
 
 class SxemStudent(DateMixin):
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_sxem')
-    teacher_mentor = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='teacher_mentor_sxem')
+    teacher_mentor = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='teacher_mentor_sxem', null=True)
     sxem = models.ForeignKey(Sxem, on_delete=models.CASCADE, related_name='sxem_student')
-    student_answer = models.ImageField(upload_to=Uploader.answer_sxem_images, max_length=255)
+    student_answer = models.ImageField(upload_to=Uploader.answer_sxem_images)
     teacher_mentor_comment = models.TextField(null=True, blank=True)
-    is_pass = models.BooleanField(default=False)
+    is_pass = models.BooleanField(default=False) # true olsa telebe novbeti sxeme kece biler
+    is_student_answer = models.BooleanField(default=False)
 
     def __str__(self):
         return f"{self.student.get_full_name()} {self.sxem.sxem_title} answer"

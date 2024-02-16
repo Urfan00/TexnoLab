@@ -1,0 +1,107 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  .delBut{
+    background-color:#d9534f;padding: 5px 10px; color: white;
+
+  }
+
+  .delBut:hover{
+    background: brown;
+  }
+</style>
+          <div class="dashboard__main">
+            <div class="dashboard__content bg-light-4">
+              <div class="row pb-50 mb-10">
+                <div class="col-auto">
+
+                  <h1 class="text-30 lh-12 fw-700">{{ sxem.sxem_title|capfirst }}</h1>
+                  {% comment %} <div class="mt-10">Bütün sxemlər ilə bu bölmədə tanış ola bilərsiniz</div> {% endcomment %}
+
+                </div>
+              </div>
+
+              {% include "messages.html" %}
+
+              <div class="row y-gap-30">
+                <div class="col-12">
+                  <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                    <div class="tabs -active-purple-2 js-tabs">
+                      <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
+                          Sxemlər
+                        </button>
+                      </div>
+
+                      <div class="tabs__content py-15 px-15 js-tabs-content">
+
+                        <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
+
+                          <div class="row y-gap-30">
+
+                            {% for img in sxem_images %}
+
+                              <div class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
+                                <div class="relative">
+                                  <a href="{{ img.image.url }}" target="_blank" class="img-div">
+                                    <img class="rounded-16 w-1/1" src="{{ img.image.url }}" alt="image" width="300px" style="height: 160px!important; object-fit: cover;">
+                                  </a>
+                                </div>
+                              </div>
+
+                            {% endfor %}
+
+                          <h3 class="mt-30">Tələbənin Cavabı</h3>
+                          <form method="post" class="contact-form row y-gap-30 lg:pt-40" enctype="multipart/form-data">
+
+                            {% csrf_token %}
+
+                            {% if form.errors %}
+                              <div class="alert alert-danger alert-dismissible" role="alert">
+                                <div id="form_errors">
+                                  {% for key, value in form.errors.items %}
+                                    <strong style="color:red">{{ key }}-{{ value }}</strong>
+                                  {% endfor %}
+                                </div>
+                              </div>
+                            {% endif %}
+
+                            {% if is_exists %}
+                              <div class="col-md-3">
+                                <a href="{{ photo.student_answer.url }}" target="_blank" class="img-div">
+                                  <img class="rounded-16 w-1/1" src="{{ photo.student_answer.url }}" alt="image" style="width: 160px!important; height: 160px!important; object-fit: cover;">
+                                </a>
+                              </div>
+                            {% else %}
+                              <div class="col-md-4">
+                                <label for="id_student_answer" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.student_answer.label }}</label>
+                                <br>
+                                {{ form.student_answer }}
+                              </div>
+                              <div class="col-4">
+                                <button type="submit" name="submit" id="submit" class="button px-30 h-50 -outline-dark-1 text-dark-1">
+                                  Göndər
+                                </button>
+                              </div>
+                            {% endif %}
+                          </form>
+
+                          <h3 class="mt-30">Müəlimin (Mentor) qeydi</h3>
+
+                          <p><strong>Qeyd: </strong> lasdf jbsda h jsda hsal kjasgd askdhc a,msdcbakjsc asdbczsmbcdaksdzcbakg asdf asd</p>
+                          </div>
+
+                        </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+{% endblock %}

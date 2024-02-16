@@ -1,0 +1,89 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  .delBut{
+    background-color:#d9534f;padding: 5px 10px; color: white;
+
+  }
+
+  .delBut:hover{
+    background: brown;
+  }
+</style>
+          <div class="dashboard__main">
+            <div class="dashboard__content bg-light-4">
+              <div class="row pb-50 mb-10">
+                <div class="col-auto">
+
+                  <h1 class="text-30 lh-12 fw-700">Sxemlər</h1>
+                  <div class="mt-10">Bütün sxemlər ilə bu bölmədə tanış ola bilərsiniz</div>
+
+                </div>
+              </div>
+
+              {% include "messages.html" %}
+
+              <div class="row y-gap-30">
+                <div class="col-12">
+                  <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+                    <div class="tabs -active-purple-2 js-tabs">
+                      <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                        <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
+                          Sxemlər
+                        </button>
+                      </div>
+
+                      <div class="tabs__content py-15 px-15 js-tabs-content">
+
+                        <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
+
+                          <div class="row y-gap-30">
+
+                            {% for sxem in sxems %}
+
+                            <style>
+                              .img-div {
+                                width: 160px;
+                                height: 160px;
+                                display: flex;
+                                justify-content: center;
+                                align-items: center;
+                                flex-direction: column;
+                              }
+                              .div-img {
+                                border: 1px solid black;
+                                border-radius: 30%;
+                              }
+                            </style>
+ 
+                              <a href="{% url 'sxem_detail' sxem.pk %}" class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
+                                <div class="relative">
+                                  <div class="img-div">
+                                    {% if sxem.is_pass_student or forloop.counter == 1 %}
+                                      <img class="div-img" src="{% static 'img/_texno_imgs/unlock-100.png' %}" alt="image">
+                                    {% else %}
+                                      <img class="div-img" src="{% static 'img/_texno_imgs/lock-100.png' %}" alt="image">
+                                    {% endif %}
+                                    <p class="mt-5 text-center">{{ sxem.sxem_title }}</p>
+                                  </div>
+                                </div>
+                              </a>
+
+                            {% endfor %}
+
+                          </div>
+
+                        </div>
+
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+
+{% endblock %}

@@ -320,6 +320,18 @@
 
               {% comment %} {% endif %} {% endcomment %}
 
+              {% if user.staff_status == 'Tələbə' %}
+
+                {% url 'sxem_list' as sxem_list %}
+                <div class="sidebar__item {% if request.path == sxem_list or request.path|slice:'/-' == sxem_list %}-is-active{% endif %}">
+                  <a href="{% url "sxem_list" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-setting mr-15"></i>
+                    Sxemlər
+                  </a>
+                </div>
+
+              {% endif %}
+
               {% if user.staff_status == 'Mentor' or user.staff_status == 'Müəllim' %}
 
                 {% url 'lab_evaluation' as lab_evaluation %}
