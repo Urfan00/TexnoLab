@@ -334,6 +334,18 @@
 
               {% if user.staff_status == 'Mentor' or user.staff_status == 'Müəllim' %}
 
+                {% url 'sxem_tm' as sxem_tm %}
+                <div class="sidebar__item {% if request.path == sxem_tm or request.path|slice:'/-' == sxem_tm %}-is-active{% endif %}">
+                  <a href="{% url "sxem_tm" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
+                    <i class="text-20 icon-list mr-15"></i>
+                    Sxem Qiymətləndirmə {% if sxem_student_count != 0 %}<span class="count_badge"> {% if sxem_student_count > 99 %}99+{% else %}{{ sxem_student_count }}{% endif %} </span>{% endif %}
+                  </a>
+                </div>
+
+              {% endif %}
+
+              {% if user.staff_status == 'Mentor' or user.staff_status == 'Müəllim' %}
+
                 {% url 'lab_evaluation' as lab_evaluation %}
                 <div class="sidebar__item {% if request.path == lab_evaluation or request.path|slice:'/-' == lab_evaluation %}-is-active{% endif %}">
                   <a href="{% url "lab_evaluation" %}" class="d-flex items-center text-17 lh-1 fw-500 ">

@@ -53,44 +53,50 @@
 
                             {% endfor %}
 
-                          <h3 class="mt-30">Tələbənin Cavabı</h3>
-                          <form method="post" class="contact-form row y-gap-30 lg:pt-40" enctype="multipart/form-data">
+                            <h3 class="mt-30">Tələbənin Cavabı</h3>
+                            <div class="col-md-3">
+                              <a href="{{ sxem_student.student_answer.url }}" target="_blank" class="img-div">
+                                <img class="rounded-16 w-1/1" src="{{ sxem_student.student_answer.url }}" alt="image" style="width: 160px!important; height: 160px!important; object-fit: cover;">
+                              </a>
+                            </div>
 
-                            {% csrf_token %}
+                            <h3 class="mt-30">Müəlimin (Mentor) qeydi</h3>
 
-                            {% if form.errors %}
-                              <div class="alert alert-danger alert-dismissible" role="alert">
-                                <div id="form_errors">
-                                  {% for key, value in form.errors.items %}
-                                    <strong style="color:red">{{ key }}-{{ value }}</strong>
-                                  {% endfor %}
+                            {% if sxem_student.is_pass == False %}
+                              <form method="post" class="contact-form row y-gap-30 lg:pt-40" enctype="multipart/form-data">
+
+                                {% csrf_token %}
+
+                                {% if form.errors %}
+                                  <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div id="form_errors">
+                                      {% for key, value in form.errors.items %}
+                                        <strong style="color:red">{{ key }}-{{ value }}</strong>
+                                      {% endfor %}
+                                    </div>
+                                  </div>
+                                {% endif %}
+
+                                <div class="col-md-12">
+                                  <label for="id_teacher_mentor_comment" class="text-20 lh-1 fw-500 text-dark-1 mb-10">{{ form.teacher_mentor_comment.label }}</label>
+                                  <br>
+                                  {{ form.teacher_mentor_comment }}
                                 </div>
-                              </div>
-                            {% endif %}
+                                <div class="col-md-4">
+                                  <label for="id_is_pass" class="text-20 lh-1 fw-500 text-dark-1 mb-10">{{ form.is_pass.label }}</label>
+                                  <br>
+                                  {{ form.is_pass }}
+                                </div>
 
-                            {% if is_exists %}
-                              <div class="col-md-3">
-                                <a href="{{ photo.student_answer.url }}" target="_blank" class="img-div">
-                                  <img class="rounded-16 w-1/1" src="{{ photo.student_answer.url }}" alt="image" style="width: 160px!important; height: 160px!important; object-fit: cover;">
-                                </a>
-                              </div>
+                                <div class="col-4">
+                                  <button type="submit" name="submit" id="submit" class="button px-30 h-50 -outline-dark-1 text-dark-1">
+                                    Göndər
+                                  </button>
+                                </div>
+                              </form>
                             {% else %}
-                              <div class="col-md-4">
-                                <label for="id_student_answer" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.student_answer.label }}</label>
-                                <br>
-                                {{ form.student_answer }}
-                              </div>
-                              <div class="col-4">
-                                <button type="submit" name="submit" id="submit" class="button px-30 h-50 -outline-dark-1 text-dark-1">
-                                  Göndər
-                                </button>
-                              </div>
+                              <p>QEYD: {{ sxem_student.teacher_mentor_comment|capfirst }}</p>
                             {% endif %}
-                          </form>
-
-                          <h3 class="mt-30">Müəlimin (Mentor) qeydi</h3>
-
-                          <p><strong>Qeyd: </strong> {{ sxem_student_answer.teacher_mentor_comment|capfirst }}</p>
                           </div>
 
                         </div>

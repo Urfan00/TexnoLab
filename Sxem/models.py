@@ -14,7 +14,7 @@ class Sxem(DateMixin):
     is_deleted = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.sxem_title
+        return f"{self.sxem_title} - {self.course.title}"
 
     def delete(self, using=None, keep_parents=False):
         # Delete associated images and their parent folders
@@ -89,3 +89,11 @@ class SxemStudent(DateMixin):
 
     def __str__(self):
         return f"{self.student.get_full_name()} {self.sxem.sxem_title} answer"
+
+
+class SxemStudentLOCK(DateMixin):
+    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_sxem_lock')
+    sxem = models.ManyToManyField(Sxem)
+
+    def __str__(self):
+        return self.student.get_full_name()

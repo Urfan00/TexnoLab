@@ -1,0 +1,141 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+<style>
+  .tDiv {
+    overflow-x: scroll;
+  }
+  .menusuboper{
+    width: 195px!important;
+    height:40px;
+    float: left;
+  }
+
+  table.table td{
+    padding: 10px;
+  }
+
+  .wt{
+    min-width:30px!important;
+    height:30px!important;
+    padding:8px!important;
+    float:left!important;
+    margin:5px;
+  }
+
+  .menusuboper{
+    width: 195px;
+    height:40px;
+    float: left;
+  }
+</style>
+  <div class="dashboard__main">
+    <div class="dashboard__content bg-light-4">
+      <div class="row pb-50 mb-10">
+        <div class="col-auto">
+
+          <h1 class="text-30 lh-12 fw-700">Tələbələrin Sxem cavabları</h1>
+          <div class="mt-10">Tələbələrin Sxem cavabları ilə bu bölmədə tanış ola bilərsiniz</div>
+
+        </div>
+      </div>
+
+      {% include "messages.html" %}
+
+      <div class="row y-gap-30">
+        <div class="col-12">
+          <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+            <div class="tabs -active-purple-2 js-tabs">
+              <div class="tabs__controls d-flex items-center pt-20 px-30 border-bottom-light js-tabs-controls">
+                <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
+                  Tələbələrin Sxem cavabları
+                </button>
+              </div>
+
+              <div class="tabs__content py-30 px-30 js-tabs-content">
+                <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
+
+                  <div class="row y-gap-10 ">
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                          <input class="bg-white -dark-bg-dark-2 pr-50" type="text" name="ts" placeholder="tələbə axtar" value="{{ request.GET.ts }}">
+                          <button class="" type="submit">
+                              <i class="icon-search text-light-1 text-20"></i>
+                          </button>
+                      </form>
+                    </div>
+                  </div>
+
+                  <div class="tDiv">
+                    <div class="table-responsive">
+                      <table class="table" style="margin-top:25px; padding: 0px;">
+                        <thead>
+                          <tr>
+                            <th>№</th>
+                            <th>Tələbə</th>
+                            <th>Qrup</th>
+                            <th>Sxem</th>
+                            <th>Müəllim(Mentor)</th>
+                            <th>Keçib?</th>
+                            <th>Cavab verilib?</th>
+                            <th>Əməliyyatlar</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for tm in sxem_teacher_mentor %}
+                            <tr {% if tm.is_pass == False and tm.is_student_answer %}style="background-color: antiquewhite;"{% endif %}>
+                              <td class="text-center">{{ forloop.counter }}</td>
+                              <td class="text-center">{{ tm.student.get_full_name|capfirst }}</td>
+                              <td class="text-center">{{ tm.student.learner.first.group.name|capfirst }}</td>
+                              <td class="text-center">{{ tm.sxem.sxem_title|capfirst }}</td>
+                              <td class="text-center">{{ tm.teacher_mentor.get_full_name|capfirst }}</td>
+                              <td class="text-center">
+                                {% if tm.is_pass %}
+                                  <i class="fa fa-check" aria-hidden="true"></i>
+                                {% else %}
+                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                {% endif %}
+                              </td>
+                              <td class="text-center">
+                                {% if tm.is_student_answer %}
+                                  <i class="fa fa-check" aria-hidden="true"></i>
+                                {% else %}
+                                  <i class="fa fa-minus" aria-hidden="true"></i>
+                                {% endif %}
+                              </td>
+                              <td>
+                                <div class="menusuboper">
+                                  <a href="{% url 'sxem_tm_detail' tm.pk %}" class="button  -icon wt dif -purple-3 h-50 text-purple-1" title="Ətraflı">
+                                    <i class="fa fa-eye" aria-hidden="true"></i>
+                                  </a>
+                                  {% comment %} <a href="{% url "faq_edit" faq.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
+                                    <i class="fa fa-pencil" aria-hidden="true"></i>
+                                  </a> {% endcomment %}
+                                  {% comment %} <form method="post" action="{% url "faq_delete" faq.pk %}" style="display: inline;">
+                                    {% csrf_token %}
+                                    <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1 c" style="background:#c9302c; color:white" title="Sil">
+                                        <i class="fa fa-trash" aria-hidden="true"></i>
+                                    </button>
+                                  </form> {% endcomment %}
+                                </div>
+                              </td>
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+{% endblock %}

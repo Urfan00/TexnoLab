@@ -61,12 +61,12 @@
                               <a href="{% url 'sxem_detail' sxem.pk %}" class="w-1/5 xl:w-1/3 lg:w-1/2 sm:w-1/1">
                                 <div class="relative">
                                   <div class="img-div">
-                                    {% if sxem.is_pass_student or forloop.counter == 1 %}
+                                    {% if sxem.is_pass_student %}
                                       <img class="div-img" src="{% static 'img/_texno_imgs/unlock-100.png' %}" alt="image">
                                     {% else %}
                                       <img class="div-img" src="{% static 'img/_texno_imgs/lock-100.png' %}" alt="image">
                                     {% endif %}
-                                    <p class="mt-5 text-center">{{ sxem.sxem_title }}</p>
+                                    <p class="mt-5 text-center">{{ sxem.sxem_title }} - {{ sxem.is_pass_student }}</p>
                                   </div>
                                 </div>
                               </a>

@@ -1,6 +1,6 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from .models import Sxem, SxemImages, SxemStudent
+from .models import Sxem, SxemImages, SxemStudent, SxemStudentLOCK
 
 
 
@@ -24,7 +24,12 @@ class SxemStudentAdmin(ImportExportModelAdmin):
     search_fields = ['student__first_name', 'student__last_name', 'sxem__sxem_title']
 
 
+class SxemStudentLOCKAdmin(ImportExportModelAdmin):
+    list_display = ['id', 'student']
+    list_display_links = ['id', 'student']
 
+
+admin.site.register(SxemStudentLOCK, SxemStudentLOCKAdmin)
 admin.site.register(Sxem, SxemAdmin)
 admin.site.register(SxemImages, SxemImagesAdmin)
 admin.site.register(SxemStudent, SxemStudentAdmin)
