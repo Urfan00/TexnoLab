@@ -33,7 +33,7 @@ class SxemListView(AuthStudentPageMixin, ListView):
 
         if created:
             # Assuming first sxem should be associated
-            first_sxem = course_student.group.course.course_sxem.first()
+            first_sxem = course_student.group.course.course_sxem.filter(is_deleted=False).first()
             if first_sxem:
                 sxem_lock.sxem.add(first_sxem)
 

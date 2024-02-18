@@ -10,13 +10,13 @@ from multiupload.fields import MultiFileField
 from Sxem.models import Sxem, SxemImages
 from TIM.models import TIMImage, TIMVideo
 from django.core.exceptions import ValidationError
-
+from ckeditor.widgets import CKEditorWidget
 
 
 class CourseEditForm(forms.ModelForm):
     # Add fields from CourseProgramEditForm
     program_name = forms.CharField(max_length=255, label='Proqram başlığı', required=False)
-    program_description = forms.CharField(widget=forms.Textarea(attrs={'rows': 8}), label='Proqram haqqında', required=False)
+    program_description = forms.CharField(widget=CKEditorWidget(), label='Proqram haqqında', required=False)
     program_file = forms.FileField(label='Fayl', required=False)
 
     class Meta:

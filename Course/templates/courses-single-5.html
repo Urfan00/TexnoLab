@@ -113,8 +113,9 @@
                 </div>
 
                 <div class="accordion__content">
-                  <div class="accordion__content__inner">
-                    <p><i class="text-24 mb-10">Ətraflı məlumat</i></p>
+                  {% comment %} <div class="accordion__content__inner"> {% endcomment %}
+                  <div class="">
+                    {% comment %} <p><i class="text-24 mb-10">Ətraflı məlumat</i></p> {% endcomment %}
                     <p class="">{{ course.description|safe }}</p>
                   </div>
                 </div>
@@ -130,10 +131,11 @@
                 </div>
 
                 <div class="accordion__content">
-                  <div class="accordion__content__inner">
-                    <p>
+                  {% comment %} <div class="accordion__content__inner"> {% endcomment %}
+                  <div class="">
+                    {% comment %} <p>
                       <i class="text-24 mb-10">Mövzular</i>
-                    </p>
+                    </p> {% endcomment %}
 
                     {% for c_pro in course_programs %}
                       <div class="d-flex justify-between">
