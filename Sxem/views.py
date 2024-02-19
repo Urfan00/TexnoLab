@@ -124,20 +124,20 @@ class SxemTeacherMentorListView(AuthTeacherMentorMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         ts_query = self.request.GET.get('ts', '')
+        if self.request.user.staff_course.first():
+            tm_course = self.request.user.staff_course.first().course
 
-        tm_course = self.request.user.staff_course.first().course
+            if tm_course:
+                sxem_teacher_mentor = SxemStudent.objects.filter(sxem__course=tm_course).order_by('-created_at').all()
 
-        if tm_course:
-            sxem_teacher_mentor = SxemStudent.objects.filter(sxem__course=tm_course).order_by('-created_at').all()
+                if ts_query:
+                    sxem_teacher_mentor = sxem_teacher_mentor.filter(
+                        Q(student__first_name__icontains=ts_query)
+                        | Q(student__last_name__icontains=ts_query)
+                        | Q(sxem__sxem_title__icontains=ts_query)
+                    )
 
-            if ts_query:
-                sxem_teacher_mentor = sxem_teacher_mentor.filter(
-                    Q(student__first_name__icontains=ts_query)
-                    | Q(student__last_name__icontains=ts_query)
-                    | Q(sxem__sxem_title__icontains=ts_query)
-                )
-
-            context["sxem_teacher_mentor"] = sxem_teacher_mentor
+                context["sxem_teacher_mentor"] = sxem_teacher_mentor
 
         return context
 

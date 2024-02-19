@@ -18,8 +18,8 @@ def base_data(request):
 
     if request.user.is_authenticated:
         if request.user.staff_status == 'Mentor' or request.user.staff_status == 'Müəllim':
-            tm_course = request.user.staff_course.first().course
-
-            if tm_course:
-                data['sxem_student_count'] = SxemStudent.objects.filter(sxem__course=tm_course, is_pass=False, is_student_answer=True).count()
+            if request.user.staff_course.first():
+                tm_course = request.user.staff_course.first().course
+                if tm_course:
+                    data['sxem_student_count'] = SxemStudent.objects.filter(sxem__course=tm_course, is_pass=False, is_student_answer=True).count()
     return data

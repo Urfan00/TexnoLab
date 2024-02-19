@@ -14,6 +14,7 @@ from Sxem.models import Sxem, SxemImages
 from TIM.models import TIM, TIMImage, TIMVideo
 from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin, AuthSuperUserMixin, AuthSuperUserTeacherMixin
 from .forms import (AboutUsEditForm,
+                    AccountAddForm,
                     AccountEditForm,
                     AllGaleryEditForm,
                     AllVideoGalleryEditForm,
@@ -30,27 +31,28 @@ from .forms import (AboutUsEditForm,
                     FAQEditForm,
                     GalLeryEditForm,
                     GroupEditForm,
-                    HomePageSliderTextIMGForm, LABEditForm,
+                    HomePageSliderTextIMGForm,
+                    LABEditForm,
                     PartnerEditForm,
                     RequestUsAdminCommentForm,
                     ServiceEditForm,
                     ServiceHomeEditForm,
                     ServiceImageEditForm,
                     ServiceVideoEditForm,
-                    StaffAccountEditForm, SxemEditForm,
+                    StaffAccountEditForm,
+                    SxemEditForm,
                     TIMEditForm,
                     TIMImageEditForm,
                     TIMVideoEditForm)
-from django.db.models import Count, Sum, Avg, Max
+from django.db.models import Count, Sum, Avg, Max, Q, F
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy
-from django.db.models import Q
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.views.generic.edit import FormView
-from django.db.models import F
+from django.db import IntegrityError
 
 # **********************************************************************************
 
@@ -1347,8 +1349,8 @@ class AdminAccountListView(AuthSuperUserCoordinatorMixin, ListView):
 
 
         students = Account.objects.filter(is_staff=False, is_superuser=False, is_delete=False, staff_status="Tələbə").order_by('-date_joined')
-        c_students = CourseStudent.objects.filter(is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False, student__staff_status="Tələbə").all()
-        k_students = CourseStudent.objects.filter(is_keb=True, is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False, student__staff_status="Tələbə").all()
+        c_students = CourseStudent.objects.filter(is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False, student__staff_status="Tələbə").order_by('-created_at').all()
+        k_students = CourseStudent.objects.filter(is_keb=True, is_deleted=False, student__is_staff=False, student__is_superuser=False, student__is_delete=False, student__staff_status="Tələbə").order_by('-created_at').all()
         groups = Group.objects.all()
         allow_feedback = Account.objects.filter(
             is_delete=False,
@@ -1455,15 +1457,44 @@ class AdminAccountDetailView(AuthSuperUserCoordinatorMixin, DetailView):
 class AdminAccountAddView(AuthSuperUserCoordinatorMixin, CreateView):
     model = Account
     template_name = 'account/dshb-account-add.html'
-    form_class = AccountEditForm
+    form_class = AccountAddForm
     success_url = reverse_lazy('account_dashboard')
 
     def form_valid(self, form):
-        fin = form.cleaned_data['FIN']
-        form.instance.password = make_password(fin)
-        form.instance.staff_status = 'Tələbə'
-        messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
-        return super().form_valid(form)
+        try:
+            account_instance = form.save(commit=False)
+            fin = form.cleaned_data['FIN']
+            account_instance.password = make_password(fin)
+            account_instance.id_code = fin
+            account_instance.staff_status = 'Tələbə'
+            account_instance.save()
+
+            if form.cleaned_data.get('rating'):
+                CourseStudent.objects.create(
+                    average=form.cleaned_data.get('average'),
+                    payment=form.cleaned_data.get('payment'),
+                    rest=form.cleaned_data.get('rest'),
+                    rating=form.cleaned_data['rating'],
+                    is_active=form.cleaned_data['is_active'],
+                    group=form.cleaned_data['group'],
+                    student=account_instance,
+                )
+            else:
+                CourseStudent.objects.create(
+                    average=form.cleaned_data.get('average'),
+                    payment=form.cleaned_data.get('payment'),
+                    rest=form.cleaned_data.get('rest'),
+                    is_active=form.cleaned_data.get('is_active'),
+                    group=form.cleaned_data.get('group'),
+                    student=account_instance,
+                )
+
+            messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
+            return super().form_valid(form)
+        except IntegrityError:
+            # Handle duplicate id_code here
+            messages.error(self.request, 'Id kod artıq mövcuddur. Zəhmət olmasa başqa bir FİN kodu daxil edin.')
+            return super().form_invalid(form)
 
     def form_invalid(self, form):
         # If the form has validation errors, display an error message
@@ -1492,7 +1523,6 @@ class AdminAccountEditView(AuthSuperUserCoordinatorMixin, CreateView):
             account.last_name = form.cleaned_data.get('last_name')
             account.FIN = form.cleaned_data.get('FIN')
             account.birthday = form.cleaned_data.get('birthday')
-            account.id_code = form.cleaned_data.get('id_code')
             account.balance = form.cleaned_data.get('balance')
             account.save()
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')

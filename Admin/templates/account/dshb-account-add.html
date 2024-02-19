@@ -40,16 +40,16 @@
                     <div class="py-30 px-30">
                       <form method="post" class="contact-form row y-gap-30" enctype="multipart/form-data">
 
+                        {% include "messages.html" %}
                         {% csrf_token %}
 
                         {% if form.errors %}
                           <div class="alert alert-danger alert-dismissible" role="alert">
                             <div id="form_errors">
                               {% for key, value in form.errors.items %}
-                                <strong>{{ key }}-{{ value }}</strong>
+                                <strong>{{ value }}</strong>
                               {% endfor %}
                             </div>
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                           </div>
                         {% endif %}
 
@@ -69,11 +69,6 @@
                         </div>
 
                         <div class="col-6">
-                          <label id="a1" for="id_id_code" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.id_code.label }} <span class="imp">*</span></label>
-                          {{ form.id_code }}
-                        </div>
-
-                        <div class="col-6">
                           <label id="a1" for="id_birthday" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.birthday.label }} <span class="imp">*</span></label>
                           {{ form.birthday }}
                         </div>
@@ -81,6 +76,36 @@
                         <div class="col-6">
                           <label id="a1" for="id_balance" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.balance.label }} <span class="imp">*</span></label>
                           {{ form.balance }}
+                        </div>
+
+                        <div class="col-6">
+                          <label id="a2" for="id_group" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.group.label }} <span class="imp">*</span></label>
+                          {{ form.group }}
+                        </div>
+
+                        <div class="col-3">
+                          <label id="a4" for="id_rating" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.rating.label }}</label>
+                          {{ form.rating }}
+                        </div>
+
+                        <div class="col-md-3">
+                          <label id="a4" for="id_average" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.average.label }}</label>
+                          {{ form.average }}
+                        </div>
+
+                        <div class="col-md-3">
+                          <label id="a4" for="id_payment" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.payment.label }}</label>
+                          {{ form.payment }}
+                        </div>
+
+                        <div class="col-md-3">
+                          <label id="a4" for="id_rest" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.rest.label }}</label>
+                          {{ form.rest }}
+                        </div>
+
+                        <div class="col-md-4">
+                          <label id="a4" for="id_is_active" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.is_active.label }}</label>
+                          {{ form.is_active }}
                         </div>
 
                         <div class="row y-gap-20 justify-between pt-15">

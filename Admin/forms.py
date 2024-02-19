@@ -458,16 +458,24 @@ class ContactInfoEditForm(forms.ModelForm):
         }
 
 
-class AccountEditForm(forms.ModelForm):
+class AccountAddForm(forms.ModelForm):
+
+    group = forms.ModelChoiceField(queryset=Group.objects.all(), label='Qrup')
+    average = forms.CharField(label='Orta bal', initial='0')
+    payment = forms.CharField(label='Ödəniş', initial='0')
+    rest = forms.CharField(label='Qalıq', initial='0')
+    ratings_with_default = [('', '----------')] + list(CourseStudent.ratings)
+    rating = forms.ChoiceField(choices=ratings_with_default, label='Reytinq', required=False)
+    is_active = forms.BooleanField(label='Məzun', required=False)
+
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'id_code', 'balance']
+        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'balance']
         labels = {
             'first_name' : 'Ad',
             'last_name' : 'Soyad',
             'FIN' : 'FİN kod',
             'birthday' : 'Doğum tarixi',
-            'id_code' : 'İD Kod',
             'balance' : 'Balans',
         }
         widgets = {
@@ -491,9 +499,44 @@ class AccountEditForm(forms.ModelForm):
                     'placeholder' :"yyyy-mm-dd"
                 }
             ),
-            'id_code' : forms.TextInput(
+            'balance' : forms.TextInput(
                 attrs={
-                    'placeholder' :"İD Kod"
+                    'placeholder' :"Balans"
+                }
+            ),
+        }
+
+
+class AccountEditForm(forms.ModelForm):
+    class Meta:
+        model = Account
+        fields = ['first_name', 'last_name', 'FIN', 'birthday', 'balance']
+        labels = {
+            'first_name' : 'Ad',
+            'last_name' : 'Soyad',
+            'FIN' : 'FİN kod',
+            'birthday' : 'Doğum tarixi',
+            'balance' : 'Balans',
+        }
+        widgets = {
+            'first_name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Ad"
+                }
+            ),
+            'last_name' : forms.TextInput(
+                attrs={
+                    'placeholder' :"Soyad"
+                }
+            ),
+            'FIN' : forms.TextInput(
+                attrs={
+                    'placeholder' :"FİN kod"
+                }
+            ),
+            'birthday' : forms.DateInput(
+                attrs={
+                    'placeholder' :"yyyy-mm-dd"
                 }
             ),
             'balance' : forms.TextInput(
