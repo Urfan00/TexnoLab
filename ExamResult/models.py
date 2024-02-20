@@ -108,6 +108,7 @@ class StudentResult(DateMixin):
     total_point = models.PositiveIntegerField()
     status = models.BooleanField(default=True)
     exam_topics = models.ForeignKey(CourseTopic, on_delete=models.CASCADE, null=True, blank=True)
+    s_r_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='s_r_group_evaluation') # telebenin qrupu
 
     def save(self, *args, **kwargs):
         self.total_point = self.point_1 + self.point_2 + self.point_3
@@ -125,6 +126,7 @@ class TeacherEvaluation(DateMixin):
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_evaluation')
     point = models.PositiveIntegerField(default=0)
     teacher = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='teacher_evaluation')
+    t_e_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='t_e_group_evaluation') # telebenin qrupu
 
     def __str__(self):
         return self.student.get_full_name()
@@ -148,6 +150,7 @@ class MentorLabEvaluation(DateMixin):
     lab = models.ForeignKey(LAB, on_delete=models.CASCADE, related_name='student_lab')
     point = models.FloatField(default=0)
     mentor = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='mentor_lab_evaluation')
+    m_l_e_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='m_l_e_group_evaluation') # telebenin qrupu
 
     def __str__(self):
         return self.student.get_full_name()

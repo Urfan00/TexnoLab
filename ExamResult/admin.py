@@ -33,14 +33,14 @@ class StudentAnswerAdmin(ImportExportModelAdmin):
 
 
 class StudentResultAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'student', 'point_1', 'point_2', 'point_3', 'total_point', 'status', 'exam_topics', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'point_1', 'point_2', 'point_3', 'total_point', 'status', 's_r_group', 'exam_topics', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__email']
     list_filter = ['status']
 
 
 class TeacherEvaluationAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'student', 'point', 'teacher', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'point', 'teacher', 't_e_group', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__email']
 
@@ -53,7 +53,7 @@ class LABAdmin(ImportExportModelAdmin):
 
 
 class MentorLabEvaluationAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'student', 'lab', 'point', 'mentor', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'lab', 'point', 'm_l_e_group', 'mentor', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
     search_fields = ['student__first_name', 'student__last_name', 'student__email', 'lab__name']
 

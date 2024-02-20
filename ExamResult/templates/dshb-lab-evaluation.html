@@ -171,6 +171,8 @@
 
       var studentId = urlParams.get('student');
       var labId = urlParams.get('lab');
+      var groupId = urlParams.get('state');
+      console.log('==>', groupId)
 
       // If studentId is 0, use data attribute
       if (studentId === '0') {
@@ -185,6 +187,7 @@
       var sendData = {
         'studentId': studentId,
         'labId': labId,
+        'groupId': groupId,
         'give_points': points
       };
 

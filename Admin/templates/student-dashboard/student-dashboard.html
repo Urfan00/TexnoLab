@@ -1,0 +1,300 @@
+{% extends 'base2.html' %}
+{% load static %}
+{% block content %}
+
+<style>
+  .tDiv{
+    width:100%;
+    overflow-x:scroll;
+  }
+</style>
+
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+
+<div class="dashboard__main">
+  <div class="dashboard__content bg-light-4">
+    <div class="row pb-20 mb-10">
+      <div class="col-auto">
+
+        <h1 class="text-30 lh-12 fw-700">Dashboard</h1>
+        {% comment %} <div class="mt-10">Lorem ipsum dolor sit amet, consectetur.</div> {% endcomment %}
+
+      </div>
+    </div>
+
+
+    <div class="row y-gap-10">
+      <div class="px-30 border-bottom-light">
+        {% csrf_token %}
+        <div class="row x-gap-10 items-center py-10">
+
+          <div class="col-lg-2">
+            <div class="d-flex items-center">
+              <form class="" action="." method="get" style="width: 100%;">
+                <select class="js-example-basic-single" name="state" onchange="this.form.submit()" id="groupSelect" style="width: 100%;">
+                  <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
+                  {% for group in groups %}
+                    <option value="{{ group.id }}" {% if group.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ group.name|capfirst }}</option>
+                  {% endfor %}
+                </select>
+              </form>
+            </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">Müəlim qiymətləndirməsi</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{% if last_lab_point %}{{ last_lab_point.last_lab_point }}{% endif %}</div>
+          </div>
+
+          <i class="text-40 icon-coupon text-purple-1"></i>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">Mühəndis İşi</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ lab_point }}</div>
+          </div>
+
+          <i class="text-40 icon-play-button text-purple-1"></i>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">Sxem qiymətləndirməsi</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ sxem_point }}</div>
+          </div>
+
+          <i class="text-40 icon-graduate-cap text-purple-1"></i>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">Gündəlik qiymət</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ teacher_point }}</div>
+          </div>
+
+          <i class="text-40 icon-graduate-cap text-purple-1"></i>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">İmtahan ortalaması</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ average_total_point|floatformat:2 }} %</div>
+          </div>
+
+          <i class="text-40 icon-graduate-cap text-purple-1"></i>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">Ümumi ortalaması</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">????</div>
+          </div>
+
+          <i class="text-40 icon-online-learning text-purple-1"></i>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="row y-gap-30 pt-30">
+
+      <div class="col-xl-12 col-md-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+          <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 lh-1 fw-500">İmtahan nəticələri</h2>
+          </div>
+          <div class="py-40 px-30">
+            <canvas id="lineChart" data-chart="{{ chart_data|safe }}"></canvas>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 col-md-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+          <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 fw-500">İmtahan Nəticələrim</h2>
+          </div>
+          <div class="py-30 px-30">
+            <div class="y-gap-40">
+
+              <div class="tDiv">
+                <div class="table-responsive">
+                  <table class="table" style="width: 100%;">
+                    <thead>
+                      <tr>
+                        <th>№</th>
+                        <th>Təlim</th>
+                        <th>Mövzu</th>
+                        <th>Nəticə</th>
+                        <th>Bal</th>
+                        <th>Tarix</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {% for result in results %}
+                        <tr>
+                          <td class="tc">{{ forloop.counter }}</td>
+                          <td class="tc">{{ result.s_r_group.course.title|capfirst }}</td>
+                          <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
+                          <td class="tc">{{ result.percent_point }} %</td>
+                          <td class="tc">{{ result.total_point }} bal</td>
+                          <td class="tc">{{ result.created_at }}</td>
+                        </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 col-md-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+          <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 fw-500">Qrup Reytinqi</h2>
+          </div>
+          <div class="py-30 px-30">
+            <div class="y-gap-40">
+
+              <div class="tDiv">
+                <div class="table-responsive">
+                  <table class="table" style="width: 100%;">
+                    <thead>
+                      <tr>
+                        <th>№</th>
+                        <th>Tələbə</th>
+                        <th>İmtahan ortalaması</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {% for student_id, average in sorted_student_averages.items %}
+                      <tr>
+                          <td class="tc">{{ forloop.counter }}</td>
+                          <td class="tc">{{ student_id|capfirst }}</td>
+                          <td class="tc">{{ average|floatformat:2 }}</td>
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 col-md-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+          <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 lh-1 fw-500">TOP-10 Reytinq</h2>
+          </div>
+          <div class="py-30 px-30">
+            <div class="y-gap-40">
+
+              <div class="tDiv">
+                <div class="table-responsive">
+                  <table class="table" style="width: 100%;">
+                    <thead>
+                      <tr>
+                        <th>№</th>
+                        <th>Tələbə</th>
+                        <th>İmtahan ortalaması</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {% for student_id, average in top_10_students.items %}
+                      <tr>
+                          <td class="tc">{{ forloop.counter }}</td>
+                          <td class="tc">{{ student_id|capfirst }}</td>
+                          <td class="tc">{{ average|floatformat:2 }}</td>
+                      </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-xl-12 col-md-12">
+        <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
+          <div class="d-flex justify-between items-center py-20 px-30 border-bottom-light">
+            <h2 class="text-17 lh-1 fw-500">TOP-10 Sxem Reytinqi</h2>
+          </div>
+          <div class="py-30 px-30">
+            <div class="y-gap-40">
+
+              <div class="tDiv">
+                <div class="table-responsive">
+                  <table class="table" style="width: 100%;">
+                    <thead>
+                      <tr>
+                        <th>№</th>
+                        <th>Tələbə</th>
+                        <th>Bal</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+
+                      {% for entry in top_10_sxem %}
+                        <tr>
+                            <td class="tc">{{ forloop.counter }}</td>
+                            <td class="tc">{{ entry.student__first_name|capfirst }} {{ entry.student__last_name|capfirst }}</td>
+                            <td class="tc">{{ entry.count }}</td>
+                        </tr>
+                      {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.1.0-rc.0/js/select2.min.js"></script>
+
+  <script>
+    $(document).ready(function () {
+      // Initialize select2
+      $('.js-example-basic-single').select2();
+    })
+  </script>
+{% endblock %}

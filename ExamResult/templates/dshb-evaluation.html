@@ -49,7 +49,7 @@
                   {% for student in students %}
                     <div class="col-xl-3 col-6 mt-10">
                       <div class="d-flex align-items-center">
-                        <form method="post" action="{% url 'give_point' student.student.id %}">
+                        <form method="post" action="{% url 'give_point' student.student.id request.GET.state %}">
                           {% csrf_token %}
                           <button {% if student.new_active %}type="button"{% else %}type="submit" onclick="return confirm('Tələbəyə bal vermək istədiyinizə əminsiniz?')"{% endif %}
                                   class="text-dark px-10 py-10"

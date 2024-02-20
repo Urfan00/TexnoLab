@@ -152,7 +152,7 @@ class TeacherEvaluationView(AuthTeacherMixin, ListView):
 
 
 class GivePointView(View):
-    def post(self, request, student_id):
+    def post(self, request, student_id, group_id):
         # Check if the teacher has already given a point to the student today
         today = timezone.now().date()
         teacher = request.user  # Assuming the teacher is the current user
@@ -164,7 +164,7 @@ class GivePointView(View):
 
         if not existing_evaluation:
             # Create a new evaluation and give 1 point to the student
-            evaluation = TeacherEvaluation(student_id=student_id, point=1, teacher=teacher)
+            evaluation = TeacherEvaluation(student_id=student_id, point=1, teacher=teacher, t_e_group_id=group_id)
             evaluation.save()
 
         return redirect(request.META.get('HTTP_REFERER'))
@@ -259,11 +259,13 @@ class GiveLabPointView(View):
         student_id = request.POST.get('studentId')
         lab_id = request.POST.get('labId')
         give_points = request.POST.get('give_points')
+        groupId = request.POST.get('groupId')
 
         student = get_object_or_404(Account, id=student_id)
         lab = get_object_or_404(LAB, id=lab_id)
+        group = get_object_or_404(Group, id=groupId)
 
-        existing_entry = MentorLabEvaluation.objects.filter(student=student, lab=lab).first()
+        existing_entry = MentorLabEvaluation.objects.filter(student=student, lab=lab, m_l_e_group=group).first()
 
         if not existing_entry:
             MentorLabEvaluation.objects.create(
@@ -271,6 +273,7 @@ class GiveLabPointView(View):
                 lab=lab,
                 point=give_points,
                 mentor=self.request.user,
+                m_l_e_group=group
             )
 
         return redirect(request.META.get('HTTP_REFERER'))

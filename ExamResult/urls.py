@@ -8,7 +8,7 @@ urlpatterns = [
     path('save_exam/', SaveExamView.as_view(), name='save_exam'),
 
     path('evaluation/', TeacherEvaluationView.as_view(), name='evaluation'),
-    path('give_point/<int:student_id>/', GivePointView.as_view(), name='give_point'),
+    path('give_point/<int:student_id>/<int:group_id>', GivePointView.as_view(), name='give_point'),
 
     path('lab_evaluation/', MentorLabEvaluationView.as_view(), name='lab_evaluation'),
     path('mentor_evaluation/', GiveLabPointView.as_view(), name='mentor_evaluation'),

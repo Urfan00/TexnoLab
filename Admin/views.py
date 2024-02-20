@@ -4,13 +4,13 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, DeleteView, UpdateView
 from Account.models import Account
 from Exam.models import Answer, CourseTopic, CourseTopicsTest, Question
-from ExamResult.models import LAB, Group, CourseStudent, MentorLabEvaluation, StudentResult, TeacherEvaluation
+from ExamResult.models import LAB, Group, CourseStudent, MentorLabEvaluation, StudentResult, TeacherEvaluation, TeacherLastLabPoint
 from Core.forms import CertificateEditForm
 from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomePageSliderTextIMG, Partner, Subscribe
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
-from Sxem.models import Sxem, SxemImages
+from Sxem.models import Sxem, SxemImages, SxemStudent
 from TIM.models import TIM, TIMImage, TIMVideo
 from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin, AuthSuperUserMixin, AuthSuperUserTeacherMixin
 from .forms import (AboutUsEditForm,
@@ -44,7 +44,7 @@ from .forms import (AboutUsEditForm,
                     TIMEditForm,
                     TIMImageEditForm,
                     TIMVideoEditForm)
-from django.db.models import Count, Sum, Avg, Max, Q, F
+from django.db.models import Count, Sum, Avg, Max, Q, F, Subquery, OuterRef
 from django.shortcuts import get_object_or_404
 from django.contrib import messages
 from django.urls import reverse_lazy
@@ -53,43 +53,124 @@ from django.contrib.auth.hashers import make_password
 from django.http import JsonResponse
 from django.views.generic.edit import FormView
 from django.db import IntegrityError
+from django.db.models.functions import Coalesce
+from collections import defaultdict
 
 # **********************************************************************************
 
 
 # **********************************************************************************
-
-
 class StudentDashboard(AuthStudentPageMixin, ListView):
     model = Account
-    template_name = 'student-dashboard/dashboard.html'
+    template_name = 'student-dashboard/student-dashboard.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['teacher_point'] = TeacherEvaluation.objects.filter(student=self.request.user).aggregate(Sum('point'))['point__sum'] or 0
-        context['lab_point'] = MentorLabEvaluation.objects.filter(student=self.request.user).aggregate(Sum('point'))['point__sum'] or 0
+        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Tələbə').first()
 
-        average_total_point = StudentResult.objects.filter(student=self.request.user).values('exam_topics').annotate(
-            max_total_point=Max('total_point')
-            ).aggregate(
-                Avg('max_total_point')
+        if user_account:
+            student_course = user_account.learner.values_list('group', flat=True)
+            groups = Group.objects.filter(id__in=student_course, is_active=True).all()
+
+            context['groups'] = groups
+            labels = []
+            data = []
+            state = self.request.GET.get('state', '')
+
+            if state:
+                context['teacher_point'] = TeacherEvaluation.objects.filter(
+                    student=self.request.user, t_e_group__id=state
+                ).aggregate(
+                    Sum('point')
+                )['point__sum'] or 0
+
+                context['lab_point'] = MentorLabEvaluation.objects.filter(
+                    student=self.request.user,
+                    m_l_e_group__id=state
+                ).aggregate(Sum('point'))['point__sum'] or 0
+
+                context['sxem_point'] = SxemStudent.objects.filter(
+                    student=self.request.user,
+                    is_pass=True,
+                    sxem__course__course_group__id = state
+                ).count()
+
+                context['last_lab_point'] = TeacherLastLabPoint.objects.filter(
+                    student = self.request.user,
+                    student_group__id = state
+                ).first()
+
+                average_total_point = StudentResult.objects.filter(
+                    student=self.request.user,
+                    s_r_group__id=state
+                ).values('exam_topics').annotate(
+                    max_total_point=Max('total_point')
+                ).aggregate(
+                    Avg('max_total_point')
                 )['max_total_point__avg'] or 0
+                context['average_total_point'] = average_total_point * 5
 
-        context['average_total_point'] = average_total_point * 5
+                student_results = StudentResult.objects.filter(student=self.request.user, s_r_group__id=state).annotate(
+                    percent_point = F('total_point') * 5
+                )
+                context["results"] = student_results.order_by('-created_at').all()
 
-        context["results"] = StudentResult.objects.filter(student=self.request.user).annotate(
-            percent_point = F('total_point') * 5
-        ).order_by('-created_at').all()
+                labels = [result.exam_topics.topic_title for result in student_results]
+                data = [result.total_point * 5 for result in student_results]
 
-        student_results = StudentResult.objects.filter(student=self.request.user)
-        labels = [result.exam_topics.topic_title for result in student_results]
-        data = [result.total_point * 5 for result in student_results]
+                # qrup reytinq
+                student_max_total_points = StudentResult.objects.filter(
+                    s_r_group__id=state
+                ).values('student', 'exam_topics').annotate(
+                    max_total_point=Max('total_point')
+                ).values('student', 'student__first_name', 'student__last_name', 'exam_topics', 'max_total_point')
 
-        context['labels'] = labels
-        context['chart_data'] = {
-            'labels': labels,
-            'data': data,
-        }
+                student_totals = defaultdict(int)
+                student_counts = defaultdict(int)
+                for entry in student_max_total_points:
+                    student_id = f"{entry['student__first_name']} {entry['student__last_name']}"
+                    student_totals[student_id] += entry['max_total_point'] * 5
+                    student_counts[student_id] += 1
+
+                student_averages = {student_id: student_totals[student_id] / student_counts[student_id] for student_id in student_totals}
+
+                sorted_averages = dict(sorted(student_averages.items(), key=lambda item: item[1], reverse=True))
+                context['sorted_student_averages'] = sorted_averages
+
+                # top-10 reytinq
+                st_gr = get_object_or_404(Group, id=state)
+                top_10_rate = StudentResult.objects.filter(
+                    s_r_group__course=st_gr.course
+                ).values('student', 'exam_topics').annotate(
+                    max_total_point=Max('total_point')
+                ).values('student', 'student__first_name', 'student__last_name', 'exam_topics', 'max_total_point')
+
+                top_10_student_totals = defaultdict(int)
+                top_10_student_counts = defaultdict(int)
+                for entry in top_10_rate:
+                    student_id = f"{entry['student__first_name']} {entry['student__last_name']}"
+                    top_10_student_totals[student_id] += entry['max_total_point'] * 5
+                    top_10_student_counts[student_id] += 1
+
+                top_10 = {student_id: top_10_student_totals[student_id] / top_10_student_counts[student_id] for student_id in top_10_student_totals}
+
+                sorted_top_10 = dict(sorted(top_10.items(), key=lambda item: item[1], reverse=True))
+                top_10_students = dict(list(sorted_top_10.items())[:10])
+                context['top_10_students'] = top_10_students
+
+                # top 10 sxem
+                top_10_sxem = student_counts = SxemStudent.objects.filter(
+                    sxem__course=st_gr.course,
+                    is_pass=True,
+                ).values('student__first_name', 'student__last_name').annotate(count=Count('id')).order_by('-count')
+
+                context['top_10_sxem'] = top_10_sxem
+
+
+            context['chart_data'] = {
+                'labels': labels,
+                'data': data,
+            }
 
         return context
 
