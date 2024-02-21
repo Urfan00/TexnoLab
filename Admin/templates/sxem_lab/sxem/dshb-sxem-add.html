@@ -52,15 +52,17 @@
                           </div>
                         {% endif %}
 
-                        <div class="col-6">
+                        <div class="col-{% if user.staff_status == 'Müəllim' %}12{% else %}6{% endif %}">
                           <label id="a1" for="id_sxem_title" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.sxem_title.label }} <span class="imp">*</span></label>
                           {{ form.sxem_title }}
                         </div>
 
-                        <div class="col-6">
-                          <label id="a2" for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.course.label }} <span class="imp">*</span></label>
-                          {{ form.course }}
-                        </div>
+                        {% if user.staff_status == 'SuperUser' %}
+                          <div class="col-6">
+                            <label id="a2" for="id_course" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form.course.label }} <span class="imp">*</span></label>
+                            {{ form.course }}
+                          </div>
+                        {% endif %}
 
                         <div class="col-6">
                           <label id="a2" for="id_image" class="text-16 lh-1 fw-500 text-dark-1 mb-10">Şəkil <span class="imp">*</span></label>

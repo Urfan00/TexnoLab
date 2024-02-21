@@ -2120,14 +2120,15 @@ class AdminCourseTopicTestListView(AuthSuperUserTeacherMixin, ListView):
             d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True).order_by('-created_at').all()
         elif self.request.user.staff_status == 'Müəllim':
             user_course = TeacherCourse.objects.filter(teacher=self.request.user).first()
-            if not user_course:
-                context['user_course'] = user_course
-                return {'error_template': '404.html'}
-            else:
+            if user_course:
                 topics = CourseTopic.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
                 d_topics = CourseTopic.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
                 topic_tests = CourseTopicsTest.objects.filter(is_deleted=False, course=user_course.course).order_by('-created_at').all()
                 d_topic_tests = CourseTopicsTest.objects.filter(is_deleted=True, course=user_course.course).order_by('-created_at').all()
+                context['user_course'] = user_course
+            else:
+                context['user_course'] = user_course
+                return {'error_template': '404.html'}
 
         if t_query:
             topics = topics.filter(
@@ -2516,6 +2517,7 @@ class AdminStaffAccountAddView(AuthSuperUserCoordinatorMixin, CreateView):
     def form_valid(self, form):
         fin = form.cleaned_data['FIN']
         form.instance.password = make_password(fin)
+        form.instance.id_code = fin
         messages.success(self.request, 'Məlumatlarınız uğurla əlavə edildi')
         return super().form_valid(form)
 
@@ -2589,7 +2591,7 @@ class AdminStaffAccountUndeleteView(AuthSuperUserCoordinatorMixin, View):
 
 
 # LAB & SXEM
-class AdminSXEMLABListView(AuthSuperUserMixin, ListView):
+class AdminSXEMLABListView(AuthSuperUserTeacherMixin, ListView):
     model = LAB
     template_name = 'sxem_lab/dshb-sxem-lab-list.html'
 
@@ -2602,9 +2604,13 @@ class AdminSXEMLABListView(AuthSuperUserMixin, ListView):
 
         labs = LAB.objects.filter(is_deleted=False).order_by('-created_at').all()
         d_labs = LAB.objects.filter(is_deleted=True).order_by('-created_at').all()
-
-        sxems = Sxem.objects.filter(is_deleted=False).order_by('-created_at').all()
-        d_sxems = Sxem.objects.filter(is_deleted=True).order_by('-created_at').all()
+        
+        if self.request.user.staff_status == 'Müəllim':
+            sxems = Sxem.objects.filter(is_deleted=False, course=self.request.user.staff_course.first().course).order_by('-created_at').all()
+            d_sxems = Sxem.objects.filter(is_deleted=True, course=self.request.user.staff_course.first().course).order_by('-created_at').all()
+        elif self.request.user.staff_status == 'SuperUser':
+            sxems = Sxem.objects.filter(is_deleted=False).order_by('-created_at').all()
+            d_sxems = Sxem.objects.filter(is_deleted=True).order_by('-created_at').all()
 
         if l_query:
             labs = labs.filter(
@@ -2695,45 +2701,67 @@ class AdminLABUndeleteView(AuthSuperUserMixin, View):
 
 
 # Sxem
-class AdminSxemAddView(AuthSuperUserMixin, CreateView):
+class AdminSxemAddView(AuthSuperUserTeacherMixin, CreateView):
     model = Sxem
     template_name = 'sxem_lab/sxem/dshb-sxem-add.html'
     form_class = SxemEditForm
     success_url = reverse_lazy('sxem_lab_dashboard')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        if user.staff_status == 'Müəllim':
+            kwargs['exclude_course_field'] = True
+        return kwargs
+
     def form_valid(self, form):
         # Save the Sxem instance
         sxem_instance = form.save(commit=False)
+        if self.request.user.staff_status == 'Müəllim':
+            sxem_instance.course = self.request.user.staff_course.first().course
         sxem_instance.save()
 
         # Save each image
-        for image in self.request.FILES.getlist('image'):
-            sxem_image = SxemImages(sxem=sxem_instance, image=image)
-            sxem_image.save()
+        if self.request.FILES.getlist('image'):
+            for image in self.request.FILES.getlist('image'):
+                sxem_image = SxemImages(sxem=sxem_instance, image=image)
+                sxem_image.save()
+        else:
+            print('hola')
 
         return super().form_valid(form)
 
 
-class AdminSxemEditView(AuthSuperUserMixin, UpdateView):
+class AdminSxemEditView(AuthSuperUserTeacherMixin, UpdateView):
     model = Sxem
     template_name = 'sxem_lab/sxem/dshb-sxem-edit.html'
     form_class = SxemEditForm
     success_url = reverse_lazy('sxem_lab_dashboard')
 
+    def get_form_kwargs(self):
+        kwargs = super().get_form_kwargs()
+        user = self.request.user
+        if user.staff_status == 'Müəllim':
+            kwargs['exclude_course_field'] = True
+        return kwargs
+
     def form_valid(self, form):
         # Save the Sxem instance
         sxem_instance = form.save(commit=False)
+        if self.request.user.staff_status == 'Müəllim':
+            sxem_instance.course = self.request.user.staff_course.first().course
         sxem_instance.save()
 
         # Save each image
-        for image in self.request.FILES.getlist('image'):
-            sxem_image = SxemImages(sxem=sxem_instance, image=image)
-            sxem_image.save()
+        if self.request.FILES.getlist('image'):
+            for image in self.request.FILES.getlist('image'):
+                sxem_image = SxemImages(sxem=sxem_instance, image=image)
+                sxem_image.save()
 
         return super().form_valid(form)
 
 
-class AdminSxemDeleteView(AuthSuperUserMixin, View):
+class AdminSxemDeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, *args, **kwargs):
         sxem_id = kwargs.get('pk')
         sxem = get_object_or_404(Sxem, pk=sxem_id)
@@ -2743,7 +2771,7 @@ class AdminSxemDeleteView(AuthSuperUserMixin, View):
         return redirect('sxem_lab_dashboard')
 
 
-class AdminSxemUndeleteView(AuthSuperUserMixin, View):
+class AdminSxemUndeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, pk, *args, **kwargs):
         sxem = get_object_or_404(Sxem, pk=pk)
         sxem.is_deleted = False
@@ -2752,7 +2780,7 @@ class AdminSxemUndeleteView(AuthSuperUserMixin, View):
         return redirect('sxem_lab_dashboard')
 
 
-class AdminSxemImagesDeleteView(AuthSuperUserMixin, DeleteView):
+class AdminSxemImagesDeleteView(AuthSuperUserTeacherMixin, DeleteView):
     def post(self, request, pk):
         try:
             image = SxemImages.objects.get(pk=pk)

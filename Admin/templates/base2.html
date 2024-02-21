@@ -356,13 +356,13 @@
 
               {% endif %}
 
-              {% if user.staff_status == 'SuperUser' %}
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
 
                 {% url 'sxem_lab_dashboard' as sxem_lab_dashboard %}
                 <div class="sidebar__item {% if request.path == sxem_lab_dashboard or request.path|slice:'/-' == sxem_lab_dashboard %}-is-active{% endif %}">
                   <a href="{% url "sxem_lab_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                     <i class="text-20 icon-play-button mr-15"></i>
-                    Mühəndis işi və Sxem
+                    {% if user.staff_status == 'SuperUser' %}Mühəndis işi və {% endif %}Sxemlər
                   </a>
                 </div>
 

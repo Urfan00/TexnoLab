@@ -800,12 +800,11 @@ class StaffAccountEditForm(forms.ModelForm):
 
     class Meta:
         model = Account
-        fields = ['first_name', 'last_name', 'FIN', 'id_code', 'email', 'number']
+        fields = ['first_name', 'last_name', 'FIN', 'email', 'number']
         labels = {
             'first_name': 'Ad',
             'last_name': 'Soyad',
             'FIN': 'FİN kod',
-            'id_code': 'İD Kod',
             'email': 'E-poçt',
             'number': 'Nömrə',
         }
@@ -862,7 +861,13 @@ class LABEditForm(forms.ModelForm):
 
 class SxemEditForm(forms.ModelForm):
 
-    image = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5)
+    image = MultiFileField(min_num=1, max_num=50, max_file_size=1024*1024*5, required=False)
+
+    def __init__(self, *args, **kwargs):
+        exclude_course_field = kwargs.pop('exclude_course_field', False)
+        super().__init__(*args, **kwargs)
+        if exclude_course_field:
+            self.fields.pop('course')
 
     class Meta:
         model = Sxem
