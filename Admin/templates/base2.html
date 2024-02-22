@@ -295,10 +295,10 @@
               {% if user.staff_status == 'Tələbə' %}
 
                 {% url 'quiz_rule' as quiz_rule %}
-                <div class="sidebar__item {% if request.path == quiz_rule or request.path|slice:'/-' == quiz_rule %}-is-active{% endif %} {% if user.exam_status and user.learner.first.group.exam_start_time < current_time %}abcde{% endif %}">
+                <div class="sidebar__item {% if request.path == quiz_rule or request.path|slice:'/-' == quiz_rule %}-is-active{% endif %} {% if access_exam %}abcde{% endif %}">
                   <a href="{% url "quiz_rule" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                     <i class="text-20 icon-bookmark mr-15"></i>
-                    {% if user.exam_status and user.learner.first.group.exam_start_time < current_time %}
+                    {% if access_exam %}
                       <span id="exam-text" class="flashing-text">İmtahan başladı!</span>
                     {% else %}
                       İmtahan

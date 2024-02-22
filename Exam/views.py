@@ -13,11 +13,18 @@ class AuthStudentMixin:
     def dispatch(self, request, *args, **kwargs):
         if request.user.is_authenticated:
             if request.user.staff_status == 'Tələbə':
-                account_group = CourseStudent.objects.filter(student=request.user, group_student_is_active=True).first()
+                account_group = CourseStudent.objects.filter(
+                    student=request.user,
+                    group_student_is_active=True,
+                    is_keb = False,
+                    is_active = False,
+                    is_deleted = False,
+                    is_exam_group = True
+                ).first()
                 if account_group:
                     if account_group.group.is_active and request.user.exam_status:
                         current_time = timezone.now()
-                        if account_group.group.exam_start_time < current_time:
+                        if account_group.group.exam_start_time < current_time and account_group.group.exam_end_time > current_time:
                             return super().dispatch(request, *args, **kwargs)
                         else:
                             return redirect('student_dashboard')
@@ -39,7 +46,7 @@ class RuleView(AuthStudentMixin, ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["student"] = Account.objects.filter(id_code=self.request.user.id_code).first()
+        # context["student"] = Account.objects.filter(id_code=self.request.user.id_code).first()
 
         if not RandomQuestion.objects.filter(student=self.request.user, status=True).exists():
             account_group = CourseStudent.objects.filter(student=self.request.user, group_student_is_active=True, is_exam_group=True).first()
@@ -78,9 +85,18 @@ class QuizView(AuthStudentMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context["student_questions"] = RandomQuestion.objects.filter(student=self.request.user, status=True).first()
-        examTime = CourseStudent.objects.filter(student=self.request.user, group_student_is_active=True).first()
-        context['startTime'] = examTime.group.exam_start_time
-        context['endTime'] = examTime.group.exam_end_time
+        examTime = CourseStudent.objects.filter(
+            student=self.request.user,
+            group_student_is_active=True,
+            is_keb = False,
+            is_active = False,
+            is_deleted = False,
+            is_exam_group = True,
+            group__is_active = True,
+        ).first()
+        if examTime:
+            context['startTime'] = examTime.group.exam_start_time
+            context['endTime'] = examTime.group.exam_end_time
 
         return context
 
@@ -88,11 +104,17 @@ class QuizView(AuthStudentMixin, ListView):
         # Process the submitted form data and save student answers
         student_random_questions = RandomQuestion.objects.filter(student=self.request.user, status=True).first()
 
+        new_point_1_points = 0
+        new_point_2_points = 0
+        new_point_3_points = 0
+
         for question in student_random_questions.point_1_question.all():
             answer_id = request.POST.get(f'question_{question.id}')
             if answer_id and answer_id.isdigit() and Answer.objects.filter(id=answer_id).exists():
                 answer = question.question_answer.get(id=answer_id)
-                StudentAnswer.objects.create(student=request.user, question=question, answer=answer)
+                a = StudentAnswer.objects.create(student=request.user, question=question, answer=answer)
+                if a.is_correct:
+                    new_point_1_points += 1
             else:
                 StudentAnswer.objects.create(student=request.user, question=question)
 
@@ -100,7 +122,9 @@ class QuizView(AuthStudentMixin, ListView):
             answer_id = request.POST.get(f'question_{question.id}')
             if answer_id and answer_id.isdigit() and Answer.objects.filter(id=answer_id).exists():
                 answer = question.question_answer.get(id=answer_id)
-                StudentAnswer.objects.create(student=request.user, question=question, answer=answer)
+                b = StudentAnswer.objects.create(student=request.user, question=question, answer=answer)
+                if b.is_correct:
+                    new_point_2_points += 1
             else:
                 StudentAnswer.objects.create(student=request.user, question=question)
 
@@ -108,28 +132,30 @@ class QuizView(AuthStudentMixin, ListView):
             answer_id = request.POST.get(f'question_{question.id}')
             if answer_id and answer_id.isdigit() and Answer.objects.filter(id=answer_id).exists():
                 answer = question.question_answer.get(id=answer_id)
-                StudentAnswer.objects.create(student=request.user, question=question, answer=answer)
+                c = StudentAnswer.objects.create(student=request.user, question=question, answer=answer)
+                if c.is_correct:
+                    new_point_3_points += 1
             else:
                 StudentAnswer.objects.create(student=request.user, question=question)
 
-        # Calculate points
-        student_answers = list(StudentAnswer.objects.filter(student=self.request.user).order_by('-created_at')[:10])
+        account_group = CourseStudent.objects.filter(
+            student=self.request.user,
+            group_student_is_active=True,
+            is_keb = False,
+            is_active = False,
+            is_deleted = False,
+            is_exam_group = True,
+            group__is_active = True,
+        ).first()
 
-        point_1_points = sum(1 for answer in student_answers if answer.question.point == 1 and answer.is_correct)
-        point_2_points = sum(1 for answer in student_answers if answer.question.point == 2 and answer.is_correct)
-        point_3_points = sum(1 for answer in student_answers if answer.question.point == 3 and answer.is_correct)
-
-
-        account_group = CourseStudent.objects.filter(student=self.request.user, group_student_is_active=True).first()
-        topics = account_group.group.course_topic.course_topic_test.all()
-
-        print('==========>>', account_group.group.course_topic)
-
+        print('==>>> @@ >', account_group)
+        print('==>>> !! >', account_group.group)
+        print('==>>> ?? >', account_group.group.course_topic)
         # Create or update StudentResult
-        student_result, created = StudentResult.objects.get_or_create(student=self.request.user, status=True)
-        student_result.point_1 = point_1_points
-        student_result.point_2 = point_2_points * 2
-        student_result.point_3 = point_3_points * 3
+        student_result, created = StudentResult.objects.get_or_create(student=self.request.user, status=True, s_r_group=account_group.group)
+        student_result.point_1 = new_point_1_points
+        student_result.point_2 = new_point_2_points * 2
+        student_result.point_3 = new_point_3_points * 3
         student_result.exam_topics = account_group.group.course_topic
         student_result.save()
 

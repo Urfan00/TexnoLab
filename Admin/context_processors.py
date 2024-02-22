@@ -1,6 +1,9 @@
 from Course.models import RequestUs
 from Core.models import ContactUs
+from ExamResult.models import CourseStudent
 from Sxem.models import SxemStudent
+from django.utils import timezone
+
 
 def base_data(request):
     data = {}
@@ -22,4 +25,28 @@ def base_data(request):
                 tm_course = request.user.staff_course.first().course
                 if tm_course:
                     data['sxem_student_count'] = SxemStudent.objects.filter(sxem__course=tm_course, is_pass=False, is_student_answer=True).count()
+
+    if request.user.is_authenticated:
+        if request.user.staff_status == 'Tələbə':
+            account_group = CourseStudent.objects.filter(
+                student=request.user,
+                group_student_is_active=True,
+                is_keb = False,
+                is_active = False,
+                is_deleted = False,
+                is_exam_group = True,
+                group__is_active = True,
+            ).first()
+            if account_group:
+                if request.user.exam_status:
+                    current_time = timezone.now()
+                    if account_group.group.exam_start_time < current_time and account_group.group.exam_end_time > current_time:
+                        data['access_exam'] = True
+                    else:
+                        data['access_exam'] = False
+                else:
+                    data['access_exam'] = False
+            else:
+                data['access_exam'] = False
+
     return data

@@ -96,10 +96,8 @@ class ExamStart(AuthTeacherMixin, ListView):
         teacher_courses = user_account.staff_course.values_list('course', flat=True)
         groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
 
-        context['topics'] = CourseTopic.objects.filter(course__id__in=teacher_courses, is_deleted=False).all()
-
         current_time = timezone.now()
-        for group in groups:
+        for group in Group.objects.all():
             if group.exam_end_time and group.exam_end_time < current_time:
                 group.is_checked = False
                 group.save()
@@ -109,6 +107,7 @@ class ExamStart(AuthTeacherMixin, ListView):
 
         g_query = self.request.GET.get('state', '')
         if g_query:
+            context['topics'] = CourseTopic.objects.filter(course__course_group__id=g_query, is_deleted=False).all()
             context['all_topics'] = Group.objects.filter(id=g_query, is_active=True).first()
 
         return context

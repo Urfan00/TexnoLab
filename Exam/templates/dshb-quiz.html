@@ -255,12 +255,12 @@
 
 <script>
   let urls = '/exam_result/'
-  
-  var countDownDate = new Date('{{ endTime|date:"D M d Y H:i:s" }}').getTime()
+
+  var countDownDate = new Date('{{ endTime|date:"Y-m-d H:i:s" }}').getTime();
 
   var x = setInterval(function() {
     var now = new Date().getTime(); // Update the current time in each iteration
-    
+
     var distance = countDownDate - now;
 
     // Time calculations for days, hours, minutes and seconds
