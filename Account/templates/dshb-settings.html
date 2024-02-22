@@ -44,10 +44,13 @@
                           <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab3" data-tab-target=".-tab-item-3" type="button">
                             Mənim təlimlərim
                           </button>
-                        {% endif %}
+                          {% endif %}
                           {% comment %} <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab4" data-tab-target=".-tab-item-4" type="button">
                             Mənim sertifikatlarım
                           </button> {% endcomment %}
+                        <button class="tabs__button text-light-1 js-tabs-button" data-tab="tab5" data-tab-target=".-tab-item-5" type="button">
+                          Şifrə Yenilə
+                        </button>
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
@@ -57,7 +60,7 @@
                             </div>
                           </div>
                           <div class="border-top-light pt-30 mt-30">
-                            <form method="post" class="contact-form row y-gap-30" enctype="multipart/form-data">
+                            <form method="post" name="x1" class="contact-form row y-gap-30" enctype="multipart/form-data">
 
                               {% csrf_token %}
 
@@ -105,17 +108,18 @@
                                     {{ form1.cv }}
                                   </div>
                                 {% endif %}
+                                <input type="hidden" name="form_name" value="form1">
 
-                            <div class="col-12">
-                              <button class="button -md -dark-1 text-white">Yenilə</button>
-                            </div>
-                          </form>
+                              <div class="col-12">
+                                <button class="button -md -dark-1 text-white">Yenilə</button>
+                              </div>
+                            </form>
                           </div>
                         </div>
 
                         {% if user.staff_status == 'Tələbə' %}
                           <div class="tabs__pane -tab-item-2" data-pane="tab2">
-                            <form method="post" class="contact-form row y-gap-30">
+                            <form method="post" name="x2" class="contact-form row y-gap-30">
 
                               {% csrf_token %}
 
@@ -159,6 +163,7 @@
                                   <label for="id_linkedIn" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form2.linkedIn.label }}</label>
                                   {{ form2.linkedIn }}
                                 </div>
+                                <input type="hidden" name="form_name" value="form2">
 
                               <div class="col-12">
                                 <button class="button -md -dark-1 text-white">Əlavə et</button>
@@ -320,6 +325,43 @@
 
 
                         </div> {% endcomment %}
+
+                        <div class="tabs__pane -tab-item-5" data-pane="tab5">
+                          <form method="post" name="x3" class="contact-form row y-gap-30">
+
+                            {% csrf_token %}
+
+                            {% if change_password_form.errors %}
+                              <div class="alert alert-danger alert-dismissible" role="alert">
+                                  <div id="form_errors">
+                                      {% for key, value in change_password_form.errors.items %}
+                                          <strong>{{ value }}</strong>
+                                      {% endfor %}
+                                  </div>
+                              </div>
+                            {% endif %}
+
+                            <div class="col-md-8">
+                                <label for="id_old_password" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ change_password_form.old_password.label }}</label>
+                                {{ change_password_form.old_password }}
+                              </div>
+
+                              <div class="col-md-8">
+                                <label for="id_new_password1" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ change_password_form.new_password1.label }}</label>
+                                {{ change_password_form.new_password1 }}
+                              </div>
+
+                              <div class="col-md-8">
+                                <label for="id_new_password2" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ change_password_form.new_password2.label }}</label>
+                                {{ change_password_form.new_password2 }}
+                              </div>
+                              <input type="hidden" name="form_name" value="change_password_form">
+
+                            <div class="col-12">
+                              <button class="button -md -dark-1 text-white">Əlavə et</button>
+                            </div>
+                          </form>
+                        </div>
 
                       </div>
                     </div>

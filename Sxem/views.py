@@ -15,36 +15,42 @@ class SxemListView(AuthStudentPageMixin, ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        course_student = CourseStudent.objects.filter(
-                student = self.request.user,
-                is_keb = False,
-                is_active = False,
-                is_deleted = False,
-                group_student_is_active = True,
-                group__is_active = True,
-                group__course__status = True,
-                group__course__is_delete = False,
-            ).first()
-
-        # Ensure that an SxemStudentLOCK instance is created for the student if it doesn't exist
-        sxem_lock, created = SxemStudentLOCK.objects.get_or_create(
-            student=self.request.user,
-        )
-
-        if created:
-            # Assuming first sxem should be associated
-            first_sxem = course_student.group.course.course_sxem.filter(is_deleted=False).first()
-            if first_sxem:
-                sxem_lock.sxem.add(first_sxem)
-
-        context["sxems"] = Sxem.objects.filter(
+        st_course = CourseStudent.objects.filter(
+            student = self.request.user,
             is_deleted = False,
-            course = course_student.group.course
-        ).annotate(
-            is_pass_student=Exists(
-                sxem_lock.sxem.filter(pk=OuterRef('pk'))
-            )
+            group__course__is_delete = False,
+            group__course__category__is_delete = False,
         )
+
+        context['st_course'] = st_course
+        context['len_st_course'] = len(st_course)
+
+        if len(st_course) == 1:
+            state = st_course[0].group.course.pk
+        else:
+            state = self.request.GET.get('state', '')
+
+        if state:
+            # Ensure that an SxemStudentLOCK instance is created for the student if it doesn't exist
+            sxem_lock, created = SxemStudentLOCK.objects.get_or_create(
+                student=self.request.user,
+                course_id = state
+            )
+
+            if created:
+                # Assuming first sxem should be associated
+                first_sxem = sxem_lock.course.course_sxem.filter(is_deleted=False).first()
+                if first_sxem:
+                    sxem_lock.sxem.add(first_sxem)
+
+            context["sxems"] = Sxem.objects.filter(
+                is_deleted = False,
+                course = sxem_lock.course
+            ).annotate(
+                is_pass_student=Exists(
+                    sxem_lock.sxem.filter(pk=OuterRef('pk'))
+                )
+            )
 
         return context
 
@@ -60,25 +66,22 @@ class SxemDetailView(AuthStudentPageMixin, DetailView, CreateView):
 
     def get_queryset(self):
         queryset = super().get_queryset()
-        course_student = CourseStudent.objects.filter(
-                student = self.request.user,
-                is_keb = False,
-                is_active = False,
-                is_deleted = False,
-                group_student_is_active = True,
-                group__is_active = True,
-                group__course__status = True,
-                group__course__is_delete = False,
-            ).first()
+
+        st_course = CourseStudent.objects.filter(
+            student = self.request.user,
+            is_deleted = False,
+            group__course__is_delete = False,
+            group__course__category__is_delete = False,
+        )
 
         annotated_queryset = queryset.filter(
             is_deleted=False,
-            course=course_student.group.course
+            course__in=st_course.values('group__course')
         ).annotate(
-            has_passed_sxem = Exists(
-                SxemStudentLOCK.sxem.through.objects.filter(
+            has_passed_sxem=Exists(
+                SxemStudentLOCK.objects.filter(
                     sxem=OuterRef('pk'),
-                    sxemstudentlock__student=self.request.user,
+                    student=self.request.user,
                 )
             )
         )

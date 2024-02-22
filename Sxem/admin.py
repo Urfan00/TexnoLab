@@ -25,7 +25,7 @@ class SxemStudentAdmin(ImportExportModelAdmin):
 
 
 class SxemStudentLOCKAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'student']
+    list_display = ['id', 'student', 'course']
     list_display_links = ['id', 'student']
 
 

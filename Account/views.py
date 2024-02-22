@@ -12,6 +12,8 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
 from django.db.models import F, Avg
 from django.contrib.auth import logout
+from django.contrib.auth import update_session_auth_hash
+from django.views.generic import FormView
 
 
 def logout_view(request):
@@ -93,7 +95,7 @@ class AccountInformationView(LoginRequiredMixin, View):
     def get_context_data(self):
         context = {}
 
-        position = self.request.user.staff_status 
+        position = self.request.user.staff_status
         context['position'] = position
 
         if position == 'Tələbə':
@@ -104,13 +106,21 @@ class AccountInformationView(LoginRequiredMixin, View):
     def get(self, request, *args, **kwargs):
         form1 = AccountInforrmationForm(instance=request.user)
         form2 = SocialProfileForm(instance=request.user)
-        return render(request, self.template_name, {**self.get_context_data(), 'form1': form1, 'form2': form2})
+        change_password_form = ChangePasswordForm(user=request.user)  # Instantiate the form
+
+        return render(request, self.template_name, {
+            **self.get_context_data(),
+            'form1': form1,
+            'form2': form2,
+            'change_password_form': change_password_form,  # Add the form to the context
+        })
 
     def post(self, request, *args, **kwargs):
         form1 = AccountInforrmationForm(request.POST, request.FILES)
         form2 = SocialProfileForm(request.POST)
+        change_password_form = ChangePasswordForm(user=request.user, data=request.POST)  # Instantiate the form with POST data
 
-        if form1.is_valid():
+        if form1.is_valid() and self.request.POST.get('form_name') == 'form1':
             user_account = Account.objects.get(pk=request.user.pk)
             user_account.number = form1.cleaned_data.get('number')
             user_account.email = form1.cleaned_data.get('email')
@@ -124,7 +134,7 @@ class AccountInformationView(LoginRequiredMixin, View):
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')
 
-        if form2.is_valid():
+        elif form2.is_valid() and self.request.POST.get('form_name') == 'form2':
             user_account = Account.objects.get(pk=request.user.pk)
             user_account.instagram = form2.cleaned_data.get('instagram')
             user_account.twitter = form2.cleaned_data.get('twitter')
@@ -136,8 +146,28 @@ class AccountInformationView(LoginRequiredMixin, View):
             messages.success(request, 'Məlumatlarınız uğurla yeniləndi')
             return redirect('profile')
 
-        messages.error(request, 'Məlumatlarınız yenilənmədi')
-        return redirect('profile')
+        elif self.request.POST.get('form_name') == 'change_password_form':
+            if change_password_form.is_valid():
+                user = change_password_form.save()
+                update_session_auth_hash(request, user)  # Important!
+                self.request.user.first_time_login = False
+                self.request.user.save()
+
+                messages.success(request, 'Şifrə uğurla dəyişdirildi.')
+                return redirect('profile')
+            else:
+                # Retrieve form errors
+                change_password_errors = change_password_form.errors
+                return render(request, self.template_name, {
+                    **self.get_context_data(),
+                    'form1': form1,
+                    'form2': form2,
+                    'change_password_form': change_password_form,
+                    'change_password_errors': change_password_errors,  # Pass errors to the template
+                })
+        else:
+            messages.error(request, 'Məlumatlarınız yenilənmədi')
+            return redirect('profile')
 
 
 class ResultView(AuthSuperUserTeacherMixin, ListView):

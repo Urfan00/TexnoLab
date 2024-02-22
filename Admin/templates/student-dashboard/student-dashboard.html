@@ -25,25 +25,29 @@
 
 
     <div class="row y-gap-10">
-      <div class="px-30 border-bottom-light">
-        {% csrf_token %}
-        <div class="row x-gap-10 items-center py-10">
 
-          <div class="col-lg-2">
-            <div class="d-flex items-center">
-              <form class="" action="." method="get" style="width: 100%;">
-                <select class="js-example-basic-single" name="state" onchange="this.form.submit()" id="groupSelect" style="width: 100%;">
-                  <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
-                  {% for group in groups %}
-                    <option value="{{ group.id }}" {% if group.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ group.name|capfirst }}</option>
-                  {% endfor %}
-                </select>
-              </form>
+      {% if len_groups != 1  %}
+        <div class="px-30 border-bottom-light">
+          {% csrf_token %}
+          <div class="row x-gap-10 items-center py-10">
+
+            <div class="col-lg-2">
+              <div class="d-flex items-center">
+                <form class="" action="." method="get" style="width: 100%;">
+                  <select class="js-example-basic-single" name="state" onchange="this.form.submit()" id="groupSelect" style="width: 100%;">
+                    <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
+                    {% for group in groups %}
+                      <option value="{{ group.id }}" {% if group.id|stringformat:"s" == request.GET.state %}selected{% endif %}>{{ group.name|capfirst }}</option>
+                    {% endfor %}
+                  </select>
+                </form>
+              </div>
             </div>
-          </div>
 
+          </div>
         </div>
-      </div>
+      {% endif %}
+
       <div class="col-xl-4 col-md-6">
         <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
           <div>
@@ -282,7 +286,6 @@
           </div>
         </div>
       </div>
-
 
     </div>
 

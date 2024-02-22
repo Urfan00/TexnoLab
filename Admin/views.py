@@ -73,9 +73,15 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
             groups = Group.objects.filter(id__in=student_course, is_active=True).all()
 
             context['groups'] = groups
+            context['len_groups'] = len(groups)
+
             labels = []
             data = []
-            state = self.request.GET.get('state', '')
+
+            if len(groups) == 1:
+                state = groups[0].pk
+            else:
+                state = self.request.GET.get('state', '')
 
             if state:
                 context['teacher_point'] = TeacherEvaluation.objects.filter(
@@ -2368,9 +2374,9 @@ class AdminQuestionAnswerListView(AuthSuperUserTeacherMixin, ListView):
         course_ids = teacher_course.values_list('course__id', flat=True)
 
         if self.request.user.staff_status == 'SuperUser':
-            context['tests'] = CourseTopicsTest.objects.all()
+            context['tests'] = CourseTopicsTest.objects.filter(is_deleted=False).all()
         else:
-            context['tests'] = CourseTopicsTest.objects.filter(course__id__in=course_ids)
+            context['tests'] = CourseTopicsTest.objects.filter(course__id__in=course_ids, is_deleted=False)
 
         return context
 

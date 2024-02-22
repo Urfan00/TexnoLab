@@ -94,6 +94,7 @@ class SxemStudent(DateMixin):
 class SxemStudentLOCK(DateMixin):
     student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='student_sxem_lock')
     sxem = models.ManyToManyField(Sxem)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='sxem_student_course')
 
     def __str__(self):
         return self.student.get_full_name()
