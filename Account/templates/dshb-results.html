@@ -21,7 +21,7 @@
               <div class="tabs__content py-30 px-30 js-tabs-content">
 
                 <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
-                  <div class="row y-gap-10 ">
+                  <div class="row y-gap-10">
                     <div class="col-auto">
                       <form class="search-field border-light rounded-8 h-50" action="." method="get">
                         <select class="js-example-basic-single" name="state" onchange="this.form.submit()" style="min-width: 200px;">
@@ -32,58 +32,101 @@
                         </select>
                       </form>
                     </div>
+                
+                    <div class="col-auto">
+                      <form class="search-field border-light rounded-8 h-50" action="." method="get">
+                        <select class="js-example-basic-single" name="t" onchange="updateUrl(this)" style="min-width: 200px;">
+                          <option value="0" {% if request.GET.t == 0 %}selected{% endif %}>------</option>
+                          {% for topic in group_topics.all_course_topics.all %}
+                            <option value="{{ topic.id }}" {% if topic.id|stringformat:"s" == request.GET.t %}selected{% endif %}>{{ topic.topic_title|capfirst }}</option>
+                          {% endfor %}
+                        </select>
+                      </form>
+                    </div>
                   </div>
 
                   <style>
                     .tDiv{
                       width:100%;
                       overflow-x:scroll;
+                      display: flex;
+                    }
+
+                    .tc {
+                      text-align: center;
+                    }
+
+                    table.table td,
+                    table.table th {
+                      padding: 10px;
+                    }
+
+                    .min_w_150 {
+                      min-width: 150px;
+                    }
+
+                    .tdborderleft {
+                      /* border-left: 2px solid #EDEDED; */
+                      border-left: 2px solid #B2B2B2;
                     }
                   </style>
 
                   <div class="tDiv py-30">
+
                     <div class="table-responsive">
                       <table class="table">
                         <thead>
                           <tr>
                             <th>№</th>
-                            <th>Ad Soyad</th>
+                            <th class="min_w_150">Ad Soyad</th>
                             <th>Nəticə</th>
-                            <th>Ortalama</th>
-                            {% for topic in topics.all_course_topics.all %}
-                              <th></th>
-                              {% comment %} <th>{{ topic.topic_title|capfirst }}</th> {% endcomment %}
-                            {% endfor %}
+                            <th>Tarix</th>
                           </tr>
                         </thead>
                         <tbody>
 
-                          {% for result in group_results %}
+                          {% for result in students_results %}
                             <tr>
                               <td class="tc">{{ forloop.counter }}</td>
-                              <td class="tc">{{ result.student.get_full_name|capfirst }}</td>
-                              <td class="tc">{{ result.true_percent_point }} %</td>
-
-                              <td class="tc">
-                                {% for st in average_total_point %}
-                                  {% if result.student.id == st.student %}
-                                    {{ st.average_total_point|floatformat:2 }} %
-                                  {% endif %}
-                                {% endfor %}
-                              </td>
-
-                              {% for old_result in old_group_result %}
-                                {% if result.student == old_result.student %}
-                                  <td class="tc"><i>{{ old_result.exam_topics }}</i> / {{ old_result.percent_point }} %</td>
-                                {% endif %}
-                              {% endfor %}
-
+                              <td class="min_w_150">{{ result.student.get_full_name|capfirst }}</td>
+                              <td class="tc">{{ result.total_point }}</td>
+                              <td class="tc">{{ result.created_at|date:"d.m.Y" }}</td>
                             </tr>
                           {% endfor %}
 
                         </tbody>
                       </table>
                     </div>
+
+                    <div class="table-responsive">
+                      <table class="table">
+                        <thead>
+                          <tr>
+                            <th class="tdborderleft">№</th>
+                            <th class="min_w_150">Ad Soyad</th>
+                            <th>Ortalama</th>
+                            {% for topic in group_topics.all_course_topics.all %}
+                              <th class="tc min_w_150">{{ topic.topic_title|capfirst }}</th>
+                            {% endfor %}
+                          </tr>
+                        </thead>
+                        <tbody>
+
+                          {% for result in all_results %}
+                            <tr>
+                              <td class="tc tdborderleft">{{ forloop.counter }}</td>
+                              <td class="min_w_150">{{ result.student__first_name|capfirst }} {{ result.student__last_name|capfirst }}</td>
+                              <td class="tc">{{ result.avg_total_point }}</td>
+                              {% for other_topic_result in result.other_topics_total_points %}
+                                <td class="tc">{{ other_topic_result }}</td>
+                              {% endfor %}
+                            </tr>
+                          {% endfor %}
+
+                        </tbody>
+                      </table>
+                    </div>
+
                   </div>
 
                 </div>
@@ -117,5 +160,19 @@
       setInterval(reloadPage, 60000);
   });
 </script>
-
-  {% endblock %}
+<script>
+  function updateUrl(element) {
+      // Get the value of the selected topic
+      var topicValue = element.value;
+      
+      // Get the current URL
+      var currentUrl = new URL(window.location.href);
+      
+      // Update only the 't' parameter in the URL
+      currentUrl.searchParams.set('t', topicValue);
+      
+      // Redirect to the updated URL
+      window.location.href = currentUrl.toString();
+  }
+</script>
+{% endblock %}

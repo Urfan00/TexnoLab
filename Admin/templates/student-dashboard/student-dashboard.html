@@ -143,7 +143,7 @@
                     <thead>
                       <tr>
                         <th>№</th>
-                        <th>Təlim</th>
+                        {% comment %} <th>Təlim</th> {% endcomment %}
                         <th>Mövzu</th>
                         <th>Nəticə</th>
                         <th>Bal</th>
@@ -155,7 +155,7 @@
                       {% for result in results %}
                         <tr>
                           <td class="tc">{{ forloop.counter }}</td>
-                          <td class="tc">{{ result.s_r_group.course.title|capfirst }}</td>
+                          {% comment %} <td class="tc">{{ result.s_r_group.course.title|capfirst }}</td> {% endcomment %}
                           <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
                           <td class="tc">{{ result.percent_point }} %</td>
                           <td class="tc">{{ result.total_point }} bal</td>

@@ -250,7 +250,7 @@
 
               {% endif %}
 
-              {% if user.staff_status == 'Müəllim' %}
+              {% if user.staff_status == 'SuperUser' or user.staff_status == 'Müəllim' %}
 
                 {% url 'result' as result %}
                 <div class="sidebar__item {% if request.path == result or request.path|slice:'/-' == result %}-is-active{% endif %}">

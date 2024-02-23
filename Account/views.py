@@ -1,7 +1,7 @@
 from django.shortcuts import redirect, render
 from Account.models import Account
 from ExamResult.models import CourseStudent, Group, StudentResult
-from services.mixins import  AuthStudentPageMixin, AuthSuperUserTeacherMixin
+from services.mixins import AuthSuperUserTeacherMixin
 from .forms import AccountInforrmationForm, ChangePasswordForm, CustomSetPasswordForm, LoginForm, ResetPasswordForm, SocialProfileForm
 from django.contrib.auth.views import LoginView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -10,10 +10,10 @@ from django.views.generic import ListView
 from django.contrib import messages
 from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
-from django.db.models import F, Avg
 from django.contrib.auth import logout
 from django.contrib.auth import update_session_auth_hash
-from django.views.generic import FormView
+from django.db.models import Subquery, Avg, Case, When, F, Value, CharField
+
 
 
 def logout_view(request):
@@ -178,6 +178,7 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
         context = super().get_context_data(**kwargs)
 
         g_query = self.request.GET.get('state', '')
+        t_query = self.request.GET.get('t', '')
 
         user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
         super_user = Account.objects.filter(id=self.request.user.id, staff_status='SuperUser').first()
@@ -192,34 +193,38 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
             context['groups'] = groups
 
             if g_query:
-                course_students = CourseStudent.objects.filter(group=g_query, group_student_is_active=True)
+                group_topics = Group.objects.filter(id=g_query, is_active=True).first()
+                context['group_topics'] = group_topics
+                if t_query:
+                    # course_students = CourseStudent.objects.filter(group=g_query, group_student_is_active=True).all()
+                    # secilen qrup ve topice gore netice
+                    context['students_results'] = StudentResult.objects.filter(
+                        # student__in=Subquery(course_students.values('student')),
+                        s_r_group = g_query,
+                        exam_topics = t_query,
+                    ).order_by('-total_point')
 
-                print('=--==>', course_students)
+                    all_topics = group_topics.all_course_topics.all()
 
-                context['topics'] = Group.objects.filter(id=g_query).first()
+                    # Retrieve student results for the given group
+                    students_all_results = StudentResult.objects.filter(
+                        s_r_group=g_query
+                    ).values('student__id', 'student__first_name', 'student__last_name').annotate(
+                        avg_total_point=Avg('total_point') * 5
+                    ).order_by('-avg_total_point')
 
-                group_results = StudentResult.objects.filter(
-                    student__in=course_students.values_list('student', flat=True), status=True
-                ).annotate(
-                    true_percent_point = F('total_point') * 5
-                ).order_by('-true_percent_point').all()
+                    # Iterate over each student result to calculate other_topics_total_points
+                    for student_result in students_all_results:
+                        student_id = student_result['student__id']
+                        student_result['other_topics_total_points'] = []
+                        for topic in all_topics:
+                            topic_result = StudentResult.objects.filter(student_id=student_id, exam_topics=topic).first()
+                            if topic_result:
+                                student_result['other_topics_total_points'].append(topic_result.total_point * 5)
+                            else:
+                                student_result['other_topics_total_points'].append('-------')
 
-                context['group_results'] = group_results
+                    context['all_results'] = students_all_results
 
-                print('<<<>>>>', group_results)
-
-                context['old_group_result'] = StudentResult.objects.filter(
-                    student__in=course_students.values_list('student', flat=True), status=False
-                ).annotate(
-                    percent_point = F('total_point') * 5
-                ).order_by('exam_topics__id').all()
-
-                context['average_total_point'] = StudentResult.objects.filter(
-                    student__in=course_students.values_list('student', flat=True)
-                ).values('student').annotate(
-                    average_total_point=Avg('total_point') * 5
-                ).all()
-                
-                print('==>', context['average_total_point'])
 
         return context
