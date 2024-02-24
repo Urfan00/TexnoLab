@@ -52,8 +52,8 @@ class SaveExamView(View):
                 for t in tt:
                     t.status=False
                     t.save()
-                
-                ww = StudentResult.objects.filter(student__learner__group=group).all()
+
+                ww = StudentResult.objects.filter(s_r_group=group, exam_topics=course_topic).all()
                 for w in ww:
                     if w.created_at.day != timezone.now().day:
                         w.status=False

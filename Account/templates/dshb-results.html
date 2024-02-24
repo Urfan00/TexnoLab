@@ -89,7 +89,7 @@
                             <tr>
                               <td class="tc">{{ forloop.counter }}</td>
                               <td class="min_w_150">{{ result.student.get_full_name|capfirst }}</td>
-                              <td class="tc">{{ result.total_point }}</td>
+                              <td class="tc">{{ result.total_point }} bal</td>
                               <td class="tc">{{ result.created_at|date:"d.m.Y" }}</td>
                             </tr>
                           {% endfor %}
@@ -102,9 +102,9 @@
                       <table class="table">
                         <thead>
                           <tr>
-                            <th class="tdborderleft">№</th>
-                            <th class="min_w_150">Ad Soyad</th>
-                            <th>Ortalama</th>
+                            {% comment %} <th class="tdborderleft">№</th> {% endcomment %}
+                            <th class="min_w_150 tdborderleft">Ad Soyad</th>
+                            <th class="min_w_150 tc">Toplam jeton</th>
                             {% for topic in group_topics.all_course_topics.all %}
                               <th class="tc min_w_150">{{ topic.topic_title|capfirst }}</th>
                             {% endfor %}
@@ -114,11 +114,11 @@
 
                           {% for result in all_results %}
                             <tr>
-                              <td class="tc tdborderleft">{{ forloop.counter }}</td>
-                              <td class="min_w_150">{{ result.student__first_name|capfirst }} {{ result.student__last_name|capfirst }}</td>
-                              <td class="tc">{{ result.avg_total_point }}</td>
+                              {% comment %} <td class="tc tdborderleft">{{ forloop.counter }}</td> {% endcomment %}
+                              <td class="min_w_150 tdborderleft">{{ result.student__first_name|capfirst }} {{ result.student__last_name|capfirst }}</td>
+                              <td class="tc">{{ result.avg_total_point }} bal</td>
                               {% for other_topic_result in result.other_topics_total_points %}
-                                <td class="tc">{{ other_topic_result }}</td>
+                                <td class="tc">{{ other_topic_result }} {% if other_topic_result != '-------' %}bal{% endif %}</td>
                               {% endfor %}
                             </tr>
                           {% endfor %}

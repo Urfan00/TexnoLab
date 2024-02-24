@@ -98,7 +98,11 @@ class SxemDetailView(AuthStudentPageMixin, DetailView, CreateView):
 
         context['sxem_student_answer'] = SxemStudent.objects.filter(student=self.request.user, sxem=self.get_object()).first()
 
-        context['photo'] = SxemStudent.objects.filter(student=self.request.user, sxem=self.get_object()).first()
+        s_s_answer = SxemStudent.objects.filter(student=self.request.user, sxem=self.get_object()).first()
+        if s_s_answer:
+            s_s_answer.is_s_notification = False
+            s_s_answer.save()
+            context['photo'] = s_s_answer
 
         return context
 
@@ -159,6 +163,9 @@ class SxemTeacherMentorEvaluationView(AuthTeacherMentorMixin, DetailView, Update
 
     def form_valid(self, form):
         form.instance.teacher_mentor = self.request.user
+        # telebeye notification gedir
+        form.instance.is_s_notification = True
+
         if not form.cleaned_data.get('is_pass'):
             form.instance.is_student_answer = False
         else:
@@ -171,7 +178,7 @@ class SxemTeacherMentorEvaluationView(AuthTeacherMentorMixin, DetailView, Update
             next_sxem = Sxem.objects.filter(course=form.instance.sxem.course, pk__gt=max_sxem_pk).order_by('pk').first()
             if next_sxem:
                 # Get or create the SxemStudentLOCK instance for the current student
-                sxem_lock, _ = SxemStudentLOCK.objects.get_or_create(student=form.instance.student)
+                sxem_lock, _ = SxemStudentLOCK.objects.get_or_create(student=form.instance.student, course=self.get_object().sxem.course)
                 sxem_lock.sxem.add(next_sxem)
 
         return super().form_valid(form)

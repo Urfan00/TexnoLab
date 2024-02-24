@@ -28,6 +28,10 @@ def base_data(request):
 
     if request.user.is_authenticated:
         if request.user.staff_status == 'Tələbə':
+
+            data['student_notification_count'] = SxemStudent.objects.filter(student=request.user, is_s_notification=True).count()
+
+
             account_group = CourseStudent.objects.filter(
                 student=request.user,
                 group_student_is_active=True,

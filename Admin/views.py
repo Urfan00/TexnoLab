@@ -133,15 +133,21 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
 
                 student_totals = defaultdict(int)
                 student_counts = defaultdict(int)
+                student_totals_points = defaultdict(int)
                 for entry in student_max_total_points:
                     student_id = f"{entry['student__first_name']} {entry['student__last_name']}"
                     student_totals[student_id] += entry['max_total_point'] * 5
+                    student_totals_points[student_id] += entry['max_total_point']
                     student_counts[student_id] += 1
 
-                student_averages = {student_id: student_totals[student_id] / student_counts[student_id] for student_id in student_totals}
+                student_averages = {
+                    student_id: {
+                        'average': student_totals[student_id] / student_counts[student_id],
+                        'total_points': student_totals_points[student_id] / student_counts[student_id] # Add total points to the dictionary
+                    } for student_id in student_totals
+                }
 
-                sorted_averages = dict(sorted(student_averages.items(), key=lambda item: item[1], reverse=True))
-                context['sorted_student_averages'] = sorted_averages
+                context['sorted_student_averages'] = student_averages
 
                 # top-10 reytinq
                 st_gr = get_object_or_404(Group, id=state)
@@ -155,7 +161,7 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
                 top_10_student_counts = defaultdict(int)
                 for entry in top_10_rate:
                     student_id = f"{entry['student__first_name']} {entry['student__last_name']}"
-                    top_10_student_totals[student_id] += entry['max_total_point'] * 5
+                    top_10_student_totals[student_id] += entry['max_total_point']
                     top_10_student_counts[student_id] += 1
 
                 top_10 = {student_id: top_10_student_totals[student_id] / top_10_student_counts[student_id] for student_id in top_10_student_totals}
@@ -2644,7 +2650,7 @@ class AdminSXEMLABListView(AuthSuperUserTeacherMixin, ListView):
 
 
 # LAB
-class AdminLABAddView(AuthSuperUserMixin, CreateView):
+class AdminLABAddView(AuthSuperUserTeacherMixin, CreateView):
     model = LAB
     template_name = 'sxem_lab/lab/dshb-lab-add.html'
     form_class = LABEditForm
@@ -2661,7 +2667,7 @@ class AdminLABAddView(AuthSuperUserMixin, CreateView):
         return super().form_invalid(form)
 
 
-class AdminLABEditView(AuthSuperUserMixin, CreateView):
+class AdminLABEditView(AuthSuperUserTeacherMixin, CreateView):
     model = LAB
     template_name = 'sxem_lab/lab/dshb-lab-edit.html'
 
@@ -2687,7 +2693,7 @@ class AdminLABEditView(AuthSuperUserMixin, CreateView):
             return redirect('sxem_lab_dashboard')
 
 
-class AdminLABDeleteView(AuthSuperUserMixin, View):
+class AdminLABDeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, *args, **kwargs):
         lab_id = kwargs.get('pk')
         lab = get_object_or_404(LAB, pk=lab_id)
@@ -2697,7 +2703,7 @@ class AdminLABDeleteView(AuthSuperUserMixin, View):
         return redirect('sxem_lab_dashboard')
 
 
-class AdminLABUndeleteView(AuthSuperUserMixin, View):
+class AdminLABUndeleteView(AuthSuperUserTeacherMixin, View):
     def post(self, request, pk, *args, **kwargs):
         lab = get_object_or_404(LAB, pk=pk)
         lab.is_deleted = False

@@ -18,9 +18,9 @@ class SxemImagesAdmin(ImportExportModelAdmin):
 
 
 class SxemStudentAdmin(ImportExportModelAdmin):
-    list_display = ['id', 'student', 'teacher_mentor', 'sxem', 'student_answer', 'teacher_mentor_comment', 'is_pass', 'is_student_answer', 'created_at', 'updated_at']
+    list_display = ['id', 'student', 'teacher_mentor', 'sxem', 'student_answer', 'teacher_mentor_comment', 'is_pass', 'is_student_answer', 'is_s_notification', 'created_at', 'updated_at']
     list_display_links = ['id', 'student']
-    list_filter = ['is_pass', 'is_student_answer']
+    list_filter = ['is_pass', 'is_student_answer', 'is_s_notification']
     search_fields = ['student__first_name', 'student__last_name', 'sxem__sxem_title']
 
 

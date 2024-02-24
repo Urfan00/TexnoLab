@@ -189,15 +189,17 @@
                         <th>№</th>
                         <th>Tələbə</th>
                         <th>İmtahan ortalaması</th>
+                        <th>Bal</th>
                       </tr>
                     </thead>
                     <tbody>
 
-                      {% for student_id, average in sorted_student_averages.items %}
+                      {% for student_id, data in sorted_student_averages.items %}
                       <tr>
                           <td class="tc">{{ forloop.counter }}</td>
                           <td class="tc">{{ student_id|capfirst }}</td>
-                          <td class="tc">{{ average|floatformat:2 }}</td>
+                          <td class="tc">{{ data.average|floatformat:2 }} %</td>
+                          <td class="tc">{{ data.total_points|floatformat:2 }} bal</td>
                       </tr>
                       {% endfor %}
 
@@ -235,7 +237,7 @@
                       <tr>
                           <td class="tc">{{ forloop.counter }}</td>
                           <td class="tc">{{ student_id|capfirst }}</td>
-                          <td class="tc">{{ average|floatformat:2 }}</td>
+                          <td class="tc">{{ average|floatformat:2 }} bal</td>
                       </tr>
                       {% endfor %}
 

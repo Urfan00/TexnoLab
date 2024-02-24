@@ -85,7 +85,8 @@ class SxemStudent(DateMixin):
     student_answer = models.ImageField(upload_to=Uploader.answer_sxem_images)
     teacher_mentor_comment = models.TextField(null=True, blank=True)
     is_pass = models.BooleanField(default=False) # true olsa telebe novbeti sxeme kece biler
-    is_student_answer = models.BooleanField(default=False)
+    is_student_answer = models.BooleanField(default=False) # telebe cavab verib ya yox
+    is_s_notification = models.BooleanField(default=False) # teacher or mentor comment yada is passi true edibse true olur daha sonra telebe daxil olsa false olur
 
     def __str__(self):
         return f"{self.student.get_full_name()} {self.sxem.sxem_title} answer"

@@ -210,7 +210,8 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
                     students_all_results = StudentResult.objects.filter(
                         s_r_group=g_query
                     ).values('student__id', 'student__first_name', 'student__last_name').annotate(
-                        avg_total_point=Avg('total_point') * 5
+                        # avg_total_point=Avg('total_point') * 5 # faizle ortalamsi
+                        avg_total_point=Avg('total_point')
                     ).order_by('-avg_total_point')
 
                     # Iterate over each student result to calculate other_topics_total_points
@@ -220,7 +221,8 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
                         for topic in all_topics:
                             topic_result = StudentResult.objects.filter(student_id=student_id, exam_topics=topic).first()
                             if topic_result:
-                                student_result['other_topics_total_points'].append(topic_result.total_point * 5)
+                                # student_result['other_topics_total_points'].append(topic_result.total_point * 5) # fazile neticesi
+                                student_result['other_topics_total_points'].append(topic_result.total_point)
                             else:
                                 student_result['other_topics_total_points'].append('-------')
 

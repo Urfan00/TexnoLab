@@ -326,7 +326,7 @@
                 <div class="sidebar__item {% if request.path == sxem_list or request.path|slice:'/-' == sxem_list %}-is-active{% endif %}">
                   <a href="{% url "sxem_list" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                     <i class="text-20 icon-setting mr-15"></i>
-                    Sxemlər
+                    Sxemlər  {% if student_notification_count != 0 %}<span class="count_badge"> {% if student_notification_count > 99 %}99+{% else %}{{ student_notification_count }}{% endif %} </span>{% endif %}
                   </a>
                 </div>
 
@@ -362,7 +362,7 @@
                 <div class="sidebar__item {% if request.path == sxem_lab_dashboard or request.path|slice:'/-' == sxem_lab_dashboard %}-is-active{% endif %}">
                   <a href="{% url "sxem_lab_dashboard" %}" class="d-flex items-center text-17 lh-1 fw-500 ">
                     <i class="text-20 icon-play-button mr-15"></i>
-                    {% if user.staff_status == 'SuperUser' %}Mühəndis işi və {% endif %}Sxemlər
+                    Mühəndis işi və Sxemlər
                   </a>
                 </div>
 

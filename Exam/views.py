@@ -152,11 +152,11 @@ class QuizView(AuthStudentMixin, ListView):
         print('==>>> !! >', account_group.group)
         print('==>>> ?? >', account_group.group.course_topic)
         # Create or update StudentResult
-        student_result, created = StudentResult.objects.get_or_create(student=self.request.user, status=True, s_r_group=account_group.group)
+        student_result, created = StudentResult.objects.get_or_create(student=self.request.user, status=True, s_r_group=account_group.group, exam_topics=account_group.group.course_topic)
         student_result.point_1 = new_point_1_points
         student_result.point_2 = new_point_2_points * 2
         student_result.point_3 = new_point_3_points * 3
-        student_result.exam_topics = account_group.group.course_topic
+        # student_result.exam_topics = account_group.group.course_topic
         student_result.save()
 
         student = Account.objects.get(id=self.request.user.pk)
@@ -172,8 +172,16 @@ class ExamResultView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context["result"] = StudentResult.objects.filter(student=self.request.user, status=True).annotate(
+        account_group = CourseStudent.objects.filter(
+            student=self.request.user,
+            group_student_is_active=True,
+            is_keb = False,
+            is_active = False,
+            is_deleted = False,
+            is_exam_group = True,
+            group__is_active = True,
+        ).first()
+        context["result"] = StudentResult.objects.filter(student=self.request.user, status=True, s_r_group=account_group.group, exam_topics=account_group.group.course_topic).annotate(
             percent_point = F('total_point') * 5
         ).first()
         return context
-
