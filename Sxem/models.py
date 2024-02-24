@@ -2,6 +2,7 @@ import os
 from django.db import models
 from Account.models import Account
 from Course.models import Course
+from ExamResult.models import Group
 from services.mixins import DateMixin
 from services.uploader import Uploader
 from django.conf import settings
@@ -99,3 +100,17 @@ class SxemStudentLOCK(DateMixin):
 
     def __str__(self):
         return self.student.get_full_name()
+
+
+class TeacherLastSxemPoint(DateMixin):
+    student_group = models.ForeignKey(Group, on_delete=models.CASCADE, related_name='sxem_point_student_group')
+    student = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='last_sxem_point_student')
+    teacher = models.ForeignKey(Account, on_delete=models.CASCADE, related_name='last_sxem_point_teacher')
+    last_sxem_point = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.student.get_full_name()
+
+    class Meta:
+        verbose_name = 'Teacher Last Sxem Point'
+        verbose_name_plural = 'Teacher Last Sxem Point'

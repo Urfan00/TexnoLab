@@ -10,7 +10,7 @@ from Core.models import FAQ, AboutUs, Certificate, ContactInfo, ContactUs, HomeP
 from Blog.models import Blog, BlogCategory
 from Course.models import Course, CourseCategory, CourseFeedback, CourseProgram, CourseStatistic, CourseVideo, Gallery, RequestUs, TeacherCourse
 from Service.models import AllGalery, AllVideoGallery, Service, ServiceHome, ServiceImage, ServiceVideo
-from Sxem.models import Sxem, SxemImages, SxemStudent
+from Sxem.models import Sxem, SxemImages, SxemStudent, TeacherLastSxemPoint
 from TIM.models import TIM, TIMImage, TIMVideo
 from services.mixins import AuthStudentPageMixin, AuthSuperUserCoordinatorMixin, AuthSuperUserCoordinatorTeacherMixin, AuthSuperUserMixin, AuthSuperUserTeacherMixin
 from .forms import (AboutUsEditForm,
@@ -84,38 +84,73 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
                 state = self.request.GET.get('state', '')
 
             if state:
-                context['teacher_point'] = TeacherEvaluation.objects.filter(
+                # toplam test jetonu
+                toplam_test_jetonu = StudentResult.objects.filter(
+                    student=self.request.user,
+                    s_r_group__id=state
+                ).values('exam_topics').annotate(
+                    max_total_point=Max('total_point')
+                ).aggregate(
+                    Sum('max_total_point')
+                )['max_total_point__sum'] or 0
+                context['toplam_test_jetonu'] = toplam_test_jetonu
+
+                # lab muhendis isi jetonu
+                lab_point = MentorLabEvaluation.objects.filter(
+                    student=self.request.user,
+                    m_l_e_group__id=state
+                ).aggregate(Sum('point'))['point__sum'] or 0
+
+                lab_count = LAB.objects.filter(
+                    course__course_group__id=state,
+                    is_deleted=False
+                ).count()
+                context['lab_point'] = lab_point * 100 / lab_count
+
+                # gunluk jetonu
+                daily_highest_point = TeacherEvaluation.objects.filter(
+                    t_e_group__id=state
+                ).values('student__id').annotate(
+                    total_points=Sum('point')
+                ).order_by('-total_points').first()
+
+                daily_point = TeacherEvaluation.objects.filter(
                     student=self.request.user, t_e_group__id=state
                 ).aggregate(
                     Sum('point')
                 )['point__sum'] or 0
 
-                context['lab_point'] = MentorLabEvaluation.objects.filter(
-                    student=self.request.user,
-                    m_l_e_group__id=state
-                ).aggregate(Sum('point'))['point__sum'] or 0
+                context['daily_point'] = daily_point
+                context['daily_point_total'] = daily_point * 50 / daily_highest_point['total_points']
 
+                # teacher lab + sxem point
+                lab_teacher_point = TeacherLastLabPoint.objects.filter(
+                    student = self.request.user,
+                    student_group__id = state
+                ).first()
+
+                sxem_teacher_point = TeacherLastSxemPoint.objects.filter(
+                    student = self.request.user,
+                    student_group__id = state
+                ).first()
+
+                lab_point = lab_teacher_point.last_lab_point if lab_teacher_point else 0
+                sxem_point = sxem_teacher_point.last_sxem_point if sxem_teacher_point else 0
+
+                context['teacher_total_lab_sxem_point'] = lab_point + sxem_point
+
+                # sxem point other
                 context['sxem_point'] = SxemStudent.objects.filter(
                     student=self.request.user,
                     is_pass=True,
                     sxem__course__course_group__id = state
                 ).count()
 
-                context['last_lab_point'] = TeacherLastLabPoint.objects.filter(
-                    student = self.request.user,
-                    student_group__id = state
-                ).first()
+                # ummumi jeton
+                context['total_jeton'] = context['toplam_test_jetonu'] + context['lab_point'] + context['daily_point_total'] + context['teacher_total_lab_sxem_point']
+                context['total_jeton_percent'] = context['total_jeton'] / 5
 
-                average_total_point = StudentResult.objects.filter(
-                    student=self.request.user,
-                    s_r_group__id=state
-                ).values('exam_topics').annotate(
-                    max_total_point=Max('total_point')
-                ).aggregate(
-                    Avg('max_total_point')
-                )['max_total_point__avg'] or 0
-                context['average_total_point'] = average_total_point * 5
-
+                # exam result and diaqram
                 student_results = StudentResult.objects.filter(student=self.request.user, s_r_group__id=state).annotate(
                     percent_point = F('total_point') * 5
                 )
@@ -142,12 +177,13 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
 
                 student_averages = {
                     student_id: {
-                        'average': student_totals[student_id] / student_counts[student_id],
-                        'total_points': student_totals_points[student_id] / student_counts[student_id] # Add total points to the dictionary
+                        'average': student_totals[student_id],
+                        'total_points': student_totals_points[student_id]
                     } for student_id in student_totals
                 }
 
-                context['sorted_student_averages'] = student_averages
+                sorted_student_averages = sorted(student_averages.items(), key=lambda x: x[1]['total_points'], reverse=True)
+                context['sorted_student_averages'] = sorted_student_averages
 
                 # top-10 reytinq
                 st_gr = get_object_or_404(Group, id=state)
@@ -164,7 +200,8 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
                     top_10_student_totals[student_id] += entry['max_total_point']
                     top_10_student_counts[student_id] += 1
 
-                top_10 = {student_id: top_10_student_totals[student_id] / top_10_student_counts[student_id] for student_id in top_10_student_totals}
+                # top_10 = {student_id: top_10_student_totals[student_id] / top_10_student_counts[student_id] for student_id in top_10_student_totals}
+                top_10 = {student_id: top_10_student_totals[student_id] for student_id in top_10_student_totals}
 
                 sorted_top_10 = dict(sorted(top_10.items(), key=lambda item: item[1], reverse=True))
                 top_10_students = dict(list(sorted_top_10.items())[:10])
@@ -174,7 +211,7 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
                 top_10_sxem = student_counts = SxemStudent.objects.filter(
                     sxem__course=st_gr.course,
                     is_pass=True,
-                ).values('student__first_name', 'student__last_name').annotate(count=Count('id')).order_by('-count')
+                ).values('student__first_name', 'student__last_name').annotate(count=Count('id')).order_by('-count')[:10]
 
                 context['top_10_sxem'] = top_10_sxem
 

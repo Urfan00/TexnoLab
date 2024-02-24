@@ -48,11 +48,12 @@
         </div>
       {% endif %}
 
+
       <div class="col-xl-4 col-md-6">
         <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
           <div>
-            <div class="lh-1 fw-500">Müəlim qiymətləndirməsi</div>
-            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{% if last_lab_point %}{{ last_lab_point.last_lab_point }}{% endif %}</div>
+            <div class="lh-1 fw-500">Toplam Test Jetonu</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ toplam_test_jetonu }} <i>jeton</i></div>
           </div>
 
           <i class="text-40 icon-coupon text-purple-1"></i>
@@ -63,10 +64,32 @@
         <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
           <div>
             <div class="lh-1 fw-500">Mühəndis İşi</div>
-            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ lab_point }}</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ lab_point|floatformat:2 }} <i>jeton</i></div>
           </div>
 
           <i class="text-40 icon-play-button text-purple-1"></i>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">Günlük jeton</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ daily_point }} ({{ daily_point_total|floatformat:2 }} <i>jeton</i>)</div>
+          </div>
+
+          <i class="text-40 icon-graduate-cap text-purple-1"></i>
+        </div>
+      </div>
+
+      <div class="col-xl-4 col-md-6">
+        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
+          <div>
+            <div class="lh-1 fw-500">Müəlim qiymətləndirməsi</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ teacher_total_lab_sxem_point }} jeton</div>
+          </div>
+          
+          <i class="text-40 icon-coupon text-purple-1"></i>
         </div>
       </div>
 
@@ -84,30 +107,8 @@
       <div class="col-xl-4 col-md-6">
         <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
           <div>
-            <div class="lh-1 fw-500">Gündəlik qiymət</div>
-            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ teacher_point }}</div>
-          </div>
-
-          <i class="text-40 icon-graduate-cap text-purple-1"></i>
-        </div>
-      </div>
-
-      <div class="col-xl-4 col-md-6">
-        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
-          <div>
-            <div class="lh-1 fw-500">İmtahan ortalaması</div>
-            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ average_total_point|floatformat:2 }} %</div>
-          </div>
-
-          <i class="text-40 icon-graduate-cap text-purple-1"></i>
-        </div>
-      </div>
-
-      <div class="col-xl-4 col-md-6">
-        <div class="d-flex justify-between items-center py-35 px-30 rounded-16 bg-white -dark-bg-dark-1 shadow-4">
-          <div>
-            <div class="lh-1 fw-500">Ümumi ortalaması</div>
-            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">????</div>
+            <div class="lh-1 fw-500">Ümumi jetonu (%)</div>
+            <div class="text-24 lh-1 fw-700 text-dark-1 mt-20">{{ total_jeton|floatformat:2 }} ({{ total_jeton_percent|floatformat:2 }} %)</div>
           </div>
 
           <i class="text-40 icon-online-learning text-purple-1"></i>
@@ -146,7 +147,7 @@
                         {% comment %} <th>Təlim</th> {% endcomment %}
                         <th>Mövzu</th>
                         <th>Nəticə</th>
-                        <th>Bal</th>
+                        <th>Jeton</th>
                         <th>Tarix</th>
                       </tr>
                     </thead>
@@ -158,7 +159,7 @@
                           {% comment %} <td class="tc">{{ result.s_r_group.course.title|capfirst }}</td> {% endcomment %}
                           <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
                           <td class="tc">{{ result.percent_point }} %</td>
-                          <td class="tc">{{ result.total_point }} bal</td>
+                          <td class="tc">{{ result.total_point }} jeton</td>
                           <td class="tc">{{ result.created_at }}</td>
                         </tr>
                       {% endfor %}
@@ -188,18 +189,17 @@
                       <tr>
                         <th>№</th>
                         <th>Tələbə</th>
-                        <th>İmtahan ortalaması</th>
-                        <th>Bal</th>
+                        {% comment %} <th>İmtahan ortalaması</th> {% endcomment %}
+                        <th>Toplam test jetonu</th>
                       </tr>
                     </thead>
                     <tbody>
 
-                      {% for student_id, data in sorted_student_averages.items %}
+                      {% for student_data in sorted_student_averages %}
                       <tr>
                           <td class="tc">{{ forloop.counter }}</td>
-                          <td class="tc">{{ student_id|capfirst }}</td>
-                          <td class="tc">{{ data.average|floatformat:2 }} %</td>
-                          <td class="tc">{{ data.total_points|floatformat:2 }} bal</td>
+                          <td class="tc">{{ student_data.0|capfirst }}</td>
+                          <td class="tc">{{ student_data.1.total_points }} jeton</td>
                       </tr>
                       {% endfor %}
 
@@ -228,7 +228,7 @@
                       <tr>
                         <th>№</th>
                         <th>Tələbə</th>
-                        <th>İmtahan ortalaması</th>
+                        <th>Toplam test jetonu</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -237,7 +237,7 @@
                       <tr>
                           <td class="tc">{{ forloop.counter }}</td>
                           <td class="tc">{{ student_id|capfirst }}</td>
-                          <td class="tc">{{ average|floatformat:2 }} bal</td>
+                          <td class="tc">{{ average }} jeton</td>
                       </tr>
                       {% endfor %}
 
