@@ -101,11 +101,11 @@ class CustomSetPasswordForm(SetPasswordForm):
 class AccountInforrmationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['bio', 'email', "number", 'feedback', 'image', 'cv']
+        fields = ['bio', 'email', "number", 'feedback', 'cv']
         labels = {
             'number' : 'Əlaqə nömrəsi',
             'email' : 'E-poçt',
-            'image' : 'Profil şəkli',
+            # 'image' : 'Profil şəkli',
             'feedback' : 'Texnolab haqqında rəyiniz',
             'bio' : 'Haqqınızda məlumat',
             'cv' : 'CV',

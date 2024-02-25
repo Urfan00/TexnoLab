@@ -54,67 +54,80 @@
                       </div>
                       <div class="tabs__content py-30 px-30 js-tabs-content">
                         <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
-                          <div class="row y-gap-20 x-gap-20 items-center">
-                            <div class="col-auto">
-                              <img class="size-100" style="border-radius: 50%;"src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'img/avatars/user-default.png' %}{% endif %}" alt="image">
-                            </div>
-                          </div>
-                          <div class="border-top-light pt-30 mt-30">
-                            <form method="post" name="x1" class="contact-form row y-gap-30" enctype="multipart/form-data">
-
-                              {% csrf_token %}
-
-                              {% if form1.errors %}
-                                <div class="alert alert-danger alert-dismissible" role="alert">
-                                  <div id="form_errors">
-                                    {% for key, value in form1.errors.items %}
-                                      <strong>{{ value }}{{ key }}</strong>
-                                    {% endfor %}
-                                  </div>
-                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                                </div>
-                              {% endif %}
-
-                              <div class="col-md-6">
-                                  <label for="id_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.number.label }}</label>
-                                  {{ form1.number }}
-                                </div>
-  
-                                <div class="col-md-6">
-                                  <label for="id_email" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.email.label }}</label>
-                                  {{ form1.email }}
-                                </div>
-  
-                                <div class="col-md-6">
-                                  <label for="id_image" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.image.label }}:</label>
-                                  <br>{{ form1.image }}
-                                </div>
-  
-                                {% if position == 'Tələbə' %}
-                                <div class="col-md-12">
-                                  <label for="id_feedback" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.feedback.label }}</label>
-                                  {{ form1.feedback }}
-                                </div>
-                                {% endif %}
-
-                                <div class="col-md-12">
-                                  <label for="id_bio" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.bio.label }}</label>
-                                  {{ form1.bio }}
-                                </div>
-
-                                {% if position == 'Tələbə' %}
-                                  <div class="col-md-12">
-                                    <label for="id_cv" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.cv.label }}: </label>
-                                    {{ form1.cv }}
-                                  </div>
-                                {% endif %}
-                                <input type="hidden" name="form_name" value="form1">
-
-                              <div class="col-12">
-                                <button class="button -md -dark-1 text-white">Yenilə</button>
+                          <form method="post" name="x1" class="contact-form" enctype="multipart/form-data">
+                            <div class="row y-gap-20 x-gap-20 items-center">
+                              <div class="col-auto">
+                                <img class="size-100" style="border-radius: 50%;"src="{% if user.image %}{{ user.image.url }}{% else %}{% static 'img/avatars/user-default.png' %}{% endif %}" alt="image">
                               </div>
-                            </form>
-                          </div>
+                              <div class="col-auto">
+                                <div class="text-16 fw-500 text-dark-1">{{ user.get_full_name|capfirst }}</div>
+                                {% comment %} <div class="text-14 lh-1 mt-10">PNG or JPG no bigger than 800px wide and tall.</div> {% endcomment %}
+
+                                <div class="d-flex x-gap-10 y-gap-10 flex-wrap pt-15">
+                                  <div>
+                                    <div class="d-flex justify-center items-center size-40 rounded-8 bg-light-3">
+                                      <label for="hola123" class="icon-cloud text-16"></label>
+                                      <input type="file" name="hola123" id="hola123" style="display: none;">
+                                    </div>
+                                  </div>
+                                  {% comment %} <div>
+                                    <div class="d-flex justify-center items-center size-40 rounded-8 bg-light-3">
+                                      <div class="icon-bin text-16"></div>
+                                    </div>
+                                  </div> {% endcomment %}
+                                </div>
+                              </div>
+                            </div>
+                            <div class="border-top-light pt-30 mt-30 row y-gap-30">
+
+                                {% csrf_token %}
+
+                                {% if form1.errors %}
+                                  <div class="alert alert-danger alert-dismissible" role="alert">
+                                    <div id="form_errors">
+                                      {% for key, value in form1.errors.items %}
+                                        <strong>{{ value }}{{ key }}</strong>
+                                      {% endfor %}
+                                    </div>
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                                  </div>
+                                {% endif %}
+
+                                <div class="col-md-6">
+                                    <label for="id_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.number.label }}</label>
+                                    {{ form1.number }}
+                                  </div>
+    
+                                  <div class="col-md-6">
+                                    <label for="id_email" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.email.label }}</label>
+                                    {{ form1.email }}
+                                  </div>
+    
+                                  {% if position == 'Tələbə' %}
+                                  <div class="col-md-12">
+                                    <label for="id_feedback" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.feedback.label }}</label>
+                                    {{ form1.feedback }}
+                                  </div>
+                                  {% endif %}
+
+                                  <div class="col-md-12">
+                                    <label for="id_bio" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.bio.label }}</label>
+                                    {{ form1.bio }}
+                                  </div>
+
+                                  {% if position == 'Tələbə' %}
+                                    <div class="col-md-12">
+                                      <label for="id_cv" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.cv.label }}: </label>
+                                      {{ form1.cv }}
+                                    </div>
+                                  {% endif %}
+                                  <input type="hidden" name="form_name" value="form1">
+
+                                <div class="col-12">
+                                  <button class="button -md -dark-1 text-white">Yenilə</button>
+                                </div>
+                            </div>
+                        </form>
                         </div>
 
                         {% if user.staff_status == 'Tələbə' %}

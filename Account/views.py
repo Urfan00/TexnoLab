@@ -126,8 +126,12 @@ class AccountInformationView(LoginRequiredMixin, View):
             user_account.email = form1.cleaned_data.get('email')
             user_account.feedback = form1.cleaned_data.get('feedback')
             user_account.bio = form1.cleaned_data.get('bio')
-            if form1.cleaned_data.get('image'):
-                user_account.image = form1.cleaned_data.get('image')
+            
+            # Check if an image was uploaded
+            if request.FILES.get('hola123'):
+                print('ok')
+                user_account.image = request.FILES['hola123']
+
             if form1.cleaned_data.get('cv'):
                 user_account.cv = form1.cleaned_data.get('cv')
             user_account.save()
