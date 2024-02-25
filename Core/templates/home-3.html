@@ -206,7 +206,7 @@
                       {% if user.is_authenticated %}
                       {% comment %} <a href="{% url 'profile' %}" class="button -sm -white text-dark-1 ml-30">Profil</a> {% endcomment %}
                         {% if user.staff_status == 'Tələbə' %}
-                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'profile' %}" class="text-white prof">Profil</a>
+                          &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'student_dashboard' %}" class="text-white prof">Tələbə Dashboard</a>
                         {% elif user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
                           &nbsp;&nbsp;&nbsp;&nbsp;<a href="{% url 'dashboard' %}" class="text-white prof">Dashboard</a>
                         {% elif user.staff_status == 'Müəllim' %}
@@ -378,7 +378,7 @@
                 {% if user.is_authenticated %}
                   <a href="{% url 'logout' %}" class="button px-30 h-50 -outline-dark-1 text-dark-1">Çıxış</a>
                   {% if user.staff_status == 'Tələbə' %}
-                    <a href="{% url 'profile' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Profil</a>
+                    <a href="{% url 'student_dashboard' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Tələbə Dashboard</a>
                   {% elif user.staff_status == 'SuperUser' or user.staff_status == 'Koordinator' %}
                     <a href="{% url 'dashboard' %}" class="button px-30 h-50 -dark-1 text-white ml-10">Dashboard</a>
                   {% elif user.staff_status == 'Müəllim' %}

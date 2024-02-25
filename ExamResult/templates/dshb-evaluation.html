@@ -13,7 +13,7 @@
 
         {% comment %} <h1 class="text-30 lh-12 fw-700">İmtahan Qaydaları - <i>{{ student.get_full_name|capfirst }}</i></h1> {% endcomment %}
         <h1 class="text-30 lh-12 fw-700">Qiymətləndirmə</h1>
-
+        {% include "messages.html" %}
       </div>
     </div>
     <div class="row y-gap-30">
@@ -47,13 +47,15 @@
                 <div class="row x-gap-10 items-center py-25">
 
                   {% for student in students %}
-                    <div class="col-xl-3 col-6 mt-10">
-                      <div class="d-flex align-items-center">
-                        <form method="post" action="{% url 'give_point' student.student.id request.GET.state %}">
+                    <div class="col-xl-3 col-12 col-sm-6 mt-10">
+                      <div class="d-flex align-items-center" style="gap: 2px;">
+                        <form method="post" style="flex: 1;" action="{% url 'give_point' student.student.id request.GET.state %}">
                           {% csrf_token %}
-                          <button {% if student.new_active %}type="button"{% else %}type="submit" onclick="return confirm('Tələbəyə bal vermək istədiyinizə əminsiniz?')"{% endif %}
+                          {% comment %} <button {% if student.new_active %}type="button"{% else %}type="submit" onclick="return confirm('Tələbəyə bal vermək istədiyinizə əminsiniz?')"{% endif %} {% endcomment %}
+                          <button type="submit" onclick="return confirm('Tələbəyə bal vermək istədiyinizə əminsiniz?')"
                                   class="text-dark px-10 py-10"
-                                  style="border: 1px solid #aaa; border-radius: 5px;{% if student.new_active %} background-color: green; {% endif %}">
+                                  {% comment %} style="width:100%; border: 1px solid #aaa; border-radius: 5px;{% if student.new_active %} background-color: green; {% endif %}"> {% endcomment %}
+                                  style="width:100%; border: 1px solid #aaa; border-radius: 5px;">
                               {{ student.student.get_full_name|capfirst }}
                           </button>
                         </form>

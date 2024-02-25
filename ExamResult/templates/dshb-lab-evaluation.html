@@ -82,12 +82,12 @@
                       {% for lab in labs %}
                         <div class="col-xl-2 col-6 mt-10">
                           <div class="d-flex align-items-center">
-                            <form method="post">
+                            <form method="post" style="flex: 1;">
                               {% csrf_token %}
                               <button type="button" data-lab-id="{{ lab.id }}"
                               {% if lab.lab_points == 2 %}onclick="choosePoints(this)"{% endif %}
                                       class="text-dark px-10 py-10"
-                                      style="border: 1px solid #aaa; border-radius: 5px;{% if lab.lab_points == 0.5 %} background-color: orange; {% elif lab.lab_points == 1 %} background-color: lime; {% elif lab.lab_points == 0 %} background-color: red; {% endif %}">
+                                      style="width: 100%; border: 1px solid #aaa; border-radius: 5px;{% if lab.lab_points == 0.5 %} background-color: orange; {% elif lab.lab_points == 1 %} background-color: lime; {% elif lab.lab_points == 0 %} background-color: red; {% endif %}">
                                   {{ lab.name|capfirst }} <br> Bal: {% if lab.lab_points != 2 %}{{ lab.lab_points }}{% endif %}
                               </button>
                               <input type="hidden" name="give_points" value="0">
@@ -109,13 +109,13 @@
                         {% endif %}
                     {% elif request.GET.lab != '0' and request.GET.student == '0' %}
                         {% for student in students %}
-                            <div class="col-xl-3 col-6 mt-10">
-                                <div class="d-flex align-items-center">
-                                    <form method="post">
+                            <div class="col-xl-3 col-12 col-sm-6 mt-10">
+                                <div class="d-flex align-items-center" style="gap: 2px;">
+                                    <form method="post" style="flex: 1;">
                                         {% csrf_token %}
                                         <button type="button" data-student-id="{{ student.student.id }}" {% if student.has_lab_evaluation == 2 %}onclick="choosePoints(this)"{% endif %}
                                                 class="text-dark px-10 py-10"
-                                                style="border: 1px solid #aaa; border-radius: 5px;{% if student.has_lab_evaluation == 1 %} background-color: lime; {% elif student.has_lab_evaluation == 0.5  %} background-color: orange; {% elif student.has_lab_evaluation == 0 %} background-color: red; {% endif %}">
+                                                style="width: 100%; border: 1px solid #aaa; border-radius: 5px;{% if student.has_lab_evaluation == 1 %} background-color: lime; {% elif student.has_lab_evaluation == 0.5  %} background-color: orange; {% elif student.has_lab_evaluation == 0 %} background-color: red; {% endif %}">
                                             {{ student.student.get_full_name|capfirst }} <br> Bal: {% if student.has_lab_evaluation != 2 %}{{ student.has_lab_evaluation }}{% endif %}
                                         </button>
                                         <input type="hidden" name="give_points" value="0">

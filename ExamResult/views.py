@@ -1,4 +1,3 @@
-from typing import Any
 from django.shortcuts import get_object_or_404, redirect, render
 from django.views import View
 from django.views.generic import ListView
@@ -153,18 +152,22 @@ class TeacherEvaluationView(AuthTeacherMixin, ListView):
 class GivePointView(View):
     def post(self, request, student_id, group_id):
         # Check if the teacher has already given a point to the student today
-        today = timezone.now().date()
+        # today = timezone.now().date()
         teacher = request.user  # Assuming the teacher is the current user
-        existing_evaluation = TeacherEvaluation.objects.filter(
-            student__id=student_id,
-            teacher=teacher,
-            updated_at__date=today
-        ).first()
+        evaluation = TeacherEvaluation(student_id=student_id, point=1, teacher=teacher, t_e_group_id=group_id)
+        evaluation.save()
+        messages.success(request, 'Tələbəyə uğurla bal verildi')
 
-        if not existing_evaluation:
-            # Create a new evaluation and give 1 point to the student
-            evaluation = TeacherEvaluation(student_id=student_id, point=1, teacher=teacher, t_e_group_id=group_id)
-            evaluation.save()
+        # existing_evaluation = TeacherEvaluation.objects.filter(
+        #     student__id=student_id,
+        #     teacher=teacher,
+        #     updated_at__date=today
+        # ).first()
+
+        # if not existing_evaluation:
+        #     # Create a new evaluation and give 1 point to the student
+        #     evaluation = TeacherEvaluation(student_id=student_id, point=1, teacher=teacher, t_e_group_id=group_id)
+        #     evaluation.save()
 
         return redirect(request.META.get('HTTP_REFERER'))
 

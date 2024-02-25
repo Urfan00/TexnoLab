@@ -28,7 +28,7 @@
 
                   <div class="text-20 lh-1 text-white">
                     {% comment %} Sizin {% for topic in result.exam_topics.all %}<i>"{{ topic.topic_title|capfirst }}"</i>{% if not forloop.last %}, {% endif %}{% endfor %} {% if result.exam_topics.all|length > 1 %} mövzular {% else %} mövzu {% endif %} üzrə nəticəniz: {{ result.total_point }} bal, {{ result.percent_point }} % {% endcomment %}
-                    Sizin mövzu üzrə nəticəniz: {{ result.total_point }} bal, {{ result.percent_point }} %
+                    Sizin mövzu üzrə nəticəniz: {{ result.total_point }} jeton, {{ result.percent_point }} %
                   </div>
 
                 </div>

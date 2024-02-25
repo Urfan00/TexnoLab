@@ -3,17 +3,10 @@
 {% block content %}
 
   <div class="dashboard__main">
-    <div class="dashboard__content bg-light-4">
+    <div class="dashboard__content bg-light-4" style="padding: 30px 30px;">
 
       {% include 'messages.html' %}
-      <div class="row pb-10 mb-10">
-        <div class="col-auto">
-  
-          {% comment %} <h1 class="text-30 lh-12 fw-700">İmtahan Qaydaları - <i>{{ student.get_full_name|capfirst }}</i></h1> {% endcomment %}
-          <h1 class="text-30 lh-12 fw-700">Nəticələr</h1>
-  
-        </div>
-      </div>
+
       <div class="row y-gap-30">
         <div class="col-12">
           <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
@@ -69,18 +62,23 @@
                       /* border-left: 2px solid #EDEDED; */
                       border-left: 2px solid #B2B2B2;
                     }
+
+                    .tdborderright {
+                      /* border-left: 2px solid #EDEDED; */
+                      border-right: 2px solid #B2B2B2;
+                    }
                   </style>
 
                   <div class="tDiv py-30">
 
-                    <div class="table-responsive">
+                    <div class="table-responsive" style="padding-right: 20px;">
                       <table class="table">
                         <thead>
                           <tr>
                             <th>№</th>
                             <th class="min_w_150">Ad Soyad</th>
                             <th>Nəticə</th>
-                            <th>Tarix</th>
+                            <th class="tdborderright">Tarix</th>
                           </tr>
                         </thead>
                         <tbody>
@@ -90,7 +88,7 @@
                               <td class="tc">{{ forloop.counter }}</td>
                               <td class="min_w_150">{{ result.student.get_full_name|capfirst }}</td>
                               <td class="tc">{{ result.total_point }} bal</td>
-                              <td class="tc">{{ result.created_at|date:"d.m.Y" }}</td>
+                              <td class="tc tdborderright">{{ result.created_at|date:"d.m.Y" }}</td>
                             </tr>
                           {% endfor %}
 
@@ -153,13 +151,14 @@
 <script>
   $(document).ready(function () {
       function reloadPage() {
-          location.reload(true); // Force a reload from the server
+          location.reload(); // Force a reload from the server
       }
 
       // Set the page reload interval (e.g., every 5 seconds)
-      setInterval(reloadPage, 60000);
+      setTimeout(reloadPage, 60000);
   });
 </script>
+
 <script>
   function updateUrl(element) {
       // Get the value of the selected topic
