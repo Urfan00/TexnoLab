@@ -1,6 +1,9 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
+<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
 
     <div class="content-wrapper  js-content-wrapper pt-80" >
 
@@ -80,8 +83,12 @@
         </div>
       </section>
 
-      <section class="">
+      {% comment %} <section class="">
         <div id="map" class="map"></div>
+      </section> {% endcomment %}
+
+      <section class="">
+        <div id="newMap" class="newMap" style="height: 400px;"></div>
       </section>
 
       <section class="layout-pt-lg layout-pb-lg bg-light-4 pt-40">
@@ -121,4 +128,16 @@
         </div>
       </section>
 
+
+      <script>
+        var map = L.map('newMap').setView([40.414432, 49.858389], 15);
+        
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+      
+        L.marker([40.414432, 49.858389]).addTo(map)
+          .bindPopup('TexnoLab')
+          .openPopup();
+      </script>
 {% endblock %}

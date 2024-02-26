@@ -599,10 +599,10 @@
 
 <script>
   document.addEventListener("DOMContentLoaded", function() {
-    
+
     const tabs = document.querySelectorAll('.tabs__button');
     const panes = document.querySelectorAll('.tabs__pane');
-  
+
     function showTab(tabId) {
       panes.forEach(pane => {
         if (pane.getAttribute('data-pane') === tabId) {
@@ -614,7 +614,7 @@
         }
       });
     }
-    
+
     function setActiveTab(tabId) {
       tabs.forEach(tab => {
         if (tab.getAttribute('data-tab') === tabId) {
@@ -624,47 +624,41 @@
         }
       });
     }
-    
-  
+
     function handleTabClick(event) {
-      
       const clickedTab = event.target;
       const tabId = clickedTab.getAttribute('data-tab');
-  
+
       showTab(tabId);
       setActiveTab(tabId);
-  
+
       // Save selected tab to localStorage
       localStorage.setItem('selectedTab', tabId);
-      localStorage.setItem('current_segment', window.location.pathname);
     }
-  
+
     tabs.forEach(tab => {
       tab.addEventListener('click', handleTabClick);
     });
-    
+
     // Check localStorage for previously selected tab
     const selectedTab = localStorage.getItem('selectedTab');
-    const current_segment = localStorage.getItem('current_segment');
-    
-   
-    if(current_segment != window.location.pathname){
-      localStorage.removeItem('selectedTab');
-    }else{
-      if (selectedTab) {
 
-        showTab(selectedTab);
-        setActiveTab(selectedTab);
-      } else {
-       
-        // If no tab was previously selected, open the first tab and pane by default
-        showTab(tabs[0].getAttribute('data-tab'));
-        setActiveTab(tabs[0].getAttribute('data-tab'));
-      }
+    if (selectedTab) {
+      showTab(selectedTab);
+      setActiveTab(selectedTab);
+    } else {
+      // If no tab was previously selected, open the first tab and pane by default
+      showTab(tabs[0].getAttribute('data-tab'));
+      setActiveTab(tabs[0].getAttribute('data-tab'));
     }
 
+    // Extract tab information from URL parameters
+    const urlParams = new URLSearchParams(window.location.search);
+    const activeTabParam = urlParams.get('activeTab');
+    if (activeTabParam && tabs.some(tab => tab.getAttribute('data-tab') === activeTabParam)) {
+      showTab(activeTabParam);
+      setActiveTab(activeTabParam);
+    }
   });
-
-  console.log(window.location.pathname)
 
 </script>
