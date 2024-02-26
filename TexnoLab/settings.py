@@ -54,6 +54,7 @@ INSTALLED_APPS = [
 
     'ckeditor',
     'import_export',
+    'rest_framework',
 
 ]
 

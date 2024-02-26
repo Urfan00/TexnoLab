@@ -81,16 +81,16 @@
                             <th class="tdborderright">Tarix</th>
                           </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="singleResultsTableBody">
 
-                          {% for result in students_results %}
+                          {% comment %} {% for result in students_results %}
                             <tr>
                               <td class="tc">{{ forloop.counter }}</td>
                               <td class="min_w_150">{{ result.student.get_full_name|capfirst }}</td>
                               <td class="tc">{{ result.total_point }} bal</td>
                               <td class="tc tdborderright">{{ result.created_at|date:"d.m.Y" }}</td>
                             </tr>
-                          {% endfor %}
+                          {% endfor %} {% endcomment %}
 
                         </tbody>
                       </table>
@@ -108,19 +108,8 @@
                             {% endfor %}
                           </tr>
                         </thead>
-                        <tbody>
-
-                          {% for result in all_results %}
-                            <tr>
-                              {% comment %} <td class="tc tdborderleft">{{ forloop.counter }}</td> {% endcomment %}
-                              <td class="min_w_150 tdborderleft">{{ result.student__first_name|capfirst }} {{ result.student__last_name|capfirst }}</td>
-                              <td class="tc">{{ result.avg_total_point }} bal</td>
-                              {% for other_topic_result in result.other_topics_total_points %}
-                                <td class="tc">{{ other_topic_result }} {% if other_topic_result != '-------' %}bal{% endif %}</td>
-                              {% endfor %}
-                            </tr>
-                          {% endfor %}
-
+                        <tbody id="resultsTableBody">
+                          <!-- Table rows will be dynamically added here -->
                         </tbody>
                       </table>
                     </div>
@@ -147,17 +136,120 @@
   </script>
 
 
-<!-- Add this before your closing </body> tag -->
 <script>
-  $(document).ready(function () {
-      function reloadPage() {
-          location.reload(); // Force a reload from the server
-      }
+  // Variable to store the previous data
+  let previousData = null;
 
-      // Set the page reload interval (e.g., every 5 seconds)
-      setTimeout(reloadPage, 60000);
+  function fetchDataAndUpdate() {
+    var currentUrl = new URL(window.location.href);
+
+    // const url = new URL('http://localhost:8000/api/results/');
+    // const params = currentUrl.search;
+    // url.search = new URLSearchParams(params).toString();
+
+    // Fetch data from the API
+    fetch(currentUrl.origin + '/api/results/' + currentUrl.search)
+      .then(response => response.json())
+      .then(data => {
+        const allResults = data.all_results;
+        const tbody = document.getElementById('resultsTableBody');
+        //console.log('==>>>', allResults);
+
+        // Check if there's a change in avg_total_point
+        const newData = JSON.stringify(allResults);
+        if (previousData !== newData) {
+          // Clear existing table rows
+          tbody.innerHTML = '';
+
+          // Loop through the results and create table rows
+          allResults.forEach(result => {
+            const tr = document.createElement('tr');
+
+            // Create table cells and set their content
+            const nameCell = document.createElement('td');
+            nameCell.textContent = result.student__first_name + ' ' + result.student__last_name;
+            tr.appendChild(nameCell);
+
+            // Adding class to nameCell
+            nameCell.classList.add('min_w_150', 'tdborderleft');
+
+            const avgTotalPointCell = document.createElement('td');
+            avgTotalPointCell.textContent = result.avg_total_point + ' bal';
+            tr.appendChild(avgTotalPointCell);
+
+            // Adding class to avgTotalPointCell
+            avgTotalPointCell.classList.add('tc');
+
+            result.other_topics_total_points.forEach(topic => {
+              const otherTopicCell = document.createElement('td');
+              otherTopicCell.textContent = topic !== '-------' ? topic + ' bal' : '-------';
+              tr.appendChild(otherTopicCell);
+
+              // Adding class to otherTopicCell
+              otherTopicCell.classList.add('tc');
+            });
+
+            // Append the row to the table body
+            tbody.appendChild(tr);
+          });
+
+          // Update previousData with new data
+          previousData = newData;
+        }
+      })
+      .catch(error => {
+        console.error('Error fetching data:', error);
+      });
+  }
+
+  // Fetch data and update table every 10 seconds
+  setInterval(fetchDataAndUpdate, 10000);
+
+  // Initial fetch and update
+  fetchDataAndUpdate();
+</script>
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Function to fetch data from API
+
+    var currentUrl = new URL(window.location.href);
+
+    function fetchData() {
+      // Make an AJAX request to the API endpoint
+      fetch(currentUrl.origin + '/api/students_results/' + currentUrl.search)
+        .then(response => response.json())
+        .then(data => {
+          const tbody = document.getElementById('singleResultsTableBody');
+          tbody.innerHTML = ''; // Clear existing table rows
+  
+          // Loop through the retrieved data and populate the table
+          data.forEach((result, index) => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+              <td class="tc">${index + 1}</td>
+              <td class="min_w_150">${result.student_full_name}</td>
+              <td class="tc">${result.total_point} bal</td>
+              <td class="tc tdborderright">${result.created_at_formatted}</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        })
+        .catch(error => {
+          console.error('Error fetching data:', error);
+        });
+    }
+  
+    // Initially fetch data when the page loads
+    fetchData();
+  
+    // Refresh data every 10 seconds
+    setInterval(fetchData, 10000);
   });
 </script>
+
+
 
 <script>
   function updateUrl(element) {

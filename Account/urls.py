@@ -1,4 +1,5 @@
 from django.urls import path
+from Account.api.views import ResultAPIView, StudentResultList
 from .views import AccountInformationView, ChangePasswordView, LogInView, ResetPasswordConfirmView, ResetPasswordView, ResultView, logout_view
 from django.contrib.auth.views import LogoutView
 
@@ -17,4 +18,8 @@ urlpatterns = [
 
     path('profile/', AccountInformationView.as_view(), name='profile'),
     path('result/', ResultView.as_view(), name='result'),
+
+    path('api/results/', ResultAPIView.as_view(), name='api_results'),
+    path('api/students_results/', StudentResultList.as_view(), name='student_results_api'),
+
 ]

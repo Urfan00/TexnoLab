@@ -12,7 +12,7 @@ from django.contrib.auth.mixins import UserPassesTestMixin
 from django.views import View
 from django.contrib.auth import logout
 from django.contrib.auth import update_session_auth_hash
-from django.db.models import Subquery, Avg, Case, When, F, Value, CharField
+from django.db.models import Sum
 
 
 
@@ -208,29 +208,33 @@ class ResultView(AuthSuperUserTeacherMixin, ListView):
                         exam_topics = t_query,
                     ).order_by('-total_point')
 
-                    all_topics = group_topics.all_course_topics.all()
+                    print('==>', context['students_results'])
 
-                    # Retrieve student results for the given group
-                    students_all_results = StudentResult.objects.filter(
-                        s_r_group=g_query
-                    ).values('student__id', 'student__first_name', 'student__last_name').annotate(
-                        # avg_total_point=Avg('total_point') * 5 # faizle ortalamsi
-                        avg_total_point=Avg('total_point')
-                    ).order_by('-avg_total_point')
+                    # all_topics = group_topics.all_course_topics.all()
 
-                    # Iterate over each student result to calculate other_topics_total_points
-                    for student_result in students_all_results:
-                        student_id = student_result['student__id']
-                        student_result['other_topics_total_points'] = []
-                        for topic in all_topics:
-                            topic_result = StudentResult.objects.filter(student_id=student_id, exam_topics=topic).first()
-                            if topic_result:
-                                # student_result['other_topics_total_points'].append(topic_result.total_point * 5) # fazile neticesi
-                                student_result['other_topics_total_points'].append(topic_result.total_point)
-                            else:
-                                student_result['other_topics_total_points'].append('-------')
+                    # # Retrieve student results for the given group
+                    # students_all_results = StudentResult.objects.filter(
+                    #     s_r_group=g_query
+                    # ).values('student__id', 'student__first_name', 'student__last_name').annotate(
+                    #     # avg_total_point=Avg('total_point') * 5 # faizle ortalamsi
+                    #     avg_total_point=Sum('total_point')
+                    # ).order_by('-avg_total_point')
 
-                    context['all_results'] = students_all_results
+                    # # Iterate over each student result to calculate other_topics_total_points
+                    # for student_result in students_all_results:
+                    #     student_id = student_result['student__id']
+                    #     student_result['other_topics_total_points'] = []
+                    #     for topic in all_topics:
+                    #         topic_result = StudentResult.objects.filter(student_id=student_id, exam_topics=topic).first()
+                    #         if topic_result:
+                    #             # student_result['other_topics_total_points'].append(topic_result.total_point * 5) # fazile neticesi
+                    #             student_result['other_topics_total_points'].append(topic_result.total_point)
+                    #         else:
+                    #             student_result['other_topics_total_points'].append('-------')
+
+                    # context['all_results'] = students_all_results
+
+                    # print('students_all_results==>', students_all_results)
 
 
         return context
