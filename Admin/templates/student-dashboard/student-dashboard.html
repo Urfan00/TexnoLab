@@ -175,7 +175,7 @@
                           <td class="tc">{{ result.exam_topics.topic_title|capfirst }}</td>
                           <td class="tc">{{ result.percent_point }} %</td>
                           <td class="tc">{{ result.total_point }} jeton</td>
-                          <td class="tc">{{ result.created_at }}</td>
+                          <td class="tc">{{ result.created_at|date:"d.m.Y" }}</td>
                         </tr>
                       {% endfor %}
 

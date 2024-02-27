@@ -35,7 +35,16 @@
     margin: 15px;
     text-align: center;
   }
-  
+
+  .wi{
+    height: 220px;
+    object-fit: cover;
+  }
+
+  .newPadding {
+    padding: 0 25px 35px 25px;
+  }
+
   .mybtn{
           border-radius:3px;
           text-decoration:none;
@@ -114,7 +123,7 @@
 
                 <div class="accordion__content">
                   {% comment %} <div class="accordion__content__inner"> {% endcomment %}
-                  <div class="">
+                  <div class="newPadding">
                     {% comment %} <p><i class="text-24 mb-10">Ətraflı məlumat</i></p> {% endcomment %}
                     <p class="">{{ course.description|safe }}</p>
                   </div>
@@ -132,7 +141,7 @@
 
                 <div class="accordion__content">
                   {% comment %} <div class="accordion__content__inner"> {% endcomment %}
-                  <div class="">
+                  <div class="newPadding">
                     {% comment %} <p>
                       <i class="text-24 mb-10">Mövzular</i>
                     </p> {% endcomment %}
@@ -140,12 +149,12 @@
                     {% for c_pro in course_programs %}
                       <div class="d-flex justify-between">
                         <div class="text-17 fw-500 text-dark-1">{{ c_pro.program_name }}</div>
-                        {% if c_pro.file %}
+                        {% comment %} {% if c_pro.file %}
                           <div class="d-flex items-start" title="bax" >
                             <a class="mybtn"  target="_blank" href="{{ c_pro.file.url }}" class="text-14 lh-1  underline"><i class="fa fa-eye" aria-hidden="true"></i></a>
                             <a class="mybtn"  download href="{{ c_pro.file.url }}" class="text-14 lh-1  underline">Yüklə</a>
                           </div>
-                        {% endif %}
+                        {% endif %} {% endcomment %}
                       </div>
                       {% if c_pro.description %}
                         <div>{{ c_pro.description|safe }}</div>
@@ -166,7 +175,8 @@
                 </div>
 
                 <div class="accordion__content">
-                  <div class="accordion__content__inner">
+                  {% comment %} <div class="accordion__content__inner"> {% endcomment %}
+                  <div class="newPadding">
                     <ul class="comments__list mt-30">
 
                       {% for review in reviews %}
@@ -235,7 +245,8 @@
                 </div>
 
                 <div class="accordion__content">
-                  <div class="accordion__content__inner">
+                  {% comment %} <div class="accordion__content__inner"> {% endcomment %}
+                  <div class="newPadding">
                     <form method="post" class="contact-form respondForm__form row y-gap-30 pt-30">
 
                       {% csrf_token %}
@@ -272,7 +283,8 @@
                 </div>
 
                 <div class="accordion__content">
-                  <div class="accordion__content__inner">
+                  {% comment %} <div class="accordion__content__inner"> {% endcomment %}
+                  <div class="newPadding">
                     <div class="respondForm pt-30 d-flex " style="flex-wrap:wrap">
 
                       {% for i in galleries %}
@@ -283,7 +295,7 @@
                               <ul class="gallery__list">
                                 <li class="gallery__item" style="float: left;">
                                   <a href="{{ i.photo.url }}" data-lightbox="group1" data-title="">
-                                    <img src="{{ i.photo.url }}" alt="" style="width: 250px; height: 160px; object-fit: cover; float: left;">
+                                    <img src="{{ i.photo.url }}" alt="" style="width: 300px; height: 160px; object-fit: cover; float: left;">
                                   </a>
                                 </li>
                               </ul>
@@ -306,12 +318,13 @@
                 </div>
 
                 <div class="accordion__content">
-                  <div class="accordion__content__inner">
+                  {% comment %} <div class="accordion__content__inner"> {% endcomment %}
+                  <div class="newPadding">
                     <div class="respondForm pt-30">
                       <div>
                         <div class="relative pt-40">
                           {% for i in videos %}
-                            <iframe class="w-2/2" width="49%" height="200px" src="{{ i.video_url }}" frameborder="0" allowfullscreen></iframe>
+                            <iframe class="w-2/2" width="300px" height="200px" src="{{ i.video_url }}" frameborder="0" allowfullscreen></iframe>
                           {% endfor %}
                         </div>
                       </div>
@@ -353,13 +366,13 @@
                     <a href="{% url 'course' r_course.slug %}" class="coursesCard -type-1 ">
                       <div class="relative">
                         <div class="coursesCard__image overflow-hidden rounded-8">
-                          <img class="w-1/1" src="{{ r_course.main_photo.url }}" alt="image">
+                          <img class="w-1/1 wi" src="{{ r_course.main_photo.url }}" alt="image">
                           <div class="coursesCard__image_overlay rounded-8"></div>
                         </div>
                       </div>
                       <div class="h-100 pt-15">
                         <div class="text-17 lh-15 fw-500 text-dark-1 mt-10">{{ r_course.title }}</div>
-                        {{ r_course.description|safe|truncatewords:4 }}
+                        {% comment %} {{ r_course.description|safe|truncatewords:4 }} {% endcomment %}
                       </div>
                     </a>
 

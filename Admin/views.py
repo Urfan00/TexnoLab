@@ -111,7 +111,6 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
 
                 context['teacher_total_lab_sxem_point'] = last_sxem_point
 
-
                 # lab muhendis isi jetonu
                 lab_point = MentorLabEvaluation.objects.filter(
                     student=self.request.user,
@@ -122,8 +121,12 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
                     course__course_group__id=state,
                     is_deleted=False
                 ).count()
-                context['lab_point'] = lab_point * 100 / lab_count + last_lab_point
-
+                
+                if lab_count != 0:
+                    context['lab_point'] = lab_point * 100 / lab_count + last_lab_point
+                else:
+                    context['lab_point'] = 0
+    
                 # gunluk jetonu
                 daily_highest_point = TeacherEvaluation.objects.filter(
                     t_e_group__id=state
@@ -138,7 +141,10 @@ class StudentDashboard(AuthStudentPageMixin, ListView):
                 )['point__sum'] or 0
 
                 context['daily_point'] = daily_point
-                context['daily_point_total'] = daily_point * 50 / daily_highest_point['total_points']
+                if daily_highest_point:
+                    context['daily_point_total'] = daily_point * 50 / daily_highest_point['total_points']
+                else:
+                    context['daily_point_total'] = 0
 
                 # sxem point other
                 context['sxem_point'] = SxemStudent.objects.filter(
