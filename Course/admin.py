@@ -29,32 +29,32 @@ class CourseAdmin(ImportExportModelAdmin):
     list_display_links = ['id', 'title']
     list_filter = ['status', 'is_delete']
     search_fields = ['title', 'slug', 'category__name']
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            # Get the parent directory containing the image
-            image_parent_directory = os.path.dirname(obj.main_photo.path)
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         # Get the parent directory containing the image
+    #         image_parent_directory = os.path.dirname(obj.main_photo.path)
 
-            # Delete the associated image from the media folder
-            if os.path.exists(obj.main_photo.path):
-                os.remove(obj.main_photo.path)
+    #         # Delete the associated image from the media folder
+    #         if os.path.exists(obj.main_photo.path):
+    #             os.remove(obj.main_photo.path)
 
-            # Delete the object
-            obj.delete()
+    #         # Delete the object
+    #         obj.delete()
 
-            # Delete the immediate parent directory
-            if os.path.exists(image_parent_directory):
-                shutil.rmtree(image_parent_directory)
+    #         # Delete the immediate parent directory
+    #         if os.path.exists(image_parent_directory):
+    #             shutil.rmtree(image_parent_directory)
 
-        self.message_user(request, "Selected blogs and their associated images have been deleted.")
+    #     self.message_user(request, "Selected blogs and their associated images have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected Course"
+    # delete_selected_with_images.short_description = "Delete selected Course"
 
-    def get_actions(self, request):
-        actions = super(CourseAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(CourseAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 
 class CourseFeedbackAdmin(ImportExportModelAdmin):
@@ -74,29 +74,29 @@ class RequestUsAdmin(ImportExportModelAdmin):
 class GalleryAdmin(ImportExportModelAdmin):
     list_display = ['id', 'photo', 'course', 'created_at', 'updated_at']
     search_fields = ['course__title']
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            # Delete the associated image from the media folder
-            image_path = obj.photo.path
-            if os.path.exists(image_path):
-                os.remove(image_path)
-            # Delete the object
-            obj.delete()
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         # Delete the associated image from the media folder
+    #         image_path = obj.photo.path
+    #         if os.path.exists(image_path):
+    #             os.remove(image_path)
+    #         # Delete the object
+    #         obj.delete()
 
-            # # Delete the immediate parent directory
-            # if os.path.exists(image_parent_directory):
-            #     shutil.rmtree(image_parent_directory)
+    #         # # Delete the immediate parent directory
+    #         # if os.path.exists(image_parent_directory):
+    #         #     shutil.rmtree(image_parent_directory)
 
-        self.message_user(request, "Selected blogs and their associated images have been deleted.")
+    #     self.message_user(request, "Selected blogs and their associated images have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected Request Us"
+    # delete_selected_with_images.short_description = "Delete selected Request Us"
 
-    def get_actions(self, request):
-        actions = super(GalleryAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(GalleryAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 
 class CourseProgramAdmin(ImportExportModelAdmin):
@@ -104,25 +104,25 @@ class CourseProgramAdmin(ImportExportModelAdmin):
     list_display_links = ['id', 'program_name',]
     list_filter =  ['is_delete']
     search_fields = ['program_name', 'course__title']
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            # Delete the associated image from the media folder
-            image_path = obj.file.path
-            if os.path.exists(image_path):
-                os.remove(image_path)
-            # Delete the object
-            obj.delete()
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         # Delete the associated image from the media folder
+    #         image_path = obj.file.path
+    #         if os.path.exists(image_path):
+    #             os.remove(image_path)
+    #         # Delete the object
+    #         obj.delete()
 
-        self.message_user(request, "Selected blogs and their associated images have been deleted.")
+    #     self.message_user(request, "Selected blogs and their associated images have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected Course Program"
+    # delete_selected_with_images.short_description = "Delete selected Course Program"
 
-    def get_actions(self, request):
-        actions = super(CourseProgramAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(CourseProgramAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 
 class CourseStatisticAdmin(ImportExportModelAdmin):

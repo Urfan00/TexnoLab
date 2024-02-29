@@ -243,8 +243,8 @@
                       <tr>
                         <th>№</th>
                         <th>Tələbə</th>
-                        <th>Qrup</th>
                         <th>Toplam test jetonu</th>
+                        <th>Qrup</th>
                       </tr>
                     </thead>
                     <tbody>
@@ -253,8 +253,8 @@
                       <tr>
                           <td class="tc">{{ forloop.counter }}</td>
                           <td class="tc">{{ student_id|capfirst }}</td>
-                          <td class="tc">{{ data.group_name }}</td>
                           <td class="tc">{{ data.total_points }} jeton</td>
+                          <td class="tc">{{ data.group_name }}</td>
                       </tr>
                       {% endfor %}
 

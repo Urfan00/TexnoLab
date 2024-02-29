@@ -11,69 +11,69 @@ class PartnerAdmin(ImportExportModelAdmin):
     list_display_links = ['id', 'title']
     list_filter = ['is_delete']
     search_fields = ['title']
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            # Get the parent directory containing the image
-            image_parent_directory = os.path.dirname(obj.img.path)
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         # Get the parent directory containing the image
+    #         image_parent_directory = os.path.dirname(obj.img.path)
 
-            # Delete the associated image from the media folder
-            if os.path.exists(obj.img.path):
-                os.remove(obj.img.path)
+    #         # Delete the associated image from the media folder
+    #         if os.path.exists(obj.img.path):
+    #             os.remove(obj.img.path)
 
-            # Delete the object
-            obj.delete()
+    #         # Delete the object
+    #         obj.delete()
 
-            # Delete the immediate parent directory
-            if os.path.exists(image_parent_directory):
-                shutil.rmtree(image_parent_directory)
+    #         # Delete the immediate parent directory
+    #         if os.path.exists(image_parent_directory):
+    #             shutil.rmtree(image_parent_directory)
 
-        self.message_user(request, "Selected blogs and their associated images have been deleted.")
+    #     self.message_user(request, "Selected blogs and their associated images have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected Partner"
+    # delete_selected_with_images.short_description = "Delete selected Partner"
 
-    def get_actions(self, request):
-        actions = super(PartnerAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(PartnerAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 
 class AboutUsAdmin(ImportExportModelAdmin):
     list_display = ['id', 'title', 'img1', 'img2', 'img3', 'created_at', 'updated_at']
     list_display_links = ['id', 'title']
     search_fields = ['title']
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            # Replace 'img1', 'img2', 'img3' with the actual field names in your AboutUs model
-            image_fields = ['img1', 'img2', 'img3']
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         # Replace 'img1', 'img2', 'img3' with the actual field names in your AboutUs model
+    #         image_fields = ['img1', 'img2', 'img3']
 
-            # Loop through image fields and delete associated images
-            for field in image_fields:
-                image_path = getattr(obj, field).path
-                image_parent_directory = os.path.dirname(image_path)
+    #         # Loop through image fields and delete associated images
+    #         for field in image_fields:
+    #             image_path = getattr(obj, field).path
+    #             image_parent_directory = os.path.dirname(image_path)
 
-                # Delete the associated image from the media folder
-                if os.path.exists(image_path):
-                    os.remove(image_path)
+    #             # Delete the associated image from the media folder
+    #             if os.path.exists(image_path):
+    #                 os.remove(image_path)
 
-                # Delete the immediate parent directory
-                if os.path.exists(image_parent_directory):
-                    shutil.rmtree(image_parent_directory)
+    #             # Delete the immediate parent directory
+    #             if os.path.exists(image_parent_directory):
+    #                 shutil.rmtree(image_parent_directory)
 
-            # Delete the object
-            obj.delete()
+    #         # Delete the object
+    #         obj.delete()
 
-        self.message_user(request, "Selected items and their associated images have been deleted.")
+    #     self.message_user(request, "Selected items and their associated images have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected About Us"
+    # delete_selected_with_images.short_description = "Delete selected About Us"
 
-    def get_actions(self, request):
-        actions = super(AboutUsAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(AboutUsAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 
 class NavMenuAdmin(ImportExportModelAdmin):
@@ -111,51 +111,51 @@ class SubscribeAdmin(ImportExportModelAdmin):
 
 class CertificateAdmin(ImportExportModelAdmin):
     list_display = ['id', 'certificate']
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            # Delete the associated image from the media folder
-            image_path = obj.certificate.path
-            if os.path.exists(image_path):
-                os.remove(image_path)
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         # Delete the associated image from the media folder
+    #         image_path = obj.certificate.path
+    #         if os.path.exists(image_path):
+    #             os.remove(image_path)
 
-            # Delete the object
-            obj.delete()
+    #         # Delete the object
+    #         obj.delete()
 
-        self.message_user(request, "Selected certificate have been deleted.")
+    #     self.message_user(request, "Selected certificate have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected Certificate"
+    # delete_selected_with_images.short_description = "Delete selected Certificate"
 
-    def get_actions(self, request):
-        actions = super(CertificateAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(CertificateAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 
 class HomePageSliderTextIMGAdmin(ImportExportModelAdmin):
     list_display = ['id', 'text', 'img']
     list_display_links = ['id', 'text']
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            # Delete the associated image from the media folder
-            image_path = obj.img.path
-            if os.path.exists(image_path):
-                os.remove(image_path)
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         # Delete the associated image from the media folder
+    #         image_path = obj.img.path
+    #         if os.path.exists(image_path):
+    #             os.remove(image_path)
 
-            # Delete the object
-            obj.delete()
+    #         # Delete the object
+    #         obj.delete()
 
-        self.message_user(request, "Selected img have been deleted.")
+    #     self.message_user(request, "Selected img have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected IMG"
+    # delete_selected_with_images.short_description = "Delete selected IMG"
 
-    def get_actions(self, request):
-        actions = super(HomePageSliderTextIMGAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(HomePageSliderTextIMGAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 
 

@@ -47,7 +47,7 @@ class Account(AbstractUser):
     staff_status = models.CharField(choices=staffs_status, null=True, blank=True, max_length=255)
     id_code = models.CharField(max_length=7, unique=True, null=True, blank=True)
     password = models.CharField(max_length=255)
-    FIN = models.CharField(max_length=21, unique=True, null=True, blank=True)
+    FIN = models.CharField(max_length=7, unique=True, null=True, blank=True)
     image = models.ImageField(upload_to=Uploader.user_image, null=True, blank=True, max_length=255)
     cv = models.FileField(upload_to=Uploader.user_cv, null=True, blank=True, max_length=255)
     bio = models.TextField(null=True, blank=True)

@@ -28,37 +28,37 @@ class AccountAdmin(BaseUserAdmin, ImportExportModelAdmin):
     )
     ordering = ['-id']  # Use a valid field from your model for ordering
     search_fields = ("id_code", "first_name", "last_name", 'FIN', "email", "number")
-    actions = ['delete_selected_with_images']
+    # actions = ['delete_selected_with_images']
 
-    def delete_selected_with_images(self, request, queryset):
-        for obj in queryset:
-            image_fields = ['image', 'cv']
-            # Loop through image fields and delete associated images
-            for field in image_fields:
-                image_file = getattr(obj, field)
+    # def delete_selected_with_images(self, request, queryset):
+    #     for obj in queryset:
+    #         image_fields = ['image', 'cv']
+    #         # Loop through image fields and delete associated images
+    #         for field in image_fields:
+    #             image_file = getattr(obj, field)
                 
-                if image_file and image_file.name:
-                    image_path = image_file.path
+    #             if image_file and image_file.name:
+    #                 image_path = image_file.path
 
-                    # Delete the associated image from the media folder
-                    if os.path.exists(image_path):
-                        os.remove(image_path)
+    #                 # Delete the associated image from the media folder
+    #                 if os.path.exists(image_path):
+    #                     os.remove(image_path)
 
-                    # Delete the immediate parent directory
-                    image_parent_directory = os.path.dirname(image_path)
-                    if os.path.exists(image_parent_directory):
-                        shutil.rmtree(image_parent_directory)
+    #                 # Delete the immediate parent directory
+    #                 image_parent_directory = os.path.dirname(image_path)
+    #                 if os.path.exists(image_parent_directory):
+    #                     shutil.rmtree(image_parent_directory)
 
-            # Delete the object
-            obj.delete()
+    #         # Delete the object
+    #         obj.delete()
 
-        self.message_user(request, "Selected accounts and their associated images have been deleted.")
+    #     self.message_user(request, "Selected accounts and their associated images have been deleted.")
 
-    delete_selected_with_images.short_description = "Delete selected Account"
+    # delete_selected_with_images.short_description = "Delete selected Account"
 
-    def get_actions(self, request):
-        actions = super(AccountAdmin, self).get_actions(request)
-        del actions['delete_selected']
-        return actions
+    # def get_actions(self, request):
+    #     actions = super(AccountAdmin, self).get_actions(request)
+    #     del actions['delete_selected']
+    #     return actions
 
 admin.site.register(Account, AccountAdmin)
