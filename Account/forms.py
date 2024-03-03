@@ -101,7 +101,7 @@ class CustomSetPasswordForm(SetPasswordForm):
 class AccountInforrmationForm(forms.ModelForm):
     class Meta:
         model = User
-        fields = ['bio', 'email', "number", 'feedback', 'cv']
+        fields = ['bio', 'email', "number", 'feedback', 'cv', 'birthday']
         labels = {
             'number' : 'Əlaqə nömrəsi',
             'email' : 'E-poçt',
@@ -109,6 +109,7 @@ class AccountInforrmationForm(forms.ModelForm):
             'feedback' : 'Texnolab haqqında rəyiniz',
             'bio' : 'Haqqınızda məlumat',
             'cv' : 'CV',
+            'birthday' : 'Doğum tarixi',
         }
         widgets = {
             'number' : forms.TextInput(
@@ -137,6 +138,12 @@ class AccountInforrmationForm(forms.ModelForm):
                     'placeholder' :""
                 }
             ),
+            'birthday' : forms.DateInput(
+                attrs={
+                    'placeholder' :"yyyy-mm-dd",
+                    # 'type' : 'date',
+                }
+            ),  
         }
 
 

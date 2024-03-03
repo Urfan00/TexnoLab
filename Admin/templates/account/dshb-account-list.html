@@ -153,12 +153,12 @@
                                           <a href="{% url "account_edit" student.pk %}" class="button -icon wt dif -purple-3 h-50 text-purple-1" title="Redaktə">
                                             <i class="fa fa-pencil" aria-hidden="true"></i>
                                           </a>
-                                          {% comment %} <form method="post" action="" style="display: inline;">
+                                          <form method="post" action="{% url 'student_delete' student.pk %}" style="display: inline;">
                                             {% csrf_token %}
                                             <button type="submit" class="button -icon wt dif -purple-3 h-50 text-purple-1" style="background:#c9302c; color:white" title="Sil">
                                                 <i class="fa fa-trash" aria-hidden="true"></i>
                                             </button>
-                                          </form> {% endcomment %}
+                                          </form>
                                         </div>
                                       </td>
                                     </tr>

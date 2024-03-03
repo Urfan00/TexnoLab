@@ -1,6 +1,37 @@
 {% extends 'base2.html' %}
 {% load static %}
 {% block content %}
+<style>
+  .bg-20 {
+    background-color: #094a25;
+    color: white;
+  }
+
+  .bg-17 {
+    background-color: #0c6b37;
+    color: white;
+  }
+
+  .bg-14 {
+    background-color: #f8b324;
+    color: black;
+  }
+
+  .bg-10 {
+    background-color: #eb442c;
+    color: white;
+  }
+
+  .bg-6 {
+    background-color: #bc2023;
+    color: white;
+  }
+
+  .bg-red {
+    background-color: darkred;
+    color: white;
+  }
+</style>
 
   <div class="dashboard__main">
     <div class="dashboard__content bg-light-4" style="padding: 30px 30px;">
@@ -11,6 +42,11 @@
         <div class="col-12">
           <div class="rounded-16 bg-white -dark-bg-dark-1 shadow-4 h-100">
             <div class="tabs -active-purple-2 js-tabs pt-0">
+              <div class="tabs__controls d-flex x-gap-30 items-center pt-20 px-30 border-bottom-light js-tabs-controls" style="display: none !important;">
+                <button class="tabs__button text-light-1 js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
+                  Nəticələr
+                </button>
+              </div>
               <div class="tabs__content py-30 px-30 js-tabs-content">
 
                 <div class="tabs__pane -tab-item-1 is-active" data-pane="tab1">
@@ -233,6 +269,20 @@
               <td class="tc">${result.total_point} bal</td>
               <td class="tc tdborderright">${result.created_at_formatted}</td>
             `;
+            // Set background color based on total_point value
+            if (result.total_point == 20) {
+              tr.classList.add('bg-20');
+            } else if (result.total_point >= 17) {
+              tr.classList.add('bg-17');
+            } else if (result.total_point >= 14) {
+              tr.classList.add('bg-14');
+            } else if (result.total_point >= 10) {
+              tr.classList.add('bg-10');
+            } else if (result.total_point >= 6) {
+              tr.classList.add('bg-6');
+            } else {
+              tr.classList.add('bg-red');
+            }
             tbody.appendChild(tr);
           });
         })

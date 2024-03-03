@@ -126,6 +126,7 @@ class AccountInformationView(LoginRequiredMixin, View):
             user_account.email = form1.cleaned_data.get('email')
             user_account.feedback = form1.cleaned_data.get('feedback')
             user_account.bio = form1.cleaned_data.get('bio')
+            user_account.birthday = form1.cleaned_data.get('birthday')
             
             # Check if an image was uploaded
             if request.FILES.get('hola123'):

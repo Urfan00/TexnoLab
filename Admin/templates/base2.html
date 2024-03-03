@@ -658,6 +658,13 @@
     if (activeTabParam && tabs.some(tab => tab.getAttribute('data-tab') === activeTabParam)) {
       showTab(activeTabParam);
       setActiveTab(activeTabParam);
+    } else {
+      // Reset active tab if it doesn't exist on the current page
+      const activeTabOnPage = Array.from(tabs).find(tab => tab.classList.contains('is-active'));
+      if (!activeTabOnPage) {
+        showTab(tabs[0].getAttribute('data-tab'));
+        setActiveTab(tabs[0].getAttribute('data-tab'));
+      }
     }
   });
 

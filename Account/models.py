@@ -105,18 +105,12 @@ class Account(AbstractUser):
         super().save(*args, **kwargs)
 
     def delete(self, using=None, keep_parents=False):
-        # Get the path to the image file
-        image_path = os.path.join(settings.MEDIA_ROOT, str(self.image))
+        # Get the path to the image directory
+        image_directory = os.path.join(settings.MEDIA_ROOT, 'User_Image', str(self.id_code))
 
-        # Delete the image file if it exists
-        delete_file_if_exists(image_path)
-
-        # Get the parent directory containing the image
-        image_parent_directory = os.path.dirname(image_path)
-
-        # Delete the immediate parent directory
-        if os.path.exists(image_parent_directory):
-            shutil.rmtree(image_parent_directory)
+        # Delete the image directory if it exists
+        if os.path.exists(image_directory):
+            shutil.rmtree(image_directory)
 
         super(Account, self).delete(using, keep_parents)
 

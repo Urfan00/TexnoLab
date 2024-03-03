@@ -93,14 +93,19 @@
                                   </div>
                                 {% endif %}
 
-                                <div class="col-md-6">
+                                <div class="col-md-4">
                                     <label for="id_number" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.number.label }}</label>
                                     {{ form1.number }}
                                   </div>
     
-                                  <div class="col-md-6">
+                                  <div class="col-md-4">
                                     <label for="id_email" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.email.label }}</label>
                                     {{ form1.email }}
+                                  </div>
+    
+                                  <div class="col-md-4">
+                                    <label for="id_birthday" class="text-16 lh-1 fw-500 text-dark-1 mb-10">{{ form1.birthday.label }}</label>
+                                    {{ form1.birthday }}
                                   </div>
     
                                   {% if position == 'Tələbə' %}

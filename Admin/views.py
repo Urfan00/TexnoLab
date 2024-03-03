@@ -1549,6 +1549,19 @@ class AdminAccountListView(AuthSuperUserCoordinatorMixin, ListView):
         return super().post(request, *args, **kwargs)
 
 
+class AdminAccountStudentDeleteView(AuthSuperUserCoordinatorMixin, DeleteView):
+    def post(self, request, pk):
+        try:
+            student = Account.objects.get(pk=pk)
+            student.delete()
+        except Account.DoesNotExist:
+            # Handle the case where the image does not exist
+            pass
+        messages.success(request, 'Tələbə uğurla silindi')
+
+        return redirect('account_dashboard')
+
+
 class AdminFEEDBACKDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         feedback = get_object_or_404(Account, pk=pk)
@@ -2632,6 +2645,7 @@ class AdminStaffAccountDeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         account = get_object_or_404(Account, pk=pk)
         account.is_delete = True
+        account.is_active = False
         account.save()
         messages.success(request, 'İşçi uğurla silindi')
         return redirect('staff_dashboard')
@@ -2641,6 +2655,7 @@ class AdminStaffAccountUndeleteView(AuthSuperUserCoordinatorMixin, View):
     def post(self, request, pk, *args, **kwargs):
         account = get_object_or_404(Account, pk=pk)
         account.is_delete = False
+        account.is_active = True
         account.save()
         messages.success(request, 'İşçi uğurla bərpa olundu')
         return redirect('staff_dashboard')
