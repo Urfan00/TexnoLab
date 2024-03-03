@@ -1,10 +1,13 @@
+from django.shortcuts import redirect
 from django.urls import reverse, reverse_lazy
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
-from ExamResult.models import CourseStudent
-from services.mixins import AuthStudentPageMixin, AuthTeacherMentorMixin
+from Account.models import Account
+from ExamResult.models import CourseStudent, Group
+from services.mixins import AuthStudentPageMixin, AuthTeacherMentorMixin, AuthTeacherMixin
 from .forms import SxemStudentForm, SxemTeacherMentorForm
-from .models import Sxem, SxemImages, SxemStudent, SxemStudentLOCK
-from django.db.models import Exists, OuterRef, Q, Max
+from .models import Sxem, SxemImages, SxemStudent, SxemStudentLOCK, TeacherLastSxemPoint
+from django.db.models import Exists, OuterRef, Q, F, Max, Case, When, Value, BooleanField, Subquery, OuterRef
+from django.views import View
 
 
 
@@ -146,7 +149,46 @@ class SxemTeacherMentorListView(AuthTeacherMentorMixin, ListView):
 
                 context["sxem_teacher_mentor"] = sxem_teacher_mentor
 
+        # sxem yekun bal
+        user_account = Account.objects.filter(id=self.request.user.id, staff_status='Müəllim').first()
+        if user_account:
+            teacher_courses = user_account.staff_course.values_list('course', flat=True)
+            groups = Group.objects.filter(course__id__in=teacher_courses, is_active=True).all()
+
+            context['groups'] = groups
+
+            state = self.request.GET.get('state', '')
+            if state:
+                context['students'] = CourseStudent.objects.filter(
+                    group__id=state,
+                    is_active=False,
+                    is_deleted=False,
+                    group_student_is_active=True,
+                    is_keb=False
+                ).annotate(
+                    have_point=Subquery(
+                        TeacherLastSxemPoint.objects.filter(
+                            student=OuterRef('student_id'),  # Assuming student_id is the field name
+                            student_group_id=OuterRef('group_id'),  # Assuming group_id is the field name
+                        ).order_by('-id').values('last_sxem_point')[:1]
+                    )
+                ).all()
+
         return context
+
+
+class GiveLastSxemPoint(AuthTeacherMixin, View):
+
+    def post(self, request, student_id, group_id):
+
+        teacher = self.request.user
+
+        student_last_sxem_point = request.POST.get('last_sxem_point')
+
+        TeacherLastSxemPoint.objects.create(student_id=student_id, student_group_id=group_id, teacher=teacher, last_sxem_point=student_last_sxem_point)
+
+
+        return redirect(request.META.get('HTTP_REFERER'))
 
 
 class SxemTeacherMentorEvaluationView(AuthTeacherMentorMixin, DetailView, UpdateView):
