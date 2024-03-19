@@ -39,8 +39,8 @@
                   {% csrf_token %}
                   <div class="row x-gap-10 items-center py-25">
                     
-                    <form class="d-flex x-gap-20" action="." method="get" style="width: 100%;">
-                      <div class="col-lg-3">
+                    <form class="row x-gap-20 y-gap-20" action="." method="get" style="width: 100%;">
+                      <div class="col-lg-4 col-md-4 col-sm-12">
                         <div class="d-flex items-center">
                           <select class="js-example-basic-single" name="state" onchange="updateSelect(this, 'student'); this.form.submit()" id="groupSelect" style="width: 100%;">
                             <option value="0" {% if request.GET.state == 0 %}selected{% endif %}>------</option>
@@ -50,7 +50,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-lg-3">
+                      <div class="col-lg-4 col-md-4 col-sm-12">
                         <div class="d-flex items-center">
                           <select class="js-example-basic-single2" name="student" onchange="updateSelect(this, 'lab'); this.form.submit()" style="width: 100%;">
                             <option value="0" {% if request.GET.student == 0 %}selected{% endif %}>------</option>
@@ -60,7 +60,7 @@
                           </select>
                         </div>
                       </div>
-                      <div class="col-lg-3">
+                      <div class="col-lg-4 col-md-4 col-sm-12">
                         <div class="d-flex items-center">
                           <select class="js-example-basic-single3" name="lab" onchange="updateSelect(this, 'student'); this.form.submit()" style="width: 100%;">
                             <option value="0" {% if request.GET.lab == 0 %}selected{% endif %}>------</option>

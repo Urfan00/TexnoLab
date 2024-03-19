@@ -69,9 +69,11 @@
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button is-active" data-tab="tab1" data-tab-target=".-tab-item-1" type="button">
                   Tələbələrin Sxem cavabları
                 </button>
+                {% if user.staff_status == 'Müəllim' %}
                 <button class="text-light-1 lh-12 tabs__button js-tabs-button ml-20" data-tab="tab2" data-tab-target=".-tab-item-2" type="button">
                   Sxem Yekun Bal
                 </button>
+                {% endif %}
               </div>
 
               <div class="tabs__content py-30 px-30 js-tabs-content">

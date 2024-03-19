@@ -49,7 +49,7 @@ class SxemListView(AuthStudentPageMixin, ListView):
             context["sxems"] = Sxem.objects.filter(
                 is_deleted = False,
                 course = sxem_lock.course
-            ).annotate(
+            ).order_by('created_at').annotate(
                 is_pass_student=Exists(
                     sxem_lock.sxem.filter(pk=OuterRef('pk'))
                 )
