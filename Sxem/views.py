@@ -8,7 +8,17 @@ from .forms import SxemStudentForm, SxemTeacherMentorForm
 from .models import Sxem, SxemImages, SxemStudent, SxemStudentLOCK, TeacherLastSxemPoint
 from django.db.models import Exists, OuterRef, Q, F, Max, Case, When, Value, BooleanField, Subquery, OuterRef
 from django.views import View
+import re
 
+
+def sort_alphanumeric(strings):
+    def convert(text):
+        return int(text) if text.isdigit() else text
+
+    def alphanum_key(key):
+        return [convert(c) for c in re.split('([0-9]+)', key)]
+
+    return sorted(strings, key=alphanum_key)
 
 
 class SxemListView(AuthStudentPageMixin, ListView):
@@ -37,23 +47,61 @@ class SxemListView(AuthStudentPageMixin, ListView):
             # Ensure that an SxemStudentLOCK instance is created for the student if it doesn't exist
             sxem_lock, created = SxemStudentLOCK.objects.get_or_create(
                 student=self.request.user,
-                course_id = state
+                course_id=state
             )
 
-            if created:
-                # Assuming first sxem should be associated
-                first_sxem = sxem_lock.course.course_sxem.filter(is_deleted=False).first()
-                if first_sxem:
-                    sxem_lock.sxem.add(first_sxem)
+            # Fetching and sorting Sxem objects based on titles
+            sxems = Sxem.objects.filter(
+                is_deleted=False,
+                course=sxem_lock.course
+            ).order_by('sxem_title')
 
-            context["sxems"] = Sxem.objects.filter(
-                is_deleted = False,
-                course = sxem_lock.course
-            ).order_by('created_at').annotate(
+            # Extracting only sxem_title
+            sxem_titles = [sxem.sxem_title for sxem in sxems]
+
+            # Sorting the sxem_titles using custom sorting logic
+            sorted_sxem_titles = sort_alphanumeric(sxem_titles)
+
+            # Storing the sorted sxem_titles in the context
+            context["sxems"] = sxems.order_by(
+                Case(
+                    *[When(sxem_title=title, then=pos) for pos, title in enumerate(sorted_sxem_titles)]
+                )
+            ).annotate(
                 is_pass_student=Exists(
                     sxem_lock.sxem.filter(pk=OuterRef('pk'))
                 )
             )
+
+            if created:
+                # Assuming first sxem should be associated
+                first_sxem = context["sxems"].first()
+                if first_sxem:
+                    sxem_lock.sxem.add(first_sxem)
+
+            print('==>1 ', context["sxems"])
+
+            last_sxem_student_answer = SxemStudent.objects.filter(student=self.request.user).last()
+            if last_sxem_student_answer:
+                print('==>2 ', last_sxem_student_answer.sxem)
+                print('==>3 ', last_sxem_student_answer.is_pass)
+
+
+            if last_sxem_student_answer:
+                # If the last answered scheme exists
+                if last_sxem_student_answer.is_pass:
+                    # If the last answered scheme is marked as passed
+                    # Find the next scheme after the last answered scheme
+                    last_sxem_title = last_sxem_student_answer.sxem.sxem_title
+                    try:
+                        index = sorted_sxem_titles.index(last_sxem_title)
+                        next_sxem_title = sorted_sxem_titles[index + 1]  # Get the title of the next scheme
+                        next_sxem = sxems.get(sxem_title=next_sxem_title)  # Get the next scheme object
+                        print('==>4 ', next_sxem)
+                        # Add the next scheme to the SxemStudentLOCK instance
+                        sxem_lock.sxem.add(next_sxem)
+                    except IndexError:
+                        print("No next scheme found after the last answered scheme.")
 
         return context
 
@@ -213,14 +261,57 @@ class SxemTeacherMentorEvaluationView(AuthTeacherMentorMixin, DetailView, Update
         else:
             form.instance.is_student_answer = True
 
-            # Get the maximum pk of the Sxem associated with the current SxemStudent
-            max_sxem_pk = SxemStudent.objects.filter(student=form.instance.student).aggregate(Max('sxem'))['sxem__max']
-            
-            # Get the next Sxem if it exists
-            next_sxem = Sxem.objects.filter(course=form.instance.sxem.course, pk__gt=max_sxem_pk).order_by('pk').first()
-            if next_sxem:
-                # Get or create the SxemStudentLOCK instance for the current student
-                sxem_lock, _ = SxemStudentLOCK.objects.get_or_create(student=form.instance.student, course=self.get_object().sxem.course)
+            # Fetch and sort the schemes based on titles
+            sxems = Sxem.objects.filter(
+                is_deleted=False,
+                course=form.instance.sxem.course
+            ).order_by('sxem_title')
+
+            # Extracting only sxem_title
+            sxem_titles = [sxem.sxem_title for sxem in sxems]
+
+            # Define custom title comparison function
+            def custom_title_comparison(title):
+                return int(title.split()[-1]) if title else 0
+
+            # Sort the titles based on the custom comparison function
+            sorted_sxem_titles = sorted(sxem_titles, key=custom_title_comparison)
+
+            next_sxem_title = None
+            current_sxem_title = form.instance.sxem.sxem_title
+
+            # Find the next scheme based on the sorted order
+            for title in sorted_sxem_titles:
+                if custom_title_comparison(title) > custom_title_comparison(current_sxem_title):
+                    next_sxem_title = title
+                    break
+
+            if next_sxem_title:
+                # Get the next scheme object
+                next_sxem = sxems.get(sxem_title=next_sxem_title)
+
+                # Add the next scheme to the SxemStudentLOCK
+                sxem_lock, _ = SxemStudentLOCK.objects.get_or_create(
+                    student=form.instance.student,
+                    course=form.instance.sxem.course
+                )
                 sxem_lock.sxem.add(next_sxem)
 
         return super().form_valid(form)
+
+
+
+
+
+
+        #     # Get the maximum pk of the Sxem associated with the current SxemStudent
+        #     max_sxem_pk = SxemStudent.objects.filter(student=form.instance.student).aggregate(Max('sxem'))['sxem__max']
+
+        #     # Get the next Sxem if it exists
+        #     next_sxem = Sxem.objects.filter(course=form.instance.sxem.course, pk__gt=max_sxem_pk).order_by('pk').first()
+        #     if next_sxem:
+        #         # Get or create the SxemStudentLOCK instance for the current student
+        #         sxem_lock, _ = SxemStudentLOCK.objects.get_or_create(student=form.instance.student, course=self.get_object().sxem.course)
+        #         sxem_lock.sxem.add(next_sxem)
+
+        # return super().form_valid(form)
